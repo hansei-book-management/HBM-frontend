@@ -45,7 +45,7 @@ export const MenuItem = styled(Link)`
   color: ${({ theme }) => theme.white};
 `;
 
-export const LoginButton = styled.button`
+export const LoginButton = styled(Link)`
   color: ${({ theme }) => theme.white};
   background-color: ${({ theme }) => theme.navbar.loginButton};
   border-radius: 20px;
@@ -54,4 +54,5 @@ export const LoginButton = styled.button`
   font-size: 1rem;
   font-weight: 600;
   align-self: center;
+  text-decoration: none;
 `;
