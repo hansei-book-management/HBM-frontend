@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
@@ -26,15 +28,21 @@ export const NavbarMenuContainer = styled.div`
   align-items: center;
 `;
 
-export const Title = styled.h1`
+export const NavbarTitle = styled.h1`
   font-size: 2rem;
   font-weight: 600;
-  margin: 0;
 `;
 
-export const MenuItem = styled.span`
+export const TitleLink = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.white};
+`;
+
+export const MenuItem = styled(Link)`
   font-size: 1.1rem;
   font-weight: 600;
+  text-decoration: none;
+  color: ${({ theme }) => theme.white};
 `;
 
 export const LoginButton = styled.button`
