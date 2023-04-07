@@ -21,8 +21,8 @@ body,
 #__next {
   width: 100%;
   height: 100%;
-  color: ${colors.white};
-  background-color: ${colors.background};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.background};
 }
 
 #app,

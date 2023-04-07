@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Navbar } from '@/components';
+
 import * as S from './styled';
 
 export interface DefaultLayoutProps {
@@ -9,7 +11,7 @@ export interface DefaultLayoutProps {
 export const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
     <S.DefaultLayoutContainer>
-      <div></div>
+      <Navbar />
       <h1>{children}</h1>
       <div></div>
     </S.DefaultLayoutContainer>
