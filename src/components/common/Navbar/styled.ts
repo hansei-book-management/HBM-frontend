@@ -1,14 +1,38 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const NavBarContainer = styled(motion.div)`
+export const NavBarWrapper = styled(motion.div)`
   width: 100%;
-  padding: 2rem;
-  height: 8rem;
+  height: 5rem;
   z-index: 9999;
-  /* border: 1px solid red; */
+  position: fixed;
   background-color: ${({ theme }) => theme.navbar.background};
-  display: flex;
 `;
 
-export const Title = styled.h1``;
+export const NavBarContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const NavbarMenuContainer = styled.div`
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+`;
+
+export const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0;
+`;
+
+export const MenuItem = styled.span`
+  font-size: 1rem;
+  font-weight: 600;
+`;

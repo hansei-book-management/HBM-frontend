@@ -4,9 +4,14 @@ import * as S from './styled';
 
 export const Navbar: React.FC = () => {
   return (
-    <S.NavBarContainer>
-      <div>Navbar</div>
-      <h1>sdf</h1>
-    </S.NavBarContainer>
+    <S.NavBarWrapper>
+      <S.NavBarContainer>
+        <S.NavbarMenuContainer>
+          <S.Title>(동아리명) 도서관리 시스템</S.Title>
+          <S.MenuItem>대출하기</S.MenuItem>
+          <S.MenuItem>대출 관리</S.MenuItem>
+        </S.NavbarMenuContainer>
+      </S.NavBarContainer>
+    </S.NavBarWrapper>
   );
 };
