@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 import { reset } from './reset';
-import { colors } from './colors';
 
 export const GlobalStyle = createGlobalStyle`
 ${reset}
@@ -21,8 +20,8 @@ body,
 #__next {
   width: 100%;
   height: 100%;
-  color: ${(props) => props.theme.white};
-  background-color: ${(props) => props.theme.background};
+  color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.background};
 }
 
 #app,

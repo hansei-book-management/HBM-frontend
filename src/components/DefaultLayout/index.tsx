@@ -12,7 +12,7 @@ export const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
     <S.DefaultLayoutContainer>
       <Navbar />
-      <h1>{children}</h1>
+      <S.DefaultLayoutWrapper>{children}</S.DefaultLayoutWrapper>
       <div></div>
     </S.DefaultLayoutContainer>
   );

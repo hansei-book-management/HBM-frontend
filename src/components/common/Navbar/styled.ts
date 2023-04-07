@@ -6,5 +6,9 @@ export const NavBarContainer = styled(motion.div)`
   padding: 2rem;
   height: 8rem;
   z-index: 9999;
-  background-color: ${({ theme }) => theme.colors.background};
+  /* border: 1px solid red; */
+  background-color: ${({ theme }) => theme.navbar.background};
+  display: flex;
 `;
+
+export const Title = styled.h1``;
