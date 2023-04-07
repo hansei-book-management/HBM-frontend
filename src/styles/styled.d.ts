@@ -8,7 +8,7 @@ declare module 'styled-components' {
     navbar: {
       background: string;
       unselected: string;
-      logButton: string;
+      loginButton: string;
     };
     primary: {
       black: string;

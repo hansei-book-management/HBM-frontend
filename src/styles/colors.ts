@@ -9,7 +9,7 @@ export const colors: DefaultTheme = {
   navbar: {
     background: '#141414',
     unselected: '#717171',
-    logButton: '#292929',
+    loginButton: '#292929',
   },
 
   primary: {

@@ -1,6 +1,15 @@
 {
-  "name": "my-app",
+  "name": "hlms",
   "version": "0.1.0",
+  "type": "module",
+  "repository": "https://github.com/hansei-book-management/frontend",
+  "maintainers": [
+    {
+      "name": "GeunWon Choi",
+      "email": "kidjustinchoi@gmail.com",
+      "url": "https://github.com/choi138"
+    }
+  ],
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

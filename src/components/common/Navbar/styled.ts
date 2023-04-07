@@ -28,11 +28,22 @@ export const NavbarMenuContainer = styled.div`
 
 export const Title = styled.h1`
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
 `;
 
 export const MenuItem = styled.span`
+  font-size: 1.1rem;
+  font-weight: 600;
+`;
+
+export const LoginButton = styled.button`
+  color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.navbar.loginButton};
+  border-radius: 20px;
+  border: none;
+  padding: 0.6rem 1.3rem;
   font-size: 1rem;
   font-weight: 600;
+  align-self: center;
 `;
