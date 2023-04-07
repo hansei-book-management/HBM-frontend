@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const NavBarWrapper = styled(motion.div)`
+export const NavBarWrapper = styled(motion.nav)`
   width: 100%;
   height: 5rem;
   z-index: 9999;
