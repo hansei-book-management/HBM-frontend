@@ -1,42 +1,11 @@
 import React from 'react';
 
 import { Book1PNG } from '@/assets';
+import { rows } from '@/constant';
 
 import * as S from './styled';
 
 export const Main: React.FC = () => {
-  const rows = [
-    {
-      id: 1,
-    },
-    {
-      id: 2,
-    },
-    {
-      id: 3,
-    },
-    {
-      id: 4,
-    },
-    {
-      id: 5,
-    },
-    {
-      id: 6,
-    },
-    {
-      id: 7,
-    },
-    {
-      id: 8,
-    },
-    {
-      id: 9,
-    },
-    {
-      id: 10,
-    },
-  ];
   return (
     <>
       <S.MainContainer>

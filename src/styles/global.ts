@@ -7,6 +7,12 @@ ${reset}
 
 * {
   box-sizing: border-box;
+  ::-webkit-scrollbar{
+    display: none;
+  }
+  &:focus {
+    outline: 0;
+  }
 }
 
 html {
