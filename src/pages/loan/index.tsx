@@ -10,10 +10,10 @@ export const Loan: React.FC = () => {
       <S.MainTitle>대출 가능한 도서</S.MainTitle>
       <S.Slider>
         {rows.map((index, i) => (
-          <S.ImageContainer>
-            <S.Image src={Book1PNG} />
-            <h3>asdf</h3>
-          </S.ImageContainer>
+          <S.BookContainer>
+            <S.Book src={Book1PNG} />
+            <S.BookTitle>asdfasdfasdfsafs</S.BookTitle>
+          </S.BookContainer>
         ))}
       </S.Slider>
     </S.SectionContainer>
