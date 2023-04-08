@@ -1,7 +1,9 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const NavBarWrapper = styled(motion.div)`
+import { motion } from 'framer-motion';
+import styled, { css } from 'styled-components';
+
+export const NavBarWrapper = styled(motion.nav)`
   width: 100%;
   height: 5rem;
   z-index: 9999;
@@ -26,18 +28,30 @@ export const NavbarMenuContainer = styled.div`
   align-items: center;
 `;
 
-export const Title = styled.h1`
+export const NavbarTitle = styled.h1`
   font-size: 2rem;
   font-weight: 600;
-  margin: 0;
 `;
 
-export const MenuItem = styled.span`
+export const TitleLink = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.white};
+`;
+
+export const MenuItem = styled(Link)<{ isActive: boolean }>`
   font-size: 1.1rem;
   font-weight: 600;
+  text-decoration: none;
+  color: ${({ theme }) => theme.navbar.unselected};
+  transition: color 150ms;
+  ${(props) =>
+    props.isActive &&
+    css`
+      color: ${({ theme }) => theme.white};
+    `}
 `;
 
-export const LoginButton = styled.button`
+export const LoginButton = styled(Link)`
   color: ${({ theme }) => theme.white};
   background-color: ${({ theme }) => theme.navbar.loginButton};
   border-radius: 20px;
@@ -46,4 +60,5 @@ export const LoginButton = styled.button`
   font-size: 1rem;
   font-weight: 600;
   align-self: center;
+  text-decoration: none;
 `;
