@@ -23,8 +23,8 @@ export const MainTitle = styled.h1`
 export const Slider = styled.div`
   display: flex;
   overflow: scroll;
+  border: 1px solid red;
   width: 100%;
-  align-items: flex-start;
   & > div:not(:last-child) {
     margin-right: 2.5rem;
   }
@@ -33,6 +33,10 @@ export const Slider = styled.div`
 export const BookContainer = styled.div`
   width: fit-content;
   word-wrap: normal;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
 `;
 
 export const Book = styled.img`
