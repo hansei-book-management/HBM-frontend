@@ -22,12 +22,13 @@ export const MainTitle = styled.h1`
 
 export const Slider = styled.div`
   display: flex;
-  overflow: scroll;
-  border: 1px solid red;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
-  & > div:not(:last-child) {
-    margin-right: 2.5rem;
-  }
+  /* & > div:not(:last-child) {
+    padding: 0 20px;
+  } */
 `;
 
 export const BookContainer = styled.div`
@@ -36,7 +37,8 @@ export const BookContainer = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
+  padding-right: 1.4rem;
+  margin-bottom: 2rem;
 `;
 
 export const Book = styled.img`
