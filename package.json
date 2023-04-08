@@ -2,7 +2,7 @@
   "name": "hlms",
   "version": "0.1.0",
   "type": "module",
-  "repository": "https://github.com/hansei-book-management/frontend",
+  "repository": "https://github.com/hansei-book-management/user-frontend",
   "maintainers": [
     {
       "name": "GeunWon Choi",
