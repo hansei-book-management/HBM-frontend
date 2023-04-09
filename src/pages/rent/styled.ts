@@ -15,7 +15,6 @@ export const TeamList = styled.div`
   flex-wrap: wrap;
   align-items: center;
   column-gap: 2rem;
-  row-gap: 0.4rem;
   margin-bottom: 0.8rem;
 `;
 

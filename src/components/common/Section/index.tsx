@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { rows } from '@/constant';
 import { Book1PNG } from '@/assets';
@@ -11,15 +12,21 @@ export interface SectionContainerProps {
 }
 
 const SectionContainer: React.FC<SectionContainerProps> = ({ start, end }) => {
+  const navigate = useNavigate();
   const rowList = useMemo(() => rows.slice(start, end), [start, end]);
+
+  const onClick = (id: any) => {
+    console.log(id);
+    navigate(`/detail/${id}`);
+  };
 
   return (
     <S.SectionContainer>
       {rowList.map(({ id, rent }) => (
         <S.ImageWrapper key={id}>
-          <S.Image src={Book1PNG} />
+          <S.Image src={Book1PNG} onClick={() => onClick(id)} />
           <S.TitleContainer>
-            <S.ImageTitle>세이노의 가르침 id:{id}</S.ImageTitle>
+            <S.ImageTitle to={`/detail/${id}`}>세이노의 가르침 id:{id}</S.ImageTitle>
             <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
             <S.RentMessage canRent={rent}>{rent ? '대여 가능' : '대여 불가'}</S.RentMessage>
           </S.TitleContainer>

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 export const SectionContainer = styled.section`
@@ -13,7 +15,7 @@ export const ImageWrapper = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 212px;
+  width: 215px;
   box-shadow: 0.1rem 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1);
 `;
 
@@ -24,9 +26,14 @@ export const TitleContainer = styled.div`
   row-gap: 0.4rem;
 `;
 
-export const ImageTitle = styled.span`
+export const ImageTitle = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.black};
   font-size: 1rem;
   font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const ImageSubTitle = styled.span`

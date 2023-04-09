@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
 
@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
   const [hidden, setHidden] = useState<boolean>(false);
   const location = useLocation();
   const { scrollY } = useScroll();
-  const prevScrollY = useMotionValue(0); // useMotionValue가 뭐하는 애냐면
+  const prevScrollY = useMotionValue(0);
 
   // const handleScroll = () => {
   //   if (scrollY.get() < scrollY.getPrevious()) {
@@ -46,7 +46,14 @@ export const Navbar: React.FC = () => {
         <S.NavbarMenuContainer>
           <S.TitleLink to="/">HANBOOK</S.TitleLink>
           {MENU_LIST.map(({ text, href }, i) => (
-            <S.MenuItem to={href} key={i} isActive={location.pathname === href}>
+            <S.MenuItem
+              to={href}
+              key={i}
+              isActive={
+                location.pathname === href ||
+                (href === '/rent' && location.pathname.includes('/rent'))
+              }
+            >
               {text}
             </S.MenuItem>
           ))}
