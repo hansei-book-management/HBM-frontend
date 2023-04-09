@@ -15,7 +15,7 @@ const SectionContainer: React.FC<SectionContainerProps> = ({ start, end }) => {
   const navigate = useNavigate();
   const rowList = useMemo(() => rows.slice(start, end), [start, end]);
 
-  const onClick = (id: any) => {
+  const onClick = (id: number) => {
     console.log(id);
     navigate(`/detail/${id}`);
   };
