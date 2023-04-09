@@ -1,5 +1,3 @@
-import { Book1PNG } from '@/assets';
-
 export const rows = [
   {
     id: 1,

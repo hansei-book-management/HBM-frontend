@@ -11,7 +11,7 @@ ${reset}
     display: none;
   }
   &:focus {
-    outline: 0;
+    outline: none;
   }
 }
 

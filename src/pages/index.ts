@@ -1,3 +1,3 @@
 export * from './main';
-export * from './loan';
-export * from './loanManage';
+export * from './rent';
+export * from './manage';

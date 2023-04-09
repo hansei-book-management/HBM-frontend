@@ -9,6 +9,6 @@ export const DefaultLayoutWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: 0rem auto;
-  max-width: 1200px;
+  max-width: 1250px;
   padding: 12rem 1.5rem 4rem 1.5rem;
 `;

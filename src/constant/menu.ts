@@ -9,7 +9,7 @@ export const MENU_LIST: MenuItem[] = [
     href: '/rent',
   },
   {
-    text: '대출 관리',
-    href: '/rent-manage',
+    text: '도서 관리',
+    href: '/manage',
   },
 ];
