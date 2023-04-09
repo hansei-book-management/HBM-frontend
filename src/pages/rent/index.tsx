@@ -1,21 +1,31 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { CLUB_LIST } from '@/constant';
 
 import * as S from './styled';
 
 export const Rent: React.FC = () => {
+  const navigate = useNavigate();
   const { clubId } = useParams<{ clubId: string }>();
+  const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
+
+  useEffect(() => {
+    if (!CLUB_LIST.find(({ id }) => id === clubId)) {
+      navigate(`/rent/${CLUB_LIST[0].id}`);
+    }
+  }, []);
+
   return (
     <S.TeamPageContainer>
       <S.TeamList>
         {CLUB_LIST.map(({ name, id }) => (
-          <S.TeamLink to={`/rent/${id}`} isActive={clubId === id}>
+          <S.TeamLink to={`/rent/${id} `} isActive={clubId === id}>
             {name}
           </S.TeamLink>
         ))}
       </S.TeamList>
-      <S.TeamPageTitle>보안관제 앙</S.TeamPageTitle>
+      {activeClub && <S.TeamPageTitle>{activeClub.name} 도서</S.TeamPageTitle>}
     </S.TeamPageContainer>
   );
 };

@@ -41,5 +41,6 @@ export const TeamLink = styled(Link)<{ isActive: boolean }>`
 `;
 
 export const TeamPageTitle = styled.h1`
-  font-size: 2.4rem;
+  font-size: 2.2rem;
+  font-weight: 700;
 `;
