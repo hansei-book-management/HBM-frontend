@@ -7,6 +7,12 @@ ${reset}
 
 * {
   box-sizing: border-box;
+  ::-webkit-scrollbar{
+    display: none;
+  }
+  &:focus {
+    outline: none;
+  }
 }
 
 html {
@@ -20,7 +26,7 @@ body,
 #__next {
   width: 100%;
   height: 100%;
-  color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.black};
   background-color: ${({ theme }) => theme.background};
 }
 

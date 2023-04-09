@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
   const [hidden, setHidden] = useState<boolean>(false);
   const location = useLocation();
   const { scrollY } = useScroll();
-  const prevScrollY = useMotionValue(0); // useMotionValue가 뭐하는 애냐면
+  const prevScrollY = useMotionValue(0);
 
   // const handleScroll = () => {
   //   if (scrollY.get() < scrollY.getPrevious()) {
@@ -44,16 +44,24 @@ export const Navbar: React.FC = () => {
     >
       <S.NavBarContainer>
         <S.NavbarMenuContainer>
-          <S.NavbarTitle>
-            <S.TitleLink to="/">(동아리명) 도서관리</S.TitleLink>
-          </S.NavbarTitle>
+          <S.TitleLink to="/">HANBOOK</S.TitleLink>
           {MENU_LIST.map(({ text, href }, i) => (
-            <S.MenuItem to={href} key={i} isActive={location.pathname === href}>
+            <S.MenuItem
+              to={href}
+              key={i}
+              isActive={
+                location.pathname === href ||
+                (href === '/rent' && location.pathname.includes('/rent'))
+              }
+            >
               {text}
             </S.MenuItem>
           ))}
         </S.NavbarMenuContainer>
-        <S.LoginButton to="/signout">로그아웃</S.LoginButton>
+        <div>
+          <S.UserName>앙기모링님</S.UserName>
+          <S.LoginButton to="/signout">로그아웃</S.LoginButton>
+        </div>
       </S.NavBarContainer>
     </S.NavBarWrapper>
   );

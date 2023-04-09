@@ -5,11 +5,11 @@ export interface MenuItem {
 
 export const MENU_LIST: MenuItem[] = [
   {
-    text: '대출하기',
-    href: '/loan',
+    text: '대여하기',
+    href: '/rent',
   },
   {
-    text: '대출 관리',
-    href: '/loan-manage',
+    text: '도서 관리',
+    href: '/manage',
   },
 ];

@@ -8,11 +8,15 @@ declare module 'styled-components' {
     navbar: {
       background: string;
       unselected: string;
+      selected: string;
       loginButton: string;
     };
     primary: {
       black: string;
       blue: string;
+      white: string;
+      green: string;
+      red: string;
     };
     disable: {
       black: string;
