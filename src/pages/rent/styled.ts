@@ -6,6 +6,7 @@ export const TeamPageContainer = styled.section`
   display: flex;
   flex-direction: column;
   height: 100%;
+  row-gap: 2rem;
 `;
 
 export const TeamList = styled.div`
@@ -15,7 +16,7 @@ export const TeamList = styled.div`
   align-items: center;
   column-gap: 2rem;
   row-gap: 0.4rem;
-  margin-bottom: 4rem;
+  margin-bottom: 0.8rem;
 `;
 
 export const TeamLink = styled(Link)<{ isActive: boolean }>`
