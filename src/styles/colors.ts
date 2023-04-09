@@ -17,6 +17,8 @@ export const colors: DefaultTheme = {
     black: '#595959',
     blue: '#4B9EFF',
     white: '#F7F7F7',
+    green: '#4DAC27',
+    red: '#AC2727',
   },
 
   disable: {

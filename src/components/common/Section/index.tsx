@@ -15,12 +15,13 @@ const SectionContainer: React.FC<SectionContainerProps> = ({ start, end }) => {
 
   return (
     <S.SectionContainer>
-      {rowList.map(({ id }) => (
+      {rowList.map(({ id, rent }) => (
         <S.ImageWrapper key={id}>
           <S.Image src={Book1PNG} />
           <S.TitleContainer>
             <S.ImageTitle>세이노의 가르침 id:{id}</S.ImageTitle>
             <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
+            <S.RentMessage canRent={rent}>{rent ? '대여 가능' : '대여 불가'}</S.RentMessage>
           </S.TitleContainer>
         </S.ImageWrapper>
       ))}

@@ -6,7 +6,7 @@ export const TeamPageContainer = styled.section`
   display: flex;
   flex-direction: column;
   height: 100%;
-  row-gap: 2rem;
+  row-gap: 3rem;
 `;
 
 export const TeamList = styled.div`
