@@ -4,17 +4,19 @@ export const colors: DefaultTheme = {
   white: '#fafafa',
   black: '#000000',
 
-  background: '#1A1A1A',
+  background: '#ffffff',
 
   navbar: {
-    background: '#141414',
+    background: '#E9E9E9',
     unselected: '#717171',
+    selected: '#000000',
     loginButton: '#292929',
   },
 
   primary: {
-    black: '#2D2D2D',
+    black: '#595959',
     blue: '#4B9EFF',
+    white: '#F7F7F7',
   },
 
   disable: {

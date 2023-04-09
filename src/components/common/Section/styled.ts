@@ -6,6 +6,19 @@ export const SectionContainer = styled.section`
   height: 100%;
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-wrap: normal;
+  text-align: left;
+  display: flex;
+  width: 86%;
+  flex-direction: column;
+  padding: 0px 1rem;
+  margin-bottom: 7rem;
+`;
+
 export const SubTitle = styled.h2`
   font-size: 1.1rem;
   font-weight: 600;
@@ -25,24 +38,22 @@ export const Slider = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
-  /* & > div:not(:last-child) {
-    padding: 0 20px;
+  width: fit-content;
+  /* & > div:not(:last-child, :first-child) {
   } */
 `;
 
 export const BookContainer = styled.div`
-  width: fit-content;
   word-wrap: normal;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  padding-right: 1.4rem;
-  margin-bottom: 2rem;
+  padding: 0 1rem;
+  margin-bottom: 7rem;
 `;
 
 export const Book = styled.img`
-  width: 12.8rem;
+  width: 220px;
   transition: all 0.3s;
   &:hover {
     scale: 1.05;
@@ -61,7 +72,7 @@ export const BookTitle = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: text-decoration 0.3s ease-in-out;
-  width: 12.8rem;
+  width: 220px;
   &:hover {
     text-decoration: underline ${(props) => props.theme.white};
   }

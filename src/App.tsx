@@ -15,8 +15,8 @@ export const App: React.FC = () => {
         }
       >
         <Route path="/" element={<Main />} />
-        <Route path="/loan" element={<Loan />} />
-        <Route path="/loan-manage" element={<LoanManage />} />
+        <Route path="/rent" element={<Loan />} />
+        <Route path="/rent-manage" element={<LoanManage />} />
       </Route>
     </Routes>
   );

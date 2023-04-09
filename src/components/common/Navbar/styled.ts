@@ -8,7 +8,8 @@ export const NavBarWrapper = styled(motion.nav)`
   height: 5rem;
   z-index: 9999;
   position: fixed;
-  background-color: ${({ theme }) => theme.navbar.background};
+  backdrop-filter: blur(10px);
+  /* background-color: ${({ theme }) => theme.navbar.background}; */
 `;
 
 export const NavBarContainer = styled.div`
@@ -27,19 +28,15 @@ export const NavbarMenuContainer = styled.div`
   gap: 3rem;
   align-items: center;
 `;
-
-export const NavbarTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
-`;
-
 export const TitleLink = styled(Link)`
+  font-size: 1.8rem;
+  font-weight: 500;
   text-decoration: none;
-  color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.black};
 `;
 
 export const MenuItem = styled(Link)<{ isActive: boolean }>`
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   color: ${({ theme }) => theme.navbar.unselected};
@@ -47,16 +44,23 @@ export const MenuItem = styled(Link)<{ isActive: boolean }>`
   ${(props) =>
     props.isActive &&
     css`
-      color: ${({ theme }) => theme.white};
+      color: ${({ theme }) => theme.black};
     `}
 `;
 
+export const UserName = styled.span`
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 16px;
+  color: ${({ theme }) => theme.primary.black};
+`;
+
 export const LoginButton = styled(Link)`
-  color: ${({ theme }) => theme.white};
-  background-color: ${({ theme }) => theme.navbar.loginButton};
-  border-radius: 20px;
+  color: ${({ theme }) => theme.primary.black};
+  background-color: ${({ theme }) => theme.primary.white};
+  border-radius: 1.4rem;
   border: none;
-  padding: 0.6rem 1.3rem;
+  padding: 0.68rem 1rem;
   font-size: 1rem;
   font-weight: 600;
   align-self: center;

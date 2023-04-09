@@ -44,16 +44,17 @@ export const Navbar: React.FC = () => {
     >
       <S.NavBarContainer>
         <S.NavbarMenuContainer>
-          <S.NavbarTitle>
-            <S.TitleLink to="/">(동아리명) 도서관리</S.TitleLink>
-          </S.NavbarTitle>
+          <S.TitleLink to="/">HANBOOK</S.TitleLink>
           {MENU_LIST.map(({ text, href }, i) => (
             <S.MenuItem to={href} key={i} isActive={location.pathname === href}>
               {text}
             </S.MenuItem>
           ))}
         </S.NavbarMenuContainer>
-        <S.LoginButton to="/signout">로그아웃</S.LoginButton>
+        <div>
+          <S.UserName>앙기모링님</S.UserName>
+          <S.LoginButton to="/signout">로그아웃</S.LoginButton>
+        </div>
       </S.NavBarContainer>
     </S.NavBarWrapper>
   );
