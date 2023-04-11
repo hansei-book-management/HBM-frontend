@@ -35,9 +35,6 @@ export const TeamLink = styled(Link)<{ isActive: boolean }>`
           color: ${props.theme.primary.black};
           background-color: ${props.theme.primary.white};
         `}
-  &:focus {
-    border: 1px solid ${({ theme }) => theme.primary.black};
-  }
 `;
 
 export const TeamPageTitle = styled.h1`

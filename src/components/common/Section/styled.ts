@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const SectionContainer = styled.section`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   align-items: flex-start;
   gap: 2rem;
   margin-bottom: 3.6rem;

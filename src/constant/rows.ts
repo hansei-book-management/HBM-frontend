@@ -79,4 +79,12 @@ export const rows = [
     id: 19,
     rent: true,
   },
+  {
+    id: 20,
+    rent: true,
+  },
+  {
+    id: 21,
+    rent: true,
+  },
 ];
