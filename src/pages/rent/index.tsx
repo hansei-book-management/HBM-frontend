@@ -6,13 +6,15 @@ import { Section } from '@/components';
 
 import * as S from './styled';
 
+const teamLinkIsActive = (clubId?: string, id?: string) => clubId === id;
+
 export const Rent: React.FC = () => {
   const navigate = useNavigate();
   const { clubId } = useParams<{ clubId: string }>();
   const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
 
   useEffect(() => {
-    if (!CLUB_LIST.find(({ id }) => id === clubId)) {
+    if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);
     }
   }, []);
@@ -21,7 +23,7 @@ export const Rent: React.FC = () => {
     <S.RentPageContainer>
       <S.TeamList>
         {CLUB_LIST.map(({ name, id }) => (
-          <S.TeamLink to={`/rent/${id} `} isActive={clubId === id}>
+          <S.TeamLink to={`/rent/${id} `} isActive={teamLinkIsActive(clubId, id)}>
             {name}
           </S.TeamLink>
         ))}
