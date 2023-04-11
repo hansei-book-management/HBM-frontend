@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styled, { css } from 'styled-components';
 
-export const TeamPageContainer = styled.section`
+export const RentPageContainer = styled.section`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -37,7 +37,7 @@ export const TeamLink = styled(Link)<{ isActive: boolean }>`
         `}
 `;
 
-export const TeamPageTitle = styled.h1`
-  font-size: 2.2rem;
+export const RentPageTitle = styled.h1`
+  font-size: 2rem;
   font-weight: 700;
 `;

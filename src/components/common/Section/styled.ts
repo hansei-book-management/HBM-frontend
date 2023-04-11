@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { BiStopwatch } from 'react-icons/bi';
 
 import styled, { css } from 'styled-components';
 
@@ -11,14 +12,51 @@ export const SectionContainer = styled.section`
   margin-bottom: 3.6rem;
 `;
 
-export const ImageWrapper = styled.div`
+export const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const ImageWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 215px;
 `;
 
 export const Image = styled.img`
   width: 215px;
   border: 1px solid #eaeaea;
+`;
+
+export const ImageMangeInfo = styled.div<{ timeOver: boolean }>`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 6px;
+  background-color: ${({ timeOver, theme }) => (timeOver ? theme.time.danger : theme.time.safe)};
+  opacity: 0.6;
+  backdrop-filter: blur(14px);
+  z-index: 99;
+  column-gap: 4px;
+`;
+
+export const ImageMangeInfoText = styled.span`
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: ${({ theme }) => theme.primary.white};
+  z-index: 99;
+`;
+
+export const ImageMangeIcon = styled(BiStopwatch)`
+  width: 20px;
+  color: ${({ theme }) => theme.white};
+  z-index: 99;
 `;
 
 export const TitleContainer = styled.div`

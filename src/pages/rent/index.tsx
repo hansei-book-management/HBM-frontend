@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { CLUB_LIST, rows } from '@/constant';
+import { CLUB_LIST, RENT_BOOK_LIST } from '@/constant';
 import { Section } from '@/components';
 
 import * as S from './styled';
@@ -18,7 +18,7 @@ export const Rent: React.FC = () => {
   }, []);
 
   return (
-    <S.TeamPageContainer>
+    <S.RentPageContainer>
       <S.TeamList>
         {CLUB_LIST.map(({ name, id }) => (
           <S.TeamLink to={`/rent/${id} `} isActive={clubId === id}>
@@ -26,8 +26,8 @@ export const Rent: React.FC = () => {
           </S.TeamLink>
         ))}
       </S.TeamList>
-      {activeClub && <S.TeamPageTitle>{activeClub.name} 도서</S.TeamPageTitle>}
-      <Section image={rows} />
-    </S.TeamPageContainer>
+      {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
+      <Section bookList={RENT_BOOK_LIST} />
+    </S.RentPageContainer>
   );
 };
