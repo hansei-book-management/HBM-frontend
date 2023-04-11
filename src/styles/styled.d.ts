@@ -5,6 +5,7 @@ declare module 'styled-components' {
     white: string;
     black: string;
     background: string;
+    gray: string;
     navbar: {
       background: string;
       unselected: string;

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { rows } from '@/constant';
 import { Book1PNG } from '@/assets';
 
 import * as S from './styled';
