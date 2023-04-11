@@ -1,34 +1,3 @@
-// import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-
-// import { rows } from '@/constant';
-// import { Book1PNG } from '@/assets';
-
-// import * as S from './styled';
-
-// export const Section: React.FC = () => {
-//   const navigate = useNavigate();
-
-//   const onClick = (id: number) => {
-//     navigate(`/detail/${id}`);
-//   };
-
-//   return (
-//     <S.SectionContainer>
-//       {rows.map(({ id, rent }) => (
-//         <S.ImageWrapper key={id}>
-//           <S.Image src={Book1PNG} onClick={() => onClick(id)} />
-//           <S.TitleContainer>
-//             <S.ImageTitle to={`/detail/${id}`}>세이노의 가르침 id:{id}</S.ImageTitle>
-//             <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-//             <S.RentMessage canRent={rent}>{rent ? '대여 가능' : '대여 불가'}</S.RentMessage>
-//           </S.TitleContainer>
-//         </S.ImageWrapper>
-//       ))}
-//     </S.SectionContainer>
-//   );
-// };
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,27 +6,32 @@ import { Book1PNG } from '@/assets';
 
 import * as S from './styled';
 
-export const Section: React.FC = () => {
-  const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
+interface SectionProps {
+  image: {
+    id: number;
+    rent: boolean;
+  }[];
+}
 
-  const onClick = (id: number) => {
-    navigate(`/detail/${id}`);
+const PER_PAGE = 20;
+
+export const Section: React.FC<SectionProps> = ({ image }) => {
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(image.length / PER_PAGE);
+  const visibleRows = image.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page);
   };
 
-  const totalPages = Math.ceil(rows.length / perPage);
-  const start = (page - 1) * perPage;
-  const end = start + perPage;
-
-  const visibleRows = rows.slice(start, end);
-
   const handlePrevClick = () => {
-    setPage((prevPage) => prevPage - 1);
+    setCurrentPage((prevPage) => prevPage - 1);
   };
 
   const handleNextClick = () => {
-    setPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   return (
@@ -65,7 +39,7 @@ export const Section: React.FC = () => {
       <S.SectionContainer>
         {visibleRows.map(({ id, rent }) => (
           <S.ImageWrapper key={id}>
-            <S.Image src={Book1PNG} onClick={() => onClick(id)} />
+            <S.Image src={Book1PNG} onClick={() => navigate(`/detail/${id}`)} />
             <S.TitleContainer>
               <S.ImageTitle to={`/detail/${id}`}>세이노의 가르침 id:{id}</S.ImageTitle>
               <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
@@ -74,17 +48,19 @@ export const Section: React.FC = () => {
           </S.ImageWrapper>
         ))}
       </S.SectionContainer>
-      <div>
-        <button onClick={handlePrevClick} disabled={page === 1}>
-          이전
-        </button>
-        <span>
-          {page} / {totalPages}
-        </span>
-        <button onClick={handleNextClick} disabled={page === totalPages}>
-          다음
-        </button>
-      </div>
+      <S.PaginationContainer>
+        <S.PaginationIconLeft size="1.5rem" onClick={handlePrevClick} />
+        {[...Array(totalPages).keys()].map((page) => (
+          <S.PaginationItem
+            key={page + 1}
+            onClick={() => handlePageClick(page + 1)}
+            isSelected={currentPage === page + 1}
+          >
+            {page + 1}
+          </S.PaginationItem>
+        ))}
+        <S.PaginationIconRight size="1.5rem" onClick={handleNextClick} />
+      </S.PaginationContainer>
     </>
   );
 };

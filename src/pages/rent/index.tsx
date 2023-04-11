@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { CLUB_LIST } from '@/constant';
+import { CLUB_LIST, rows } from '@/constant';
 import { Section } from '@/components';
 
 import * as S from './styled';
@@ -27,7 +27,7 @@ export const Rent: React.FC = () => {
         ))}
       </S.TeamList>
       {activeClub && <S.TeamPageTitle>{activeClub.name} 도서</S.TeamPageTitle>}
-      <Section />
+      <Section image={rows} />
     </S.TeamPageContainer>
   );
 };

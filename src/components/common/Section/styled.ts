@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SectionContainer = styled.section`
   display: grid;
@@ -48,4 +49,52 @@ export const RentMessage = styled.span<{ canRent: boolean }>`
   font-size: 0.9rem;
   font-weight: 900;
   color: ${({ theme, canRent }) => (canRent ? theme.primary.green : theme.primary.red)};
+`;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+  padding-bottom: 4rem;
+  align-items: center;
+`;
+
+export const PaginationItem = styled.span<{ isSelected: boolean }>`
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50%;
+  letter-spacing: -0.01em;
+  padding: 6px 10px;
+  transition: background 150ms;
+  ${(props) =>
+    props.isSelected
+      ? css`
+          color: ${props.theme.primary.white};
+          background-color: ${props.theme.primary.black};
+        `
+      : css`
+          color: ${props.theme.primary.black};
+          background-color: ${props.theme.primary.white};
+        `}
+`;
+
+export const PaginationIconLeft = styled(FaChevronLeft)`
+  border-radius: 50%;
+  padding: 0.4rem;
+  align-self: center;
+  justify-self: center;
+  color: ${({ theme }) => theme.primary.black};
+  border: 0.5px solid ${({ theme }) => theme.primary.black};
+`;
+
+export const PaginationIconRight = styled(FaChevronRight)`
+  border-radius: 50%;
+  padding: 0.4rem;
+  align-self: center;
+  justify-self: center;
+  color: ${({ theme }) => theme.primary.black};
+  border: 0.5px solid #171717;
 `;
