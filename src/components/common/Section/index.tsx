@@ -48,7 +48,7 @@ export const Section: React.FC<SectionProps> = ({ image }) => {
         ))}
       </S.SectionContainer>
       <S.PaginationContainer>
-        <S.PaginationIconLeft size="1.8rem" onClick={handlePrevClick} />
+        <S.PaginationIconLeft size="1.5rem" onClick={handlePrevClick} />
         {[...Array(totalPages).keys()].map((page) => (
           <S.PaginationItem
             key={page + 1}
@@ -58,7 +58,7 @@ export const Section: React.FC<SectionProps> = ({ image }) => {
             {page + 1}
           </S.PaginationItem>
         ))}
-        <S.PaginationIconRight size="1.8rem" onClick={handleNextClick} />
+        <S.PaginationIconRight size="1.5rem" onClick={handleNextClick} />
       </S.PaginationContainer>
     </>
   );
