@@ -83,7 +83,7 @@ export const PaginationItem = styled.span<{ isSelected: boolean }>`
 
 export const PaginationIconLeft = styled(FaChevronLeft)`
   border-radius: 50%;
-  padding: 0.4rem;
+  padding: 0.3rem;
   align-self: center;
   justify-self: center;
   color: ${({ theme }) => theme.primary.black};
@@ -92,7 +92,7 @@ export const PaginationIconLeft = styled(FaChevronLeft)`
 
 export const PaginationIconRight = styled(FaChevronRight)`
   border-radius: 50%;
-  padding: 0.4rem;
+  padding: 0.3rem;
   align-self: center;
   justify-self: center;
   color: ${({ theme }) => theme.primary.black};
