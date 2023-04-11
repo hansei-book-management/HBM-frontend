@@ -7,7 +7,7 @@ export const SectionContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: flex-start;
-  gap: 2rem;
+  row-gap: 8rem;
   margin-bottom: 3.6rem;
 `;
 
@@ -18,7 +18,7 @@ export const ImageWrapper = styled.div`
 
 export const Image = styled.img`
   width: 215px;
-  box-shadow: 0.1rem 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeaea;
 `;
 
 export const TitleContainer = styled.div`
