@@ -18,7 +18,7 @@ export const Rent: React.FC = () => {
   }, []);
 
   return (
-    <S.TeamPageContainer>
+    <S.RentPageContainer>
       <S.TeamList>
         {CLUB_LIST.map(({ name, id }) => (
           <S.TeamLink to={`/rent/${id} `} isActive={clubId === id}>
@@ -26,8 +26,8 @@ export const Rent: React.FC = () => {
           </S.TeamLink>
         ))}
       </S.TeamList>
-      {activeClub && <S.TeamPageTitle>{activeClub.name} 도서</S.TeamPageTitle>}
+      {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section image={rows} />
-    </S.TeamPageContainer>
+    </S.RentPageContainer>
   );
 };
