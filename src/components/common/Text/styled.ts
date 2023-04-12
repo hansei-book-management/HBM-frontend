@@ -26,8 +26,11 @@ export const TextElement = styled.p<{ size: string }>`
         `;
       default:
         return css`
-          font-size: 1.1rem;
+          font-size: 1.4rem;
           font-weight: 400;
+          @media screen and (max-width: 2600px) and (min-width: 1000px) {
+            font-size: 1.2rem;
+          }
         `;
     }
   }}
