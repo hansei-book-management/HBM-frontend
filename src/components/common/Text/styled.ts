@@ -8,7 +8,6 @@ export const TextColumnContainer = styled.div`
   justify-content: center;
   height: 100%;
   row-gap: 1rem;
-  /* border: 1px solid blue; */
 `;
 
 export const TextElement = styled.span<{ size: string }>`
