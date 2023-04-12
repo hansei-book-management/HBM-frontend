@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Text } from '@/components/common';
+import { useScrollFadeIn } from '@/hooks';
 
 import * as S from './styled';
 
@@ -17,8 +18,9 @@ export const MainSection: React.FC<MainSectionProps> = ({
   imageUrl,
   isSecondary,
 }) => {
+  const animation = useScrollFadeIn<HTMLHeadingElement>('up', 0.7);
   return (
-    <S.MainSectionContainer isSecondary={isSecondary}>
+    <S.MainSectionContainer isSecondary={isSecondary} {...animation}>
       <Text.Column>
         <Text size="small">{smallText}</Text>
         <Text size="large">{largeText}</Text>
