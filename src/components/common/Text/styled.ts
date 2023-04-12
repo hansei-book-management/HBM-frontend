@@ -4,11 +4,11 @@ export const TextColumnContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  width: 100%;
   height: 100%;
   row-gap: 1rem;
+  /* border: 1px solid blue; */
 `;
 
 export const TextElement = styled.span<{ size: string }>`
@@ -17,12 +17,12 @@ export const TextElement = styled.span<{ size: string }>`
     switch (size) {
       case 'large':
         return css`
-          font-size: 2rem;
-          font-weight: 700;
+          font-size: 5rem;
+          font-weight: 600;
         `;
       case 'small':
         return css`
-          font-size: 1rem;
+          font-size: 1.4rem;
           font-weight: 400;
         `;
       default:
