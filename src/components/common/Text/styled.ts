@@ -10,18 +10,19 @@ export const TextColumnContainer = styled.div`
   row-gap: 1rem;
 `;
 
-export const TextElement = styled.span<{ size: string }>`
+export const TextElement = styled.p<{ size: string }>`
+  width: 100%;
   color: ${({ theme }) => theme.black};
   ${({ size }) => {
     switch (size) {
       case 'large':
         return css`
-          font-size: 5rem;
-          font-weight: 600;
+          font-size: 4rem;
+          font-weight: 650;
         `;
       case 'small':
         return css`
-          font-size: 1.4rem;
+          font-size: 1.1rem;
           font-weight: 400;
         `;
       default:

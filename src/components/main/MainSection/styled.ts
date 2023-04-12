@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const MainSectionContainer = styled.div<{ isSecondary?: boolean }>`
   display: flex;
   flex-wrap: wrap;
-  /* height: 80vh; */
   align-items: center;
   flex-direction: ${(props) => (props.isSecondary ? ' row-reverse' : 'row')};
   justify-content: space-between;
@@ -15,5 +14,7 @@ export const MainSectionContainer = styled.div<{ isSecondary?: boolean }>`
 `;
 
 export const MainSectionImage = styled.img`
-  width: 40rem;
+  width: 30rem;
+  border-radius: 20px;
+  border: 1px solid #eaeaea;
 `;
