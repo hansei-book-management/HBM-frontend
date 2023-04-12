@@ -14,6 +14,9 @@ export const FooterSectionContainer = styled.div`
   div > p {
     text-align: center;
   }
+  @media screen and (max-width: 779px) and (min-width: 300px) {
+    padding: 80px 0;
+  }
 `;
 
 export const ApplyButton = styled(Link)`
