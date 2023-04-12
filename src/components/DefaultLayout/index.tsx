@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { Navbar } from '@/components';
-
-import { Footer } from '../common/Footer';
+import { Navbar, Footer } from '@/components';
 
 import * as S from './styled';
 

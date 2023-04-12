@@ -4,7 +4,6 @@ export const TextColumnContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
   height: 100%;
   row-gap: 1rem;
@@ -20,14 +19,14 @@ export const TextElement = styled.p<{ size: string }>`
           font-size: 4rem;
           font-weight: 650;
         `;
-      case 'small':
+      case 'medium':
         return css`
-          font-size: 1.1rem;
-          font-weight: 400;
+          font-size: 2.5rem;
+          font-weight: 650;
         `;
       default:
         return css`
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 400;
         `;
     }

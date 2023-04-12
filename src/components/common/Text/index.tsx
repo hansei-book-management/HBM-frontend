@@ -11,7 +11,7 @@ export const TextColumn: React.FC<TextColumnProps> = ({ children }) => {
 };
 
 interface TextProps extends TextCommonProps {
-  size: 'small' | 'large';
+  size: 'small' | 'large' | 'medium';
 }
 
 export const TextComponent: React.FC<TextProps> = ({ children, size }) => {

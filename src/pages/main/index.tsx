@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Main1PNG, Main2PNG, Main3PNG } from '@/assets';
-import { MainSection } from '@/components/main/MainSection';
+import { FooterSection, MainSection } from '@/components';
 
 export const Main: React.FC = () => {
   return (
@@ -22,6 +22,7 @@ export const Main: React.FC = () => {
         largeText="한 눈에 보기"
         imageUrl={Main3PNG}
       />
+      <FooterSection />
     </>
   );
 };
