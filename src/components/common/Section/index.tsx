@@ -15,7 +15,7 @@ interface SectionProps {
   bookList: Book[];
 }
 
-const PER_PAGE = 20;
+const PER_PAGE = 16;
 
 export const Section: React.FC<SectionProps> = ({ bookList }) => {
   const location = useLocation();

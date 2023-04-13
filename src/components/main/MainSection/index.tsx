@@ -6,7 +6,7 @@ import { useScrollFadeIn } from '@/hooks';
 import * as S from './styled';
 
 export interface MainSectionProps {
-  smallText: string;
+  smallText: string | React.ReactNode;
   largeText: string;
   imageUrl: string;
   isSecondary?: boolean;

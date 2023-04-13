@@ -59,11 +59,11 @@ html,body{
 };
 
 @media screen and (max-width: 700px) and (min-width: 500px) {
-    font-size: 10px;
+    font-size: 12px;
 };
 
 @media screen and (max-width: 500px) and (min-width: 300px) {
-    font-size: 8px;
+    font-size: 14px;
 };
 }
 

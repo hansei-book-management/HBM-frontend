@@ -14,6 +14,9 @@ export const FooterSectionContainer = styled.div`
   div > p {
     text-align: center;
   }
+  @media screen and (max-width: 779px) and (min-width: 300px) {
+    padding: 80px 0;
+  }
 `;
 
 export const ApplyButton = styled(Link)`
@@ -24,7 +27,13 @@ export const ApplyButton = styled(Link)`
   border-radius: 10px;
   background-color: ${({ theme }) => theme.primary.purple};
   color: ${({ theme }) => theme.white};
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 600;
   text-decoration: none;
+  @media screen and (max-width: 2600px) and (min-width: 1000px) {
+    font-size: 1.2rem;
+  }
+  @media screen and (max-width: 500px) and (min-width: 300px) {
+    padding: 16px 30px;
+  }
 `;
