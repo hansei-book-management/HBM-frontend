@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
 
 import { MENU_LIST } from '@/constant';
+import { useGetWindowSize } from '@/hooks';
 
 import * as S from './styled';
 
@@ -14,6 +15,7 @@ export const Navbar: React.FC = () => {
   const prevScrollY = useMotionValue(0);
   const [navbarClose, setNavbarClose] = useState<boolean>(false);
   const navbar = useRef<HTMLDivElement>(null);
+  const { getWidth } = useGetWindowSize();
 
   const onClick = () => {
     setNavbarClose(!navbarClose);
