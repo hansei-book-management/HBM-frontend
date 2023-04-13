@@ -55,7 +55,7 @@ export const NavbarMenuContainer = styled(motion.div)`
     width: fit-content;
     flex-direction: column;
     align-items: flex-start;
-    &.active {
+    &.hidden {
       display: none;
     }
   }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -20,9 +20,9 @@ export const Navbar: React.FC = () => {
   const onClick = () => {
     setNavbarClose(!navbarClose);
     if (navbarClose) {
-      navbar.current?.classList.remove('active');
+      navbar.current?.classList.remove('hidden');
     } else {
-      navbar.current?.classList.add('active');
+      navbar.current?.classList.add('hidden');
     }
   };
 
@@ -48,6 +48,22 @@ export const Navbar: React.FC = () => {
     handleScroll();
   });
 
+  useEffect(() => {
+    if (getWidth > 630) {
+      if (navbar.current) {
+        navbar.current.classList.remove('hidden');
+        navbar.current.style.opacity = '1';
+        navbar.current.style.transform = 'none';
+      }
+    } else if (getWidth < 630) {
+      if (navbar.current) {
+        navbar.current.classList.add('hidden');
+        navbar.current.style.opacity = '0';
+        navbar.current.style.transform = 'translateY(-25px)';
+      }
+    }
+  }, [getWidth]);
+
   return (
     <S.NavBarContainer
       // variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: -25 } }} // -> 부드럽게 사라지기
@@ -65,12 +81,12 @@ export const Navbar: React.FC = () => {
           animate={navbarClose ? 'hidden' : 'visible'}
           transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.3 }}
           ref={navbar}
-          className="active"
+          className="hidden"
         >
           <S.NavbarMenuWrapper>
             {MENU_LIST.map(({ text, href }, i) => (
               <S.MenuItem
-                // onClick={onClick}
+                {...(getWidth < 630 && { onClick })}
                 to={href}
                 key={i}
                 isActive={
