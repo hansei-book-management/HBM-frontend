@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.5 }}
     >
-      <S.NavBarWrapper>
+      <S.NavBarWrapper onClick={onClick}>
         <S.ToggleBar>
           <S.TitleLink to="/">HANBOOK</S.TitleLink>
           <S.TogIcon onClick={onClick} />
@@ -65,19 +65,22 @@ export const Navbar: React.FC = () => {
           ref={navbar}
           className="active"
         >
-          {MENU_LIST.map(({ text, href }, i) => (
-            <S.MenuItem
-              to={href}
-              key={i}
-              isActive={
-                location.pathname === href ||
-                (href === '/rent' && location.pathname.includes('/rent'))
-              }
-            >
-              {text}
-            </S.MenuItem>
-          ))}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <S.NavbarMenuWrapper>
+            {MENU_LIST.map(({ text, href }, i) => (
+              <S.MenuItem
+                onClick={onClick}
+                to={href}
+                key={i}
+                isActive={
+                  location.pathname === href ||
+                  (href === '/rent' && location.pathname.includes('/rent'))
+                }
+              >
+                {text}
+              </S.MenuItem>
+            ))}
+          </S.NavbarMenuWrapper>
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: '12px' }}>
             <S.UserName>앙기모링님</S.UserName>
             <S.LoginButton to="/signout">로그아웃</S.LoginButton>
           </div>

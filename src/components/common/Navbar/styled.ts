@@ -25,33 +25,47 @@ export const NavBarWrapper = styled.div`
   max-width: 1250px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  padding: 0 1.5rem;
+  column-gap: 1.2rem;
   @media screen and (min-width: 300px) and (max-width: 630px) {
     flex-direction: column;
     align-items: flex-start;
     height: fit-content;
-    row-gap: 1rem;
+    row-gap: 34px;
     padding: 0;
   }
 `;
 
 export const ToggleBar = styled(motion.div)`
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    width: 100%;
+  }
 `;
 
 export const NavbarMenuContainer = styled(motion.div)`
   display: flex;
-  row-gap: 3rem;
+  column-gap: 3rem;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
   @media screen and (min-width: 300px) and (max-width: 630px) {
+    width: fit-content;
     flex-direction: column;
     align-items: flex-start;
-    row-gap: 2rem;
+    &.active {
+      display: none;
+    }
   }
-  &.active {
-    display: none;
+`;
+
+export const NavbarMenuWrapper = styled.div`
+  column-gap: 1rem;
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 18px;
   }
 `;
 
@@ -60,9 +74,6 @@ export const TitleLink = styled(Link)`
   font-weight: 500;
   text-decoration: none;
   color: ${({ theme }) => theme.black};
-  @media screen and (min-width: 300px) and (max-width: 630px) {
-    margin-bottom: 16px;
-  }
 `;
 
 export const MenuItem = styled(Link)<{ isActive: boolean }>`
@@ -71,6 +82,7 @@ export const MenuItem = styled(Link)<{ isActive: boolean }>`
   text-decoration: none;
   color: ${({ theme }) => theme.navbar.unselected};
   transition: color 150ms;
+  margin-right: 1rem;
   ${(props) =>
     props.isActive &&
     css`
@@ -86,7 +98,7 @@ export const UserName = styled.span`
 `;
 
 export const LoginButton = styled(Link)`
-  color: ${({ theme }) => theme.primary.black};
+  color: ${({ theme }) => theme.primary.gray};
   background-color: ${({ theme }) => theme.primary.white};
   border-radius: 1.4rem;
   border: none;
@@ -102,7 +114,7 @@ export const TogIcon = styled(MdDehaze)`
   padding: 0;
   width: 30px;
   height: 30px;
-  color: ${({ theme }) => theme.black};
+  color: ${({ theme }) => theme.gray};
   @media screen and (min-width: 631px) {
     display: none;
   }

@@ -14,6 +14,7 @@ declare module 'styled-components' {
     };
     primary: {
       black: string;
+      gray: string;
       blue: string;
       white: string;
       green: string;
