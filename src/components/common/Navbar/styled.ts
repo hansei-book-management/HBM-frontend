@@ -96,7 +96,7 @@ export const MenuItem = styled(Link)<{ isActive: boolean }>`
 export const UserContainer = styled.div`
   display: flex;
   align-items: center;
-  @media screen and (max-width: 631px) {
+  @media screen and (max-width: 630px) {
     margin-top: 12px;
   }
 `;

@@ -55,7 +55,7 @@ export const Navbar: React.FC = () => {
         navbar.current.style.opacity = '1';
         navbar.current.style.transform = 'none';
       }
-    } else if (getWidth < 630) {
+    } else if (getWidth <= 630) {
       if (navbar.current) {
         navbar.current.classList.add('hidden');
         navbar.current.style.opacity = '0';
@@ -86,7 +86,7 @@ export const Navbar: React.FC = () => {
           <S.NavbarMenuWrapper>
             {MENU_LIST.map(({ text, href }, i) => (
               <S.MenuItem
-                {...(getWidth < 630 && { onClick })}
+                onClick={onClick}
                 to={href}
                 key={i}
                 isActive={

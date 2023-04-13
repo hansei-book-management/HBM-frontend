@@ -2,14 +2,17 @@ import React from 'react';
 
 import { Main1PNG, Main2PNG, Main3PNG } from '@/assets';
 import { FooterSection, MainSection } from '@/components';
+import { useGetWindowSize } from '@/hooks';
 
 export const Main: React.FC = () => {
+  const { getWidth } = useGetWindowSize();
   return (
     <>
       <MainSection
         smallText={
           <>
-            한세사이버보안고등학교 자율동아리 <br />
+            한세사이버보안고등학교 자율동아리 {''}
+            {getWidth <= 630 && <br />}
             도서관리 시스템
           </>
         }
