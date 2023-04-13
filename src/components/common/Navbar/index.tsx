@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.5 }}
     >
-      <S.NavBarWrapper onClick={onClick}>
+      <S.NavBarWrapper>
         <S.ToggleBar>
           <S.TitleLink to="/">HANBOOK</S.TitleLink>
           <S.TogIcon onClick={onClick} />
@@ -80,10 +80,10 @@ export const Navbar: React.FC = () => {
               </S.MenuItem>
             ))}
           </S.NavbarMenuWrapper>
-          <div style={{ display: 'flex', alignItems: 'center', marginTop: '12px' }}>
+          <S.UserContainer>
             <S.UserName>앙기모링님</S.UserName>
             <S.LoginButton to="/signout">로그아웃</S.LoginButton>
-          </div>
+          </S.UserContainer>
         </S.NavbarMenuContainer>
       </S.NavBarWrapper>
     </S.NavBarContainer>

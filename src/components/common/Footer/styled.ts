@@ -13,7 +13,7 @@ export const FooterContainer = styled.footer`
 `;
 
 export const FooterTitle = styled(Link)`
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: ${({ theme }) => theme.black};
   text-decoration: none;
@@ -38,7 +38,7 @@ export const IconWrapper = styled(Link)`
 `;
 
 export const FooterText = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: ${({ theme }) => theme.black};
   text-align: center;

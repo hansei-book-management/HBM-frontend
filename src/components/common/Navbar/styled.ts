@@ -39,6 +39,7 @@ export const NavBarWrapper = styled.div`
 export const ToggleBar = styled(motion.div)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   @media screen and (min-width: 300px) and (max-width: 630px) {
     width: 100%;
   }
@@ -61,7 +62,9 @@ export const NavbarMenuContainer = styled(motion.div)`
 `;
 
 export const NavbarMenuWrapper = styled.div`
+  display: flex;
   column-gap: 1rem;
+  align-items: center;
   @media screen and (min-width: 300px) and (max-width: 630px) {
     display: flex;
     flex-direction: column;
@@ -88,6 +91,14 @@ export const MenuItem = styled(Link)<{ isActive: boolean }>`
     css`
       color: ${({ theme }) => theme.black};
     `}
+`;
+
+export const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 631px) {
+    margin-top: 12px;
+  }
 `;
 
 export const UserName = styled.span`
