@@ -7,7 +7,12 @@ export const Main: React.FC = () => {
   return (
     <>
       <MainSection
-        smallText="한세사이버보안고등학교 자율동아리 도서관리 시스템"
+        smallText={
+          <>
+            한세사이버보안고등학교 자율동아리 <br />
+            도서관리 시스템
+          </>
+        }
         largeText="HANBOOK"
         imageUrl={Main1PNG}
       />

@@ -17,6 +17,9 @@ export const FooterTitle = styled(Link)`
   font-weight: 700;
   color: ${({ theme }) => theme.black};
   text-decoration: none;
+  @media screen and (max-width: 500px) and (min-width: 300px) {
+    font-size: 1.4rem;
+  }
 `;
 
 export const FooterIcon = styled.div`
@@ -42,4 +45,7 @@ export const FooterText = styled.p`
   font-weight: 400;
   color: ${({ theme }) => theme.black};
   text-align: center;
+  @media screen and (max-width: 500px) and (min-width: 300px) {
+    font-size: 0.8rem;
+  }
 `;

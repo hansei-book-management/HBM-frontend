@@ -68,7 +68,7 @@ export const Navbar: React.FC = () => {
           <S.NavbarMenuWrapper>
             {MENU_LIST.map(({ text, href }, i) => (
               <S.MenuItem
-                onClick={onClick}
+                // onClick={onClick}
                 to={href}
                 key={i}
                 isActive={

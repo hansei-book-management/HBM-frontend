@@ -10,6 +10,12 @@ export const SectionContainer = styled.section`
   align-items: flex-start;
   row-gap: 8rem;
   margin-bottom: 3.6rem;
+  @media screen and (max-width: 1000px) and (min-width: 700px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 700px) and (min-width: 300px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -21,14 +27,19 @@ export const ImageWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 215px;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 export const Image = styled.img`
-  width: 215px;
+  width: 16rem;
   border: 1px solid #eaeaea;
+  @media screen and (max-width: 500px) and (min-width: 300px) {
+    width: 12rem;
+  }
+  @media screen and (max-width: 380px) and (min-width: 300px) {
+    width: 9rem;
+  }
 `;
 
 export const ImageMangeInfo = styled.div<{ timeOver: boolean }>`
@@ -37,13 +48,19 @@ export const ImageMangeInfo = styled.div<{ timeOver: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   padding: 6px;
   background-color: ${({ timeOver, theme }) => (timeOver ? theme.time.danger : theme.time.safe)};
   opacity: 0.6;
   backdrop-filter: blur(14px);
   z-index: 99;
   column-gap: 4px;
+  width: 16rem;
+  @media screen and (max-width: 500px) and (min-width: 380px) {
+    width: 12rem;
+  }
+  @media screen and (max-width: 380px) and (min-width: 300px) {
+    width: 9rem;
+  }
 `;
 
 export const ImageMangeInfoText = styled.span`

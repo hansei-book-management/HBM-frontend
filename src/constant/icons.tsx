@@ -8,15 +8,15 @@ export interface IconType {
 
 export const ICON_LIST: IconType[] = [
   {
-    icon: <FaTwitter size="1.8rem" />,
+    icon: <FaTwitter size="1.6rem" />,
     href: '/',
   },
   {
-    icon: <FaFacebookF size="1.4rem" />,
+    icon: <FaFacebookF size="1.2rem" />,
     href: '/',
   },
   {
-    icon: <FiInstagram size="1.8rem" />,
+    icon: <FiInstagram size="1.6rem" />,
     href: '/',
   },
 ];
