@@ -1,31 +1,58 @@
 import { Link } from 'react-router-dom';
+import { MdDehaze } from 'react-icons/md';
 
 import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
 
-export const NavBarWrapper = styled(motion.nav)`
+export const NavBarContainer = styled(motion.nav)`
   width: 100%;
   height: 5rem;
-  z-index: 9999;
+  z-index: 9998;
   position: fixed;
   backdrop-filter: blur(10px);
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    height: fit-content;
+    padding: 16px 1.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
-export const NavBarContainer = styled.div`
+export const NavBarWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: 0 auto;
   max-width: 1250px;
-  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    flex-direction: column;
+    align-items: flex-start;
+    height: fit-content;
+    row-gap: 1rem;
+    padding: 0;
+  }
 `;
 
-export const NavbarMenuContainer = styled.div`
+export const ToggleBar = styled(motion.div)`
+  width: 100%;
   display: flex;
-  gap: 3rem;
+  justify-content: space-between;
+`;
+
+export const NavbarMenuContainer = styled(motion.div)`
+  display: flex;
+  row-gap: 3rem;
   align-items: center;
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 2rem;
+  }
+  &.active {
+    display: none;
+  }
 `;
 
 export const TitleLink = styled(Link)`
@@ -33,6 +60,9 @@ export const TitleLink = styled(Link)`
   font-weight: 500;
   text-decoration: none;
   color: ${({ theme }) => theme.black};
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    margin-bottom: 16px;
+  }
 `;
 
 export const MenuItem = styled(Link)<{ isActive: boolean }>`
@@ -65,4 +95,15 @@ export const LoginButton = styled(Link)`
   font-weight: 600;
   align-self: center;
   text-decoration: none;
+`;
+
+export const TogIcon = styled(MdDehaze)`
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  color: ${({ theme }) => theme.black};
+  @media screen and (min-width: 631px) {
+    display: none;
+  }
 `;

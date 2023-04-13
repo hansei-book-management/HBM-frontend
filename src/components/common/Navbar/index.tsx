@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -12,6 +12,17 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const { scrollY } = useScroll();
   const prevScrollY = useMotionValue(0);
+  const [navbarClose, setNavbarClose] = useState<boolean>(false);
+  const navbar = useRef<HTMLDivElement>(null);
+
+  const onClick = () => {
+    setNavbarClose(!navbarClose);
+    if (navbarClose) {
+      navbar.current?.classList.remove('active');
+    } else {
+      navbar.current?.classList.add('active');
+    }
+  };
 
   // const handleScroll = () => {
   //   if (scrollY.get() < scrollY.getPrevious()) {
@@ -36,15 +47,24 @@ export const Navbar: React.FC = () => {
   });
 
   return (
-    <S.NavBarWrapper
+    <S.NavBarContainer
       // variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: -25 } }} // -> 부드럽게 사라지기
-      variants={{ visible: { top: '0vh' }, hidden: { top: '-16vh' } }} // -> 말아올리기
+      variants={{ visible: { top: '0vh' }, hidden: { top: '-40vh' } }} // -> 말아올리기
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.5 }}
     >
-      <S.NavBarContainer>
-        <S.NavbarMenuContainer>
+      <S.NavBarWrapper>
+        <S.ToggleBar>
           <S.TitleLink to="/">HANBOOK</S.TitleLink>
+          <S.TogIcon onClick={onClick} />
+        </S.ToggleBar>
+        <S.NavbarMenuContainer
+          variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: -25 } }} // -> 말아올리기
+          animate={navbarClose ? 'hidden' : 'visible'}
+          transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.3 }}
+          ref={navbar}
+          className="active"
+        >
           {MENU_LIST.map(({ text, href }, i) => (
             <S.MenuItem
               to={href}
@@ -57,12 +77,12 @@ export const Navbar: React.FC = () => {
               {text}
             </S.MenuItem>
           ))}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <S.UserName>앙기모링님</S.UserName>
+            <S.LoginButton to="/signout">로그아웃</S.LoginButton>
+          </div>
         </S.NavbarMenuContainer>
-        <div>
-          <S.UserName>앙기모링님</S.UserName>
-          <S.LoginButton to="/signout">로그아웃</S.LoginButton>
-        </div>
-      </S.NavBarContainer>
-    </S.NavBarWrapper>
+      </S.NavBarWrapper>
+    </S.NavBarContainer>
   );
 };
