@@ -1,8 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import { CLUB_LIST, RENT_BOOK_LIST } from '@/constant';
-import { Section } from '@/components';
+import { Book, Section } from '@/components';
+import { Book1PNG } from '@/assets';
 
 import * as S from './styled';
 
@@ -12,12 +14,6 @@ export const Rent: React.FC = () => {
   const navigate = useNavigate();
   const { clubId } = useParams<{ clubId: string }>();
   const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
-
-  useEffect(() => {
-    if (!activeClub) {
-      navigate(`/rent/${CLUB_LIST[0].id}`);
-    }
-  }, []);
 
   return (
     <S.RentPageContainer>
