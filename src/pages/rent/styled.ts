@@ -18,7 +18,7 @@ export const TeamList = styled.div`
   margin-bottom: 0.8rem;
 `;
 
-export const TeamLink = styled(Link) <{ isActive: boolean }>`
+export const TeamLink = styled(Link)<{ isActive: boolean }>`
   padding: 0.75rem 1rem;
   border-radius: 1.2rem;
   text-decoration: none;
