@@ -17,7 +17,7 @@ export const Rent: React.FC = () => {
     if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);
     }
-  }, []);
+  }, [activeClub]);
 
   return (
     <S.RentPageContainer>
@@ -29,7 +29,7 @@ export const Rent: React.FC = () => {
         ))}
       </S.TeamList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
-      <Section />
+      <Section activeClub={activeClub} />
     </S.RentPageContainer>
   );
 };
