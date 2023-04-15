@@ -22,6 +22,23 @@ export const DetailPage: React.FC = () => {
             <Text size="small">세이노 저자(글)</Text>
             <S.DetailInfoText>데이원 · 2023년 03월 02일</S.DetailInfoText>
           </Text.Column>
+          <S.BookReviewContainer>
+            <S.IconContainer>
+              <S.InfoText num={true}>8.2</S.InfoText>
+              <div style={{ display: 'flex' }}>
+                <S.ReviewIcon />
+                <S.ReviewIcon />
+                <S.ReviewIcon />
+                <S.ReviewIcon />
+              </div>
+              <S.ReviewText>(3개의 리뷰)</S.ReviewText>
+            </S.IconContainer>
+            <S.BookReviewContainerLine />
+            <S.IconContainer>
+              <S.QuoteIcon />
+              <S.InfoText num={false}>추천해요</S.InfoText>
+            </S.IconContainer>
+          </S.BookReviewContainer>
         </S.DetailInfoContainer>
       </S.DetailSection>
     </S.DetailContainer>
