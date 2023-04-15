@@ -21,13 +21,13 @@ export const Main: React.FC = () => {
       />
       <MainSection
         smallText="불편했던 동아리 도서관리, 이제 그만!"
-        largeText="쉬운 도서관리"
+        largeText="쉬운 도서관리 📚"
         isSecondary={true}
         imageUrl={Main2PNG}
       />
       <MainSection
         smallText="한층 더 쉬워진 대출 관리 "
-        largeText="한 눈에 보기"
+        largeText="한 눈에 보기 👀"
         imageUrl={Main3PNG}
       />
       <FooterSection />

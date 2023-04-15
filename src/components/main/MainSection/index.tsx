@@ -3,6 +3,8 @@ import React from 'react';
 import { Text } from '@/components/common';
 import { useScrollFadeIn } from '@/hooks';
 
+import { Button } from '../Button';
+
 import * as S from './styled';
 
 export interface MainSectionProps {
@@ -24,6 +26,7 @@ export const MainSection: React.FC<MainSectionProps> = ({
       <Text.Column>
         <Text size="small">{smallText}</Text>
         <Text size="large">{largeText}</Text>
+        <div style={{ width: 'fit-content' }}>{largeText === 'HANBOOK' && <Button />}</div>
       </Text.Column>
       <S.MainSectionImage src={imageUrl} />
     </S.MainSectionContainer>
