@@ -105,7 +105,7 @@ export const UserName = styled.span`
   font-size: 16px;
   font-weight: 600;
   margin-right: 16px;
-  color: ${({ theme }) => theme.primary.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 export const LoginButton = styled(Link)`

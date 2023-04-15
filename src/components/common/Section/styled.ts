@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { BiStopwatch } from 'react-icons/bi';
 
 import styled, { css } from 'styled-components';
@@ -96,7 +95,7 @@ export const ImageTitle = styled(Link)`
 export const ImageSubTitle = styled.span`
   font-size: 0.8rem;
   font-weight: 400;
-  color: ${({ theme }) => theme.primary.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 export const RentMessage = styled.span<{ canRent: boolean }>`
@@ -107,49 +106,28 @@ export const RentMessage = styled.span<{ canRent: boolean }>`
 `;
 
 export const PaginationContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
-  column-gap: 1rem;
-  padding-bottom: 4rem;
   align-items: center;
+  column-gap: 1rem;
+  padding: 4rem 0;
 `;
 
-export const PaginationItem = styled.span<{ isSelected: boolean }>`
+export const PaginationButton = styled.button<{ show: boolean }>`
   cursor: pointer;
   align-self: center;
   justify-self: center;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 50%;
-  letter-spacing: -0.01em;
-  padding: 6px 10px;
-  transition: background 150ms;
-  ${(props) =>
-    props.isSelected
-      ? css`
-          color: ${props.theme.primary.white};
-          background-color: ${props.theme.primary.black};
-        `
-      : css`
-          color: ${props.theme.primary.black};
-          background-color: ${props.theme.primary.white};
-        `}
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: none;
+  padding-bottom: 6px;
+  background-color: transparent;
+  opacity: ${({ show }) => (show ? 1 : 0)};
 `;
 
-export const PaginationIconLeft = styled(FaChevronLeft)`
-  border-radius: 50%;
-  padding: 4px;
-  align-self: center;
-  justify-self: center;
-  color: ${({ theme }) => theme.primary.black};
-  border: 0.5px solid ${({ theme }) => theme.primary.black};
-`;
-
-export const PaginationIconRight = styled(FaChevronRight)`
-  border-radius: 50%;
-  padding: 4px;
-  align-self: center;
-  justify-self: center;
-  color: ${({ theme }) => theme.primary.black};
-  border: 0.5px solid #171717;
+export const PaginationText = styled.span`
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: ${({ theme }) => theme.black};
 `;

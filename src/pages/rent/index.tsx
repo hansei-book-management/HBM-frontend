@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { CLUB_LIST, RENT_BOOK_LIST } from '@/constant';
+import { CLUB_LIST } from '@/constant';
 import { Section } from '@/components';
 
 import * as S from './styled';
@@ -17,7 +17,7 @@ export const Rent: React.FC = () => {
     if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);
     }
-  }, []);
+  }, [activeClub]);
 
   return (
     <S.RentPageContainer>
@@ -29,7 +29,7 @@ export const Rent: React.FC = () => {
         ))}
       </S.TeamList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
-      <Section bookList={RENT_BOOK_LIST} />
+      <Section activeClub={activeClub} />
     </S.RentPageContainer>
   );
 };

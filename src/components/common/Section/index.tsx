@@ -1,84 +1,131 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 import { Book1PNG } from '@/assets';
+import { ClubItem } from '@/constant';
 
 import * as S from './styled';
 
-interface Book {
-  rent?: boolean;
-  timeOver?: boolean;
-  timeLeftText?: string;
+export interface SectionProps {
+  activeClub?: ClubItem;
 }
 
-interface SectionProps {
-  bookList: Book[];
+export interface Book {
+  id: number;
+  title: string;
+  canRent: boolean;
+  club: string;
 }
 
-const PER_PAGE = 16;
+export interface BookItem {
+  books: Book[];
+  totalPages: number;
+  totalResults: number;
+}
 
-export const Section: React.FC<SectionProps> = ({ bookList }) => {
+export const Section: React.FC<SectionProps> = ({ activeClub }) => {
+  const [page, setPage] = useState(1);
+
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
-
   const isRentPage = location.pathname.includes('/rent');
-  const totalPages = Math.ceil(bookList.length / PER_PAGE);
-  const visibleBooks = bookList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
-  const handlePageClick = (page: number) => {
-    setCurrentPage(page);
+  const clubName = activeClub?.id;
+
+  const getRentApi = async (clubName: string, page: number) => {
+    const res = await fetch(`http://localhost:3000/rent/${clubName}?page=${page}`);
+    const data = await res.json();
+    return data;
   };
 
-  const handlePrevClick = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
+  const getManageApi = async (page: number) => {
+    const res = await fetch(`http://localhost:3000/rent/ssr?page=${page}`);
+    const data = await res.json();
+    return data;
   };
 
-  const handleNextClick = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+  const { data, isLoading, refetch } = useQuery<BookItem>(['bookList', clubName, page], () => {
+    if (isRentPage) {
+      return getRentApi(clubName || '', page);
+    } else {
+      return getManageApi(page);
+    }
+  });
+
+  const onNextPageClick = () => {
+    setPage((prev) => prev + 1);
+    console.log(page);
+    if (isRentPage) {
+      navigate(`/rent/${clubName}?page=${page + 1}`);
+    } else {
+      navigate(`/manage?page=${page + 1}`);
+    }
   };
+
+  const onPrevPageClick = () => {
+    setPage((prev) => prev - 1);
+    if (isRentPage) {
+      navigate(`/rent/${clubName}?page=${page - 1}`);
+    } else {
+      navigate(`/manage?page=${page - 1}`);
+    }
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [activeClub]);
 
   return (
     <>
       <S.SectionContainer>
-        {visibleBooks.map(({ rent, timeOver, timeLeftText }, i) => (
+        {isLoading && <h1>로딩중...</h1>}
+        {data?.books.map(({ id, canRent, club }, i) => (
           <S.ImageContainer key={i}>
-            <S.Image src={Book1PNG} onClick={() => navigate(`/detail/${i}`)} />
+            <S.Image src={Book1PNG} onClick={() => navigate(`/detail/${id}`)} />
             {!isRentPage && (
               <S.ImageWrapper>
-                <S.ImageMangeInfo timeOver={timeOver || false}>
+                <S.ImageMangeInfo timeOver={false}>
+                  {/* <S.ImageMangeInfo timeOver={timeOver}> */}
                   <S.ImageMangeIcon />
-                  <S.ImageMangeInfoText>
-                    {!timeOver ? timeLeftText : timeLeftText + ' 연체중'}
-                  </S.ImageMangeInfoText>
+                  <S.ImageMangeInfoText>1일 12시간 연체중</S.ImageMangeInfoText>
+                  {/* <S.ImageMangeInfoText>{timeOver ? timeLeftText + '연체중' : timeLeftText + '남음' } </S.ImageMangeInfoText>*/}
                 </S.ImageMangeInfo>
               </S.ImageWrapper>
             )}
             <S.TitleContainer>
-              <S.ImageTitle to={`/detail/${i}`}>세이노의 가르침 id:{i}</S.ImageTitle>
+              <S.ImageTitle to={`/detail/${id}`}>
+                {club}, {id}
+              </S.ImageTitle>
               <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
               {isRentPage && (
-                <S.RentMessage canRent={rent || false}>
-                  {rent ? '대여 가능' : '대여 불가'}
+                <S.RentMessage canRent={canRent}>
+                  {canRent ? '대여 가능 ' : '대여 불가'}
                 </S.RentMessage>
               )}
             </S.TitleContainer>
           </S.ImageContainer>
         ))}
       </S.SectionContainer>
-      {isRentPage && (
+      {data?.totalPages !== 0 && (
         <S.PaginationContainer>
-          <S.PaginationIconLeft size="1.5rem" onClick={handlePrevClick} />
-          {[...Array(totalPages).keys()].map((page) => (
-            <S.PaginationItem
-              key={page + 1}
-              onClick={() => handlePageClick(page + 1)}
-              isSelected={currentPage === page + 1}
-            >
-              {page + 1}
-            </S.PaginationItem>
-          ))}
-          <S.PaginationIconRight size="1.5rem" onClick={handleNextClick} />
+          {page > 1 ? (
+            <S.PaginationButton onClick={onPrevPageClick} show={true}>
+              &larr;
+            </S.PaginationButton>
+          ) : (
+            <S.PaginationButton show={false}>&larr;</S.PaginationButton>
+          )}
+          <S.PaginationText>
+            Page {page} of {data?.totalPages}
+          </S.PaginationText>
+          {page !== data?.totalPages ? (
+            <S.PaginationButton onClick={onNextPageClick} show={true}>
+              &rarr;
+            </S.PaginationButton>
+          ) : (
+            <S.PaginationButton show={false}>&rarr;</S.PaginationButton>
+          )}
         </S.PaginationContainer>
       )}
     </>

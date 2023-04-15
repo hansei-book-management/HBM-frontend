@@ -18,7 +18,7 @@ export const TeamList = styled.div`
   margin-bottom: 0.8rem;
 `;
 
-export const TeamLink = styled(Link)<{ isActive: boolean }>`
+export const TeamLink = styled(Link) <{ isActive: boolean }>`
   padding: 0.75rem 1rem;
   border-radius: 1.2rem;
   text-decoration: none;
@@ -29,10 +29,10 @@ export const TeamLink = styled(Link)<{ isActive: boolean }>`
     props.isActive
       ? css`
           color: ${props.theme.primary.white};
-          background-color: ${props.theme.primary.black};
+          background-color: ${props.theme.black};
         `
       : css`
-          color: ${props.theme.primary.black};
+          color: ${props.theme.black};
           background-color: ${props.theme.primary.white};
         `}
 `;
