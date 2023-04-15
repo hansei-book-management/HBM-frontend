@@ -4,6 +4,7 @@ export const colors: DefaultTheme = {
   white: '#fafafa',
   black: '#000000',
   gray: '#767676',
+  imageBorder: '#eaeaea',
 
   background: '#ffffff',
 

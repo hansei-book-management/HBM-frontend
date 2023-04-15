@@ -24,7 +24,7 @@ export const MainSectionContainer = styled.div<{ isSecondary?: boolean }>`
 export const MainSectionImage = styled.img`
   width: 34rem;
   border-radius: 20px;
-  border: 1px solid #eaeaea;
+  border: 1px solid ${({ theme }) => theme.imageBorder};
   @media screen and (max-width: 779px) and (min-width: 500px) {
     width: 40rem;
   }

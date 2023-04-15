@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Book1PNG } from '@/assets';
 import { ClubItem } from '@/constant';
 
+import { RentMessage } from '../RentMessage';
+
 import * as S from './styled';
 
 export interface SectionProps {
@@ -98,11 +100,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
                 세이노의 가르침 id:{id}, {club}
               </S.ImageTitle>
               <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-              {isRentPage && (
-                <S.RentMessage canRent={canRent}>
-                  {canRent ? '대여 가능 ' : '대여 불가'}
-                </S.RentMessage>
-              )}
+              {isRentPage && <RentMessage canRent={canRent} />}
             </S.TitleContainer>
           </S.ImageContainer>
         ))}
