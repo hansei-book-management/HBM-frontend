@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
+import axios from 'axios';
+
 import { Book1PNG } from '@/assets';
 import { ClubItem } from '@/constant';
 
@@ -34,15 +36,13 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const clubName = activeClub?.id;
 
   const getRentApi = async (clubName: string, page: number) => {
-    const res = await fetch(`http://localhost:3000/rent/${clubName}?page=${page}`);
-    const data = await res.json();
-    return data;
+    const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
+    return res.data;
   };
 
   const getManageApi = async (page: number) => {
-    const res = await fetch(`http://localhost:3000/rent/ssr?page=${page}`);
-    const data = await res.json();
-    return data;
+    const res = await axios.get(`http://localhost:3000/rent/ssr?page=${page}`);
+    return res.data;
   };
 
   const { data, isLoading, refetch } = useQuery<BookItem>(['bookList', clubName, page], () => {
