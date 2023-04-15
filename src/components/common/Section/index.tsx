@@ -95,7 +95,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
             )}
             <S.TitleContainer>
               <S.ImageTitle to={`/detail/${id}`}>
-                {club}, {id}
+                세이노의 가르침 id:{id}, {club}
               </S.ImageTitle>
               <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
               {isRentPage && (
