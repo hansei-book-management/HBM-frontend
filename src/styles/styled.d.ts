@@ -13,7 +13,6 @@ declare module 'styled-components' {
       loginButton: string;
     };
     primary: {
-      black: string;
       gray: string;
       blue: string;
       white: string;
