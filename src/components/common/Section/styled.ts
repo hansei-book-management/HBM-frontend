@@ -32,12 +32,17 @@ export const ImageWrapper = styled.div`
 
 export const Image = styled.img`
   width: 16rem;
+  transition: scale 0.15s;
   border: 1px solid #eaeaea;
   @media screen and (max-width: 500px) and (min-width: 300px) {
     width: 12rem;
   }
   @media screen and (max-width: 380px) and (min-width: 300px) {
     width: 9rem;
+  }
+  :hover {
+    scale: 1.03;
+    transition-duration: 0.15;
   }
 `;
 
