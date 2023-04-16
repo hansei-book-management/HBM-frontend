@@ -34,7 +34,7 @@ export interface FormProps {
   phoneNumber: string;
   password: string;
   passwordCheck: string;
-  club: string;
+  role: string;
 }
 
 export const RegisterPage: React.FC = () => {
@@ -52,24 +52,43 @@ export const RegisterPage: React.FC = () => {
   return (
     <S.RegisterWrapper>
       <S.RegisterContainer onSubmit={handleSubmit(onValid)}>
-        {/* <S.RegisterInput placeholder="아이디를 입력하세요..." />
-        <S.RegisterInput placeholder="이름을 입력하세요..." />
-        <S.RegisterInput placeholder="학번을 입력하세요..." />
-        <S.RegisterInput placeholder="전화번호를 입력하세요..." />
-        <S.RegisterInput placeholder="비밀번호를 입력하세요..." />
-        <S.RegisterInput placeholder="비밀번호 확인을 입력하세요..." />
-        <S.RegisterInput placeholder="자신의 역할을 선택해 주세요..." /> */}
-        {INPUT_LIST.map(({ name, text, required, pattern, minValue, maxValue }) => (
-          <S.RegisterInput
-            {...register(`${name}`, {
-              required: required,
-              maxLength: {
-                value: maxValue,
-                message: 'asdf',
-              },
-            })}
-          />
-        ))}
+        {INPUT_LIST.map(
+          ({
+            name,
+            text,
+            required,
+            pattern,
+            minValue,
+            minValueMessage,
+            maxValue,
+            maxValueMessage,
+          }) => (
+            <S.RegisterInput
+              {...register(`${name}`, {
+                required: required,
+                maxLength: {
+                  value: maxValue,
+                  message: maxValueMessage,
+                },
+                minLength: {
+                  value: minValue,
+                  message: minValueMessage,
+                },
+                pattern: pattern,
+              })}
+              placeholder={text}
+            />
+          ),
+        )}
+        <S.RegisterRoleSelect
+          title="foo"
+          {...register('role', {
+            required: `역할 선택은 필수 입니다.`,
+          })}
+        >
+          <option>부원</option>
+          <option>부장</option>
+        </S.RegisterRoleSelect>
         <S.RegisterButton>회원가입</S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
