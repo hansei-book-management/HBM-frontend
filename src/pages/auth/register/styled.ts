@@ -69,3 +69,11 @@ export const RegisterButton = styled.button`
   font-size: 1.2rem;
   font-weight: 600;
 `;
+
+export const RegisterErrorMessage = styled.p`
+  text-align: left;
+  margin-left: 10px;
+  font-size: 13px;
+  margin-top: 5px;
+  color: #ba1a1a;
+`;
