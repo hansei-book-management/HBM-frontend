@@ -99,8 +99,8 @@ export const Navbar: React.FC = () => {
             ))}
           </S.NavbarMenuWrapper>
           <S.UserContainer>
-            <S.UserName>앙기모링님</S.UserName>
-            <S.LoginButton to="/signout">로그아웃</S.LoginButton>
+            {/* <S.UserName>앙기모링님</S.UserName> */}
+            <S.LoginButton to="register">회원가입</S.LoginButton>
           </S.UserContainer>
         </S.NavbarMenuContainer>
       </S.NavBarWrapper>
