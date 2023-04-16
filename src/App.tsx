@@ -4,7 +4,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { RentPage, MainPage, DetailPage, ManagePage } from './pages';
 import { DefaultLayout } from './components';
 import { CLUB_LIST } from './constant';
-import { RegisterPage } from './pages/account';
+import { RegisterPage } from './pages/auth';
 
 export const App: React.FC = () => {
   return (
@@ -26,7 +26,9 @@ export const App: React.FC = () => {
           <Route index element={<DetailPage />} />
           <Route path=":bookId" element={<DetailPage />} />
         </Route>
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth">
+          <Route path="register" element={<RegisterPage />} />
+        </Route>
       </Route>
     </Routes>
   );

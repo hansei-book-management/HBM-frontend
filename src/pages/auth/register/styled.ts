@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const RegisterWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 155px 0;
@@ -16,6 +17,13 @@ export const RegisterContainer = styled.form`
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+  width: 40%;
+`;
+
+export const RegisterBackButton = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
   width: 40%;
 `;
 

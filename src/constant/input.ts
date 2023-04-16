@@ -1,4 +1,4 @@
-import { FormProps } from '@/pages/account';
+import { FormProps } from '@/pages/auth';
 
 export const idPattern = /^[a-zA-Z0-9가-힣]{2,12}$/;
 export const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -18,17 +18,6 @@ export interface InputItem {
 }
 
 export const INPUT_LIST: InputItem[] = [
-  {
-    // name: id from FormProps,
-    name: 'id',
-    text: '아이디를 입력하세요...',
-    required: '아이디는 필수 입니다.',
-    pattern: idPattern,
-    minValue: 2,
-    minValueMessage: '아이디는 2자 이상 입력해야 합니다.',
-    maxValue: 12,
-    maxValueMessage: '아이디는 12자 이하 입력해야 합니다.',
-  },
   {
     name: 'name',
     text: '이름을 입력하세요...',
@@ -58,6 +47,16 @@ export const INPUT_LIST: InputItem[] = [
     minValueMessage: '전화번호는 13자 입니다.',
     maxValue: 13,
     maxValueMessage: '전화번호는 13자 입니다.',
+  },
+  {
+    name: 'id',
+    text: '아이디를 입력하세요...',
+    required: '아이디는 필수 입니다.',
+    pattern: idPattern,
+    minValue: 2,
+    minValueMessage: '아이디는 2자 이상 입력해야 합니다.',
+    maxValue: 12,
+    maxValueMessage: '아이디는 12자 이하 입력해야 합니다.',
   },
   {
     name: 'password',
