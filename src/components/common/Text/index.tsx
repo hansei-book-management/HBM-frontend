@@ -2,12 +2,13 @@ import * as S from './styled';
 
 interface TextCommonProps {
   children?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 export type TextColumnProps = TextCommonProps;
 
-export const TextColumn: React.FC<TextColumnProps> = ({ children }) => {
-  return <S.TextColumnContainer>{children}</S.TextColumnContainer>;
+export const TextColumn: React.FC<TextColumnProps> = ({ children, style }) => {
+  return <S.TextColumnContainer style={style}>{children}</S.TextColumnContainer>;
 };
 
 interface TextProps extends TextCommonProps {

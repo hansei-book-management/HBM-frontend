@@ -8,7 +8,7 @@ import * as S from './styled';
 
 const teamLinkIsActive = (clubId?: string, id?: string) => clubId === id;
 
-export const Rent: React.FC = () => {
+export const RentPage: React.FC = () => {
   const navigate = useNavigate();
   const { clubId } = useParams<{ clubId: string }>();
   const activeClub = CLUB_LIST.find(({ id }) => id === clubId);

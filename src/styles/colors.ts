@@ -4,6 +4,7 @@ export const colors: DefaultTheme = {
   white: '#fafafa',
   black: '#000000',
   gray: '#767676',
+  imageBorder: '#eaeaea',
 
   background: '#ffffff',
 
@@ -20,7 +21,7 @@ export const colors: DefaultTheme = {
     white: '#F7F7F7',
     green: '#4DAC27',
     red: '#AC2727',
-    purple: '#5E63C7',
+    darkBlue: '#5E63C7',
   },
 
   disable: {

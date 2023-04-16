@@ -4,7 +4,7 @@ import { Main1PNG, Main2PNG, Main3PNG } from '@/assets';
 import { FooterSection, MainSection } from '@/components';
 import { useGetWindowSize } from '@/hooks';
 
-export const Main: React.FC = () => {
+export const MainPage: React.FC = () => {
   const { getWidth } = useGetWindowSize();
   return (
     <>

@@ -6,6 +6,7 @@ declare module 'styled-components' {
     black: string;
     background: string;
     gray: string;
+    imageBorder: string;
     navbar: {
       background: string;
       unselected: string;
@@ -18,7 +19,7 @@ declare module 'styled-components' {
       white: string;
       green: string;
       red: string;
-      purple: string;
+      darkBlue: string;
     };
     disable: {
       black: string;

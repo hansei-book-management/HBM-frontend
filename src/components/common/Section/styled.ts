@@ -32,12 +32,17 @@ export const ImageWrapper = styled.div`
 
 export const Image = styled.img`
   width: 16rem;
-  border: 1px solid #eaeaea;
+  transition: scale 0.15s;
+  border: 1px solid ${({ theme }) => theme.imageBorder};
   @media screen and (max-width: 500px) and (min-width: 300px) {
     width: 12rem;
   }
   @media screen and (max-width: 380px) and (min-width: 300px) {
     width: 9rem;
+  }
+  :hover {
+    scale: 1.03;
+    transition-duration: 0.15;
   }
 `;
 
@@ -96,13 +101,6 @@ export const ImageSubTitle = styled.span`
   font-size: 0.8rem;
   font-weight: 400;
   color: ${({ theme }) => theme.black};
-`;
-
-export const RentMessage = styled.span<{ canRent: boolean }>`
-  margin-top: 0.6rem;
-  font-size: 0.9rem;
-  font-weight: 900;
-  color: ${({ theme, canRent }) => (canRent ? theme.primary.green : theme.primary.red)};
 `;
 
 export const PaginationContainer = styled.div`
