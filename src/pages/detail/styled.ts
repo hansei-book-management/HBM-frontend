@@ -6,7 +6,6 @@ import styled from 'styled-components';
 export const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
   row-gap: 2rem;
 `;
 
@@ -14,6 +13,7 @@ export const DetailSection = styled.div`
   display: flex;
   align-items: flex-start;
   column-gap: 3.5rem;
+  height: 100%;
 `;
 
 export const DetailImage = styled.img`
@@ -24,8 +24,8 @@ export const DetailImage = styled.img`
 export const DetailInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  row-gap: 3rem;
+  height: 100%;
+  row-gap: 2rem;
   justify-content: space-between;
 `;
 
@@ -48,9 +48,10 @@ export const BookReviewContainer = styled.div`
   padding: 1rem 1.4rem;
   border-radius: 1.4rem;
   border: 1px solid #dddddd;
+  width: fit-content;
+  column-gap: 1rem;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
 `;
 
 export const IconContainer = styled.div`

@@ -3,7 +3,7 @@ import React from 'react';
 import { Text } from '@/components/common';
 import { useScrollFadeIn } from '@/hooks';
 
-import { Button } from '../Button';
+import { Button } from '../../common/Button';
 
 import * as S from './styled';
 
@@ -26,7 +26,9 @@ export const MainSection: React.FC<MainSectionProps> = ({
       <Text.Column>
         <Text size="small">{smallText}</Text>
         <Text size="large">{largeText}</Text>
-        <div style={{ width: 'fit-content' }}>{largeText === 'HANBOOK' && <Button />}</div>
+        <div style={{ width: 'fit-content' }}>
+          {largeText === 'HANBOOK' && <Button to="/" description="서비스 신청하기" />}
+        </div>
       </Text.Column>
       <S.MainSectionImage src={imageUrl} />
     </S.MainSectionContainer>

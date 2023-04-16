@@ -1,13 +1,11 @@
 import { useParams } from 'react-router-dom';
 
 import { Book1PNG } from '@/assets';
-import { RentMessage, Text } from '@/components';
+import { Button, RentMessage, Text } from '@/components';
 
 import * as S from './styled';
 
 export const DetailPage: React.FC = () => {
-  const { bookId } = useParams();
-
   return (
     <S.DetailContainer>
       <S.DetailSection>
@@ -26,10 +24,9 @@ export const DetailPage: React.FC = () => {
             <S.IconContainer>
               <S.InfoText num={true}>8.2</S.InfoText>
               <div style={{ display: 'flex' }}>
-                <S.ReviewIcon />
-                <S.ReviewIcon />
-                <S.ReviewIcon />
-                <S.ReviewIcon />
+                {[...Array(4)].map((_, i) => (
+                  <S.ReviewIcon key={i} />
+                ))}
               </div>
               <S.ReviewText>(3개의 리뷰)</S.ReviewText>
             </S.IconContainer>
@@ -37,8 +34,12 @@ export const DetailPage: React.FC = () => {
             <S.IconContainer>
               <S.QuoteIcon />
               <S.InfoText num={false}>추천해요</S.InfoText>
+              <S.ReviewText>(32%의 대여자)</S.ReviewText>
             </S.IconContainer>
           </S.BookReviewContainer>
+          <div style={{ width: 'fit-content' }}>
+            <Button to="/" description="대여하기" />
+          </div>
         </S.DetailInfoContainer>
       </S.DetailSection>
     </S.DetailContainer>
