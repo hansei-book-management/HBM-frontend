@@ -3,9 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { Book1PNG } from '@/assets';
 import { ClubItem } from '@/constant';
+import { ModalState } from '@/atoms';
 
 import { RentMessage } from '../RentMessage';
 
@@ -30,6 +33,7 @@ export interface BookItem {
 
 export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const [page, setPage] = useState(1);
+  const [modalActive, setModalActive] = useRecoilState(ModalState);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -74,6 +78,11 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
     }
   };
 
+  const openModal = (id: number) => {
+    setModalActive(true);
+    navigate(`?/id=${id}`);
+  };
+
   useEffect(() => {
     refetch();
   }, [activeClub]);
@@ -84,7 +93,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
         {isLoading && <h1>로딩중...</h1>}
         {data?.books.map(({ id, canRent, club }, i) => (
           <S.ImageContainer key={i}>
-            <S.Image src={Book1PNG} onClick={() => navigate(`/detail/${id}`)} />
+            <S.Image src={Book1PNG} onClick={() => openModal(id)} />
             {!isRentPage && (
               <S.ImageWrapper>
                 <S.ImageMangeInfo timeOver={false}>
@@ -96,7 +105,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
               </S.ImageWrapper>
             )}
             <S.TitleContainer>
-              <S.ImageTitle to={`/detail/${id}`}>
+              <S.ImageTitle onClick={() => openModal(id)}>
                 세이노의 가르침 id:{id}, {club}
               </S.ImageTitle>
               <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>

@@ -87,7 +87,7 @@ export const TitleContainer = styled.div`
   row-gap: 0.4rem;
 `;
 
-export const ImageTitle = styled(Link)`
+export const ImageTitle = styled.span`
   text-decoration: none;
   color: ${({ theme }) => theme.black};
   font-size: 1rem;
