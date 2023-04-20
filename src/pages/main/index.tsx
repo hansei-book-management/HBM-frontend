@@ -1,11 +1,20 @@
 import React from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import { Main1PNG, Main2PNG, Main3PNG } from '@/assets';
 import { FooterSection, MainSection, Modal } from '@/components';
 import { useGetWindowSize } from '@/hooks';
+import { ModalState } from '@/atoms';
 
 export const MainPage: React.FC = () => {
   const { getWidth } = useGetWindowSize();
+  const [modalActive, setModalActive] = useRecoilState(ModalState);
+
+  const openModal = () => {
+    setModalActive(true);
+  };
+
   return (
     <>
       <MainSection
@@ -31,7 +40,8 @@ export const MainPage: React.FC = () => {
         imageUrl={Main3PNG}
       />
       <FooterSection />
-      <Modal />
+      <button onClick={openModal}>open</button>
+      {modalActive && <Modal />}
     </>
   );
 };
