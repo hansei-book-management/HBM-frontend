@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FormProps } from '@/pages/auth';
 
 export const API_SUFFIX = {
-  BASEURL: 'http://localhost:3000',
+  BASEURL: 'http://localhost:3003',
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
 };
