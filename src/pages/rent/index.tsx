@@ -16,8 +16,6 @@ export const RentPage: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
 
-  const modalActive = useRecoilValue(ModalState);
-
   useEffect(() => {
     if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);
@@ -25,19 +23,16 @@ export const RentPage: React.FC = () => {
   }, [activeClub]);
 
   return (
-    <>
-      <S.RentPageContainer>
-        <S.TeamList>
-          {CLUB_LIST.map(({ name, id }) => (
-            <S.TeamLink to={`/rent/${id} `} isActive={teamLinkIsActive(clubId, id)}>
-              {name}
-            </S.TeamLink>
-          ))}
-        </S.TeamList>
-        {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
-        <Section activeClub={activeClub} />
-      </S.RentPageContainer>
-      {modalActive && <Modal />}
-    </>
+    <S.RentPageContainer>
+      <S.TeamList>
+        {CLUB_LIST.map(({ name, id }) => (
+          <S.TeamLink to={`/rent/${id} `} isActive={teamLinkIsActive(clubId, id)}>
+            {name}
+          </S.TeamLink>
+        ))}
+      </S.TeamList>
+      {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
+      <Section activeClub={activeClub} />
+    </S.RentPageContainer>
   );
 };
