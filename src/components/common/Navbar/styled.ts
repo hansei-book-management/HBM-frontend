@@ -7,7 +7,7 @@ import styled, { css } from 'styled-components';
 export const NavBarContainer = styled(motion.nav)`
   width: 100%;
   height: 5rem;
-  z-index: 9998;
+  z-index: 9000;
   position: fixed;
   backdrop-filter: blur(20px);
   @media screen and (min-width: 300px) and (max-width: 630px) {
