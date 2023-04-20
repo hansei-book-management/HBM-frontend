@@ -16,6 +16,7 @@ export const colors: DefaultTheme = {
   },
 
   primary: {
+    black: '#2D2D2D',
     gray: '#595959',
     blue: '#4B9EFF',
     white: '#F7F7F7',

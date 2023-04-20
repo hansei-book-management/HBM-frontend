@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Main1PNG, Main2PNG, Main3PNG } from '@/assets';
-import { FooterSection, MainSection } from '@/components';
+import { FooterSection, MainSection, Modal } from '@/components';
 import { useGetWindowSize } from '@/hooks';
 
 export const MainPage: React.FC = () => {
@@ -31,6 +31,7 @@ export const MainPage: React.FC = () => {
         imageUrl={Main3PNG}
       />
       <FooterSection />
+      <Modal />
     </>
   );
 };
