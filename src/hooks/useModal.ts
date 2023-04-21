@@ -5,13 +5,13 @@ import { ModalState } from '@/atoms';
 export const useModal = () => {
   const [modalActive, setModalActive] = useRecoilState(ModalState);
 
-  const closeModal = () => {
+  const close = () => {
     setModalActive(false);
   };
 
-  const openModal = () => {
+  const open = () => {
     setModalActive(true);
   };
 
-  return { modalActive, closeModal, openModal };
+  return { modalActive, close, open };
 };

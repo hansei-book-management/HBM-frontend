@@ -41,3 +41,27 @@ export const RentPageTitle = styled.h1`
   font-size: 2rem;
   font-weight: 700;
 `;
+
+export const ModalTitle = styled.h1`
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+`;
+
+export const ModalSubTitle = styled.h3`
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+`;
+
+export const ModalInfo = styled.p`
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+`;
+
+export const ModalContent = styled.p`
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3rem;
+`;

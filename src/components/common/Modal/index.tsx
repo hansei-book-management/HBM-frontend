@@ -5,33 +5,44 @@ import { useModal } from '@/hooks/useModal';
 import * as S from './styled';
 
 export interface ModalProps {
+  onNavigate?: () => void;
+  onCloseNavigate?: () => void;
   sectionProps?: React.ReactNode;
+  leftButtonText: string;
+  rightButtonText: string;
 }
 
 export interface ModalOverlayProps {
   children?: React.ReactNode;
 }
 
-export const ModalElement: React.FC<ModalProps> = ({ sectionProps }) => {
+export const ModalElement: React.FC<ModalProps> = ({
+  sectionProps,
+  leftButtonText,
+  rightButtonText,
+  onNavigate,
+  onCloseNavigate,
+}) => {
   const [isClosed, setIsClosed] = useState(false);
-  const { closeModal, openModal } = useModal();
+  const { close } = useModal();
 
   const closing = () => {
+    onCloseNavigate && onCloseNavigate();
     setIsClosed(true);
     setTimeout(() => {
-      closeModal();
+      close();
     }, 200);
   };
 
   return (
-    <S.ModalContainer onClick={openModal} isClosed={isClosed}>
+    <S.ModalContainer isClosed={isClosed}>
       <S.ModalContentContainer>{sectionProps}</S.ModalContentContainer>
       <S.ModalButtonContainer>
         <S.ModalButton left={true} onClick={closing}>
-          아니요
+          {leftButtonText}
         </S.ModalButton>
-        <S.ModalButton left={false} onClick={() => alert('asdf')}>
-          네!
+        <S.ModalButton left={false} onClick={onNavigate}>
+          {rightButtonText}
         </S.ModalButton>
       </S.ModalButtonContainer>
     </S.ModalContainer>
