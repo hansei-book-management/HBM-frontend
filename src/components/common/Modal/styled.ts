@@ -79,6 +79,7 @@ export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
 `;
 
 export const ModalButton = styled.button<{ left: boolean }>`
+  cursor: pointer;
   width: 6.5rem;
   padding: 0.5rem 0.8rem;
   background-color: ${({ theme, left }) => (left ? theme.primary.black : theme.primary.blue)};
@@ -87,10 +88,15 @@ export const ModalButton = styled.button<{ left: boolean }>`
   font-size: 1.1rem;
   font-weight: 700;
   border: none;
+  transition: background-color 150ms ease-in-out;
+  &:hover {
+    background-color: ${({ left }) => (left ? '#212121' : '#3988FF')};
+  }
 `;
 
 export const ModalLastPageButton = styled.button`
   width: 100%;
+  cursor: pointer;
   padding: 0.7rem 0;
   background-color: ${({ theme }) => theme.primary.blue};
   border-radius: 4.8rem;
@@ -98,4 +104,8 @@ export const ModalLastPageButton = styled.button`
   font-size: 1.1rem;
   font-weight: 700;
   border: none;
+  transition: background-color 150ms ease-in-out;
+  &:hover {
+    background-color: #3988ff;
+  }
 `;
