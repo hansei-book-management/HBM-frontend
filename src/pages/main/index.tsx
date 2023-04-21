@@ -6,6 +6,7 @@ import { useGetWindowSize } from '@/hooks';
 
 export const MainPage: React.FC = () => {
   const { getWidth } = useGetWindowSize();
+
   return (
     <>
       <MainSection

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import { RentPage, MainPage, DetailPage, ManagePage } from './pages';
+import { RentPage, MainPage, ManagePage } from './pages';
 import { DefaultLayout } from './components';
 import { CLUB_LIST } from './constant';
 import { RegisterPage } from './pages/auth';
@@ -20,12 +20,10 @@ export const App: React.FC = () => {
         <Route path="/rent">
           <Route index element={<Navigate to={`/rent/${CLUB_LIST[0].id}`} />} />
           <Route path=":clubId" element={<RentPage />} />
+          <Route path=":clubId/book-rent/:bookId" element={<RentPage />} />
+          <Route path=":clubId/detail/:bookId" element={<RentPage />} />
         </Route>
         <Route path="/manage" element={<ManagePage />} />
-        <Route path="/detail">
-          <Route index element={<DetailPage />} />
-          <Route path=":bookId" element={<DetailPage />} />
-        </Route>
         <Route path="/auth">
           <Route path="register" element={<RegisterPage />} />
         </Route>

@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import { Book1PNG } from '@/assets';
 import { ClubItem } from '@/constant';
+import { useModal } from '@/hooks/useModal';
 
 import { RentMessage } from '../RentMessage';
 
@@ -30,6 +31,7 @@ export interface BookItem {
 
 export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const [page, setPage] = useState(1);
+  const { open } = useModal();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -57,12 +59,12 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const onNextPageClick = () => {
     setPage((prev) => prev + 1);
-    console.log(page);
     if (isRentPage) {
       navigate(`/rent/${clubName}?page=${page + 1}`);
     } else {
       navigate(`/manage?page=${page + 1}`);
     }
+    window.scrollTo(0, 0);
   };
 
   const onPrevPageClick = () => {
@@ -72,9 +74,16 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
     } else {
       navigate(`/manage?page=${page - 1}`);
     }
+    window.scrollTo(0, 0);
+  };
+
+  const openModal = (id: number) => {
+    open();
+    navigate(`/rent/${clubName}/detail/${id}`);
   };
 
   useEffect(() => {
+    setPage(1);
     refetch();
   }, [activeClub]);
 
@@ -84,7 +93,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
         {isLoading && <h1>로딩중...</h1>}
         {data?.books.map(({ id, canRent, club }, i) => (
           <S.ImageContainer key={i}>
-            <S.Image src={Book1PNG} onClick={() => navigate(`/detail/${id}`)} />
+            <S.Image src={Book1PNG} onClick={() => openModal(id)} />
             {!isRentPage && (
               <S.ImageWrapper>
                 <S.ImageMangeInfo timeOver={false}>
@@ -96,7 +105,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
               </S.ImageWrapper>
             )}
             <S.TitleContainer>
-              <S.ImageTitle to={`/detail/${id}`}>
+              <S.ImageTitle onClick={() => openModal(id)}>
                 세이노의 가르침 id:{id}, {club}
               </S.ImageTitle>
               <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
@@ -105,7 +114,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
           </S.ImageContainer>
         ))}
       </S.SectionContainer>
-      {data?.totalPages !== 0 && (
+      {!isLoading && data?.totalPages !== 0 && (
         <S.PaginationContainer>
           {page > 1 ? (
             <S.PaginationButton onClick={onPrevPageClick} show={true}>

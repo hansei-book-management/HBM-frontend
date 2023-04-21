@@ -4,3 +4,4 @@ export * from './Section';
 export * from './Text';
 export * from './RentMessage';
 export * from './Button';
+export * from './Modal';
