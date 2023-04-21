@@ -3,6 +3,18 @@ import { HiCheckCircle } from 'react-icons/hi';
 
 import styled, { css, keyframes } from 'styled-components';
 
+export const modalIconShowKeyframes = keyframes`
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+`;
+
 export const modalChanagePageKeyframes = keyframes`
     0% {
         opacity: 0;
@@ -104,7 +116,7 @@ export const ModalSuccessIcon = styled(HiCheckCircle)`
   height: 4rem;
   color: ${({ theme }) => theme.primary.blue};
   background-color: ${({ theme }) => theme.primary.white};
-  animation: 400ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
+  animation: 200ms cubic-bezier(0.33, 1, 0.68, 1) ${modalIconShowKeyframes};
 `;
 
 export const ModalLastContainer = styled.div`
