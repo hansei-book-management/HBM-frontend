@@ -1,7 +1,19 @@
 import { Link } from 'react-router-dom';
 import { HiCheckCircle } from 'react-icons/hi';
 
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+export const modalChanagePageKeyframes = keyframes`
+    0% {
+        opacity: 0;
+        transform: opacity(0.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: opacity(1);
+    }
+`;
 
 export const RentPageContainer = styled.section`
   display: flex;
@@ -87,11 +99,12 @@ export const ModalContent = styled.p`
   line-height: 1.6rem;
 `;
 
-export const ModalSucessIcon = styled(HiCheckCircle)`
+export const ModalSuccessIcon = styled(HiCheckCircle)`
   width: 4rem;
   height: 4rem;
   color: ${({ theme }) => theme.primary.blue};
   background-color: ${({ theme }) => theme.primary.white};
+  animation: 400ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
 `;
 
 export const ModalLastContainer = styled.div`
@@ -102,4 +115,19 @@ export const ModalLastContainer = styled.div`
   > * {
     line-height: 2rem;
   }
+`;
+
+export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  gap: 1.4rem;
+  animation: 600ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
+  ${({ lastPage }) =>
+    lastPage &&
+    css`
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 1.5rem;
+    `};
 `;

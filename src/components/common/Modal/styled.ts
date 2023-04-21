@@ -63,7 +63,7 @@ export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
       align-items: center;
       justify-content: center;
       padding-bottom: 1.5rem;
-    `}
+    `};
 `;
 
 export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
@@ -73,7 +73,7 @@ export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 1.6rem;
+  gap: 1rem;
   padding: ${({ lastPage }) => (lastPage ? '0' : '1rem 0')};
   width: 100%;
   z-index: 9999;
@@ -82,11 +82,11 @@ export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
 
 export const ModalButton = styled.button<{ left: boolean }>`
   width: 6.5rem;
-  height: 2.2rem;
+  padding: 0.5rem 0.8rem;
   background-color: ${({ theme, left }) => (left ? theme.primary.black : theme.primary.blue)};
   border-radius: 4.8rem;
   color: ${({ theme }) => theme.white};
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   border: none;
 `;

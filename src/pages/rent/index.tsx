@@ -108,14 +108,14 @@ export const RentPage: React.FC = () => {
           <Modal.OverLay>
             <Modal
               textProps={
-                <>
+                <S.ModalContentContainer lastPage={false}>
                   <S.ModalTitle>대여 진행</S.ModalTitle>
                   <S.ModalSubTitle>
                     정말로 ‘당신이 모르는 민주주의’ 책을 대출할까요?
                     <br />
                     대출이 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
                   </S.ModalSubTitle>
-                </>
+                </S.ModalContentContainer>
               }
               leftButtonText="아니요"
               rightButtonText="네!"
@@ -128,8 +128,8 @@ export const RentPage: React.FC = () => {
           <Modal.OverLay>
             <Modal
               textProps={
-                <>
-                  <S.ModalSucessIcon />
+                <S.ModalContentContainer lastPage={true}>
+                  <S.ModalSuccessIcon />
                   <S.ModalTitle>대출 성공</S.ModalTitle>
                   <S.ModalLastContainer>
                     <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대출했어요.</S.ModalSubTitle>
@@ -138,7 +138,7 @@ export const RentPage: React.FC = () => {
                     </S.ModalSubTitle>
                     <S.ModalSubTitle>1차 반납 기간은 2023년 X월 X일까지에요.</S.ModalSubTitle>
                   </S.ModalLastContainer>
-                </>
+                </S.ModalContentContainer>
               }
               leftButtonText="확인했어요"
               rightButtonText="확인했어요"
