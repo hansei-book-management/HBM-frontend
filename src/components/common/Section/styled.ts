@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { BiStopwatch } from 'react-icons/bi';
 
 import styled from 'styled-components';

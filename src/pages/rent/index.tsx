@@ -1,11 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
-
 import { CLUB_LIST } from '@/constant';
 import { Modal, Section } from '@/components';
-import { ModalState } from '@/atoms';
 import { useModal } from '@/hooks/useModal';
 
 import * as S from './styled';
@@ -18,6 +15,10 @@ export const RentPage: React.FC = () => {
   const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
 
   const { modalActive } = useModal();
+
+  const isDetailPage = location.pathname.includes(`/rent/${clubId}/detail`);
+
+  const isRentPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
 
   const onNavigate = (id: number) => {
     navigate(`/rent/${clubId}/book-rent/${id}`);
@@ -44,7 +45,7 @@ export const RentPage: React.FC = () => {
       </S.TeamList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section activeClub={activeClub} />
-      {modalActive && (
+      {(modalActive && isDetailPage && (
         <Modal.OverLay>
           <Modal
             sectionProps={
@@ -82,7 +83,25 @@ export const RentPage: React.FC = () => {
             onCloseNavigate={() => onCloseNavigate()}
           />
         </Modal.OverLay>
-      )}
+      )) ||
+        (modalActive && isRentPage && (
+          <Modal.OverLay>
+            <Modal
+              sectionProps={
+                <>
+                  <S.ModalTitle>대여 진행</S.ModalTitle>
+                  <S.ModalSubTitle>
+                    정말로 ‘당신이 모르는 민주주의’ 책을 대출할까요?
+                    <br />
+                    대출이 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
+                  </S.ModalSubTitle>
+                </>
+              }
+              leftButtonText="아니요"
+              rightButtonText="네!"
+            />
+          </Modal.OverLay>
+        ))}
     </S.RentPageContainer>
   );
 };

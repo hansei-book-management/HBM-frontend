@@ -9,7 +9,6 @@ import { ClubItem } from '@/constant';
 import { useModal } from '@/hooks/useModal';
 
 import { RentMessage } from '../RentMessage';
-import { Modal } from '../Modal';
 
 import * as S from './styled';
 
@@ -32,7 +31,7 @@ export interface BookItem {
 
 export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const [page, setPage] = useState(1);
-  const { modalActive, open } = useModal();
+  const { open } = useModal();
 
   const location = useLocation();
   const navigate = useNavigate();
