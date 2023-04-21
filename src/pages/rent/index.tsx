@@ -1,9 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import { CLUB_LIST } from '@/constant';
-import { Modal, Section } from '@/components';
+import { Modal, RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
+import { StatusState } from '@/atoms';
+import { Book1PNG } from '@/assets';
 
 import * as S from './styled';
 
@@ -17,11 +21,13 @@ export const RentPage: React.FC = () => {
   const { modalActive } = useModal();
 
   const isDetailPage = location.pathname.includes(`/rent/${clubId}/detail`);
-
   const isRentPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
 
-  const onNavigate = (id: number) => {
+  const [status, setStatus] = useRecoilState(StatusState);
+
+  const onRentNavigate = (id: number) => {
     navigate(`/rent/${clubId}/book-rent/${id}`);
+    setStatus(true);
   };
 
   const onCloseNavigate = () => {
@@ -31,8 +37,10 @@ export const RentPage: React.FC = () => {
   useEffect(() => {
     if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);
+    } else if (!modalActive) {
+      navigate(`/rent/${clubId}`);
     }
-  }, [activeClub]);
+  }, [activeClub, modalActive]);
 
   return (
     <S.RentPageContainer>
@@ -50,19 +58,27 @@ export const RentPage: React.FC = () => {
           <Modal
             sectionProps={
               <>
-                <S.ModalTitle>세노이의 가르침</S.ModalTitle>
-                <S.ModalInfo>
-                  세이노 저자(글)
-                  <br />
-                  데이원 · 2023년 03월 02일
-                </S.ModalInfo>
-                <S.ModalSubTitle>
-                  ㆍ 머릿글: 초판 한정 블랙 에디션
-                  <br />
-                  재야의 명저 《세이노의 가르침》 2023년판 정식 출간!
-                  <br />
-                  순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
-                </S.ModalSubTitle>
+                <div style={{ display: 'flex' }}>
+                  <S.ModalImage src={Book1PNG} />
+                  <S.ModalInfoContainer>
+                    <RentMessage canRent={true} />
+                    <S.ModalTitle>세노이의 가르침</S.ModalTitle>
+                    <S.ModalInfo>
+                      세이노 저자(글)
+                      <br />
+                      데이원 · 2023년 03월 02일
+                    </S.ModalInfo>
+                    <S.ModalSubTitle>
+                      ㆍ 머릿글: 초판 한정 블랙 에디션
+                      <br />
+                      <br />
+                      재야의 명저 《세이노의 가르침》 2023년판 정식 출간!
+                      <br />
+                      <br />
+                      순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
+                    </S.ModalSubTitle>
+                  </S.ModalInfoContainer>
+                </div>
                 <S.ModalContent>
                   2000년부터 발표된 그의 주옥같은 글들. 독자들이 자발적으로 만든 제본서는 물론,
                   전자책과 앱까지 나왔던 《세이노의 가르침》이 드디어 전국 서점에서 독자들을
@@ -79,12 +95,12 @@ export const RentPage: React.FC = () => {
             }
             leftButtonText="취소"
             rightButtonText="대여하기"
-            onNavigate={() => onNavigate(1)}
+            onNavigate={() => onRentNavigate(1)}
             onCloseNavigate={() => onCloseNavigate()}
           />
         </Modal.OverLay>
       )) ||
-        (modalActive && isRentPage && (
+        (modalActive && isRentPage && !status && (
           <Modal.OverLay>
             <Modal
               sectionProps={
@@ -99,6 +115,27 @@ export const RentPage: React.FC = () => {
               }
               leftButtonText="아니요"
               rightButtonText="네!"
+              onNavigate={() => onRentNavigate(1)}
+              onCloseNavigate={() => onCloseNavigate()}
+            />
+          </Modal.OverLay>
+        )) ||
+        (modalActive && isRentPage && status && (
+          <Modal.OverLay>
+            <Modal
+              sectionProps={
+                <>
+                  <S.ModalTitle>대출 성공</S.ModalTitle>
+                  <S.ModalSubTitle>
+                    앙기모링
+                    <br />
+                    대출이 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
+                  </S.ModalSubTitle>
+                </>
+              }
+              leftButtonText="확인했어요"
+              rightButtonText="확인했어요"
+              onCloseNavigate={() => onCloseNavigate()}
             />
           </Modal.OverLay>
         ))}

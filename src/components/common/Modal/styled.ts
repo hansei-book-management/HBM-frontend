@@ -40,8 +40,8 @@ export const ModalOverlay = styled.div`
 
 export const ModalContainer = styled.div<{ isClosed: boolean }>`
   z-index: 9903;
-  width: 40rem;
-  max-height: 40rem;
+  width: 50rem;
+  max-height: 34rem;
   padding: 2rem;
   background-color: ${({ theme }) => theme.white};
   backdrop-filter: blur(1.2rem);

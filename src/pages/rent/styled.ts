@@ -48,10 +48,25 @@ export const ModalTitle = styled.h1`
   margin-bottom: 1.1rem;
 `;
 
+export const ModalImage = styled.img`
+  width: 16rem;
+  border: 1px solid ${({ theme }) => theme.imageBorder};
+`;
+
+export const ModalInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.6rem;
+  padding-bottom: 2rem;
+  margin-left: 40px;
+`;
+
 export const ModalSubTitle = styled.h3`
   font-size: 1.2rem;
   font-weight: 600;
-  line-height: 2.4rem;
+  line-height: 1.6rem;
 `;
 
 export const ModalInfo = styled.p`

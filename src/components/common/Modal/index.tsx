@@ -9,7 +9,7 @@ export interface ModalProps {
   onCloseNavigate?: () => void;
   sectionProps?: React.ReactNode;
   leftButtonText: string;
-  rightButtonText: string;
+  rightButtonText: React.ReactNode;
 }
 
 export interface ModalOverlayProps {
