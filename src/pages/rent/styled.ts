@@ -45,7 +45,6 @@ export const RentPageTitle = styled.h1`
 export const ModalTitle = styled.h1`
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 1.1rem;
 `;
 
 export const ModalImage = styled.img`
@@ -58,25 +57,31 @@ export const ModalInfoContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 1.6rem;
-  padding-bottom: 2rem;
+  row-gap: 0.5rem;
   margin-left: 40px;
 `;
 
 export const ModalSubTitle = styled.h3`
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 550;
+  line-height: 2.2rem;
 `;
 
 export const ModalInfo = styled.p`
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6rem;
+  margin: 1rem 0;
+`;
+
+export const ModalContentTitle = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 550;
+  margin-top: 1rem;
 `;
 
 export const ModalContent = styled.p`
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.3rem;
+  line-height: 1.6rem;
 `;

@@ -25,6 +25,10 @@ export const RentPage: React.FC = () => {
 
   const [status, setStatus] = useRecoilState(StatusState);
 
+  const onNextNavigate = (id: number) => {
+    navigate(`/rent/${clubId}/book-rent/${id}`);
+  };
+
   const onRentNavigate = (id: number) => {
     navigate(`/rent/${clubId}/book-rent/${id}`);
     setStatus(true);
@@ -69,16 +73,15 @@ export const RentPage: React.FC = () => {
                       데이원 · 2023년 03월 02일
                     </S.ModalInfo>
                     <S.ModalSubTitle>
-                      ㆍ 머릿글: 초판 한정 블랙 에디션
-                      <br />
+                      머릿글: 초판 한정 블랙 에디션
                       <br />
                       재야의 명저 《세이노의 가르침》 2023년판 정식 출간!
-                      <br />
                       <br />
                       순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
                     </S.ModalSubTitle>
                   </S.ModalInfoContainer>
                 </div>
+                <S.ModalContentTitle>책 소개</S.ModalContentTitle>
                 <S.ModalContent>
                   2000년부터 발표된 그의 주옥같은 글들. 독자들이 자발적으로 만든 제본서는 물론,
                   전자책과 앱까지 나왔던 《세이노의 가르침》이 드디어 전국 서점에서 독자들을
@@ -95,7 +98,7 @@ export const RentPage: React.FC = () => {
             }
             leftButtonText="취소"
             rightButtonText="대여하기"
-            onNavigate={() => onRentNavigate(1)}
+            onNavigate={() => onNextNavigate(1)}
             onCloseNavigate={() => onCloseNavigate()}
           />
         </Modal.OverLay>

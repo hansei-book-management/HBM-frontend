@@ -40,7 +40,7 @@ export const ModalOverlay = styled.div`
 export const ModalContainer = styled.div<{ isClosed: boolean }>`
   z-index: 9903;
   width: 50rem;
-  max-height: 34rem;
+  max-height: 38rem;
   padding: 2rem;
   padding-bottom: 0;
   background-color: ${({ theme }) => theme.white};
@@ -79,7 +79,7 @@ export const ModalButton = styled.button<{ left: boolean }>`
   width: 6.5rem;
   height: 2.2rem;
   background-color: ${({ theme, left }) => (left ? theme.primary.black : theme.primary.blue)};
-  border-radius: 0.8rem;
+  border-radius: 4.8rem;
   color: ${({ theme }) => theme.white};
   font-size: 1rem;
   font-weight: 700;

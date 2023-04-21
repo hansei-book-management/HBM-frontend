@@ -59,12 +59,12 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const onNextPageClick = () => {
     setPage((prev) => prev + 1);
-    console.log(page);
     if (isRentPage) {
       navigate(`/rent/${clubName}?page=${page + 1}`);
     } else {
       navigate(`/manage?page=${page + 1}`);
     }
+    window.scrollTo(0, 0);
   };
 
   const onPrevPageClick = () => {
@@ -74,6 +74,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
     } else {
       navigate(`/manage?page=${page - 1}`);
     }
+    window.scrollTo(0, 0);
   };
 
   const openModal = (id: number) => {
@@ -82,6 +83,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   };
 
   useEffect(() => {
+    setPage(1);
     refetch();
   }, [activeClub]);
 
