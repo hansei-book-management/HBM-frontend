@@ -67,10 +67,10 @@
       }
     ],
     "react/jsx-no-target-blank": "error",
-    "react/jsx-no-useless-fragment": "warn",
+    "react/jsx-no-useless-fragment": "off",
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
   },
   "overrides": [
     {

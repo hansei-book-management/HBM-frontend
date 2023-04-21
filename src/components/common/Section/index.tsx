@@ -9,6 +9,7 @@ import { ClubItem } from '@/constant';
 import { useModal } from '@/hooks/useModal';
 
 import { RentMessage } from '../RentMessage';
+import { Skeleton } from '../Skeleton';
 
 import * as S from './styled';
 
@@ -89,51 +90,56 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   return (
     <>
-      <S.SectionContainer>
-        {isLoading && <h1>로딩중...</h1>}
-        {data?.books.map(({ id, canRent, club }, i) => (
-          <S.ImageContainer key={i}>
-            <S.Image src={Book1PNG} onClick={() => openModal(id)} />
-            {!isRentPage && (
-              <S.ImageWrapper>
-                <S.ImageMangeInfo timeOver={false}>
-                  {/* <S.ImageMangeInfo timeOver={timeOver}> */}
-                  <S.ImageMangeIcon />
-                  <S.ImageMangeInfoText>1일 12시간 연체중</S.ImageMangeInfoText>
-                  {/* <S.ImageMangeInfoText>{timeOver ? timeLeftText + '연체중' : timeLeftText + '남음' } </S.ImageMangeInfoText>*/}
-                </S.ImageMangeInfo>
-              </S.ImageWrapper>
-            )}
-            <S.TitleContainer>
-              <S.ImageTitle onClick={() => openModal(id)}>
-                세이노의 가르침 id:{id}, {club}
-              </S.ImageTitle>
-              <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-              {isRentPage && <RentMessage canRent={canRent} />}
-            </S.TitleContainer>
-          </S.ImageContainer>
-        ))}
-      </S.SectionContainer>
-      {!isLoading && data?.totalPages !== 0 && (
-        <S.PaginationContainer>
-          {page > 1 ? (
-            <S.PaginationButton onClick={onPrevPageClick} show={true}>
-              &larr;
-            </S.PaginationButton>
-          ) : (
-            <S.PaginationButton show={false}>&larr;</S.PaginationButton>
+      {isLoading ? (
+        <Skeleton isRentPage={isRentPage} />
+      ) : (
+        <>
+          <S.SectionContainer>
+            {data?.books.map(({ id, canRent, club }, i) => (
+              <S.ImageContainer key={i}>
+                <S.Image src={Book1PNG} onClick={() => openModal(id)} />
+                {!isRentPage && (
+                  <S.ImageWrapper>
+                    <S.ImageMangeInfo timeOver={false}>
+                      {/* <S.ImageMangeInfo timeOver={timeOver}> */}
+                      <S.ImageMangeIcon />
+                      <S.ImageMangeInfoText>1일 12시간 연체중</S.ImageMangeInfoText>
+                      {/* <S.ImageMangeInfoText>{timeOver ? timeLeftText + '연체중' : timeLeftText + '남음' } </S.ImageMangeInfoText>*/}
+                    </S.ImageMangeInfo>
+                  </S.ImageWrapper>
+                )}
+                <S.TitleContainer>
+                  <S.ImageTitle onClick={() => openModal(id)}>
+                    세이노의 가르침 id:{id}, {club}
+                  </S.ImageTitle>
+                  <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
+                  {isRentPage && <RentMessage canRent={canRent} />}
+                </S.TitleContainer>
+              </S.ImageContainer>
+            ))}
+          </S.SectionContainer>
+          {!isLoading && data?.totalPages !== 0 && (
+            <S.PaginationContainer>
+              {page > 1 ? (
+                <S.PaginationButton onClick={onPrevPageClick} show={true}>
+                  &larr;
+                </S.PaginationButton>
+              ) : (
+                <S.PaginationButton show={false}>&larr;</S.PaginationButton>
+              )}
+              <S.PaginationText>
+                Page {page} of {data?.totalPages}
+              </S.PaginationText>
+              {page !== data?.totalPages ? (
+                <S.PaginationButton onClick={onNextPageClick} show={true}>
+                  &rarr;
+                </S.PaginationButton>
+              ) : (
+                <S.PaginationButton show={false}>&rarr;</S.PaginationButton>
+              )}
+            </S.PaginationContainer>
           )}
-          <S.PaginationText>
-            Page {page} of {data?.totalPages}
-          </S.PaginationText>
-          {page !== data?.totalPages ? (
-            <S.PaginationButton onClick={onNextPageClick} show={true}>
-              &rarr;
-            </S.PaginationButton>
-          ) : (
-            <S.PaginationButton show={false}>&rarr;</S.PaginationButton>
-          )}
-        </S.PaginationContainer>
+        </>
       )}
     </>
   );

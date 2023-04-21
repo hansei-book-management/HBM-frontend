@@ -7,6 +7,7 @@ declare module 'styled-components' {
     background: string;
     gray: string;
     imageBorder: string;
+    skeleton: string;
     navbar: {
       background: string;
       unselected: string;

@@ -7,6 +7,7 @@ export const colors: DefaultTheme = {
   imageBorder: '#eaeaea',
 
   background: '#ffffff',
+  skeleton: '#dddddd',
 
   navbar: {
     background: '#E9E9E9',
