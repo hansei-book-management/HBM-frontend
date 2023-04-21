@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+export const skeletonKeyframe = keyframes`
+   0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translate(100%);
+    }
+`;
 
 export const SkeletonContainer = styled.section`
   display: grid;
@@ -15,6 +24,7 @@ export const SkeletonContainer = styled.section`
 `;
 
 export const SkeletonImageContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
 `;
@@ -25,13 +35,16 @@ export const SkeletonImageWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  overflow: hidden;
 `;
 
 export const SkeletonImage = styled.div`
+  position: relative;
   width: 16rem;
   height: 24rem;
-  background-color: ${({ theme }) => theme.skeleton};
+  overflow: hidden;
   border: 1px solid ${({ theme }) => theme.imageBorder};
+  background-color: ${({ theme }) => theme.skeleton};
   @media screen and (max-width: 500px) and (min-width: 300px) {
     width: 12rem;
     height: 18rem;
@@ -39,6 +52,16 @@ export const SkeletonImage = styled.div`
   @media screen and (max-width: 380px) and (min-width: 300px) {
     width: 9rem;
     height: 14rem;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: 0.8s infinite ${skeletonKeyframe};
   }
 `;
 
@@ -54,12 +77,32 @@ export const SkeletonImageTitle = styled.span`
   background-color: ${({ theme }) => theme.skeleton};
   width: 70%;
   height: 1.2rem;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: 0.8s infinite ${skeletonKeyframe};
+  }
 `;
 
 export const SkeletonImageSubTitle = styled.span`
   background-color: ${({ theme }) => theme.skeleton};
   width: 50%;
   height: 1rem;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: 0.8s infinite ${skeletonKeyframe};
+  }
 `;
 
 export const SkeletonImageMessage = styled.span`
@@ -67,4 +110,14 @@ export const SkeletonImageMessage = styled.span`
   background-color: ${({ theme }) => theme.skeleton};
   width: 20%;
   height: 1rem;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: 0.8s infinite ${skeletonKeyframe};
+  }
 `;

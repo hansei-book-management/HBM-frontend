@@ -5,7 +5,7 @@ import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import { CLUB_LIST, checkLottieOptions, loadingLottieOptions } from '@/constant';
-import { Modal, RentMessage, Section, Skeleton } from '@/components';
+import { Modal, RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { Book1PNG } from '@/assets';
@@ -173,7 +173,6 @@ export const RentPage: React.FC = () => {
             />
           </Modal.OverLay>
         ))}
-      <Skeleton isRentPage={true} />
     </S.RentPageContainer>
   );
 };
