@@ -4,13 +4,12 @@ import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { CLUB_LIST } from '@/constant';
+import { CLUB_LIST, checkLottieOptions, loadingLottieOptions } from '@/constant';
 import { Modal, RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { Book1PNG } from '@/assets';
 import { useGetWindowSize } from '@/hooks';
-import { CheckLottie, LoadingLottie } from '@/lotties';
 
 import * as S from './styled';
 
@@ -57,25 +56,6 @@ export const RentPage: React.FC = () => {
       navigate(`/rent/${clubId}`);
     }
   }, [activeClub, modalActive]);
-
-  const checkLottieOptions = {
-    loop: false,
-    autoplay: true,
-    animationData: CheckLottie,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-      progressiveLoad: true,
-    },
-  };
-
-  const loadingLottieOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: LoadingLottie,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
 
   return (
     <S.RentPageContainer>
