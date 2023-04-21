@@ -9,7 +9,7 @@ interface SkeletonProps {
 export const Skeleton: React.FC<SkeletonProps> = ({ isRentPage }) => {
   return (
     <S.SkeletonContainer>
-      {[...Array(20)].map((_, index) => (
+      {[...Array(isRentPage ? 20 : 8)].map((_, index) => (
         <S.SkeletonImageContainer key={index}>
           <S.SkeletonImage />
           <S.SkeletonImageInfoContainer>
