@@ -63,7 +63,7 @@ export const RentPage: React.FC = () => {
           <Modal
             textProps={
               <>
-                <div style={{ display: 'flex' }}>
+                <S.ModalContentContainer firstPage={true}>
                   <S.ModalImage src={Book1PNG} />
                   <S.ModalInfoContainer>
                     <RentMessage canRent={true} />
@@ -81,7 +81,7 @@ export const RentPage: React.FC = () => {
                       순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
                     </S.ModalSubTitle>
                   </S.ModalInfoContainer>
-                </div>
+                </S.ModalContentContainer>
                 <S.ModalContentTitle>책 소개</S.ModalContentTitle>
                 <S.ModalContent>
                   2000년부터 발표된 그의 주옥같은 글들. 독자들이 자발적으로 만든 제본서는 물론,
@@ -108,7 +108,7 @@ export const RentPage: React.FC = () => {
           <Modal.OverLay>
             <Modal
               textProps={
-                <S.ModalContentContainer lastPage={false}>
+                <S.ModalContentContainer>
                   <S.ModalTitle>대여 진행</S.ModalTitle>
                   <S.ModalSubTitle>
                     정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?

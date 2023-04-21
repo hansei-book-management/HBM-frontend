@@ -75,6 +75,9 @@ export const ModalTitle = styled.h1`
 export const ModalImage = styled.img`
   width: 16rem;
   border: 1px solid ${({ theme }) => theme.imageBorder};
+  @media screen and (min-width: 300px) and (max-width: 630px) {
+    width: 14rem;
+  }
 `;
 
 export const ModalInfoContainer = styled.div`
@@ -129,17 +132,25 @@ export const ModalLastContainer = styled.div`
   }
 `;
 
-export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
+export const ModalContentContainer = styled.div<{ firstPage?: boolean; lastPage?: boolean }>`
   display: flex;
   flex-direction: column;
   padding-bottom: 1rem;
   gap: 1.4rem;
   animation: 600ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
-  ${({ lastPage }) =>
-    lastPage &&
-    css`
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 1.5rem;
-    `};
+  ${({ lastPage, firstPage }) =>
+    (lastPage &&
+      css`
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 1.5rem;
+      `) ||
+    (firstPage &&
+      css`
+        flex-direction: row;
+        @media screen and(min-width: 300px) and(max-width: 630px) {
+          flex-direction: column;
+          border: 1px solid blue;
+        }
+      `)};
 `;

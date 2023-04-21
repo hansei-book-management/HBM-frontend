@@ -50,6 +50,7 @@ export const ModalContainer = styled.div<{ isClosed: boolean; lastPage: boolean 
   animation: 200ms cubic-bezier(0.33, 1, 0.68, 1)
     ${({ isClosed }) => (isClosed ? modalCloseKeyframe : modalOpenKeyframe)};
   overflow: scroll;
+  border: 1px solid red;
 `;
 
 export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
