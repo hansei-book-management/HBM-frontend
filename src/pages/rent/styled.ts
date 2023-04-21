@@ -39,7 +39,7 @@ export const TeamList = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  column-gap: 2rem;
+  gap: 1.4rem;
   margin-bottom: 0.8rem;
 `;
 

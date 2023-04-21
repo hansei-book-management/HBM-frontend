@@ -31,7 +31,7 @@ export const NavBarWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     height: fit-content;
-    row-gap: 3.4rem;
+    row-gap: 2rem;
     padding: 0;
   }
 `;
@@ -68,6 +68,7 @@ export const NavbarMenuWrapper = styled.div`
   @media screen and (min-width: 300px) and (max-width: 630px) {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     row-gap: 18px;
   }
 `;
@@ -113,11 +114,12 @@ export const LoginButton = styled(Link)`
   background-color: ${({ theme }) => theme.primary.white};
   border-radius: 1.4rem;
   border: none;
-  padding: 12px 18px;
+  padding: 0.8rem 1.1rem;
   font-size: 16px;
   font-weight: 600;
   align-self: center;
   text-decoration: none;
+  margin-top: 10px;
 `;
 
 export const TogIcon = styled(MdDehaze)`

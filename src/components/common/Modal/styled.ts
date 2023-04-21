@@ -40,7 +40,7 @@ export const ModalOverlay = styled.div`
 export const ModalContainer = styled.div<{ isClosed: boolean; lastPage: boolean }>`
   z-index: 9903;
   width: ${({ lastPage }) => (lastPage ? '30rem' : '50rem')};
-  max-height: 38rem;
+  max-height: 40rem;
   padding: 2rem;
   padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};
   background-color: ${({ theme }) => theme.white};

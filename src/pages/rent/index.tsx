@@ -111,9 +111,9 @@ export const RentPage: React.FC = () => {
                 <S.ModalContentContainer lastPage={false}>
                   <S.ModalTitle>대여 진행</S.ModalTitle>
                   <S.ModalSubTitle>
-                    정말로 ‘당신이 모르는 민주주의’ 책을 대출할까요?
+                    정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?
                     <br />
-                    대출이 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
+                    대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
                   </S.ModalSubTitle>
                 </S.ModalContentContainer>
               }
@@ -132,7 +132,7 @@ export const RentPage: React.FC = () => {
                   <S.ModalSuccessIcon />
                   <S.ModalTitle>대출 성공</S.ModalTitle>
                   <S.ModalLastContainer>
-                    <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대출했어요.</S.ModalSubTitle>
+                    <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대여했어요.</S.ModalSubTitle>
                     <S.ModalSubTitle>
                       대출 기한은 10일이며, 연장 신청을 할 수 있어요.
                     </S.ModalSubTitle>
