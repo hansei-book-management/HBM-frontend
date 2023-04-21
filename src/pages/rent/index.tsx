@@ -42,6 +42,7 @@ export const RentPage: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     status && setStatus(false);
     if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);

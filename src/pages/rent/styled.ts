@@ -159,9 +159,6 @@ export const ModalContentContainer = styled.div`
   padding-bottom: 1rem;
   gap: 1.4rem;
   animation: 800ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
-  @media screen and (min-width: 300px) and (max-width: 580px) {
-    flex-direction: column;
-  }
 `;
 
 export const ModalLastContentContainer = styled(ModalContentContainer)`
@@ -174,4 +171,7 @@ export const ModalLastContentContainer = styled(ModalContentContainer)`
 export const ModalFirstContentContainer = styled(ModalContentContainer)`
   flex-direction: row;
   animation: none;
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    flex-direction: column;
+  }
 `;

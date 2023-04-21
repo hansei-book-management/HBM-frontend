@@ -11,8 +11,9 @@ export const NavBarContainer = styled(motion.nav)`
   position: fixed;
   backdrop-filter: blur(20px);
   @media screen and (min-width: 300px) and (max-width: 630px) {
+    backdrop-filter: blur(30px);
     height: fit-content;
-    padding: 1.8rem 1.5rem;
+    padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
   }
