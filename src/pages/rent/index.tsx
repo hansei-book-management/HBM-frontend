@@ -10,7 +10,7 @@ import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { Book1PNG } from '@/assets';
 import { useGetWindowSize } from '@/hooks';
-import { CheckLottie } from '@/lotties';
+import { CheckLottie, LoadingLottie } from '@/lotties';
 
 import * as S from './styled';
 
@@ -37,8 +37,11 @@ export const RentPage: React.FC = () => {
 
   const onRentNavigate = (id: number) => {
     navigate(`/rent/${clubId}/book-rent/${id}`);
-    setStatus(true);
-    // setLoading(true);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setStatus(true);
+    }, 1000);
   };
 
   const onCloseNavigate = () => {
@@ -55,10 +58,20 @@ export const RentPage: React.FC = () => {
     }
   }, [activeClub, modalActive]);
 
-  const defaultOptions = {
+  const checkLottieOptions = {
     loop: false,
     autoplay: true,
     animationData: CheckLottie,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+      progressiveLoad: true,
+    },
+  };
+
+  const loadingLottieOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingLottie,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
@@ -143,9 +156,17 @@ export const RentPage: React.FC = () => {
               }
               disable={loading}
               leftButtonText="아니요"
-              rightButtonText={loading ? '대여중...' : '네!'}
-              onNavigate={() => onRentNavigate(1)}
-              onCloseNavigate={() => onCloseNavigate()}
+              rightButtonText={
+                loading ? (
+                  <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+                ) : (
+                  '네!'
+                )
+              }
+              {...(!loading && {
+                onNavigate: () => onRentNavigate(2),
+                onCloseNavigate: () => onCloseNavigate(),
+              })}
             />
           </Modal.OverLay>
         )) ||
@@ -154,8 +175,7 @@ export const RentPage: React.FC = () => {
             <Modal
               textProps={
                 <S.ModalLastContentContainer>
-                  {/* <S.ModalSuccessIcon /> */}
-                  <Lottie options={defaultOptions} height={'8rem'} width={'8rem'} />
+                  <Lottie options={checkLottieOptions} height={'8rem'} width={'8rem'} />
                   <S.ModalTitle>대출 성공</S.ModalTitle>
                   <S.ModalLastContainer>
                     <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대여했어요.</S.ModalSubTitle>

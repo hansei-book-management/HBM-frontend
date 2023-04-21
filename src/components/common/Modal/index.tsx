@@ -31,11 +31,13 @@ export const ModalElement: React.FC<ModalProps> = ({
   const { close } = useModal();
 
   const closing = () => {
-    setIsClosed(true);
-    setTimeout(() => {
-      close();
-      onCloseNavigate && onCloseNavigate();
-    }, 200);
+    if (!disable) {
+      setIsClosed(true);
+      setTimeout(() => {
+        close();
+        onCloseNavigate && onCloseNavigate();
+      }, 200);
+    }
   };
 
   return (
