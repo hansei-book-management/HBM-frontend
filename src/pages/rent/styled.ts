@@ -70,13 +70,30 @@ export const RentPageTitle = styled.h1`
 export const ModalTitle = styled.h1`
   font-size: 2.2rem;
   font-weight: 700;
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    display: none;
+  }
+`;
+
+export const MobileModalTitle = styled.h1`
+  display: none;
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
 `;
 
 export const ModalImage = styled.img`
   width: 16rem;
   border: 1px solid ${({ theme }) => theme.imageBorder};
-  @media screen and (min-width: 300px) and (max-width: 630px) {
-    width: 14rem;
+  @media screen and (min-width: 500px) and (max-width: 580px) {
+    width: 17.5rem;
+  }
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    justify-self: center;
+    align-self: center;
   }
 `;
 
@@ -86,7 +103,11 @@ export const ModalInfoContainer = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   row-gap: 0.5rem;
-  margin-left: 40px;
+  margin-left: 2.4rem;
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    margin-top: 2rem;
+    margin-left: 0;
+  }
 `;
 
 export const ModalSubTitle = styled.h3`
@@ -132,25 +153,25 @@ export const ModalLastContainer = styled.div`
   }
 `;
 
-export const ModalContentContainer = styled.div<{ firstPage?: boolean; lastPage?: boolean }>`
+export const ModalContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 1rem;
   gap: 1.4rem;
-  animation: 600ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
-  ${({ lastPage, firstPage }) =>
-    (lastPage &&
-      css`
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 1.5rem;
-      `) ||
-    (firstPage &&
-      css`
-        flex-direction: row;
-        @media screen and(min-width: 300px) and(max-width: 630px) {
-          flex-direction: column;
-          border: 1px solid blue;
-        }
-      `)};
+  animation: 800ms cubic-bezier(0.33, 1, 0.68, 1) ${modalChanagePageKeyframes};
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    flex-direction: column;
+  }
+`;
+
+export const ModalLastContentContainer = styled(ModalContentContainer)`
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+  animation: none;
+`;
+
+export const ModalFirstContentContainer = styled(ModalContentContainer)`
+  flex-direction: row;
+  animation: none;
 `;

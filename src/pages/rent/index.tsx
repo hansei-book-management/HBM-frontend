@@ -8,6 +8,7 @@ import { Modal, RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { Book1PNG } from '@/assets';
+import { useGetWindowSize } from '@/hooks';
 
 import * as S from './styled';
 
@@ -19,6 +20,8 @@ export const RentPage: React.FC = () => {
   const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
 
   const { modalActive } = useModal();
+
+  const { getWidth } = useGetWindowSize();
 
   const isDetailPage = location.pathname.includes(`/rent/${clubId}/detail`);
   const isRentPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
@@ -63,10 +66,17 @@ export const RentPage: React.FC = () => {
           <Modal
             textProps={
               <>
-                <S.ModalContentContainer firstPage={true}>
-                  <S.ModalImage src={Book1PNG} />
+                <S.ModalFirstContentContainer>
+                  {getWidth <= 580 && (
+                    <div style={{ justifySelf: 'center', alignSelf: 'center' }}>
+                      <RentMessage canRent={true} />
+                      <S.MobileModalTitle>세노이의 가르침</S.MobileModalTitle>
+                      <S.ModalImage src={Book1PNG} />
+                    </div>
+                  )}
+                  {getWidth > 580 && <S.ModalImage src={Book1PNG} />}
                   <S.ModalInfoContainer>
-                    <RentMessage canRent={true} />
+                    {getWidth > 580 && <RentMessage canRent={true} />}
                     <S.ModalTitle>세노이의 가르침</S.ModalTitle>
                     <S.ModalInfo>
                       세이노 저자(글)
@@ -81,7 +91,7 @@ export const RentPage: React.FC = () => {
                       순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
                     </S.ModalSubTitle>
                   </S.ModalInfoContainer>
-                </S.ModalContentContainer>
+                </S.ModalFirstContentContainer>
                 <S.ModalContentTitle>책 소개</S.ModalContentTitle>
                 <S.ModalContent>
                   2000년부터 발표된 그의 주옥같은 글들. 독자들이 자발적으로 만든 제본서는 물론,
@@ -128,7 +138,7 @@ export const RentPage: React.FC = () => {
           <Modal.OverLay>
             <Modal
               textProps={
-                <S.ModalContentContainer lastPage={true}>
+                <S.ModalLastContentContainer>
                   <S.ModalSuccessIcon />
                   <S.ModalTitle>대출 성공</S.ModalTitle>
                   <S.ModalLastContainer>
@@ -138,7 +148,7 @@ export const RentPage: React.FC = () => {
                     </S.ModalSubTitle>
                     <S.ModalSubTitle>1차 반납 기간은 2023년 X월 X일까지에요.</S.ModalSubTitle>
                   </S.ModalLastContainer>
-                </S.ModalContentContainer>
+                </S.ModalLastContentContainer>
               }
               leftButtonText="확인했어요"
               rightButtonText="확인했어요"

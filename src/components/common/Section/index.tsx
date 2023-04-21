@@ -40,12 +40,12 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const clubName = activeClub?.id;
 
   const getRentApi = async (clubName: string, page: number) => {
-    const res = await axios.get(`http://localhost:3003/rent/${clubName}?page=${page}`);
+    const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
     return res.data;
   };
 
   const getManageApi = async (page: number) => {
-    const res = await axios.get(`http://localhost:3003/rent/ssr?page=${page}`);
+    const res = await axios.get(`http://localhost:3000/rent/ssr?page=${page}`);
     return res.data;
   };
 

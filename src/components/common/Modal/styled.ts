@@ -44,13 +44,10 @@ export const ModalContainer = styled.div<{ isClosed: boolean; lastPage: boolean 
   padding: 2rem;
   padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};
   background-color: ${({ theme }) => theme.white};
-  backdrop-filter: blur(1.2rem);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   border-radius: 1.2rem;
   animation: 200ms cubic-bezier(0.33, 1, 0.68, 1)
     ${({ isClosed }) => (isClosed ? modalCloseKeyframe : modalOpenKeyframe)};
   overflow: scroll;
-  border: 1px solid red;
 `;
 
 export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
