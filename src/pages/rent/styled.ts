@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { HiCheckCircle } from 'react-icons/hi';
 
 import styled, { css } from 'styled-components';
 
@@ -64,7 +65,7 @@ export const ModalInfoContainer = styled.div`
 export const ModalSubTitle = styled.h3`
   font-size: 1.1rem;
   font-weight: 550;
-  line-height: 2.2rem;
+  line-height: 1.8rem;
 `;
 
 export const ModalInfo = styled.p`
@@ -84,4 +85,21 @@ export const ModalContent = styled.p`
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6rem;
+`;
+
+export const ModalSucessIcon = styled(HiCheckCircle)`
+  width: 4rem;
+  height: 4rem;
+  color: ${({ theme }) => theme.primary.blue};
+  background-color: ${({ theme }) => theme.primary.white};
+`;
+
+export const ModalLastContainer = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  > * {
+    line-height: 2rem;
+  }
 `;

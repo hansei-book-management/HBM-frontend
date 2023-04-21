@@ -29,18 +29,20 @@ export const ModalElement: React.FC<ModalProps> = ({
   const { close } = useModal();
 
   const closing = () => {
-    onCloseNavigate && onCloseNavigate();
     setIsClosed(true);
     setTimeout(() => {
       close();
+      onCloseNavigate && onCloseNavigate();
     }, 200);
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed}>
-      <S.ModalContentContainer>{textProps}</S.ModalContentContainer>
-      <S.ModalButtonContainer>
-        {lastPage ? null : (
+    <S.ModalContainer isClosed={isClosed} lastPage={lastPage || false}>
+      <S.ModalContentContainer lastPage={lastPage || false}>{textProps}</S.ModalContentContainer>
+      <S.ModalButtonContainer lastPage={lastPage || false}>
+        {lastPage ? (
+          <S.ModalLastPageButton onClick={closing}>{rightButtonText}</S.ModalLastPageButton>
+        ) : (
           <>
             <S.ModalButton left={true} onClick={closing}>
               {leftButtonText}

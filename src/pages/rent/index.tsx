@@ -39,6 +39,7 @@ export const RentPage: React.FC = () => {
   };
 
   useEffect(() => {
+    status && setStatus(false);
     if (!activeClub) {
       navigate(`/rent/${CLUB_LIST[0].id}`);
     } else if (!modalActive) {
@@ -128,17 +129,21 @@ export const RentPage: React.FC = () => {
             <Modal
               textProps={
                 <>
+                  <S.ModalSucessIcon />
                   <S.ModalTitle>대출 성공</S.ModalTitle>
-                  <S.ModalSubTitle>
-                    앙기모링
-                    <br />
-                    대출이 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
-                  </S.ModalSubTitle>
+                  <S.ModalLastContainer>
+                    <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대출했어요.</S.ModalSubTitle>
+                    <S.ModalSubTitle>
+                      대출 기한은 10일이며, 연장 신청을 할 수 있어요.
+                    </S.ModalSubTitle>
+                    <S.ModalSubTitle>1차 반납 기간은 2023년 X월 X일까지에요.</S.ModalSubTitle>
+                  </S.ModalLastContainer>
                 </>
               }
               leftButtonText="확인했어요"
               rightButtonText="확인했어요"
               onCloseNavigate={() => onCloseNavigate()}
+              lastPage={true}
             />
           </Modal.OverLay>
         ))}

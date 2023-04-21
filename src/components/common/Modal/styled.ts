@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 export const modalOpenKeyframe = keyframes`
     0% {
@@ -37,12 +37,12 @@ export const ModalOverlay = styled.div`
   z-index: 9901;
 `;
 
-export const ModalContainer = styled.div<{ isClosed: boolean }>`
+export const ModalContainer = styled.div<{ isClosed: boolean; lastPage: boolean }>`
   z-index: 9903;
-  width: 50rem;
+  width: ${({ lastPage }) => (lastPage ? '30rem' : '50rem')};
   max-height: 38rem;
   padding: 2rem;
-  padding-bottom: 0;
+  padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};
   background-color: ${({ theme }) => theme.white};
   backdrop-filter: blur(1.2rem);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -52,16 +52,21 @@ export const ModalContainer = styled.div<{ isClosed: boolean }>`
   overflow: scroll;
 `;
 
-export const ModalContentContainer = styled.div`
+export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1.4rem;
   padding-bottom: 1rem;
+  gap: 1.4rem;
+  ${({ lastPage }) =>
+    lastPage &&
+    css`
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 1.5rem;
+    `}
 `;
 
-export const ModalButtonContainer = styled.div`
+export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
   position: sticky;
   bottom: 0;
   left: 0;
@@ -69,7 +74,7 @@ export const ModalButtonContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 1.6rem;
-  padding: 1rem 0rem;
+  padding: ${({ lastPage }) => (lastPage ? '0' : '1rem 0')};
   width: 100%;
   z-index: 9999;
   background-color: ${({ theme }) => theme.white};
@@ -82,6 +87,17 @@ export const ModalButton = styled.button<{ left: boolean }>`
   border-radius: 4.8rem;
   color: ${({ theme }) => theme.white};
   font-size: 1rem;
+  font-weight: 700;
+  border: none;
+`;
+
+export const ModalLastPageButton = styled.button`
+  width: 100%;
+  padding: 0.7rem 0;
+  background-color: ${({ theme }) => theme.primary.blue};
+  border-radius: 4.8rem;
+  color: ${({ theme }) => theme.white};
+  font-size: 1.1rem;
   font-weight: 700;
   border: none;
 `;
