@@ -128,7 +128,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
                 <S.PaginationButton show={false}>&larr;</S.PaginationButton>
               )}
               <S.PaginationText>
-                Page {page} of {data?.totalPages}
+                {page} / {data?.totalPages}
               </S.PaginationText>
               {page !== data?.totalPages ? (
                 <S.PaginationButton onClick={onNextPageClick} show={true}>
