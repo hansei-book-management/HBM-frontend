@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import { RentPage, MainPage, ManagePage } from './pages';
+import { RentPage, MainPage, ManagePage, NotFoundPage } from './pages';
 import { DefaultLayout } from './components';
 import { CLUB_LIST } from './constant';
 import { RegisterPage } from './pages/auth';
@@ -27,6 +27,7 @@ export const App: React.FC = () => {
         <Route path="/auth">
           <Route path="register" element={<RegisterPage />} />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
