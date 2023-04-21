@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
@@ -9,6 +10,7 @@ import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { Book1PNG } from '@/assets';
 import { useGetWindowSize } from '@/hooks';
+import { CheckLottie } from '@/lotties';
 
 import * as S from './styled';
 
@@ -27,6 +29,7 @@ export const RentPage: React.FC = () => {
   const isRentPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
 
   const [status, setStatus] = useRecoilState(StatusState);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onNextNavigate = (id: number) => {
     navigate(`/rent/${clubId}/book-rent/${id}`);
@@ -35,6 +38,7 @@ export const RentPage: React.FC = () => {
   const onRentNavigate = (id: number) => {
     navigate(`/rent/${clubId}/book-rent/${id}`);
     setStatus(true);
+    // setLoading(true);
   };
 
   const onCloseNavigate = () => {
@@ -50,6 +54,15 @@ export const RentPage: React.FC = () => {
       navigate(`/rent/${clubId}`);
     }
   }, [activeClub, modalActive]);
+
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: CheckLottie,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
   return (
     <S.RentPageContainer>
@@ -128,8 +141,9 @@ export const RentPage: React.FC = () => {
                   </S.ModalSubTitle>
                 </S.ModalContentContainer>
               }
+              disable={loading}
               leftButtonText="아니요"
-              rightButtonText="네!"
+              rightButtonText={loading ? '대여중...' : '네!'}
               onNavigate={() => onRentNavigate(1)}
               onCloseNavigate={() => onCloseNavigate()}
             />
@@ -140,7 +154,8 @@ export const RentPage: React.FC = () => {
             <Modal
               textProps={
                 <S.ModalLastContentContainer>
-                  <S.ModalSuccessIcon />
+                  {/* <S.ModalSuccessIcon /> */}
+                  <Lottie options={defaultOptions} height={'8rem'} width={'8rem'} />
                   <S.ModalTitle>대출 성공</S.ModalTitle>
                   <S.ModalLastContainer>
                     <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대여했어요.</S.ModalSubTitle>
