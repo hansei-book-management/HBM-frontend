@@ -7,7 +7,8 @@ import * as S from './styled';
 export interface ModalProps {
   onNavigate?: () => void;
   onCloseNavigate?: () => void;
-  sectionProps?: React.ReactNode;
+  textProps?: React.ReactNode;
+  lastPage?: boolean;
   leftButtonText: string;
   rightButtonText: React.ReactNode;
 }
@@ -17,7 +18,8 @@ export interface ModalOverlayProps {
 }
 
 export const ModalElement: React.FC<ModalProps> = ({
-  sectionProps,
+  textProps,
+  lastPage,
   leftButtonText,
   rightButtonText,
   onNavigate,
@@ -36,14 +38,18 @@ export const ModalElement: React.FC<ModalProps> = ({
 
   return (
     <S.ModalContainer isClosed={isClosed}>
-      <S.ModalContentContainer>{sectionProps}</S.ModalContentContainer>
+      <S.ModalContentContainer>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer>
-        <S.ModalButton left={true} onClick={closing}>
-          {leftButtonText}
-        </S.ModalButton>
-        <S.ModalButton left={false} onClick={onNavigate}>
-          {rightButtonText}
-        </S.ModalButton>
+        {lastPage ? null : (
+          <>
+            <S.ModalButton left={true} onClick={closing}>
+              {leftButtonText}
+            </S.ModalButton>
+            <S.ModalButton left={false} onClick={onNavigate}>
+              {rightButtonText}
+            </S.ModalButton>
+          </>
+        )}
       </S.ModalButtonContainer>
     </S.ModalContainer>
   );

@@ -35,7 +35,6 @@ export const ModalOverlay = styled.div`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 9901;
-  /* backdrop-filter: blur(14px); */
 `;
 
 export const ModalContainer = styled.div<{ isClosed: boolean }>`
@@ -43,6 +42,7 @@ export const ModalContainer = styled.div<{ isClosed: boolean }>`
   width: 50rem;
   max-height: 34rem;
   padding: 2rem;
+  padding-bottom: 0;
   background-color: ${({ theme }) => theme.white};
   backdrop-filter: blur(1.2rem);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -57,16 +57,22 @@ export const ModalContentContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 1.6rem;
-  padding-bottom: 2rem;
+  gap: 1.4rem;
+  padding-bottom: 1rem;
 `;
+
 export const ModalButtonContainer = styled.div`
+  position: sticky;
+  bottom: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 1.6rem;
+  padding: 1rem 0rem;
   width: 100%;
   z-index: 9999;
+  background-color: ${({ theme }) => theme.white};
 `;
 
 export const ModalButton = styled.button<{ left: boolean }>`

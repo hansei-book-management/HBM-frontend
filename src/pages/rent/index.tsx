@@ -56,7 +56,7 @@ export const RentPage: React.FC = () => {
       {(modalActive && isDetailPage && (
         <Modal.OverLay>
           <Modal
-            sectionProps={
+            textProps={
               <>
                 <div style={{ display: 'flex' }}>
                   <S.ModalImage src={Book1PNG} />
@@ -103,7 +103,7 @@ export const RentPage: React.FC = () => {
         (modalActive && isRentPage && !status && (
           <Modal.OverLay>
             <Modal
-              sectionProps={
+              textProps={
                 <>
                   <S.ModalTitle>대여 진행</S.ModalTitle>
                   <S.ModalSubTitle>
@@ -123,7 +123,7 @@ export const RentPage: React.FC = () => {
         (modalActive && isRentPage && status && (
           <Modal.OverLay>
             <Modal
-              sectionProps={
+              textProps={
                 <>
                   <S.ModalTitle>대출 성공</S.ModalTitle>
                   <S.ModalSubTitle>
