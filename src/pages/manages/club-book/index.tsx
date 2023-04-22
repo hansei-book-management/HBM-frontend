@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 
@@ -7,6 +7,7 @@ import * as S from './styled';
 
 export const ManageClubBookPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const manageBookOption = location.search;
 
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(
@@ -15,6 +16,13 @@ export const ManageClubBookPage: React.FC = () => {
 
   const manageBookOptionsIsActive = (manageBookOption?: string, id?: string) =>
     manageBookOption === '?options=' + id;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!activeOption) {
+      navigate(`/manage/club-book/?options=${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
+    }
+  }, [activeOption]);
 
   return (
     <S.ManageClubBookPageContainer>
