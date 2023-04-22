@@ -100,3 +100,11 @@ export const SectionManageMessage = styled.span<{ isOk: boolean }>`
   font-weight: 700;
   color: ${({ theme, isOk }) => (isOk ? theme.primary.green : theme.primary.red)};
 `;
+
+export const SectionTitle = styled.h1`
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.primary.black};
+  margin-top: 1.6rem;
+`;
