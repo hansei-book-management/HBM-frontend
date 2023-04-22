@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import axios from 'axios';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Book1PNG } from '@/assets';
 import { ClubItem } from '@/constant';
 import { useModal } from '@/hooks/useModal';
+import { useGetLocation } from '@/hooks';
 
 import { RentMessage } from '../RentMessage';
 import { Skeleton } from '../Skeleton';
@@ -34,9 +35,17 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 
-  const location = useLocation();
   const navigate = useNavigate();
-  const isRentPage = location.pathname.includes('/rent');
+
+  const {
+    rentPage,
+    manageUserBookPage,
+    manageClubAllBookPage,
+    manageClubCanRentBookPage,
+    manageClubRentingBookPage,
+  } = useGetLocation({});
+
+  console.log(location.search);
 
   const clubName = activeClub?.id;
 
@@ -46,12 +55,12 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   };
 
   const getManageApi = async (page: number) => {
-    const res = await axios.get(`http://localhost:3000/rent/ssr?page=${page}`);
+    const res = await axios.get(`http://localhost:3000/rent/hsoc?page=${page}`);
     return res.data;
   };
 
   const { data, isLoading, refetch } = useQuery<BookItem>(['bookList', clubName, page], () => {
-    if (isRentPage) {
+    if (rentPage) {
       return getRentApi(clubName || '', page);
     } else {
       return getManageApi(page);
@@ -60,7 +69,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const onNextPageClick = () => {
     setPage((prev) => prev + 1);
-    if (isRentPage) {
+    if (rentPage) {
       navigate(`/rent/${clubName}?page=${page + 1}`);
     } else {
       navigate(`/manage?page=${page + 1}`);
@@ -70,7 +79,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const onPrevPageClick = () => {
     setPage((prev) => prev - 1);
-    if (isRentPage) {
+    if (rentPage) {
       navigate(`/rent/${clubName}?page=${page - 1}`);
     } else {
       navigate(`/manage?page=${page - 1}`);
@@ -80,7 +89,9 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const openModal = (id: number) => {
     open();
-    navigate(`/rent/${clubName}/detail/${id}`);
+    if (rentPage) {
+      navigate(`/rent/${clubName}/detail/${id}`);
+    }
   };
 
   useEffect(() => {
@@ -91,7 +102,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   return (
     <>
       {isLoading ? (
-        <Skeleton isRentPage={isRentPage} />
+        <Skeleton isRentPage={rentPage || false} />
       ) : (
         <>
           <S.SectionContainer>
@@ -103,12 +114,31 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
                     세이노의 가르침 id:{id}, {club}
                   </S.ImageTitle>
                   <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-                  {isRentPage ? (
+                  {rentPage ? (
                     <RentMessage canRent={canRent} />
-                  ) : (
+                  ) : manageUserBookPage ? (
                     <S.SectionManageMessage isOk={canRent}>
                       대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
                     </S.SectionManageMessage>
+                  ) : manageClubCanRentBookPage ? (
+                    <RentMessage canRent={true} />
+                  ) : manageClubRentingBookPage ? (
+                    <S.SectionManageMessage isOk={canRent}>
+                      김태훈: 대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
+                    </S.SectionManageMessage>
+                  ) : (
+                    manageClubAllBookPage &&
+                    (canRent ? (
+                      <RentMessage canRent={true} />
+                    ) : id === 2 ? (
+                      <S.SectionManageMessage isOk={false}>
+                        김태훈: 대여중 - 2일 1시간 {false ? '남음' : '연체중'}
+                      </S.SectionManageMessage>
+                    ) : (
+                      <S.SectionManageMessage isOk={true}>
+                        김태훈: 대여중 - 2일 1시간 {true ? '남음' : '연체중'}
+                      </S.SectionManageMessage>
+                    ))
                   )}
                 </S.TitleContainer>
               </S.ImageContainer>

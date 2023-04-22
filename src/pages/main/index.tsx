@@ -5,7 +5,7 @@ import { FooterSection, MainSection } from '@/components';
 import { useGetWindowSize } from '@/hooks';
 
 export const MainPage: React.FC = () => {
-  const { getWidth } = useGetWindowSiz e();
+  const { getWidth } = useGetWindowSize();
 
   return (
     <>

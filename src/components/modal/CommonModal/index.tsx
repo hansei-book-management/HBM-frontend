@@ -51,7 +51,7 @@ export const ModalElement: React.FC<ModalProps> = ({
             <S.ModalButton left={true} onClick={closing} disable={disable}>
               {leftButtonText}
             </S.ModalButton>
-            <S.ModalButton left={false} onClick={onNavigate}>
+            <S.ModalButton left={false} onClick={onNavigate || closing}>
               {rightButtonText}
             </S.ModalButton>
           </>
