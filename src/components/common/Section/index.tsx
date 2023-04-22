@@ -130,9 +130,13 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
                     manageClubAllBookPage &&
                     (canRent ? (
                       <RentMessage canRent={true} />
+                    ) : id === 2 ? (
+                      <S.SectionManageMessage isOk={false}>
+                        김태훈: 대여중 - 2일 1시간 {false ? '남음' : '연체중'}
+                      </S.SectionManageMessage>
                     ) : (
-                      <S.SectionManageMessage isOk={canRent}>
-                        김태훈: 대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
+                      <S.SectionManageMessage isOk={true}>
+                        김태훈: 대여중 - 2일 1시간 {true ? '남음' : '연체중'}
                       </S.SectionManageMessage>
                     ))
                   )}
