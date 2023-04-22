@@ -9,11 +9,20 @@ export const useGetLocation = ({ clubId }: useLocationProps) => {
 
   if (clubId) {
     const rentDetailPage = location.pathname.includes(`/rent/${clubId}/detail`);
-    const rentPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
-    return { rentDetailPage, rentPage };
+    const rentBookPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
+    return { rentDetailPage, rentBookPage };
   } else {
+    const rentPage = location.pathname.includes(`/rent`);
     const manageUserBookPage = location.pathname.includes(`/manage/user-book`);
-    const manageClubBookPage = location.pathname.includes(`/manage/club-book`);
-    return { manageClubBookPage, manageUserBookPage };
+    const manageClubCanRentBookPage = location.search.includes(`?options=can-rent`);
+    const manageClubAllBookPage = location.search.includes(`?options=all`);
+    const manageClubRentingBookPage = location.search.includes(`?options=renting`);
+    return {
+      rentPage,
+      manageUserBookPage,
+      manageClubCanRentBookPage,
+      manageClubAllBookPage,
+      manageClubRentingBookPage,
+    };
   }
 };

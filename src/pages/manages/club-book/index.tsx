@@ -38,7 +38,7 @@ export const ManageClubBookPage: React.FC = () => {
         ))}
       </S.ManageClubBookPageOptionList>
       <S.ManageClubBookPageTitle>{activeOption?.text}</S.ManageClubBookPageTitle>
-      <Section activeClub={activeOption} />
+      <Section />
     </S.ManageClubBookPageContainer>
   );
 };
