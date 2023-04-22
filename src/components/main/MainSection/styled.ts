@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MainSectionContainer = styled.div<{ isSecondary?: boolean }>`
+export const MainSectionContainer = styled.div<{ isSecondary?: boolean; firstSection?: boolean }>`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -10,10 +10,9 @@ export const MainSectionContainer = styled.div<{ isSecondary?: boolean }>`
   div > p {
     text-align: ${(props) => (props.isSecondary ? 'right' : 'left')};
   }
-  padding: 155px 0;
+  padding-top: ${(props) => (props.firstSection ? '0' : '20rem')};
   row-gap: 40px;
   @media screen and (max-width: 779px) and (min-width: 300px) {
-    padding: 80px 0;
     align-items: flex-start;
     div {
       width: 100%;

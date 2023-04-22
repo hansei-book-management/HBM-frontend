@@ -5,7 +5,7 @@ import { FooterSection, MainSection } from '@/components';
 import { useGetWindowSize } from '@/hooks';
 
 export const MainPage: React.FC = () => {
-  const { getWidth } = useGetWindowSize();
+  const { getWidth } = useGetWindowSiz e();
 
   return (
     <>
@@ -17,6 +17,7 @@ export const MainPage: React.FC = () => {
             도서관리 시스템
           </>
         }
+        firstSection={true}
         largeText="HANBOOK"
         imageUrl={Main1PNG}
       />

@@ -12,6 +12,7 @@ export interface MainSectionProps {
   largeText: string;
   imageUrl: string;
   isSecondary?: boolean;
+  firstSection?: boolean;
 }
 
 export const MainSection: React.FC<MainSectionProps> = ({
@@ -19,10 +20,11 @@ export const MainSection: React.FC<MainSectionProps> = ({
   largeText,
   imageUrl,
   isSecondary,
+  firstSection,
 }) => {
   const animation = useScrollFadeIn<HTMLHeadingElement>('up', 0.7);
   return (
-    <S.MainSectionContainer isSecondary={isSecondary} {...animation}>
+    <S.MainSectionContainer firstSection={firstSection} isSecondary={isSecondary} {...animation}>
       <Text.Column>
         <Text size="small">{smallText}</Text>
         <Text size="large">{largeText}</Text>
