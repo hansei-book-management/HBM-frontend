@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import axios from 'axios';
@@ -8,7 +8,6 @@ import { Book1PNG } from '@/assets';
 import { ClubItem } from '@/constant';
 import { useModal } from '@/hooks/useModal';
 import { useGetLocation } from '@/hooks';
-import { ManageUserBookPage } from '@/pages';
 
 import { RentMessage } from '../RentMessage';
 import { Skeleton } from '../Skeleton';
@@ -90,7 +89,9 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const openModal = (id: number) => {
     open();
-    navigate(`/rent/${clubName}/detail/${id}`);
+    if (rentPage) {
+      navigate(`/rent/${clubName}/detail/${id}`);
+    }
   };
 
   useEffect(() => {
@@ -113,26 +114,28 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
                     세이노의 가르침 id:{id}, {club}
                   </S.ImageTitle>
                   <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-                  {rentPage && <RentMessage canRent={canRent} />}{' '}
-                  {manageUserBookPage && (
+                  {rentPage ? (
+                    <RentMessage canRent={canRent} />
+                  ) : manageUserBookPage ? (
                     <S.SectionManageMessage isOk={canRent}>
                       대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
                     </S.SectionManageMessage>
-                  )}
-                  {manageClubCanRentBookPage && <RentMessage canRent={true} />}
-                  {manageClubRentingBookPage && (
+                  ) : manageClubCanRentBookPage ? (
+                    <RentMessage canRent={true} />
+                  ) : manageClubRentingBookPage ? (
                     <S.SectionManageMessage isOk={canRent}>
                       김태훈: 대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
                     </S.SectionManageMessage>
-                  )}
-                  {manageClubAllBookPage &&
+                  ) : (
+                    manageClubAllBookPage &&
                     (canRent ? (
                       <RentMessage canRent={true} />
                     ) : (
                       <S.SectionManageMessage isOk={canRent}>
                         김태훈: 대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
                       </S.SectionManageMessage>
-                    ))}
+                    ))
+                  )}
                 </S.TitleContainer>
               </S.ImageContainer>
             ))}

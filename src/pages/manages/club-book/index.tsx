@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { Section } from '@/components';
+import { useModal } from '@/hooks';
+import { DetailModal } from '@/components/modal/DetailModal';
 
 import * as S from './styled';
 
@@ -17,6 +19,8 @@ export const ManageClubBookPage: React.FC = () => {
 
   const manageBookOptionsIsActive = (manageBookOption?: string, id?: string) =>
     manageBookOption === '?options=' + id;
+
+  const { modalActive } = useModal();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,6 +43,7 @@ export const ManageClubBookPage: React.FC = () => {
       </S.ManageClubBookPageOptionList>
       <S.ManageClubBookPageTitle>{activeOption?.text}</S.ManageClubBookPageTitle>
       <Section />
+      {modalActive && <DetailModal />}
     </S.ManageClubBookPageContainer>
   );
 };

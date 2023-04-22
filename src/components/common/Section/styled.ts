@@ -55,6 +55,7 @@ export const ImageTitle = styled.span`
   color: ${({ theme }) => theme.black};
   font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
