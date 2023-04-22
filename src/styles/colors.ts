@@ -22,17 +22,12 @@ export const colors: DefaultTheme = {
     blue: '#4B9EFF',
     white: '#F7F7F7',
     green: '#4DAC27',
-    red: '#AC2727',
+    red: '#D20000',
     darkBlue: '#5E63C7',
   },
 
   disable: {
     black: '#656565',
     blue: '#31537A',
-  },
-
-  time: {
-    safe: '#4DAC27',
-    danger: '#A90404',
   },
 };

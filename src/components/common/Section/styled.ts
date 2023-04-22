@@ -1,5 +1,3 @@
-import { BiStopwatch } from 'react-icons/bi';
-
 import styled from 'styled-components';
 
 export const SectionContainer = styled.section`
@@ -19,11 +17,6 @@ export const SectionContainer = styled.section`
 export const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  transition: scale 0.15s;
-  &:hover {
-    scale: 1.03;
-    transition-duration: 0.15;
-  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -43,40 +36,11 @@ export const Image = styled.img`
   @media screen and (max-width: 380px) and (min-width: 300px) {
     width: 9rem;
   }
-`;
-
-export const ImageMangeInfo = styled.div<{ timeOver: boolean }>`
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6px;
-  background-color: ${({ timeOver, theme }) => (timeOver ? theme.time.danger : theme.time.safe)};
-  opacity: 0.6;
-  backdrop-filter: blur(14px);
-  z-index: 99;
-  column-gap: 4px;
-  width: 16rem;
-  @media screen and (max-width: 500px) and (min-width: 380px) {
-    width: 12rem;
+  transition: scale 0.15s;
+  &:hover {
+    scale: 1.03;
+    transition-duration: 0.15;
   }
-  @media screen and (max-width: 380px) and (min-width: 300px) {
-    width: 9rem;
-  }
-`;
-
-export const ImageMangeInfoText = styled.span`
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: ${({ theme }) => theme.primary.white};
-  z-index: 99;
-`;
-
-export const ImageMangeIcon = styled(BiStopwatch)`
-  width: 20px;
-  color: ${({ theme }) => theme.white};
-  z-index: 99;
 `;
 
 export const TitleContainer = styled.div`

@@ -27,9 +27,5 @@ declare module 'styled-components' {
       black: string;
       blue: string;
     };
-    time: {
-      safe: string;
-      danger: string;
-    };
   }
 }
