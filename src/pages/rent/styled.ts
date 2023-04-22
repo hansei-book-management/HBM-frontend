@@ -31,7 +31,7 @@ export const RentPageContainer = styled.section`
   display: flex;
   flex-direction: column;
   height: 100%;
-  row-gap: 3rem;
+  row-gap: 1rem;
 `;
 
 export const TeamList = styled.div`
@@ -40,7 +40,6 @@ export const TeamList = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 1.4rem;
-  margin-bottom: 0.8rem;
 `;
 
 export const TeamLink = styled(Link)<{ isActive: boolean }>`
@@ -65,6 +64,7 @@ export const TeamLink = styled(Link)<{ isActive: boolean }>`
 export const RentPageTitle = styled.h1`
   font-size: 2rem;
   font-weight: 700;
+  margin-bottom: 2rem;
 `;
 
 export const ModalTitle = styled.h1`

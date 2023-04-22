@@ -32,7 +32,7 @@ export const colors: DefaultTheme = {
   },
 
   time: {
-    safe: '#2F2F2F',
+    safe: '#4DAC27',
     danger: '#A90404',
   },
 };

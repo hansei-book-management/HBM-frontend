@@ -98,22 +98,18 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
             {data?.books.map(({ id, canRent, club }, i) => (
               <S.ImageContainer key={i}>
                 <S.Image src={Book1PNG} onClick={() => openModal(id)} />
-                {!isRentPage && (
-                  <S.ImageWrapper>
-                    <S.ImageMangeInfo timeOver={false}>
-                      {/* <S.ImageMangeInfo timeOver={timeOver}> */}
-                      <S.ImageMangeIcon />
-                      <S.ImageMangeInfoText>1일 12시간 연체중</S.ImageMangeInfoText>
-                      {/* <S.ImageMangeInfoText>{timeOver ? timeLeftText + '연체중' : timeLeftText + '남음' } </S.ImageMangeInfoText>*/}
-                    </S.ImageMangeInfo>
-                  </S.ImageWrapper>
-                )}
                 <S.TitleContainer>
                   <S.ImageTitle onClick={() => openModal(id)}>
                     세이노의 가르침 id:{id}, {club}
                   </S.ImageTitle>
                   <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-                  {isRentPage && <RentMessage canRent={canRent} />}
+                  {isRentPage ? (
+                    <RentMessage canRent={canRent} />
+                  ) : (
+                    <S.SectionManageMessage isOk={canRent}>
+                      대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
+                    </S.SectionManageMessage>
+                  )}
                 </S.TitleContainer>
               </S.ImageContainer>
             ))}
