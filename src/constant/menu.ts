@@ -4,12 +4,16 @@ export interface MenuItem {
 }
 
 export const MENU_LIST: MenuItem[] = [
+  // {
+  //   text: '대여하기',
+  //   href: '/rent',
+  // },
   {
-    text: '대여하기',
-    href: '/rent',
+    text: '도서 관리',
+    href: '/manage/club-book',
   },
   {
     text: '내 도서',
-    href: '/manage',
+    href: '/manage/user-book',
   },
 ];

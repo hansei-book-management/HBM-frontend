@@ -4,7 +4,7 @@ import { Section } from '@/components';
 
 import * as S from './styled';
 
-export const ManagePage: React.FC = () => {
+export const ManageUserBookPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
