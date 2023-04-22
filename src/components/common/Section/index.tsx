@@ -46,8 +46,6 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
     manageClubRentingBookPage,
   } = useGetLocation({});
 
-  console.log(location.search);
-
   const clubName = activeClub?.id;
 
   const getRentApi = async (clubName: string, page: number) => {

@@ -1,8 +1,17 @@
 import React from 'react';
 
+import { useModal } from '@/hooks';
+import { USER_LIST } from '@/constant';
+
 import * as S from './styled';
 
 export const ManageUserPage: React.FC = () => {
+  const { open, modalActive } = useModal();
+
+  const onClick = () => {
+    open();
+  };
+
   return (
     <S.ManageUserContainer>
       <S.ManageUserMenuBar>
@@ -10,33 +19,20 @@ export const ManageUserPage: React.FC = () => {
         <S.ManageUserMenuBarItem>대여 책</S.ManageUserMenuBarItem>
         <S.ManageUserMenuBarItem>상태</S.ManageUserMenuBarItem>
       </S.ManageUserMenuBar>
-      <S.ManageUserInfoContainer>
-        <S.ManageUserIconContainer>
-          <S.ManageUserIcon />
-          <S.ManageUserName>박찬영</S.ManageUserName>
-        </S.ManageUserIconContainer>
-        <S.ManageUserBookInfo>0권</S.ManageUserBookInfo>
-        <S.ManageUserStatus isOk={false}>
-          대출정지 <br />
-          (8일 12시간 20분 남음)
-        </S.ManageUserStatus>
-      </S.ManageUserInfoContainer>
-      <S.ManageUserInfoContainer>
-        <S.ManageUserIconContainer>
-          <S.ManageUserIcon />
-          <S.ManageUserName>박찬영</S.ManageUserName>
-        </S.ManageUserIconContainer>
-        <S.ManageUserBookInfo>3권</S.ManageUserBookInfo>
-        <S.ManageUserStatus isOk={true}>정상</S.ManageUserStatus>
-      </S.ManageUserInfoContainer>
-      <S.ManageUserInfoContainer>
-        <S.ManageUserIconContainer>
-          <S.ManageUserIcon />
-          <S.ManageUserName>박찬영</S.ManageUserName>
-        </S.ManageUserIconContainer>
-        <S.ManageUserBookInfo>0권</S.ManageUserBookInfo>
-        <S.ManageUserStatus isOk={true}>정상</S.ManageUserStatus>
-      </S.ManageUserInfoContainer>
+      {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
+        <S.ManageUserInfoContainer onClick={onClick}>
+          <S.ManageUserIconContainer>
+            <S.ManageUserIcon />
+            <S.ManageUserName>{name}</S.ManageUserName>
+          </S.ManageUserIconContainer>
+          <S.ManageUserBookInfo>{bookInfo}</S.ManageUserBookInfo>
+          <S.ManageUserStatus isOk={status}>
+            {status ? '정상' : '대출정지'}
+            <br />
+            {errorMessage && `(${errorMessage})`}
+          </S.ManageUserStatus>
+        </S.ManageUserInfoContainer>
+      ))}
     </S.ManageUserContainer>
   );
 };
