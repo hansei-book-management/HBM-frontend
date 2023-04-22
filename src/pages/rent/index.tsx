@@ -22,7 +22,7 @@ export const RentPage: React.FC = () => {
 
   const { modalActive } = useModal();
 
-  const { rentPage, rentDetailPage } = useGetLocation({ clubId });
+  const { rentBookPage, rentDetailPage } = useGetLocation({ clubId });
 
   const [status, setStatus] = useRecoilState(StatusState);
   const [loading, setLoading] = useState<boolean>(false);
@@ -62,7 +62,7 @@ export const RentPage: React.FC = () => {
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && <DetailModal clubId={clubId} />) ||
-        (modalActive && rentPage && !status && (
+        (modalActive && rentBookPage && !status && (
           <Modal.OverLay>
             <Modal
               textProps={
@@ -91,7 +91,7 @@ export const RentPage: React.FC = () => {
             />
           </Modal.OverLay>
         )) ||
-        (modalActive && rentPage && status && (
+        (modalActive && rentBookPage && status && (
           <Modal.OverLay>
             <Modal
               textProps={
