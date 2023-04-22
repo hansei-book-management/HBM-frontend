@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useModal } from '@/hooks';
 import { USER_LIST } from '@/constant';
+import { Modal } from '@/components';
 
 import * as S from './styled';
 
@@ -33,6 +34,33 @@ export const ManageUserPage: React.FC = () => {
           </S.ManageUserStatus>
         </S.ManageUserInfoContainer>
       ))}
+
+      {modalActive && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.ModalUserContainer>
+                <S.ModalUserTitle>부원 박찬영</S.ModalUserTitle>
+                <S.ModalUserBookInfoText>현재 대출중인 책: 3권</S.ModalUserBookInfoText>
+                <S.ModalUserBookInfo>
+                  <S.ModalUserBookInfoTitle>너의 이름은:</S.ModalUserBookInfoTitle>
+                  <S.ModalUserBookInfoStatus isOk={false}>3일 연체됨</S.ModalUserBookInfoStatus>
+                </S.ModalUserBookInfo>
+                <S.ModalUserBookInfo>
+                  <S.ModalUserBookInfoTitle>키미노 나마에와:</S.ModalUserBookInfoTitle>
+                  <S.ModalUserBookInfoStatus isOk={true}> 4일 남음</S.ModalUserBookInfoStatus>
+                </S.ModalUserBookInfo>
+                <S.ModalUserBookInfo>
+                  <S.ModalUserBookInfoTitle>what is your fucking name:</S.ModalUserBookInfoTitle>
+                  <S.ModalUserBookInfoStatus isOk={true}>1주일 남음</S.ModalUserBookInfoStatus>
+                </S.ModalUserBookInfo>
+              </S.ModalUserContainer>
+            }
+            leftButtonText="닫기"
+            rightButtonText="확인"
+          />
+        </Modal.OverLay>
+      )}
     </S.ManageUserContainer>
   );
 };

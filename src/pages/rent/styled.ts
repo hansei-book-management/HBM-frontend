@@ -70,9 +70,6 @@ export const RentPageTitle = styled.h1`
 export const ModalTitle = styled.h1`
   font-size: 2.2rem;
   font-weight: 700;
-  @media screen and (min-width: 300px) and (max-width: 580px) {
-    display: none;
-  }
 `;
 
 export const MobileModalTitle = styled.h1`
