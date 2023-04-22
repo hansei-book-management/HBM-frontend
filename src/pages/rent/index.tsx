@@ -9,6 +9,7 @@ import { Modal, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { DetailModal } from '@/components/modal/DetailModal';
+import { useGetLocation } from '@/hooks';
 
 import * as S from './styled';
 
@@ -21,8 +22,7 @@ export const RentPage: React.FC = () => {
 
   const { modalActive } = useModal();
 
-  const isDetailPage = location.pathname.includes(`/rent/${clubId}/detail`);
-  const isRentPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
+  const { rentPage, rentDetailPage } = useGetLocation({ clubId });
 
   const [status, setStatus] = useRecoilState(StatusState);
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,8 +61,8 @@ export const RentPage: React.FC = () => {
       </S.TeamList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section activeClub={activeClub} />
-      {(modalActive && isDetailPage && <DetailModal clubId={clubId} />) ||
-        (modalActive && isRentPage && !status && (
+      {(modalActive && rentDetailPage && <DetailModal clubId={clubId} />) ||
+        (modalActive && rentPage && !status && (
           <Modal.OverLay>
             <Modal
               textProps={
@@ -91,7 +91,7 @@ export const RentPage: React.FC = () => {
             />
           </Modal.OverLay>
         )) ||
-        (modalActive && isRentPage && status && (
+        (modalActive && rentPage && status && (
           <Modal.OverLay>
             <Modal
               textProps={

@@ -36,6 +36,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
+
   const isRentPage = location.pathname.includes('/rent');
 
   const clubName = activeClub?.id;

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
+import { Section } from '@/components';
 
 import * as S from './styled';
 
@@ -37,6 +38,7 @@ export const ManageClubBookPage: React.FC = () => {
         ))}
       </S.ManageClubBookPageOptionList>
       <S.ManageClubBookPageTitle>{activeOption?.text}</S.ManageClubBookPageTitle>
+      <Section activeClub={activeOption} />
     </S.ManageClubBookPageContainer>
   );
 };
