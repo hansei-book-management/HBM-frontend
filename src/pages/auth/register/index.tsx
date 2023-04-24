@@ -4,40 +4,27 @@ import { useState } from 'react';
 import { INPUT_LIST } from '@/constant/input';
 
 import * as S from './styled';
+
+// 부장이면 동아리 이름을 입력
+// 부원이면 동아리 이름을 선택
 export interface FormProps {
-  errors: {
-    id: {
-      message: string;
-    };
-    name: {
-      message: string;
-    };
-    studentId: {
-      message: string;
-    };
-    phoneNumber: {
-      message: string;
-    };
-    password: {
-      message: string;
-    };
-    passwordCheck: {
-      message: string;
-    };
-    club: {
-      message: string;
-    };
-  };
-  id: string;
+  role: string;
+  clubName: string;
   name: string;
   studentId: string;
   phoneNumber: string;
+  id: string;
   password: string;
   passwordCheck: string;
-  role: string;
 }
 
 export const RegisterPage: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormProps>();
+
   const [page, setPage] = useState(1);
 
   const onNextPage = () => {
@@ -51,12 +38,6 @@ export const RegisterPage: React.FC = () => {
       setPage((prev) => prev - 1);
     }
   };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormProps>();
 
   const onNext = (formData: FormProps) => {
     console.log(formData);
