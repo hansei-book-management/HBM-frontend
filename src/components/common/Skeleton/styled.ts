@@ -53,16 +53,6 @@ export const SkeletonImage = styled.div`
     width: 9rem;
     height: 14rem;
   }
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-    animation: 0.8s infinite ${skeletonKeyframe};
-  }
 `;
 
 export const SkeletonImageInfoContainer = styled.div`
@@ -77,16 +67,6 @@ export const SkeletonImageTitle = styled.span`
   background-color: ${({ theme }) => theme.skeleton};
   width: 70%;
   height: 1.2rem;
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-    animation: 0.8s infinite ${skeletonKeyframe};
-  }
 `;
 
 export const SkeletonImageSubTitle = styled.span`
@@ -110,14 +90,4 @@ export const SkeletonImageMessage = styled.span`
   background-color: ${({ theme }) => theme.skeleton};
   width: 20%;
   height: 1rem;
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-    animation: 0.8s infinite ${skeletonKeyframe};
-  }
 `;
