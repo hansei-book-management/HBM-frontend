@@ -54,7 +54,10 @@ export const RentPage: React.FC = () => {
     <S.RentPageContainer>
       <S.TeamList>
         {CLUB_LIST.map(({ name, id }) => (
-          <S.TeamLink to={`/rent/${id} `} isActive={teamLinkIsActive(clubId, id)}>
+          <S.TeamLink
+            {...(name === CLUB_LIST[4].name ? { to: `${id}` } : { to: `/rent/${id}` })}
+            isActive={teamLinkIsActive(clubId, id)}
+          >
             {name}
           </S.TeamLink>
         ))}

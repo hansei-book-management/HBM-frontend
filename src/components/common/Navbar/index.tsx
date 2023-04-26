@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
 
-import { ADMIN_NAVBAR_MENU_LIST } from '@/constant';
+import { ADMIN_NAVBAR_MENU_LIST, USER_NAVBAR_MENU_LIST } from '@/constant';
 import { useGetWindowSize } from '@/hooks';
 
 import * as S from './styled';
@@ -84,7 +84,7 @@ export const Navbar: React.FC = () => {
           className="hidden"
         >
           <S.NavbarMenuWrapper>
-            {ADMIN_NAVBAR_MENU_LIST.map(({ text, href }, i) => (
+            {USER_NAVBAR_MENU_LIST.map(({ text, href }, i) => (
               <S.MenuItem
                 {...(getWidth <= 630 && { onClick })}
                 to={href}
