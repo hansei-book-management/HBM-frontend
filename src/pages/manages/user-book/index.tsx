@@ -5,7 +5,7 @@ import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { Modal, Section, StatusModal } from '@/components';
+import { DetailModal, Modal, Section, StatusModal } from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
 import { StatusState, BookState } from '@/atoms';
@@ -44,6 +44,7 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   useEffect(() => {
+    status && setStatus(false);
     window.scrollTo(0, 0);
     if (!activeUserClub) {
       navigate(`/manage/user-book/${USER_CLUB_LIST[0].id}`);
@@ -113,6 +114,11 @@ export const ManageUserBookPage: React.FC = () => {
       )) ||
         (modalActive && status && !bookClick && (
           <StatusModal url={`/manage/user-book/${userClubId}`} />
+        )) ||
+        (modalActive && bookClick && (
+          <DetailModal
+            message={<S.ModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.ModalMessage>}
+          />
         ))}
     </S.ManageUserBookPageContainer>
   );

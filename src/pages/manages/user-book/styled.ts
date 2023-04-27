@@ -124,3 +124,10 @@ export const ModalAddClubInput = styled.input`
   font-size: 1rem;
   font-weight: 400;
 `;
+
+export const ModalMessage = styled.span<{ isOk: boolean }>`
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: ${({ theme, isOk }) => (isOk ? theme.primary.green : theme.primary.red)};
+`;

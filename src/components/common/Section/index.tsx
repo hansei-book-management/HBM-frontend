@@ -92,10 +92,11 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   };
 
   const openModal = (id: number) => {
-    setBookClick(true);
-    if (bookClick) {
+    if (!bookClick) {
+      setBookClick(true);
       open();
     }
+    open();
     if (rentPage) {
       navigate(`/rent/${clubName}/detail/${id}`);
     }
