@@ -52,13 +52,13 @@ export const RentPage: React.FC = () => {
 
   return (
     <S.RentPageContainer>
-      <S.TeamList>
+      <S.RentClubList>
         {RENT_CLUB_LIST.map(({ name, id }) => (
-          <S.TeamLink to={`/rent/${id}`} isActive={clubLinkIsActive(rentClubId, id)}>
+          <S.RentClubLink to={`/rent/${id}`} isActive={clubLinkIsActive(rentClubId, id)}>
             {name}
-          </S.TeamLink>
+          </S.RentClubLink>
         ))}
-      </S.TeamList>
+      </S.RentClubList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && (

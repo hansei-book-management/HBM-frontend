@@ -34,7 +34,7 @@ export const RentPageContainer = styled.section`
   row-gap: 1rem;
 `;
 
-export const TeamList = styled.div`
+export const RentClubList = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -42,7 +42,7 @@ export const TeamList = styled.div`
   gap: 1.4rem;
 `;
 
-export const TeamLink = styled(Link)<{ isActive: boolean }>`
+export const RentClubLink = styled(Link)<{ isActive: boolean }>`
   padding: 0.75rem 1rem;
   border-radius: 1.2rem;
   text-decoration: none;

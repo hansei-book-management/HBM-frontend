@@ -2,17 +2,25 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 
-import { Section } from '@/components';
+import { Modal, Section } from '@/components';
 import { USER_CLUB_LIST } from '@/constant';
+import { useModal } from '@/hooks';
 
 import * as S from './styled';
 
 export const ManageUserBookPage: React.FC = () => {
-  const userClubIsActive = (userClubId?: string, id?: string) => userClubId === id;
   const navigate = useNavigate();
+  const { modalActive, open } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
+
+  const userClubIsActive = (userClubId?: string, id?: string) => userClubId === id;
+
+  const onClick = () => {
+    navigate(`/manage/user-book/${userClubId}?club-add`);
+    open();
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,11 +48,37 @@ export const ManageUserBookPage: React.FC = () => {
             {name}
           </S.UserClubLink>
         ))}
-        <S.ClubAddIconWrap>
+        <S.ClubAddIconWrap onClick={onClick}>
           <FaPlus size={'0.9rem'} />
         </S.ClubAddIconWrap>
       </S.UserClubList>
       <Section activeClub={activeUserClub} />
+      {modalActive && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.ModalAddClubContainer>
+                <S.ModalAddClubSelect>
+                  <option value="0" selected={true} disabled={true}>
+                    동아리를 선택해주세요...
+                  </option>
+                  <option value="1">hsoc</option>
+                  <option value="2">ssr</option>
+                  <option value="3">nsb</option>
+                </S.ModalAddClubSelect>
+                <S.ModalAddClubInputContainer>
+                  <S.ModalAddClubInputText>인증키 입력</S.ModalAddClubInputText>
+                  <S.ModalAddClubInput />
+                </S.ModalAddClubInputContainer>
+              </S.ModalAddClubContainer>
+            }
+            leftButtonText="취소"
+            rightButtonText="추가하기"
+            lastPage={true}
+            clubAddModal={true}
+          />
+        </Modal.OverLay>
+      )}
     </S.ManageUserBookPageContainer>
   );
 };

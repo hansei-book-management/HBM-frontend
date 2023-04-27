@@ -78,7 +78,7 @@ export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
   background-color: ${({ theme }) => theme.white};
 `;
 
-export const ModalButton = styled.button<{ left: boolean; disable?: boolean }>`
+export const ModalButton = styled.button<{ left?: boolean; disable?: boolean }>`
   cursor: pointer;
   width: 6.5rem;
   padding: 0.5rem 0.8rem;

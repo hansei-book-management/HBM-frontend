@@ -7,23 +7,25 @@ import * as S from './styled';
 export interface ModalProps {
   onNavigate?: () => void;
   onCloseNavigate?: () => void;
-  textProps?: React.ReactNode;
+  textProps: React.ReactNode;
   lastPage?: boolean;
+  clubAddModal?: boolean;
   disable?: boolean;
   leftButtonText: string;
   rightButtonText: React.ReactNode;
 }
 
 export interface ModalOverlayProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export const ModalElement: React.FC<ModalProps> = ({
   textProps,
-  lastPage,
-  disable,
+  lastPage = false,
+  disable = false,
   leftButtonText,
   rightButtonText,
+  clubAddModal = false,
   onNavigate,
   onCloseNavigate,
 }) => {
@@ -41,19 +43,17 @@ export const ModalElement: React.FC<ModalProps> = ({
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} lastPage={lastPage || false}>
-      <S.ModalContentContainer lastPage={lastPage || false}>{textProps}</S.ModalContentContainer>
-      <S.ModalButtonContainer lastPage={lastPage || false}>
-        {lastPage ? (
+    <S.ModalContainer isClosed={isClosed} lastPage={lastPage}>
+      <S.ModalContentContainer lastPage={lastPage}>{textProps}</S.ModalContentContainer>
+      <S.ModalButtonContainer lastPage={lastPage}>
+        {lastPage && !clubAddModal ? (
           <S.ModalLastPageButton onClick={closing}>{rightButtonText}</S.ModalLastPageButton>
         ) : (
           <>
-            <S.ModalButton left={true} onClick={closing} disable={disable}>
+            <S.ModalButton left onClick={closing} disable={disable}>
               {leftButtonText}
             </S.ModalButton>
-            <S.ModalButton left={false} onClick={onNavigate || closing}>
-              {rightButtonText}
-            </S.ModalButton>
+            <S.ModalButton onClick={onNavigate || closing}>{rightButtonText}</S.ModalButton>
           </>
         )}
       </S.ModalButtonContainer>
