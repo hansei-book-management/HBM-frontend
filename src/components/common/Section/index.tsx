@@ -17,6 +17,7 @@ import * as S from './styled';
 
 export interface SectionProps {
   activeClub?: RentClubItem | UserClubItem;
+  mangeClubName?: string;
 }
 
 export interface Book {
@@ -32,7 +33,7 @@ export interface BookItem {
   totalResults: number;
 }
 
-export const Section: React.FC<SectionProps> = ({ activeClub }) => {
+export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 
@@ -62,7 +63,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
     if (rentPage) {
       return getRentApi(clubName || '', page);
     } else {
-      return getManageApi(clubName || '', page);
+      return getManageApi(clubName || mangeClubName || '', page);
     }
   });
 

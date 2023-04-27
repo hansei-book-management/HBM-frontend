@@ -5,7 +5,7 @@ import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import { RENT_CLUB_LIST, checkLottieOptions, loadingLottieOptions } from '@/constant';
-import { Modal, Section } from '@/components';
+import { Modal, RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
 import { DetailModal } from '@/components/modal/DetailModal';
@@ -61,7 +61,9 @@ export const RentPage: React.FC = () => {
       </S.TeamList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section activeClub={activeClub} />
-      {(modalActive && rentDetailPage && <DetailModal clubId={rentClubId} />) ||
+      {(modalActive && rentDetailPage && (
+        <DetailModal clubId={rentClubId} message={<RentMessage canRent={true} />} />
+      )) ||
         (modalActive && rentBookPage && !status && (
           <Modal.OverLay>
             <Modal

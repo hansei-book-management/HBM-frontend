@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useGetWindowSize } from '@/hooks';
 import { Book1PNG } from '@/assets';
-import { RentMessage } from '@/components/common';
 
 import { Modal } from '../CommonModal';
 
@@ -11,9 +10,10 @@ import * as S from './styled';
 
 export interface DetailModalProps {
   clubId?: string;
+  message: ReactNode;
 }
 
-export const DetailModal: React.FC<DetailModalProps> = ({ clubId }) => {
+export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => {
   const navigate = useNavigate();
   const { getWidth } = useGetWindowSize();
 
@@ -33,14 +33,14 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId }) => {
             <S.ModalDetailContainer>
               {getWidth <= 580 && (
                 <div style={{ justifySelf: 'center', alignSelf: 'center' }}>
-                  <RentMessage canRent={true} />
+                  {message}
                   <S.MobileModalTitle>세노이의 가르침</S.MobileModalTitle>
                   <S.ModalImage src={Book1PNG} />
                 </div>
               )}
               {getWidth > 580 && <S.ModalImage src={Book1PNG} />}
               <S.ModalInfoContainer>
-                {getWidth > 580 && <RentMessage canRent={true} />}
+                {getWidth > 580 && <>{message}</>}
                 <S.ModalTitle>세노이의 가르침</S.ModalTitle>
                 <S.ModalInfo>
                   세이노 저자(글)
