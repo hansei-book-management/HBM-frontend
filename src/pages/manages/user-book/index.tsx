@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa';
 
 import { Section } from '@/components';
 import { USER_CLUB_LIST } from '@/constant';
@@ -21,20 +22,29 @@ export const ManageUserBookPage: React.FC = () => {
   }, [activeUserClub]);
 
   return (
-    <S.ManagePageContainer>
-      <S.ManageMessage>
+    <S.ManageUserBookPageContainer>
+      {/* <S.ManageMessage>
         현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.
-      </S.ManageMessage>
-      <S.ManagePageSubTitle>앙기모링님은 현재 2권 대출중이에요.</S.ManagePageSubTitle>
-      <S.ManagePageTitle>대출 중인 {activeUserClub?.name} 도서</S.ManagePageTitle>
-      <S.TeamList>
+      </S.ManageMessage> */}
+      <S.ManageUserBookPageSubTitle>
+        앙기모링님은 현재 2권 대출중이에요.
+      </S.ManageUserBookPageSubTitle>
+      <S.ManageUserBookPageTitle>대출 중인 {activeUserClub?.name} 도서</S.ManageUserBookPageTitle>
+      <S.UserClubList>
         {USER_CLUB_LIST.map(({ name, id }) => (
-          <S.TeamLink to={`/manage/user-book/${id}`} isActive={userClubIsActive(userClubId, id)}>
+          <S.UserClubLink
+            key={id}
+            to={`/manage/user-book/${id}`}
+            isActive={userClubIsActive(userClubId, id)}
+          >
             {name}
-          </S.TeamLink>
+          </S.UserClubLink>
         ))}
-      </S.TeamList>
+        <S.ClubAddIconWrap>
+          <FaPlus size={'0.9rem'} />
+        </S.ClubAddIconWrap>
+      </S.UserClubList>
       <Section activeClub={activeUserClub} />
-    </S.ManagePageContainer>
+    </S.ManageUserBookPageContainer>
   );
 };

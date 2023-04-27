@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
 
 import { ADMIN_NAVBAR_MENU_LIST, USER_NAVBAR_MENU_LIST } from '@/constant';
-import { useGetWindowSize } from '@/hooks';
+import { useGetLocation, useGetWindowSize } from '@/hooks';
 
 import * as S from './styled';
 
@@ -62,6 +62,7 @@ export const Navbar: React.FC = () => {
         navbar.current.style.transform = 'translateY(-25px)';
       }
     }
+    console.log(location.pathname.includes('/manage/user-book'));
   }, [getWidth]);
 
   return (
@@ -84,15 +85,12 @@ export const Navbar: React.FC = () => {
           className="hidden"
         >
           <S.NavbarMenuWrapper>
-            {USER_NAVBAR_MENU_LIST.map(({ text, href }, i) => (
+            {ADMIN_NAVBAR_MENU_LIST.map(({ text, href }, i) => (
               <S.MenuItem
                 {...(getWidth <= 630 && { onClick })}
                 to={href}
                 key={i}
-                isActive={
-                  location.pathname === href ||
-                  (href === '/rent' && location.pathname.includes('/rent'))
-                }
+                isActive={location.pathname.includes(href)}
               >
                 {text}
               </S.MenuItem>

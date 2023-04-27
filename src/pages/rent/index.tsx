@@ -27,8 +27,8 @@ export const RentPage: React.FC = () => {
   const [status, setStatus] = useRecoilState(StatusState);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onRentNavigate = (id: number) => {
-    navigate(`/rent/${rentClubId}/book-rent/${id}`);
+  const onRentNavigate = (id: number, stepNum: number) => {
+    navigate(`/rent/${rentClubId}/book-rent/${id}?step=${stepNum}`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -85,7 +85,7 @@ export const RentPage: React.FC = () => {
                 )
               }
               {...(!loading && {
-                onNavigate: () => onRentNavigate(2),
+                onNavigate: () => onRentNavigate(1, 2),
                 onCloseNavigate: () => onCloseNavigate(),
               })}
             />

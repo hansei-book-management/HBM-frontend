@@ -86,7 +86,7 @@ export const MenuItem = styled(Link)<{ isActive: boolean }>`
   font-weight: 600;
   text-decoration: none;
   color: ${({ theme }) => theme.navbar.unselected};
-  transition: color 150ms;
+  transition: color 150ms ease-in;
   margin-right: 1rem;
   ${(props) =>
     props.isActive &&

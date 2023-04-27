@@ -145,7 +145,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
                   </S.ImageContainer>
                 ))}
               </S.SectionContainer>
-              {!isLoading && data?.totalPages !== 0 && (
+              {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
                 <S.PaginationContainer>
                   {page > 1 ? (
                     <S.PaginationButton onClick={onPrevPageClick} show={true}>

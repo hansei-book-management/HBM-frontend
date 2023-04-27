@@ -17,8 +17,8 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId }) => {
   const navigate = useNavigate();
   const { getWidth } = useGetWindowSize();
 
-  const onNextNavigate = (id: number) => {
-    navigate(`/rent/${clubId}/book-rent/${id}`);
+  const onNextNavigate = (id: number, stepNum: number) => {
+    navigate(`/rent/${clubId}/book-rent/${id}?step=${stepNum}`);
   };
 
   const onCloseNavigate = () => {
@@ -75,7 +75,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId }) => {
           ? {
               leftButtonText: '취소',
               rightButtonText: '대여하기',
-              onNavigate: () => onNextNavigate(1),
+              onNavigate: () => onNextNavigate(2, 1),
               onCloseNavigate: () => onCloseNavigate(),
             }
           : {
