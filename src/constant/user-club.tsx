@@ -1,10 +1,10 @@
 import { FaPlus } from 'react-icons/fa';
-export interface ClubItem {
+export interface UserClubItem {
   name: string | React.ReactNode;
   id: string;
 }
 
-export const CLUB_LIST: ClubItem[] = [
+export const USER_CLUB_LIST: UserClubItem[] = [
   {
     name: '보안관제',
     id: 'hsoc',
@@ -14,15 +14,7 @@ export const CLUB_LIST: ClubItem[] = [
     id: 'ssr',
   },
   {
-    name: '포렌식',
+    name: <FaPlus size={'0.9rem'} />,
     id: 'forensic',
-  },
-  {
-    name: 'NSB',
-    id: 'nsb',
-  },
-  {
-    name: <FaPlus size=".9rem" />,
-    id: '/club/add',
   },
 ];

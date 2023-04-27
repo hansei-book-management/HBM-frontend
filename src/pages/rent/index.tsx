@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { CLUB_LIST, checkLottieOptions, loadingLottieOptions } from '@/constant';
+import { RENT_CLUB_LIST, checkLottieOptions, loadingLottieOptions } from '@/constant';
 import { Modal, Section } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';
@@ -13,22 +13,22 @@ import { useGetLocation } from '@/hooks';
 
 import * as S from './styled';
 
-const teamLinkIsActive = (clubId?: string, id?: string) => clubId === id;
+const clubLinkIsActive = (clubId?: string, id?: string) => clubId === id;
 
 export const RentPage: React.FC = () => {
   const navigate = useNavigate();
-  const { clubId } = useParams<{ clubId: string }>();
-  const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
+  const { rentClubId } = useParams<{ rentClubId: string }>();
+  const activeClub = RENT_CLUB_LIST.find(({ id }) => id === rentClubId);
 
   const { modalActive } = useModal();
 
-  const { rentBookPage, rentDetailPage } = useGetLocation({ clubId });
+  const { rentBookPage, rentDetailPage } = useGetLocation({ clubId: rentClubId });
 
   const [status, setStatus] = useRecoilState(StatusState);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onRentNavigate = (id: number) => {
-    navigate(`/rent/${clubId}/book-rent/${id}`);
+    navigate(`/rent/${rentClubId}/book-rent/${id}`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -37,34 +37,31 @@ export const RentPage: React.FC = () => {
   };
 
   const onCloseNavigate = () => {
-    navigate(`/rent/${clubId}`);
+    navigate(`/rent/${rentClubId}`);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     status && setStatus(false);
     if (!activeClub) {
-      navigate(`/rent/${CLUB_LIST[0].id}`);
+      navigate(`/rent/${RENT_CLUB_LIST[0].id}`);
     } else if (!modalActive) {
-      navigate(`/rent/${clubId}`);
+      navigate(`/rent/${rentClubId}`);
     }
   }, [activeClub, modalActive]);
 
   return (
     <S.RentPageContainer>
       <S.TeamList>
-        {CLUB_LIST.map(({ name, id }) => (
-          <S.TeamLink
-            {...(name === CLUB_LIST[4].name ? { to: `${id}` } : { to: `/rent/${id}` })}
-            isActive={teamLinkIsActive(clubId, id)}
-          >
+        {RENT_CLUB_LIST.map(({ name, id }) => (
+          <S.TeamLink to={`/rent/${id}`} isActive={clubLinkIsActive(rentClubId, id)}>
             {name}
           </S.TeamLink>
         ))}
       </S.TeamList>
       {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
       <Section activeClub={activeClub} />
-      {(modalActive && rentDetailPage && <DetailModal clubId={clubId} />) ||
+      {(modalActive && rentDetailPage && <DetailModal clubId={rentClubId} />) ||
         (modalActive && rentBookPage && !status && (
           <Modal.OverLay>
             <Modal

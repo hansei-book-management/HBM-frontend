@@ -6,7 +6,7 @@ import Lottie from 'react-lottie';
 import axios from 'axios';
 
 import { Book1PNG } from '@/assets';
-import { ClubItem, NoDataLottieOptions } from '@/constant';
+import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
 import { useModal } from '@/hooks/useModal';
 import { useGetLocation } from '@/hooks';
 
@@ -16,7 +16,7 @@ import { Skeleton } from '../Skeleton';
 import * as S from './styled';
 
 export interface SectionProps {
-  activeClub?: ClubItem;
+  activeClub?: RentClubItem | UserClubItem;
 }
 
 export interface Book {
@@ -49,21 +49,20 @@ export const Section: React.FC<SectionProps> = ({ activeClub }) => {
   const clubName = activeClub?.id;
 
   const getRentApi = async (clubName: string, page: number) => {
-    const res = await axios.get(`http://localhost:3003/rent/${clubName}?page=${page}`);
+    const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
     return res.data;
   };
 
-  const getManageApi = async (page: number) => {
-    const res = await axios.get(`http://localhost:3003/rent/hsoc?page=${page}`);
+  const getManageApi = async (clubName: string, page: number) => {
+    const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
     return res.data;
   };
 
   const { data, isLoading, refetch } = useQuery<BookItem>(['bookList', clubName, page], () => {
-    console.log(data);
     if (rentPage) {
       return getRentApi(clubName || '', page);
     } else {
-      return getManageApi(page);
+      return getManageApi(clubName || '', page);
     }
   });
 
