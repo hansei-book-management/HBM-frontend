@@ -3,6 +3,7 @@ import Lottie from 'react-lottie';
 import { useNavigate } from 'react-router-dom';
 
 import { checkLottieOptions } from '@/constant';
+import { useGetLocation } from '@/hooks';
 
 import { Modal } from '../CommonModal';
 
@@ -13,6 +14,7 @@ export interface StatusModalProps {
 }
 
 export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
+  const { manageUserBookPage } = useGetLocation({});
   const navigate = useNavigate();
   const onCloseNavigate = () => {
     navigate(`${url}`);
@@ -24,11 +26,21 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
         textProps={
           <S.ModalSuccessContainer>
             <Lottie options={checkLottieOptions} height={'8rem'} width={'8rem'} />
-            <S.ModalTitle>대출 성공</S.ModalTitle>
+            <S.ModalTitle>{manageUserBookPage ? '추가 성공' : '대여 성공'}</S.ModalTitle>
             <S.ModalLastContainer>
-              <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대여했어요.</S.ModalSubTitle>
-              <S.ModalSubTitle>대출 기한은 10일이며, 연장 신청을 할 수 있어요.</S.ModalSubTitle>
-              <S.ModalSubTitle>1차 반납 기간은 2023년 X월 X일까지에요.</S.ModalSubTitle>
+              {manageUserBookPage ? (
+                <>
+                  <S.ModalSubTitle>보안관제 동아리 도서가 추가되었어요.</S.ModalSubTitle>
+                  <S.ModalSubTitle>앞으로 보안관제 동아리 도서를 대여할 수 있어요.</S.ModalSubTitle>
+                  <S.ModalSubTitle>내 도서에서 확인해보세요.</S.ModalSubTitle>
+                </>
+              ) : (
+                <>
+                  <S.ModalSubTitle>‘당신이 모르는 민주주의’ 책을 대여했어요.</S.ModalSubTitle>
+                  <S.ModalSubTitle>대출 기한은 10일이며, 연장 신청을 할 수 있어요.</S.ModalSubTitle>
+                  <S.ModalSubTitle>1차 반납 기간은 2023년 X월 X일까지에요.</S.ModalSubTitle>
+                </>
+              )}
             </S.ModalLastContainer>
           </S.ModalSuccessContainer>
         }

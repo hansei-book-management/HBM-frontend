@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { RENT_CLUB_LIST, checkLottieOptions, loadingLottieOptions } from '@/constant';
+import { RENT_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { Modal, RentMessage, Section, StatusModal } from '@/components';
 import { useModal } from '@/hooks/useModal';
 import { StatusState } from '@/atoms';

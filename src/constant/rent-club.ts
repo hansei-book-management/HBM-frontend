@@ -1,4 +1,3 @@
-import { FaPlus } from 'react-icons/fa';
 export interface RentClubItem {
   name: string | React.ReactNode;
   id: string;

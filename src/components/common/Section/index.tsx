@@ -156,22 +156,14 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
               </S.SectionContainer>
               {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
                 <S.PaginationContainer>
-                  {page > 1 ? (
-                    <S.PaginationButton onClick={onPrevPageClick} show={true}>
-                      &larr;
-                    </S.PaginationButton>
-                  ) : (
-                    <S.PaginationButton show={false}>&larr;</S.PaginationButton>
+                  {page > 1 && (
+                    <S.PaginationButton onClick={onPrevPageClick}>&larr;</S.PaginationButton>
                   )}
                   <S.PaginationText>
                     {page} / {data?.totalPages}
                   </S.PaginationText>
-                  {page !== data?.totalPages ? (
-                    <S.PaginationButton onClick={onNextPageClick} show={true}>
-                      &rarr;
-                    </S.PaginationButton>
-                  ) : (
-                    <S.PaginationButton show={false}>&rarr;</S.PaginationButton>
+                  {page !== data?.totalPages && (
+                    <S.PaginationButton onClick={onNextPageClick}>&rarr;</S.PaginationButton>
                   )}
                 </S.PaginationContainer>
               )}

@@ -156,9 +156,3 @@ export const ModalQuestionContainer = styled.div`
   padding-bottom: 1rem;
   gap: 1.4rem;
 `;
-
-export const ModalSuccessContainer = styled(ModalQuestionContainer)`
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 1.5rem;
-`;

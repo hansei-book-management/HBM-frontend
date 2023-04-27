@@ -76,7 +76,7 @@ export const PaginationContainer = styled.div`
   padding: 4rem 0;
 `;
 
-export const PaginationButton = styled.button<{ show: boolean }>`
+export const PaginationButton = styled.button`
   cursor: pointer;
   align-self: center;
   justify-self: center;
@@ -85,7 +85,6 @@ export const PaginationButton = styled.button<{ show: boolean }>`
   border: none;
   padding-bottom: 6px;
   background-color: transparent;
-  opacity: ${({ show }) => (show ? 1 : 0)};
 `;
 
 export const PaginationText = styled.span`

@@ -83,19 +83,9 @@ export const ModalAddClubContainer = styled.div`
   width: 100%;
 `;
 
-export const ModalAddClubSelect = styled.select`
-  background-color: ${({ theme }) => theme.white};
-  border: 1px solid ${({ theme }) => theme.imageBorder};
-  padding: 14px;
-  align-self: center;
-  border-radius: 0.8rem;
-  height: 3rem;
-  width: 100%;
-  caret-color: auto;
-  appearance: none;
-  font-size: 1rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.black};
+export const ModalAddClubTitle = styled.h1`
+  font-size: 1.8rem;
+  font-weight: 700;
 `;
 
 export const ModalAddClubInputContainer = styled.div`

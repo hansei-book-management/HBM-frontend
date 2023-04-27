@@ -25,6 +25,7 @@ export const ManageUserBookPage: React.FC = () => {
   const userClubIsActive = (userClubId?: string, id?: string) => userClubId === id;
 
   const onClick = () => {
+    setStatus(false);
     setBookClick(false);
     navigate(`/manage/user-book/${userClubId}?club-add-step=1`);
     open();
@@ -80,14 +81,7 @@ export const ManageUserBookPage: React.FC = () => {
           <Modal
             textProps={
               <S.ModalAddClubContainer>
-                <S.ModalAddClubSelect>
-                  <option value="0" selected={true} disabled={true}>
-                    동아리를 선택해주세요...
-                  </option>
-                  <option value="1">hsoc</option>
-                  <option value="2">ssr</option>
-                  <option value="3">nsb</option>
-                </S.ModalAddClubSelect>
+                <S.ModalAddClubTitle>동아리 회원 등록</S.ModalAddClubTitle>
                 <S.ModalAddClubInputContainer>
                   <S.ModalAddClubInputText>인증키 입력</S.ModalAddClubInputText>
                   <S.ModalAddClubInput />
