@@ -1,15 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
+import Lottie from 'react-lottie';
 
-import { Modal, Section } from '@/components';
-import { USER_CLUB_LIST } from '@/constant';
+import { useRecoilState } from 'recoil';
+
+import { Modal, Section, StatusModal } from '@/components';
+import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
+import { StatusState, BookState } from '@/atoms';
 
 import * as S from './styled';
 
 export const ManageUserBookPage: React.FC = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [status, setStatus] = useRecoilState(StatusState);
+  const [bookClick, setBookClick] = useRecoilState(BookState);
   const { modalActive, open } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
@@ -18,8 +25,22 @@ export const ManageUserBookPage: React.FC = () => {
   const userClubIsActive = (userClubId?: string, id?: string) => userClubId === id;
 
   const onClick = () => {
-    navigate(`/manage/user-book/${userClubId}?club-add`);
+    setBookClick(false);
+    navigate(`/manage/user-book/${userClubId}?club-add-step=1`);
     open();
+  };
+
+  const onSubmit = (stepNum: number) => {
+    navigate(`/manage/user-book/${userClubId}?club-add-step=${stepNum}`);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setStatus(true);
+    }, 1000);
+  };
+
+  const onCloseNavigate = () => {
+    navigate(`/manage/user-book/${userClubId}`);
   };
 
   useEffect(() => {
@@ -53,7 +74,7 @@ export const ManageUserBookPage: React.FC = () => {
         </S.ClubAddIconWrap>
       </S.UserClubList>
       <Section activeClub={activeUserClub} />
-      {modalActive && (
+      {(modalActive && !status && !bookClick && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -73,12 +94,26 @@ export const ManageUserBookPage: React.FC = () => {
               </S.ModalAddClubContainer>
             }
             leftButtonText="취소"
-            rightButtonText="추가하기"
+            rightButtonText={
+              loading ? (
+                <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+              ) : (
+                '추가하기'
+              )
+            }
             lastPage={true}
             clubAddModal={true}
+            disable={loading}
+            {...(!loading && {
+              onNavigate: () => onSubmit(2),
+              onCloseNavigate: () => onCloseNavigate(),
+            })}
           />
         </Modal.OverLay>
-      )}
+      )) ||
+        (modalActive && status && !bookClick && (
+          <StatusModal url={`/manage/user-book/${userClubId}`} />
+        ))}
     </S.ManageUserBookPageContainer>
   );
 };

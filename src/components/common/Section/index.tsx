@@ -4,11 +4,13 @@ import { useQuery } from 'react-query';
 import Lottie from 'react-lottie';
 
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
 
 import { Book1PNG } from '@/assets';
 import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
 import { useModal } from '@/hooks/useModal';
 import { useGetLocation } from '@/hooks';
+import { BookState } from '@/atoms';
 
 import { RentMessage } from '../RentMessage';
 import { Skeleton } from '../Skeleton';
@@ -36,6 +38,8 @@ export interface BookItem {
 export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
+
+  const [bookClick, setBookClick] = useRecoilState(BookState);
 
   const navigate = useNavigate();
 
@@ -88,7 +92,10 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   };
 
   const openModal = (id: number) => {
-    open();
+    setBookClick(true);
+    if (bookClick) {
+      open();
+    }
     if (rentPage) {
       navigate(`/rent/${clubName}/detail/${id}`);
     }
