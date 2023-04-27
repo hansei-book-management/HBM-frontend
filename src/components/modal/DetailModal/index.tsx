@@ -21,10 +21,6 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => 
     navigate(`/rent/${clubId}/book-rent/${id}?step=${stepNum}`);
   };
 
-  const onCloseNavigate = () => {
-    navigate(`/rent/${clubId}`);
-  };
-
   return (
     <Modal.OverLay>
       <Modal
@@ -76,7 +72,6 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => 
               leftButtonText: '취소',
               rightButtonText: '대여하기',
               onNavigate: () => onNextNavigate(2, 1),
-              onCloseNavigate: () => onCloseNavigate(),
             }
           : {
               leftButtonText: '닫기',

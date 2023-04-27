@@ -46,8 +46,9 @@ export const ManageUserBookPage: React.FC = () => {
 
   useEffect(() => {
     status && setStatus(false);
+    const clubAddStep = location.search;
     window.scrollTo(0, 0);
-    if (!activeUserClub) {
+    if (!activeUserClub || clubAddStep) {
       navigate(`/manage/user-book/${USER_CLUB_LIST[0].id}`);
     }
   }, [activeUserClub]);
