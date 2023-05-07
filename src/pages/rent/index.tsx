@@ -59,7 +59,7 @@ export const RentPage: React.FC = () => {
           </S.RentClubLink>
         ))}
       </S.RentClubList>
-      {activeClub && <S.RentPageTitle>{activeClub.name} 도서</S.RentPageTitle>}
+      <S.RentPageTitle>{activeClub?.name} 도서</S.RentPageTitle>
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && (
         <DetailModal clubId={rentClubId} message={<RentMessage canRent={true} />} />

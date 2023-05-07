@@ -36,6 +36,21 @@ export const ManageClubBookPageOptionItem = styled(Link)<{ isActive: boolean }>`
         `}
 `;
 
+export const ManageClubBookPageAddIconWrap = styled.div`
+  padding: 0.6rem 1rem;
+  border-radius: 1.2rem;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 200ms ease-in-out;
+  color: ${({ theme }) => theme.black};
+  background-color: ${({ theme }) => theme.primary.white};
+  &:hover {
+    color: ${({ theme }) => theme.primary.white};
+    background-color: ${({ theme }) => theme.black};
+  }
+`;
+
 export const ManageClubBookPageTitle = styled.h1`
   font-size: 2rem;
   font-weight: 700;

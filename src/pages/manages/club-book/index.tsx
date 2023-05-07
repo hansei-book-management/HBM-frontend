@@ -1,49 +1,60 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa';
+
+import { useRecoilState } from 'recoil';
 
 import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks';
 import { DetailModal } from '@/components/modal/DetailModal';
+import { BookState, StatusState } from '@/atoms';
 
 import * as S from './styled';
 
 export const ManageClubBookPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const manageBookOption = location.search;
+  const { modalActive, open } = useModal();
+  const [status, setStatus] = useRecoilState(StatusState);
+  const [bookClick, setBookClick] = useRecoilState(BookState);
 
-  const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(
-    ({ id }) => '?options=' + id === manageBookOption,
-  );
-
-  const manageBookOptionsIsActive = (manageBookOption?: string, id?: string) =>
-    manageBookOption === '?options=' + id;
-
-  const { modalActive } = useModal();
+  const { option } = useParams<{ option: string }>();
+  const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
+  const manageBookOptionsIsActive = (option?: string, id?: string) => option === id;
+  const onClick = () => {
+    setStatus(false);
+    setBookClick(false);
+    navigate(`/manage/club-book/${option}/?book-add-step=1`);
+    open();
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!activeOption) {
-      navigate(`/manage/club-book/?options=${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
+      navigate(`/manage/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
     }
-  }, [activeOption]);
+  }, []);
 
   return (
     <S.ManageClubBookPageContainer>
       <S.ManageClubBookPageOptionList>
         {MANAGE_CLUB_BOOK_OPTIONS.map(({ name, id }) => (
           <S.ManageClubBookPageOptionItem
-            to={`/manage/club-book/?options=${id}`}
-            isActive={manageBookOptionsIsActive(manageBookOption, id)}
+            to={`/manage/club-book/${id}`}
+            isActive={manageBookOptionsIsActive(option, id)}
           >
             {name}
           </S.ManageClubBookPageOptionItem>
         ))}
+        <S.ManageClubBookPageAddIconWrap onClick={onClick}>
+          <FaPlus size={'0.9rem'} />
+        </S.ManageClubBookPageAddIconWrap>
       </S.ManageClubBookPageOptionList>
       <S.ManageClubBookPageTitle>{activeOption?.text}</S.ManageClubBookPageTitle>
       <Section mangeClubName="hsoc" />
-      {modalActive && <DetailModal message={<RentMessage canRent={true} />} />}
+      {modalActive && !status && !bookClick && <h1>Hello</h1>}
+      {modalActive && bookClick && <DetailModal message={<RentMessage canRent={true} />} />}
     </S.ManageClubBookPageContainer>
   );
 };

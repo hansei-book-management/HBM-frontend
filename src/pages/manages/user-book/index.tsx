@@ -22,17 +22,18 @@ export const ManageUserBookPage: React.FC = () => {
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
 
+  const BASE_URL = `/manage/user-book/${userClubId}`;
   const userClubIsActive = (userClubId?: string, id?: string) => userClubId === id;
 
   const onClick = () => {
     setStatus(false);
     setBookClick(false);
-    navigate(`/manage/user-book/${userClubId}?club-add-step=1`);
+    navigate(`${BASE_URL}?club-add-step=1`);
     open();
   };
 
   const onSubmit = (stepNum: number) => {
-    navigate(`/manage/user-book/${userClubId}?club-add-step=${stepNum}`);
+    navigate(`${BASE_URL}?club-add-step=${stepNum}`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -41,7 +42,7 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onCloseNavigate = () => {
-    navigate(`/manage/user-book/${userClubId}`);
+    navigate(`${BASE_URL}`);
   };
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export const ManageUserBookPage: React.FC = () => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
     if (!activeUserClub || clubAddStep) {
-      navigate(`/manage/user-book/${USER_CLUB_LIST[0].id}`);
+      navigate(`${BASE_URL}/${USER_CLUB_LIST[0].id}`);
     }
   }, [activeUserClub]);
 
@@ -107,9 +108,7 @@ export const ManageUserBookPage: React.FC = () => {
           />
         </Modal.OverLay>
       )) ||
-        (modalActive && status && !bookClick && (
-          <StatusModal url={`/manage/user-book/${userClubId}`} />
-        )) ||
+        (modalActive && status && !bookClick && <StatusModal url={`${BASE_URL}`} />) ||
         (modalActive && bookClick && (
           <DetailModal
             message={<S.ModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.ModalMessage>}
