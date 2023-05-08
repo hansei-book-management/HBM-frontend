@@ -4,7 +4,7 @@
 // export const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 // export const phoneNumberPattern = /^010{8}$/;
 // export const namePattern = /^[가-힣]{2,4}$/;
-// export const studentIdPattern = /^[NCGH][1-3][1-2][0-9]{2}$/;
+// export const studentIdPattern = /^[C|N][0-9]{4}$/;
 
 // export interface InputItem {
 //   name: keyof FormProps;

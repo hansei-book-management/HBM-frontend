@@ -23,14 +23,12 @@ export const RegisterPage: React.FC = () => {
   } = useForm<RegisterFormValues>();
 
   const password = useRef({});
-  password.current = watch('password', '');
+  password.current = watch('password');
 
   const [page, setPage] = useState(1);
 
   const onPrevClick = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
+    setPage(Math.max(page - 1, 1));
   };
 
   const onSubmit = (data: RegisterFormValues) => {
@@ -40,14 +38,10 @@ export const RegisterPage: React.FC = () => {
       console.log(data);
     }
   };
-  return (
-    <S.RegisterWrapper>
-      {page === 2 ? (
-        <S.RegisterBackButton onClick={onPrevClick}>&larr;</S.RegisterBackButton>
-      ) : (
-        <S.RegisterBackButton style={{ opacity: '0' }}>&larr;</S.RegisterBackButton>
-      )}
-      <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
+
+  const registerStep1 = () => {
+    return (
+      <>
         <div>
           <S.RegisterInput
             type="text"
@@ -78,9 +72,9 @@ export const RegisterPage: React.FC = () => {
         </div>
         <div>
           <S.RegisterInput
-            type="passwordCheck"
+            type="password"
             {...register('passwordCheck', {
-              required: '비밀번호 확인을 입력해주세요.',
+              required: '비밀번호 확인은 필수입니다.',
               pattern: {
                 value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/,
                 message: '8~16자 영문, 숫자, 특수문자 조합을 입력해주세요',
@@ -94,6 +88,7 @@ export const RegisterPage: React.FC = () => {
         </div>
         <div>
           <S.RegisterInput
+            type="text"
             {...register('name', {
               required: '이름은 필수입니다.',
               pattern: {
@@ -107,6 +102,7 @@ export const RegisterPage: React.FC = () => {
         </div>
         <div>
           <S.RegisterInput
+            type="text"
             {...register('studentId', {
               required: '학번 필수입니다.',
               maxLength: {
@@ -118,7 +114,7 @@ export const RegisterPage: React.FC = () => {
                 message: '학번은 5자 입니다.',
               },
               pattern: {
-                value: /^[NCGH][1-3][1-2][0-30]$/, // 이 코드를 해석하면 NCGH로 시작하고 1~3학년 1~2반 0~30번까지의 학번을 입력하라는 뜻입니다.
+                value: /^[NCGH][1-3][1-2][0-9]{2}$/, // 이 코드를 해석하면 NCGH로 시작하고 1~3학년 1~2반 0~30번까지의 학번을 입력하라는 뜻입니다.
                 message: '학번 형식이 올바르지 않습니다.',
               },
             })}
@@ -126,6 +122,50 @@ export const RegisterPage: React.FC = () => {
           />
           <S.RegisterErrorMessage>{errors.studentId?.message}</S.RegisterErrorMessage>
         </div>
+      </>
+    );
+  };
+
+  return (
+    <S.RegisterWrapper>
+      <S.RegisterBackButton style={{ opacity: page > 1 ? 1 : 0 }} onClick={onPrevClick}>
+        &larr;
+      </S.RegisterBackButton>
+      <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
+        {page === 1 ? (
+          registerStep1()
+        ) : (
+          <>
+            <div>
+              <S.RegisterInput
+                type="text"
+                {...register('phone', {
+                  required: '아이디는 필수입니다.',
+                  pattern: {
+                    value: /^[a-zA-Z0-9가-힣]{5,20}$/,
+                    message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
+                  },
+                })}
+                placeholder="아이디를 입력해주세요..."
+              />
+              <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
+            </div>{' '}
+            <div>
+              <S.RegisterInput
+                type="text"
+                {...register('username', {
+                  required: '아이디는 필수입니다.',
+                  pattern: {
+                    value: /^[a-zA-Z0-9가-힣]{5,20}$/,
+                    message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
+                  },
+                })}
+                placeholder="아이디를 입력해주세요..."
+              />
+              <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
+            </div>
+          </>
+        )}
         <S.RegisterButton>{page === 1 ? '다음' : '회원가입'}</S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
