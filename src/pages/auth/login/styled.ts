@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
-export const RegisterWrapper = styled.div`
+export const LoginPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem 0;
-  padding-bottom: 3rem;
+  padding: 14rem 0;
 `;
 
-export const RegisterContainer = styled.form`
+export const LoginPageContainer = styled.form`
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.imageBorder};
   border-radius: 2rem;
@@ -20,26 +19,13 @@ export const RegisterContainer = styled.form`
   width: 30rem;
 `;
 
-export const RegisterBackButton = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  width: 40%;
-`;
-
-export const RegisterInputContainer = styled.div`
+export const LoginPageInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 0.6rem;
 `;
 
-export const RegisterInputTitle = styled.span`
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: rgb(125, 128, 135);
-`;
-
-export const RegisterInput = styled.input`
+export const LoginPageInput = styled.input`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
   padding: 14px;
@@ -54,7 +40,20 @@ export const RegisterInput = styled.input`
   }
 `;
 
-export const RegisterButton = styled.button`
+export const LoginPageInputTitle = styled.span`
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgb(125, 128, 135);
+`;
+
+export const LoginPageErrorMessage = styled.p`
+  text-align: left;
+  margin-left: 10px;
+  font-size: 13px;
+  color: #ba1a1a;
+`;
+
+export const LoginPageFormButton = styled.button`
   background-color: ${({ theme }) => theme.primary.darkBlue};
   border: none;
   padding: 14px 0;
@@ -65,11 +64,4 @@ export const RegisterButton = styled.button`
   color: ${({ theme }) => theme.white};
   font-size: 1.2rem;
   font-weight: 600;
-`;
-
-export const RegisterErrorMessage = styled.p`
-  text-align: left;
-  margin-left: 10px;
-  font-size: 13px;
-  color: #ba1a1a;
 `;
