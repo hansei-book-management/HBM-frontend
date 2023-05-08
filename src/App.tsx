@@ -9,6 +9,7 @@ import {
   ManageClubBookPage,
   RegisterPage,
   ManageUserPage,
+  LoginPage,
 } from './pages';
 import { DefaultLayout } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS, RENT_CLUB_LIST, USER_CLUB_LIST } from './constant';
@@ -46,6 +47,7 @@ export const App: React.FC = () => {
         </Route>
         <Route path="/auth">
           <Route path="register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>
