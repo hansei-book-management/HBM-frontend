@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import * as S from './styled';
 
@@ -17,12 +18,16 @@ export const LoginPage: React.FC = () => {
     setValue,
   } = useForm<LoginFormValues>();
 
+  const onSubmit = (data: LoginFormValues) => {
+    console.log(data);
+  };
+
   return (
-    <S.LoginPageWrapper>
-      <S.LoginPageContainer>
-        <S.LoginPageInputContainer>
-          <S.LoginPageInputTitle>아이디</S.LoginPageInputTitle>
-          <S.LoginPageInput
+    <S.LoginWrapper>
+      <S.LoginContainer onSubmit={handleSubmit(onSubmit)}>
+        <S.LoginInputContainer>
+          <S.LoginInputTitle>아이디</S.LoginInputTitle>
+          <S.LoginInput
             type="text"
             {...register('username', {
               required: '아이디는 필수입니다.',
@@ -33,11 +38,11 @@ export const LoginPage: React.FC = () => {
             })}
             placeholder="아이디를 입력해주세요..."
           />
-          <S.LoginPageErrorMessage>{errors.username?.message}</S.LoginPageErrorMessage>
-        </S.LoginPageInputContainer>
-        <S.LoginPageInputContainer>
-          <S.LoginPageInputTitle>비밀번호</S.LoginPageInputTitle>
-          <S.LoginPageInput
+          <S.LoginErrorMessage>{errors.username?.message}</S.LoginErrorMessage>
+        </S.LoginInputContainer>
+        <S.LoginInputContainer>
+          <S.LoginInputTitle>비밀번호</S.LoginInputTitle>
+          <S.LoginInput
             type="password"
             {...register('password', {
               required: '비밀번호는 필수입니다.',
@@ -48,10 +53,15 @@ export const LoginPage: React.FC = () => {
             })}
             placeholder="비밀번호를 입력해주세요..."
           />
-          <S.LoginPageErrorMessage>{errors.password?.message}</S.LoginPageErrorMessage>
-          <S.LoginPageFormButton>로그인</S.LoginPageFormButton>
-        </S.LoginPageInputContainer>
-      </S.LoginPageContainer>
-    </S.LoginPageWrapper>
+          <S.LoginErrorMessage>{errors.password?.message}</S.LoginErrorMessage>
+        </S.LoginInputContainer>
+        <div>
+          <S.LoginFormButton>로그인</S.LoginFormButton>
+          <S.LoginLinkContainer>
+            이미 계정이 있으신가요? <Link to="/auth/register">회원가입</Link>
+          </S.LoginLinkContainer>
+        </div>
+      </S.LoginContainer>
+    </S.LoginWrapper>
   );
 };
