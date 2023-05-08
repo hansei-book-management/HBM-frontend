@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const DefaultLayoutContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 80%;
 `;
 
 export const DefaultLayoutWrapper = styled.div`

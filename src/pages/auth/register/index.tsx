@@ -138,7 +138,8 @@ export const RegisterPage: React.FC = () => {
   const registerStep2 = () => {
     return (
       <>
-        <div>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>전화번호</S.RegisterInputTitle>
           <S.RegisterInput
             type="phone"
             {...register('phone', {
@@ -151,21 +152,37 @@ export const RegisterPage: React.FC = () => {
             placeholder="전화번호를 입력해주세요..."
           />
           <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
-        </div>
-        <div>
+        </S.RegisterInputContainer>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>전화번호 토큰</S.RegisterInputTitle>
           <S.RegisterInput
             type="text"
-            {...register('username', {
-              required: '아이디는 필수입니다.',
+            {...register('phoneToken', {
+              required: '전화번호 토큰은 필수입니다.',
               pattern: {
-                value: /^[a-zA-Z0-9가-힣]{5,20}$/,
-                message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
+                value: /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[8|9aAbB][0-9a-f]{3}-[0-9a-f]{12}$/,
+                message: '전화번호 토큰이 잘못되었습니다. 다시 입력해주세요.',
               },
             })}
-            placeholder="아이디를 입력해주세요..."
+            placeholder="전화번호 토큰을 입력해주세요..."
           />
-          <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
-        </div>
+          <S.RegisterErrorMessage>{errors.phoneToken?.message}</S.RegisterErrorMessage>
+        </S.RegisterInputContainer>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>인증번호</S.RegisterInputTitle>
+          <S.RegisterInput
+            type="text"
+            {...register('verificationCode', {
+              required: '인증번호는 필수입니다.',
+              pattern: {
+                value: /^[0-9]{6}$/,
+                message: '인증번호가 잘못되었습니다. 다시 입력해주세요.',
+              },
+            })}
+            placeholder="인증번호를 입력해주세요..."
+          />
+          <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
+        </S.RegisterInputContainer>
       </>
     );
   };

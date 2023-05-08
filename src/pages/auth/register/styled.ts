@@ -5,7 +5,8 @@ export const RegisterWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 0;
+  padding: 1rem 0;
+  padding-bottom: 3rem;
 `;
 
 export const RegisterContainer = styled.form`
@@ -16,7 +17,7 @@ export const RegisterContainer = styled.form`
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
-  width: 40%;
+  width: 30rem;
 `;
 
 export const RegisterBackButton = styled.div`
