@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
+import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
-import { RentMessage, Section } from '@/components';
+import { MANAGE_CLUB_BOOK_OPTIONS, loadingLottieOptions } from '@/constant';
+import { Modal, RentMessage, Section } from '@/components';
 import { useModal } from '@/hooks';
 import { DetailModal } from '@/components/modal/DetailModal';
 import { BookState, StatusState } from '@/atoms';
@@ -14,6 +15,7 @@ import * as S from './styled';
 
 export const ManageClubBookPage: React.FC = () => {
   const location = useLocation();
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { modalActive, open } = useModal();
   const [status, setStatus] = useRecoilState(StatusState);
@@ -25,7 +27,7 @@ export const ManageClubBookPage: React.FC = () => {
   const onClick = () => {
     setStatus(false);
     setBookClick(false);
-    navigate(`/manage/club-book/${option}/?book-add-step=1`);
+    navigate(`/manage/club-book/${option}?book-add-step=1`);
     open();
   };
 
@@ -53,7 +55,32 @@ export const ManageClubBookPage: React.FC = () => {
       </S.ManageClubBookPageOptionList>
       <S.ManageClubBookPageTitle>{activeOption?.text}</S.ManageClubBookPageTitle>
       <Section mangeClubName="hsoc" />
-      {modalActive && !status && !bookClick && <h1>Hello</h1>}
+      {modalActive && !status && !bookClick && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.ModalQuestionContainer>
+                <S.ModalTitle>대여 진행</S.ModalTitle>
+                <S.ModalSubTitle>
+                  정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?
+                  <br />
+                  대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
+                </S.ModalSubTitle>
+              </S.ModalQuestionContainer>
+            }
+            disable={loading}
+            leftButtonText="아니요"
+            rightButtonText={
+              loading ? (
+                <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+              ) : (
+                '네!'
+              )
+            }
+            // lastPage={true}
+          />
+        </Modal.OverLay>
+      )}
       {modalActive && bookClick && <DetailModal message={<RentMessage canRent={true} />} />}
     </S.ManageClubBookPageContainer>
   );

@@ -7,16 +7,19 @@ export interface useLocationProps {
 export const useGetLocation = ({ clubId }: useLocationProps) => {
   const location = useLocation();
 
+  const RENT = '/rent';
+  const MANAGE_CLUB = '/manage/club-book';
+
   if (clubId) {
-    const rentDetailPage = location.pathname.includes(`/rent/${clubId}/detail`);
-    const rentBookPage = location.pathname.includes(`/rent/${clubId}/book-rent`);
+    const rentDetailPage = location.pathname.includes(`${RENT}/${clubId}/detail`);
+    const rentBookPage = location.pathname.includes(`${RENT}/${clubId}/book-rent`);
     return { rentDetailPage, rentBookPage };
   } else {
-    const rentPage = location.pathname.includes(`/rent`);
+    const rentPage = location.pathname.includes(`${RENT}`);
     const manageUserBookPage = location.pathname.includes(`/manage/user-book`);
-    const manageClubCanRentBookPage = location.search.includes(`?options=can-rent`);
-    const manageClubAllBookPage = location.search.includes(`?options=all`);
-    const manageClubRentingBookPage = location.search.includes(`?options=renting`);
+    const manageClubCanRentBookPage = location.pathname === `${MANAGE_CLUB}/can-rent`;
+    const manageClubAllBookPage = location.pathname === `${MANAGE_CLUB}/all`;
+    const manageClubRentingBookPage = location.pathname === `${MANAGE_CLUB}/renting`;
     return {
       rentPage,
       manageUserBookPage,
