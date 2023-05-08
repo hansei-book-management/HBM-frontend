@@ -26,6 +26,18 @@ export const RegisterBackButton = styled.div`
   width: 40%;
 `;
 
+export const RegisterInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.6rem;
+`;
+
+export const RegisterInputTitle = styled.span`
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgb(125, 128, 135);
+`;
+
 export const RegisterInput = styled.input`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
@@ -58,6 +70,5 @@ export const RegisterErrorMessage = styled.p`
   text-align: left;
   margin-left: 10px;
   font-size: 13px;
-  margin-top: 5px;
   color: #ba1a1a;
 `;

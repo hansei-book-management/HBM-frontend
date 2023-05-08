@@ -20,6 +20,7 @@ export const RegisterPage: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<RegisterFormValues>();
 
   const password = useRef({});
@@ -33,6 +34,9 @@ export const RegisterPage: React.FC = () => {
 
   const onSubmit = (data: RegisterFormValues) => {
     if (page === 1) {
+      setValue('phone', '');
+      setValue('phoneToken', '');
+      setValue('verificationCode', '');
       setPage(page + 1);
     } else {
       console.log(data);
@@ -42,7 +46,8 @@ export const RegisterPage: React.FC = () => {
   const registerStep1 = () => {
     return (
       <>
-        <div>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>아이디</S.RegisterInputTitle>
           <S.RegisterInput
             type="text"
             {...register('username', {
@@ -55,8 +60,9 @@ export const RegisterPage: React.FC = () => {
             placeholder="아이디를 입력해주세요..."
           />
           <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
-        </div>
-        <div>
+        </S.RegisterInputContainer>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>비밀번호</S.RegisterInputTitle>
           <S.RegisterInput
             type="password"
             {...register('password', {
@@ -69,8 +75,9 @@ export const RegisterPage: React.FC = () => {
             placeholder="비밀번호를 입력해주세요..."
           />
           <S.RegisterErrorMessage>{errors.password?.message}</S.RegisterErrorMessage>
-        </div>
-        <div>
+        </S.RegisterInputContainer>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>비밀번호 확인</S.RegisterInputTitle>
           <S.RegisterInput
             type="password"
             {...register('passwordCheck', {
@@ -85,8 +92,9 @@ export const RegisterPage: React.FC = () => {
             placeholder="비밀번호를 다시 한번 확인해주세요..."
           />
           <S.RegisterErrorMessage>{errors.passwordCheck?.message}</S.RegisterErrorMessage>
-        </div>
-        <div>
+        </S.RegisterInputContainer>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>이름</S.RegisterInputTitle>
           <S.RegisterInput
             type="text"
             {...register('name', {
@@ -99,8 +107,9 @@ export const RegisterPage: React.FC = () => {
             placeholder="이름을 입력해주세요..."
           />
           <S.RegisterErrorMessage>{errors.name?.message}</S.RegisterErrorMessage>
-        </div>
-        <div>
+        </S.RegisterInputContainer>
+        <S.RegisterInputContainer>
+          <S.RegisterInputTitle>학번</S.RegisterInputTitle>
           <S.RegisterInput
             type="text"
             {...register('studentId', {
@@ -121,6 +130,41 @@ export const RegisterPage: React.FC = () => {
             placeholder="학번을 입력해주세요..."
           />
           <S.RegisterErrorMessage>{errors.studentId?.message}</S.RegisterErrorMessage>
+        </S.RegisterInputContainer>
+      </>
+    );
+  };
+
+  const registerStep2 = () => {
+    return (
+      <>
+        <div>
+          <S.RegisterInput
+            type="phone"
+            {...register('phone', {
+              required: '전화번호는 필수입니다.',
+              pattern: {
+                value: /01[0-1, 7][0-9]{7,8}$/,
+                message: '전화번호가 잘못되었습니다. 다시 입력해주세요.',
+              },
+            })}
+            placeholder="전화번호를 입력해주세요..."
+          />
+          <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
+        </div>
+        <div>
+          <S.RegisterInput
+            type="text"
+            {...register('username', {
+              required: '아이디는 필수입니다.',
+              pattern: {
+                value: /^[a-zA-Z0-9가-힣]{5,20}$/,
+                message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
+              },
+            })}
+            placeholder="아이디를 입력해주세요..."
+          />
+          <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
         </div>
       </>
     );
@@ -132,40 +176,7 @@ export const RegisterPage: React.FC = () => {
         &larr;
       </S.RegisterBackButton>
       <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
-        {page === 1 ? (
-          registerStep1()
-        ) : (
-          <>
-            <div>
-              <S.RegisterInput
-                type="text"
-                {...register('phone', {
-                  required: '아이디는 필수입니다.',
-                  pattern: {
-                    value: /^[a-zA-Z0-9가-힣]{5,20}$/,
-                    message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
-                  },
-                })}
-                placeholder="아이디를 입력해주세요..."
-              />
-              <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
-            </div>{' '}
-            <div>
-              <S.RegisterInput
-                type="text"
-                {...register('username', {
-                  required: '아이디는 필수입니다.',
-                  pattern: {
-                    value: /^[a-zA-Z0-9가-힣]{5,20}$/,
-                    message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
-                  },
-                })}
-                placeholder="아이디를 입력해주세요..."
-              />
-              <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
-            </div>
-          </>
-        )}
+        {page === 1 ? registerStep1() : registerStep2()}
         <S.RegisterButton>{page === 1 ? '다음' : '회원가입'}</S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
