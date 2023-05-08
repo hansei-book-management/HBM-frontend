@@ -3,9 +3,9 @@ import axios from 'axios';
 import { FormProps } from '@/pages/auth';
 
 export const API_SUFFIX = {
-  BASEURL: 'http://localhost:3003',
-  LOGIN: '/auth/login',
+  BASEURL: 'https://pcy06.me',
   REGISTER: '/auth/register',
+  LOGIN: '/auth/login',
 };
 
 export const instance = axios.create({

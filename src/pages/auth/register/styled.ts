@@ -42,21 +42,6 @@ export const RegisterInput = styled.input`
   }
 `;
 
-export const RegisterRoleSelect = styled.select`
-  background-color: ${({ theme }) => theme.white};
-  border: 1px solid ${({ theme }) => theme.imageBorder};
-  padding: 14px;
-  align-self: center;
-  border-radius: 0.8rem;
-  height: 3rem;
-  width: 100%;
-  caret-color: auto;
-  appearance: none;
-  font-size: 1rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.black};
-`;
-
 export const RegisterButton = styled.button`
   background-color: ${({ theme }) => theme.primary.darkBlue};
   border: none;
