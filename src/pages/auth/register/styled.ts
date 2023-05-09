@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const RegisterWrapper = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ export const RegisterInputContainer = styled.div`
 `;
 
 export const RegisterInputTitle = styled.span`
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: rgb(125, 128, 135);
 `;
@@ -41,11 +41,12 @@ export const RegisterInputTitle = styled.span`
 export const RegisterInput = styled.input`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
-  padding: 14px;
+  padding: 16px;
   align-self: center;
   border-radius: 0.8rem;
   height: 3rem;
   width: 100%;
+  font-size: 1.1rem;
   &::placeholder {
     font-size: 1rem;
     font-weight: 500;
@@ -67,11 +68,11 @@ export const RegisterButtonLine = styled.span`
   background-color: ${({ theme }) => theme.imageBorder};
 `;
 
-export const RegisterLeftButton = styled.button`
+export const RegisterButton = styled.button`
   background-color: #56599f;
   border: none;
   padding: 14px 0;
-  border-radius: 0.8rem 0 0 0.8rem;
+  border-radius: 0.8rem;
   align-self: center;
   height: 3rem;
   width: 100%;
@@ -82,17 +83,6 @@ export const RegisterLeftButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`;
-export const RegisterRightButton = styled(RegisterLeftButton)<{ page: number }>`
-  background-color: ${({ theme }) => theme.primary.darkBlue};
-  ${({ page }) =>
-    page === 1
-      ? css`
-          border-radius: 0.8rem;
-        `
-      : css`
-          border-radius: 0 0.8rem 0.8rem 0;
-        `};
 `;
 
 export const RegisterErrorMessage = styled.p`

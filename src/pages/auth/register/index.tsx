@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as S from './styled';
@@ -26,26 +26,14 @@ export const RegisterPage: React.FC = () => {
   const password = useRef({});
   password.current = watch('password');
 
-  const [page, setPage] = useState(1);
-
-  const onPrevClick = () => {
-    setPage(Math.max(page - 1, 1));
-  };
-
   const onSubmit = (data: RegisterFormValues) => {
-    if (page === 1) {
-      setValue('phone', '');
-      setValue('phoneToken', '');
-      setValue('verificationCode', '');
-      setPage(page + 1);
-    } else {
-      console.log(data);
-    }
+    console.log(data);
   };
 
-  const registerStep1 = () => {
-    return (
-      <>
+  return (
+    <S.RegisterWrapper>
+      <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
+        <S.RegisterTitle>HANBOOK</S.RegisterTitle>
         <S.RegisterInputContainer>
           <S.RegisterInputTitle>아이디</S.RegisterInputTitle>
           <S.RegisterInput
@@ -131,13 +119,6 @@ export const RegisterPage: React.FC = () => {
           />
           <S.RegisterErrorMessage>{errors.studentId?.message}</S.RegisterErrorMessage>
         </S.RegisterInputContainer>
-      </>
-    );
-  };
-
-  const registerStep2 = () => {
-    return (
-      <>
         <S.RegisterInputContainer>
           <S.RegisterInputTitle>전화번호</S.RegisterInputTitle>
           <S.RegisterInput
@@ -151,7 +132,7 @@ export const RegisterPage: React.FC = () => {
             })}
             placeholder="전화번호를 입력해주세요..."
           />
-          <S.RegisterErrorMessage>{errors.username?.message}</S.RegisterErrorMessage>
+          <S.RegisterErrorMessage>{errors.phone?.message}</S.RegisterErrorMessage>
         </S.RegisterInputContainer>
         <S.RegisterInputContainer>
           <S.RegisterInputTitle>전화번호 토큰</S.RegisterInputTitle>
@@ -183,26 +164,7 @@ export const RegisterPage: React.FC = () => {
           />
           <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
         </S.RegisterInputContainer>
-      </>
-    );
-  };
-
-  return (
-    <S.RegisterWrapper>
-      <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
-        <S.RegisterTitle>HANBOOK</S.RegisterTitle>
-        {page === 1 ? registerStep1() : registerStep2()}
-        <S.RegisterButtonContainer>
-          {page !== 1 && (
-            <>
-              <S.RegisterLeftButton onClick={onPrevClick}>이전</S.RegisterLeftButton>
-              <S.RegisterButtonLine />
-            </>
-          )}
-          <S.RegisterRightButton page={page}>
-            {page === 1 ? '다음' : '회원가입'}
-          </S.RegisterRightButton>
-        </S.RegisterButtonContainer>
+        <S.RegisterButton>회원가입</S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
   );
