@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useRegister } from '@/hooks/query/useAuth';
+import { useRegister, useRegisterPhone } from '@/hooks/query/useAuth';
 
 import * as S from './styled';
 
@@ -29,13 +29,17 @@ export const RegisterPage: React.FC = () => {
 
   const password = useRef({});
   password.current = watch('password');
-  const { mutate } = useRegister();
+  const { mutate: registerMutate } = useRegister();
+  const { mutate: phoneMutate } = useRegisterPhone();
 
   const onSubmitHandler = (data: RegisterFormValues) => {
-    mutate({ ...data });
+    registerMutate({ ...data });
   };
 
-  // const onPhoneSubmitHandler
+  const onPhoneSubmitHandler = ({ phone }: RegisterFormProps) => {
+    console.log(phone, 'onPhoneSubmitHandler');
+    phoneMutate(phone);
+  };
 
   return (
     <S.RegisterWrapper>
@@ -141,7 +145,9 @@ export const RegisterPage: React.FC = () => {
               placeholder="전화번호를 입력해주세요..."
             />
             <div>
-              <S.RegisterPhoneRequestButton>요청</S.RegisterPhoneRequestButton>
+              <S.RegisterPhoneRequestButton onClick={handleSubmit(onPhoneSubmitHandler)}>
+                요청
+              </S.RegisterPhoneRequestButton>
             </div>
           </S.RegisterPhoneInputContainer>
           <S.RegisterErrorMessage>{errors.phone?.message}</S.RegisterErrorMessage>

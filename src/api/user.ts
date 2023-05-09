@@ -20,3 +20,11 @@ export const register = async ({
   });
   return data;
 };
+
+export const registerPhone = async (
+  phone: string,
+): Promise<APIResponse<{ message: string; token: string }>> => {
+  console.log(phone);
+  const { data } = await instance.post(API_SUFFIX.REGISTER_PHONE, { phone });
+  return data;
+};
