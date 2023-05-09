@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { colors } from '@/styles';
 
@@ -70,7 +70,7 @@ export const RegisterButtonLine = styled.span`
   background-color: ${({ theme }) => theme.imageBorder};
 `;
 
-export const RegisterButton = styled.button`
+export const RegisterButton = styled.button<{ phoneToken: boolean }>`
   background-color: #56599f;
   border: none;
   padding: 14px 0;
@@ -81,10 +81,18 @@ export const RegisterButton = styled.button`
   color: ${({ theme }) => theme.white};
   font-size: 1.2rem;
   font-weight: 600;
-  transition: opacity 150ms ease-in-out;
-  &:hover {
-    opacity: 0.8;
-  }
+  ${({ phoneToken }) =>
+    phoneToken
+      ? css`
+          opacity: 1;
+          transition: opacity 150ms ease-in-out;
+          &:hover {
+            opacity: 0.8;
+          }
+        `
+      : css`
+          opacity: 0.5;
+        `}
 `;
 
 export const RegisterErrorMessage = styled.p`
@@ -102,7 +110,7 @@ export const RegisterPhoneInputContainer = styled.div`
 export const RegisterPhoneRequestButton = styled.button`
   border: none;
   height: 100%;
-  width: 8rem;
+  width: 7rem;
   align-self: center;
   text-align: center;
   font-size: 1rem;
@@ -110,4 +118,8 @@ export const RegisterPhoneRequestButton = styled.button`
   border-radius: 0.6rem;
   color: ${colors.white};
   background-color: ${({ theme }) => theme.primary.darkBlue};
+  transition: opacity 150ms ease-in-out;
+  &:hover {
+    opacity: 0.8;
+  }
 `;

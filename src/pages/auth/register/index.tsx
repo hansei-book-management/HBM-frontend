@@ -1,7 +1,10 @@
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useRecoilValue } from 'recoil';
+
 import { useRegister, useRegisterPhone } from '@/hooks/query/useAuth';
+import { PhoneTokenState } from '@/atoms';
 
 import * as S from './styled';
 
@@ -27,13 +30,19 @@ export const RegisterPage: React.FC = () => {
     watch,
   } = useForm<RegisterFormProps>();
 
+  const phoneToken = useRecoilValue(PhoneTokenState);
+
   const password = useRef({});
   password.current = watch('password');
   const { mutate: registerMutate } = useRegister();
   const { mutate: phoneMutate } = useRegisterPhone();
 
   const onSubmitHandler = (data: RegisterFormValues) => {
-    registerMutate({ ...data });
+    if (phoneToken) {
+      registerMutate({ ...data });
+    } else {
+      return;
+    }
   };
 
   const onPhoneSubmitHandler = ({ phone }: RegisterFormProps) => {
@@ -182,7 +191,9 @@ export const RegisterPage: React.FC = () => {
           />
           <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
         </S.RegisterInputContainer> */}
-        <S.RegisterButton>회원가입</S.RegisterButton>
+        <S.RegisterButton phoneToken={phoneToken}>
+          {phoneToken ? '회원가입' : '전화번호 인증 후 가능합니다.'}
+        </S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
   );

@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { AxiosError } from 'axios';
+import { useRecoilState } from 'recoil';
 
 import { APIErrorResponse, APIResponse, register, registerPhone } from '@/api';
 import { RegisterFormValues } from '@/pages';
+import { PhoneTokenState } from '@/atoms';
 
 export const useRegister = (): UseMutationResult<
   APIResponse<{}>,
@@ -33,9 +35,10 @@ export const useRegisterPhone = (): UseMutationResult<
   AxiosError<APIErrorResponse>,
   string
 > => {
+  const [phoneToken, setPhoneToken] = useRecoilState(PhoneTokenState);
   return useMutation('useRegisterPhone', registerPhone, {
     onSuccess: (data) => {
-      console.log(data, 'success');
+      setPhoneToken(true);
       toast.success(data.message, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,

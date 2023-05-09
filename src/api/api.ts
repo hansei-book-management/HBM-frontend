@@ -3,7 +3,7 @@ import axios from 'axios';
 export const API_SUFFIX = {
   BASEURL: 'https://pcy06.me',
   REGISTER: '/auth/register/',
-  REGISTER_PHONE: '/auth/register/phone/',
+  REGISTER_PHONE: '/auth/register/phone',
   LOGIN: '/auth/login/',
 };
 
