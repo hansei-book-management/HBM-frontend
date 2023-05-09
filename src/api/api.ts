@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export const API_SUFFIX = {
   BASEURL: 'https://pcy06.me',
-  REGISTER: '/auth/register',
-  LOGIN: '/auth/login',
+  REGISTER: '/auth/register/',
+  LOGIN: '/auth/login/',
 };
 
 export const instance = axios.create({

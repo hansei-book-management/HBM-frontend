@@ -8,13 +8,16 @@ import * as S from './styled';
 export interface RegisterFormValues {
   username: string;
   password: string;
-  passwordCheck: string;
   name: string;
   studentId: string;
-  phone: string;
   phoneToken: string;
   verificationCode: string;
 }
+
+type RegisterFormProps = RegisterFormValues & {
+  passwordCheck: string;
+  phone: string;
+};
 
 export const RegisterPage: React.FC = () => {
   const {
@@ -22,7 +25,7 @@ export const RegisterPage: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<RegisterFormValues>();
+  } = useForm<RegisterFormProps>();
 
   const password = useRef({});
   password.current = watch('password');
@@ -31,6 +34,8 @@ export const RegisterPage: React.FC = () => {
   const onSubmitHandler = (data: RegisterFormValues) => {
     mutate({ ...data });
   };
+
+  // const onPhoneSubmitHandler
 
   return (
     <S.RegisterWrapper>

@@ -10,7 +10,7 @@ export const register = async ({
   phoneToken,
   verificationCode,
 }: RegisterFormValues): Promise<APIResponse<{ message: string; token: string }>> => {
-  const { data } = await instance.post(API_SUFFIX.LOGIN, {
+  const { data } = await instance.post(API_SUFFIX.REGISTER, {
     username,
     password,
     name,

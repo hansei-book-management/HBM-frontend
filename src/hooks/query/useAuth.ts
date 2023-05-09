@@ -1,5 +1,6 @@
 import { UseMutationResult, useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { AxiosError } from 'axios';
 
@@ -17,8 +18,12 @@ export const useRegister = (): UseMutationResult<
     onSuccess: () => {
       navigate('/login');
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (data) => {
+      console.log(data, 'error');
+      toast.error(data.message, {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     },
     retry: 0,
   });
