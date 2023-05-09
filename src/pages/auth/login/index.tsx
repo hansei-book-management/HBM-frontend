@@ -25,6 +25,7 @@ export const LoginPage: React.FC = () => {
   return (
     <S.LoginWrapper>
       <S.LoginContainer onSubmit={handleSubmit(onSubmit)}>
+        <S.LoginTitle>HANBOOK</S.LoginTitle>
         <S.LoginInputContainer>
           <S.LoginInputTitle>아이디</S.LoginInputTitle>
           <S.LoginInput

@@ -189,12 +189,20 @@ export const RegisterPage: React.FC = () => {
 
   return (
     <S.RegisterWrapper>
-      <S.RegisterBackButton style={{ opacity: page > 1 ? 1 : 0 }} onClick={onPrevClick}>
-        &larr;
-      </S.RegisterBackButton>
       <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
+        <S.RegisterTitle>HANBOOK</S.RegisterTitle>
         {page === 1 ? registerStep1() : registerStep2()}
-        <S.RegisterButton>{page === 1 ? '다음' : '회원가입'}</S.RegisterButton>
+        <S.RegisterButtonContainer>
+          {page !== 1 && (
+            <>
+              <S.RegisterLeftButton onClick={onPrevClick}>이전</S.RegisterLeftButton>
+              <S.RegisterButtonLine />
+            </>
+          )}
+          <S.RegisterRightButton page={page}>
+            {page === 1 ? '다음' : '회원가입'}
+          </S.RegisterRightButton>
+        </S.RegisterButtonContainer>
       </S.RegisterContainer>
     </S.RegisterWrapper>
   );

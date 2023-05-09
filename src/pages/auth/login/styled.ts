@@ -19,6 +19,12 @@ export const LoginContainer = styled.form`
   width: 30rem;
 `;
 
+export const LoginTitle = styled.h1`
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+`;
+
 export const LoginInputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,7 +73,7 @@ export const LoginFormButton = styled.button`
 `;
 
 export const LoginLinkContainer = styled.span`
-  margin-top: 0.6rem;
+  margin-top: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
