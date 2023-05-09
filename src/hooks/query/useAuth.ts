@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { AxiosError } from 'axios';
 
-import { APIResponse } from '@/api';
+import { APIErrorResponse, APIResponse, register } from '@/api';
 import { RegisterFormValues } from '@/pages';
-import { register } from '@/api/user';
 
 export const useRegister = (): UseMutationResult<
   // eslint-disable-next-line @typescript-eslint/ban-types
   APIResponse<{}>,
-  AxiosError<APIResponse>,
+  AxiosError<APIErrorResponse>,
   RegisterFormValues
 > => {
   const navigate = useNavigate();
@@ -18,8 +17,9 @@ export const useRegister = (): UseMutationResult<
     onSuccess: () => {
       navigate('/login');
     },
-    onError: (error: AxiosError<APIResponse>) => {
+    onError: (error) => {
       console.log(error);
     },
+    retry: 0,
   });
 };

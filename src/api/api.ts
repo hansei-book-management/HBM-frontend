@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { RegisterFormValues } from '@/pages/auth';
-
 export const API_SUFFIX = {
   BASEURL: 'https://pcy06.me',
   REGISTER: '/auth/register',
@@ -22,4 +20,10 @@ export interface APIResponse<T = unknown> {
   status: APIResponseStatusType;
   message: string;
   token: T;
+}
+
+export interface APIErrorResponse {
+  status: 'FAILED';
+  message: string;
+  result?: null;
 }

@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useRegister } from '@/hooks/query/useAuth';
+
 import * as S from './styled';
 
 export interface RegisterFormValues {
@@ -20,19 +22,19 @@ export const RegisterPage: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    setValue,
   } = useForm<RegisterFormValues>();
 
   const password = useRef({});
   password.current = watch('password');
+  const { mutate } = useRegister();
 
-  const onSubmit = (data: RegisterFormValues) => {
-    console.log(data);
+  const onSubmitHandler = (data: RegisterFormValues) => {
+    mutate({ ...data });
   };
 
   return (
     <S.RegisterWrapper>
-      <S.RegisterContainer onSubmit={handleSubmit(onSubmit)}>
+      <S.RegisterContainer onSubmit={handleSubmit(onSubmitHandler)}>
         <S.RegisterTitle>HANBOOK</S.RegisterTitle>
         <S.RegisterInputContainer>
           <S.RegisterInputTitle>아이디</S.RegisterInputTitle>
@@ -121,20 +123,25 @@ export const RegisterPage: React.FC = () => {
         </S.RegisterInputContainer>
         <S.RegisterInputContainer>
           <S.RegisterInputTitle>전화번호</S.RegisterInputTitle>
-          <S.RegisterInput
-            type="phone"
-            {...register('phone', {
-              required: '전화번호는 필수입니다.',
-              pattern: {
-                value: /01[0-1, 7][0-9]{7,8}$/,
-                message: '전화번호가 잘못되었습니다. 다시 입력해주세요.',
-              },
-            })}
-            placeholder="전화번호를 입력해주세요..."
-          />
+          <S.RegisterPhoneInputContainer>
+            <S.RegisterInput
+              type="phone"
+              {...register('phone', {
+                required: '전화번호는 필수입니다.',
+                pattern: {
+                  value: /01[0-1, 7][0-9]{7,8}$/,
+                  message: '전화번호가 잘못되었습니다. 다시 입력해주세요.',
+                },
+              })}
+              placeholder="전화번호를 입력해주세요..."
+            />
+            <div>
+              <S.RegisterPhoneRequestButton>요청</S.RegisterPhoneRequestButton>
+            </div>
+          </S.RegisterPhoneInputContainer>
           <S.RegisterErrorMessage>{errors.phone?.message}</S.RegisterErrorMessage>
         </S.RegisterInputContainer>
-        <S.RegisterInputContainer>
+        {/* <S.RegisterInputContainer>
           <S.RegisterInputTitle>전화번호 토큰</S.RegisterInputTitle>
           <S.RegisterInput
             type="text"
@@ -163,7 +170,7 @@ export const RegisterPage: React.FC = () => {
             placeholder="인증번호를 입력해주세요..."
           />
           <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
-        </S.RegisterInputContainer>
+        </S.RegisterInputContainer> */}
         <S.RegisterButton>회원가입</S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
