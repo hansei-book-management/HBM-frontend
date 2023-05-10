@@ -16,7 +16,6 @@ import * as S from './styled';
 const BASE_URL = '/manage/club-book';
 
 export const ManageClubBookPage: React.FC = () => {
-  const location = useLocation();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { modalActive, open } = useModal();
@@ -52,7 +51,7 @@ export const ManageClubBookPage: React.FC = () => {
     if (!activeOption) {
       navigate(`${BASE_URL}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
     }
-  }, []);
+  }, [activeOption]);
 
   return (
     <S.ManageClubBookPageContainer>

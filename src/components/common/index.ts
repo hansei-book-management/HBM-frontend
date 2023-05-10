@@ -4,5 +4,5 @@ export * from './Section';
 export * from './Text';
 export * from './RentMessage';
 export * from './Button';
-export * from '../modal';
 export * from './Skeleton';
+export * from './Form';
