@@ -20,11 +20,21 @@ export type APIResponseStatusType = boolean;
 export interface APIResponse<T = unknown> {
   status: APIResponseStatusType;
   message: string;
-  token: T;
+  token: string;
+  result?: T;
 }
 
 export interface APIErrorResponse {
   status: 'FAILED';
   message: string;
+  at?: string;
   result?: null;
 }
+
+export const setAccessToken = (token: string | null) => {
+  if (token) {
+    instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    delete instance.defaults.headers.common.Authorization;
+  }
+};
