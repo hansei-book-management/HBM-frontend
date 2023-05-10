@@ -199,7 +199,7 @@ export const RegisterPage: React.FC = () => {
           </S.RegisterInputContainer>
         )}
         <S.RegisterButton phoneToken={phoneAccessToken.state}>
-          {phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능합니다.'}
+          {phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능해요.'}
         </S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>

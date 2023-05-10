@@ -30,3 +30,11 @@ export interface APIErrorResponse {
   at?: string;
   result?: null;
 }
+
+export const setAccessToken = (token: string | null) => {
+  if (token) {
+    instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    delete instance.defaults.headers.common.Authorization;
+  }
+};
