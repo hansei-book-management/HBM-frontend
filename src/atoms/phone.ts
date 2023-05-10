@@ -1,6 +1,9 @@
 import { atom } from 'recoil';
 
 export const PhoneTokenState = atom({
-  key: 'PhoneTokenState',
-  default: false,
+  key: 'PhoneToken',
+  default: {
+    token: '',
+    state: false,
+  },
 });

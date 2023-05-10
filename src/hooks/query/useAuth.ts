@@ -31,14 +31,14 @@ export const useRegister = (): UseMutationResult<
 };
 
 export const useRegisterPhone = (): UseMutationResult<
-  APIResponse<{}>,
+  APIResponse<{ message: string; token: string }>,
   AxiosError<APIErrorResponse>,
   string
 > => {
   const [phoneToken, setPhoneToken] = useRecoilState(PhoneTokenState);
   return useMutation('useRegisterPhone', registerPhone, {
     onSuccess: (data) => {
-      setPhoneToken(true);
+      setPhoneToken({ token: `${data.token}`, state: true });
       toast.success(data.message, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,

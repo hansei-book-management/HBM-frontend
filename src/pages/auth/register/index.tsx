@@ -30,24 +30,38 @@ export const RegisterPage: React.FC = () => {
     watch,
   } = useForm<RegisterFormProps>();
 
-  const phoneToken = useRecoilValue(PhoneTokenState);
+  const phoneAccessToken = useRecoilValue(PhoneTokenState);
 
   const password = useRef({});
   password.current = watch('password');
   const { mutate: registerMutate } = useRegister();
   const { mutate: phoneMutate } = useRegisterPhone();
 
-  const onSubmitHandler = (data: RegisterFormValues) => {
+  const onSubmitHandler = ({
+    username,
+    password,
+    name,
+    studentId,
+    phoneToken,
+    verificationCode,
+  }: RegisterFormValues) => {
     if (phoneToken) {
-      registerMutate({ ...data });
+      registerMutate({
+        username,
+        password,
+        name,
+        studentId,
+        phoneToken: phoneAccessToken.token,
+        verificationCode,
+      });
     } else {
       return;
     }
   };
 
   const onPhoneSubmitHandler = ({ phone }: RegisterFormProps) => {
-    console.log(phone, 'onPhoneSubmitHandler');
     phoneMutate(phone);
+    console.log(phoneAccessToken.token, 'token');
   };
 
   return (
@@ -161,38 +175,25 @@ export const RegisterPage: React.FC = () => {
           </S.RegisterPhoneInputContainer>
           <S.RegisterErrorMessage>{errors.phone?.message}</S.RegisterErrorMessage>
         </S.RegisterInputContainer>
-        {/* <S.RegisterInputContainer>
-          <S.RegisterInputTitle>전화번호 토큰</S.RegisterInputTitle>
-          <S.RegisterInput
-            type="text"
-            {...register('phoneToken', {
-              required: '전화번호 토큰은 필수입니다.',
-              pattern: {
-                value: /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[8|9aAbB][0-9a-f]{3}-[0-9a-f]{12}$/,
-                message: '전화번호 토큰이 잘못되었습니다. 다시 입력해주세요.',
-              },
-            })}
-            placeholder="전화번호 토큰을 입력해주세요..."
-          />
-          <S.RegisterErrorMessage>{errors.phoneToken?.message}</S.RegisterErrorMessage>
-        </S.RegisterInputContainer>
-        <S.RegisterInputContainer>
-          <S.RegisterInputTitle>인증번호</S.RegisterInputTitle>
-          <S.RegisterInput
-            type="text"
-            {...register('verificationCode', {
-              required: '인증번호는 필수입니다.',
-              pattern: {
-                value: /^[0-9]{6}$/,
-                message: '인증번호가 잘못되었습니다. 다시 입력해주세요.',
-              },
-            })}
-            placeholder="인증번호를 입력해주세요..."
-          />
-          <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
-        </S.RegisterInputContainer> */}
-        <S.RegisterButton phoneToken={phoneToken}>
-          {phoneToken ? '회원가입' : '전화번호 인증 후 가능합니다.'}
+        {phoneAccessToken.state && (
+          <S.RegisterInputContainer>
+            <S.RegisterInputTitle>인증번호</S.RegisterInputTitle>
+            <S.RegisterInput
+              type="text"
+              {...register('verificationCode', {
+                required: '인증번호는 필수입니다.',
+                pattern: {
+                  value: /^[0-9]{6}$/,
+                  message: '인증번호가 잘못되었습니다. 다시 입력해주세요.',
+                },
+              })}
+              placeholder="인증번호를 입력해주세요..."
+            />
+            <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
+          </S.RegisterInputContainer>
+        )}
+        <S.RegisterButton phoneToken={phoneAccessToken.state}>
+          {phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능합니다.'}
         </S.RegisterButton>
       </S.RegisterContainer>
     </S.RegisterWrapper>
