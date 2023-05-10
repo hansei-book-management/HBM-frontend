@@ -74,7 +74,7 @@ export const ManageUserBookPageTitle = styled.h1`
   font-weight: 700;
 `;
 
-export const ModalAddClubContainer = styled.div`
+export const ModalAddClubContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -104,15 +104,19 @@ export const ModalAddClubInputText = styled.span`
 `;
 
 export const ModalAddClubInput = styled.input`
-  height: 2.6rem;
-  padding: 0 0.4rem;
-  border-radius: 0.8rem;
-  color: ${({ theme }) => theme.black};
+  background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
-  background-color: #f5f5f5;
+  padding: 16px;
+  align-self: center;
+  border-radius: 0.8rem;
+  height: 3rem;
   width: 100%;
   font-size: 1rem;
-  font-weight: 400;
+  &::placeholder {
+    font-size: 1rem;
+    font-weight: 500;
+    color: '#9E9E9E';
+  }
 `;
 
 export const ModalMessage = styled.span<{ isOk: boolean }>`

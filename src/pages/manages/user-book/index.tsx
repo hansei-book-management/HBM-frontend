@@ -86,7 +86,7 @@ export const ManageUserBookPage: React.FC = () => {
                 <S.ModalAddClubTitle>동아리 회원 등록</S.ModalAddClubTitle>
                 <S.ModalAddClubInputContainer>
                   <S.ModalAddClubInputText>인증키 입력</S.ModalAddClubInputText>
-                  <S.ModalAddClubInput />
+                  <S.ModalAddClubInput placeholder="동아리 인증키를 입력해주세요..." />
                 </S.ModalAddClubInputContainer>
               </S.ModalAddClubContainer>
             }
