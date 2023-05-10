@@ -20,11 +20,13 @@ export type APIResponseStatusType = boolean;
 export interface APIResponse<T = unknown> {
   status: APIResponseStatusType;
   message: string;
-  token: T;
+  token: string;
+  result?: T;
 }
 
 export interface APIErrorResponse {
   status: 'FAILED';
   message: string;
+  at?: string;
   result?: null;
 }

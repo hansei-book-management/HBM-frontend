@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { useRegister, useRegisterPhone } from '@/hooks/query/useAuth';
-import { PhoneTokenState } from '@/atoms';
+import { PhoneToken } from '@/atoms';
+import { VerificationCode } from '@/atoms/verificatoinCode';
 
 import * as S from './styled';
 
@@ -30,7 +31,8 @@ export const RegisterPage: React.FC = () => {
     watch,
   } = useForm<RegisterFormProps>();
 
-  const phoneAccessToken = useRecoilValue(PhoneTokenState);
+  const [phoneAccessToken, setPhoneAccessToken] = useRecoilState(PhoneToken);
+  const verificationCode = useRecoilValue(VerificationCode);
 
   const password = useRef({});
   password.current = watch('password');
@@ -42,10 +44,9 @@ export const RegisterPage: React.FC = () => {
     password,
     name,
     studentId,
-    phoneToken,
     verificationCode,
   }: RegisterFormValues) => {
-    if (phoneToken) {
+    if (phoneAccessToken.state) {
       registerMutate({
         username,
         password,
@@ -61,8 +62,11 @@ export const RegisterPage: React.FC = () => {
 
   const onPhoneSubmitHandler = ({ phone }: RegisterFormProps) => {
     phoneMutate(phone);
-    console.log(phoneAccessToken.token, 'token');
   };
+
+  useEffect(() => {
+    setPhoneAccessToken({ state: false, token: '' });
+  }, []);
 
   return (
     <S.RegisterWrapper>
@@ -189,7 +193,9 @@ export const RegisterPage: React.FC = () => {
               })}
               placeholder="인증번호를 입력해주세요..."
             />
-            <S.RegisterErrorMessage>{errors.verificationCode?.message}</S.RegisterErrorMessage>
+            <S.RegisterErrorMessage>
+              {errors.verificationCode?.message || verificationCode.message}
+            </S.RegisterErrorMessage>
           </S.RegisterInputContainer>
         )}
         <S.RegisterButton phoneToken={phoneAccessToken.state}>
