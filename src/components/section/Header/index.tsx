@@ -11,11 +11,13 @@ export interface HeaderSectionListProps {
 export interface HeaderSectionProps {
   manageUserBookPage?: boolean;
   rentPage?: boolean;
+  userBookInfo?: string;
   name: React.ReactNode;
   href: string;
   list: HeaderSectionListProps[];
   onClick?: () => void;
   activeId?: string;
+  userMessage?: string;
 }
 
 export const HeaderSection: React.FC<HeaderSectionProps> = ({
@@ -26,14 +28,18 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
   rentPage,
   onClick,
   activeId,
+  userBookInfo,
+  userMessage,
 }) => {
   const isActive = (activeId?: string, id?: string) => activeId === id;
   return (
     <S.HeaderSectionContainer manageUserBookPage={manageUserBookPage || false}>
+      {userMessage && <S.HeaderSectionUserMessage>{userMessage}</S.HeaderSectionUserMessage>}
+      {userBookInfo && <S.HeaderSectionSubTitle>{userBookInfo}</S.HeaderSectionSubTitle>}
       <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage || false}>
         {name}
       </S.HeaderSectionTitle>
-      <S.HeaderSectionList>
+      <S.HeaderSectionList manageUserBookPage={manageUserBookPage || false}>
         {list.map(({ name, id }) => (
           <S.HeaderSectionItem key={id} isActive={isActive(activeId, id)} to={`${href}/${id}`}>
             {name}

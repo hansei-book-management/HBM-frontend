@@ -15,12 +15,19 @@ export const HeaderSectionTitle = styled.h1<{ manageUserBookPage: boolean }>`
   margin-bottom: ${({ manageUserBookPage }) => (manageUserBookPage ? '0' : '2rem')};
 `;
 
-export const HeaderSectionList = styled.div`
+export const HeaderSectionSubTitle = styled.h3`
+  font-size: 1rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.black};
+`;
+
+export const HeaderSectionList = styled.div<{ manageUserBookPage: boolean }>`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 1.4rem;
+  margin-bottom: ${({ manageUserBookPage }) => (manageUserBookPage ? '2rem' : '0')};
 `;
 
 export const HeaderSectionItem = styled(Link)<{ isActive: boolean }>`
@@ -55,4 +62,16 @@ export const HeaderSectionAddIconWrap = styled.div`
     color: ${({ theme }) => theme.primary.white};
     background-color: ${({ theme }) => theme.black};
   }
+`;
+
+export const HeaderSectionUserMessage = styled.span`
+  width: 100%;
+  padding: 1.4rem;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: ${({ theme }) => theme.primary.black};
+  background-color: #ffcfcf;
+  text-align: left;
+  margin-bottom: 2rem;
 `;
