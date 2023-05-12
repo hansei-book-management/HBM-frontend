@@ -56,45 +56,6 @@ export const RegisterInput = styled.input`
   }
 `;
 
-export const RegisterButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
-export const RegisterButtonLine = styled.span`
-  width: 2px;
-  height: 100%;
-  background-color: ${({ theme }) => theme.imageBorder};
-`;
-
-export const RegisterButton = styled.button<{ phoneToken: boolean }>`
-  background-color: #56599f;
-  border: none;
-  padding: 14px 0;
-  border-radius: 0.8rem;
-  align-self: center;
-  height: 3rem;
-  width: 100%;
-  color: ${({ theme }) => theme.white};
-  font-size: 1.2rem;
-  font-weight: 600;
-  ${({ phoneToken }) =>
-    phoneToken
-      ? css`
-          opacity: 1;
-          transition: opacity 150ms ease-in-out;
-          &:hover {
-            opacity: 0.8;
-          }
-        `
-      : css`
-          opacity: 0.5;
-        `}
-`;
-
 export const RegisterErrorMessage = styled.p`
   text-align: left;
   margin-left: 10px;

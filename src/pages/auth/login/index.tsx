@@ -2,6 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
+import { Form } from '@/components';
+
 import * as S from './styled';
 
 export interface LoginFormValues {
@@ -14,8 +16,6 @@ export const LoginPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    setValue,
   } = useForm<LoginFormValues>();
 
   const onSubmit = (data: LoginFormValues) => {
@@ -24,10 +24,9 @@ export const LoginPage: React.FC = () => {
 
   return (
     <S.LoginWrapper>
-      <S.LoginContainer onSubmit={handleSubmit(onSubmit)}>
-        <S.LoginTitle>HANBOOK</S.LoginTitle>
-        <S.LoginInputContainer>
-          <S.LoginInputTitle>아이디</S.LoginInputTitle>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Title>HANBOOK</Form.Title>
+        <Form.InputContainer inputTitle="아이디" errorMessage={errors.username?.message}>
           <S.LoginInput
             type="text"
             {...register('username', {
@@ -39,10 +38,8 @@ export const LoginPage: React.FC = () => {
             })}
             placeholder="아이디를 입력해주세요..."
           />
-          <S.LoginErrorMessage>{errors.username?.message}</S.LoginErrorMessage>
-        </S.LoginInputContainer>
-        <S.LoginInputContainer>
-          <S.LoginInputTitle>비밀번호</S.LoginInputTitle>
+        </Form.InputContainer>
+        <Form.InputContainer inputTitle="비밀번호" errorMessage={errors.password?.message}>
           <S.LoginInput
             type="password"
             {...register('password', {
@@ -54,15 +51,14 @@ export const LoginPage: React.FC = () => {
             })}
             placeholder="비밀번호를 입력해주세요..."
           />
-          <S.LoginErrorMessage>{errors.password?.message}</S.LoginErrorMessage>
-        </S.LoginInputContainer>
+        </Form.InputContainer>
         <div>
-          <S.LoginFormButton>로그인</S.LoginFormButton>
+          <Form.Button>로그인</Form.Button>
           <S.LoginLinkContainer>
             이미 계정이 있으신가요? <Link to="/auth/register">회원가입</Link>
           </S.LoginLinkContainer>
         </div>
-      </S.LoginContainer>
+      </Form>
     </S.LoginWrapper>
   );
 };

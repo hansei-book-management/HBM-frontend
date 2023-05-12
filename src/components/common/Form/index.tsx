@@ -36,7 +36,7 @@ interface FormButtonProps extends FormCommonProps {
 }
 
 export const FormButton: React.FC<FormButtonProps> = ({ children, phoneToken }) => {
-  return <S.FormButton phoneToken={phoneToken}>{children}</S.FormButton>;
+  return <S.FormButton phoneToken={phoneToken || true}>{children}</S.FormButton>;
 };
 
 interface FormComponentProps extends FormCommonProps {

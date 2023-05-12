@@ -10,7 +10,7 @@ export const MainSectionContainer = styled.div<{ isSecondary?: boolean; firstSec
   div > p {
     text-align: ${(props) => (props.isSecondary ? 'right' : 'left')};
   }
-  padding-top: ${(props) => (props.firstSection ? '0' : '20rem')};
+  padding-top: ${(props) => (props.firstSection ? '14rem' : '20rem')};
   row-gap: 40px;
   @media screen and (max-width: 779px) and (min-width: 300px) {
     align-items: flex-start;
