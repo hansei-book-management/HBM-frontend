@@ -11,7 +11,6 @@ export interface ClubApplyFormValues {
   clubRepresentative: string;
   clubMemberNumber: string;
   clubRepresentativePhone: string;
-  clubRepresentativeEmail: string;
 }
 
 export const ClubApplyPage: React.FC = () => {
@@ -35,6 +34,54 @@ export const ClubApplyPage: React.FC = () => {
               required: '동아리 이름은 필수입니다.',
             })}
             placeholder="동아리 이름을 입력해주세요..."
+          />
+        </Form.InputContainer>
+        <Form.InputContainer
+          inputTitle="동아리 설명"
+          errorMessage={errors.clubDescription?.message}
+        >
+          <S.ClubApplyInput
+            type="text"
+            {...register('clubDescription', {
+              required: '동아리 설명은 필수입니다.',
+            })}
+            placeholder="무엇을 하는 동아리인지 입력해주세요..."
+          />
+        </Form.InputContainer>
+        <Form.InputContainer
+          inputTitle="동아리 부장"
+          errorMessage={errors.clubRepresentative?.message}
+        >
+          <S.ClubApplyInput
+            type="text"
+            {...register('clubRepresentative', {
+              required: '동아리 부장은 필수입니다.',
+            })}
+            placeholder="동아리 부장의 이름을 입력해주세요..."
+          />
+        </Form.InputContainer>
+        <Form.InputContainer
+          inputTitle="동아리 부원 수"
+          errorMessage={errors.clubMemberNumber?.message}
+        >
+          <S.ClubApplyInput
+            type="text"
+            {...register('clubMemberNumber', {
+              required: '동아리 부원 수는 필수입니다.',
+            })}
+            placeholder="동아리에 몇명의 부원이 있는지 입력해주세요..."
+          />
+        </Form.InputContainer>
+        <Form.InputContainer
+          inputTitle="동아리 부장 전화번호"
+          errorMessage={errors.clubRepresentativePhone?.message}
+        >
+          <S.ClubApplyInput
+            type="text"
+            {...register('clubRepresentativePhone', {
+              required: '동아리 부장 전화번호는 필수입니다.',
+            })}
+            placeholder="동아리 부장의 전화번호를 입력해주세요..."
           />
         </Form.InputContainer>
       </Form>
