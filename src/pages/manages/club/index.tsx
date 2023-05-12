@@ -6,7 +6,7 @@ import { Modal } from '@/components';
 
 import * as S from './styled';
 
-export const ManageUserPage: React.FC = () => {
+export const ManageClubPage: React.FC = () => {
   const { open, modalActive } = useModal();
 
   const onClick = () => {

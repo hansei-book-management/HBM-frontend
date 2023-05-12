@@ -8,7 +8,7 @@ import {
   NotFoundPage,
   ManageClubBookPage,
   RegisterPage,
-  ManageUserPage,
+  ManageClubPage,
   LoginPage,
   ClubApplyPage,
 } from './pages';
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
             />
             <Route path=":option" element={<ManageUserBookPage />} />
           </Route>
-          <Route path="user" element={<ManageUserPage />} />
+          <Route path="club" element={<ManageClubPage />} />
         </Route>
         <Route path="/auth">
           <Route path="register" element={<RegisterPage />} />
