@@ -6,9 +6,8 @@ import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import { MANAGE_CLUB_BOOK_OPTIONS, loadingLottieOptions } from '@/constant';
-import { Modal, RentMessage, Section, StatusModal } from '@/components';
+import { Modal, RentMessage, Section, StatusModal, DetailModal } from '@/components';
 import { useModal } from '@/hooks';
-import { DetailModal } from '@/components/modal/DetailModal';
 import { BookState, StatusState } from '@/atoms';
 
 import * as S from './styled';
@@ -58,7 +57,7 @@ export const ManageClubBookPage: React.FC = () => {
       <S.ManageClubBookPageOptionList>
         {MANAGE_CLUB_BOOK_OPTIONS.map(({ name, id }) => (
           <S.ManageClubBookPageOptionItem
-            to={`/manage/club-book/${id}`}
+            to={`${BASE_URL}/${id}`}
             isActive={manageBookOptionsIsActive(option, id)}
           >
             {name}

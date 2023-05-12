@@ -1,5 +1,5 @@
 export interface RentClubItem {
-  name: string | React.ReactNode;
+  name: string;
   id: string;
 }
 
