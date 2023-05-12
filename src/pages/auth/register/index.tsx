@@ -74,7 +74,6 @@ export const RegisterPage: React.FC = () => {
   return (
     <S.RegisterWrapper>
       <Form onSubmit={handleSubmit(onSubmitHandler)}>
-        <Form.Title>HANBOOK</Form.Title>
         <Form.InputContainer inputTitle="아이디" errorMessage={errors.username?.message}>
           <S.RegisterInput
             type="text"

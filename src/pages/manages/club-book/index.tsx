@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
 import { MANAGE_CLUB_BOOK_OPTIONS, loadingLottieOptions } from '@/constant';
-import { Modal, RentMessage, Section, StatusModal } from '@/components';
+import { Modal, RentMessage, Section, StatusModal, DetailModal, HeaderSection } from '@/components';
 import { useModal } from '@/hooks';
-import { DetailModal } from '@/components/modal/DetailModal';
 import { BookState, StatusState } from '@/atoms';
 
 import * as S from './styled';
@@ -24,7 +22,6 @@ export const ManageClubBookPage: React.FC = () => {
 
   const { option } = useParams<{ option: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
-  const manageBookOptionsIsActive = (option?: string, id?: string) => option === id;
   const onClick = () => {
     navigate(`${BASE_URL}/${option}?book-add-step=1`);
     setStatus(false);
@@ -55,20 +52,15 @@ export const ManageClubBookPage: React.FC = () => {
 
   return (
     <S.ManageClubBookPageContainer>
-      <S.ManageClubBookPageOptionList>
-        {MANAGE_CLUB_BOOK_OPTIONS.map(({ name, id }) => (
-          <S.ManageClubBookPageOptionItem
-            to={`/manage/club-book/${id}`}
-            isActive={manageBookOptionsIsActive(option, id)}
-          >
-            {name}
-          </S.ManageClubBookPageOptionItem>
-        ))}
-        <S.ManageClubBookPageAddIconWrap onClick={onClick}>
-          <FaPlus size={'0.9rem'} />
-        </S.ManageClubBookPageAddIconWrap>
-      </S.ManageClubBookPageOptionList>
-      <S.ManageClubBookPageTitle>{activeOption?.text}</S.ManageClubBookPageTitle>
+      {activeOption && (
+        <HeaderSection
+          name={activeOption.text}
+          activeId={option}
+          href={`${BASE_URL}`}
+          list={MANAGE_CLUB_BOOK_OPTIONS}
+          onClick={onClick}
+        />
+      )}
       <Section mangeClubName="hsoc" />
       {modalActive && !status && !bookClick && (
         <Modal.OverLay>

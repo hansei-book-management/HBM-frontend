@@ -5,15 +5,11 @@ import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import { RENT_CLUB_LIST, loadingLottieOptions } from '@/constant';
-import { Modal, RentMessage, Section, StatusModal } from '@/components';
-import { useModal } from '@/hooks/useModal';
+import { Modal, RentMessage, Section, StatusModal, DetailModal, HeaderSection } from '@/components';
 import { StatusState } from '@/atoms';
-import { DetailModal } from '@/components/modal/DetailModal';
-import { useGetLocation } from '@/hooks';
+import { useGetLocation, useModal } from '@/hooks';
 
 import * as S from './styled';
-
-const clubLinkIsActive = (clubId?: string, id?: string) => clubId === id;
 
 export const RentPage: React.FC = () => {
   const navigate = useNavigate();
@@ -52,14 +48,15 @@ export const RentPage: React.FC = () => {
 
   return (
     <S.RentPageContainer>
-      <S.RentClubList>
-        {RENT_CLUB_LIST.map(({ name, id }) => (
-          <S.RentClubLink to={`/rent/${id}`} isActive={clubLinkIsActive(rentClubId, id)}>
-            {name}
-          </S.RentClubLink>
-        ))}
-      </S.RentClubList>
-      <S.RentPageTitle>{activeClub?.name} 도서</S.RentPageTitle>
+      {activeClub && (
+        <HeaderSection
+          name={activeClub.name}
+          activeId={rentClubId}
+          href="/rent"
+          list={RENT_CLUB_LIST}
+          rentPage={true}
+        />
+      )}
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && (
         <DetailModal clubId={rentClubId} message={<RentMessage canRent={true} />} />

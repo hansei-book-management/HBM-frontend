@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa';
 import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { DetailModal, Modal, Section, StatusModal } from '@/components';
+import { DetailModal, HeaderSection, Modal, Section, StatusModal } from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
 import { StatusState, BookState } from '@/atoms';
 
 import * as S from './styled';
+
+const BASE_URL = '/manage/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
   const navigate = useNavigate();
@@ -22,18 +23,17 @@ export const ManageUserBookPage: React.FC = () => {
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
 
-  const BASE_URL = `/manage/user-book/${userClubId}`;
-  const userClubIsActive = (userClubId?: string, id?: string) => userClubId === id;
+  const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
 
   const onClick = () => {
     setStatus(false);
     setBookClick(false);
-    navigate(`${BASE_URL}?club-add-step=1`);
+    navigate(`${USER_CLUB_BASE_URL}?club-add-step=1`);
     open();
   };
 
   const onSubmit = (stepNum: number) => {
-    navigate(`${BASE_URL}?club-add-step=${stepNum}`);
+    navigate(`${USER_CLUB_BASE_URL}?club-add-step=${stepNum}`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -42,7 +42,7 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onCloseNavigate = () => {
-    navigate(`${BASE_URL}`);
+    navigate(`${USER_CLUB_BASE_URL}`);
   };
 
   useEffect(() => {
@@ -50,33 +50,24 @@ export const ManageUserBookPage: React.FC = () => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
     if (!activeUserClub || clubAddStep) {
-      navigate(`${BASE_URL}/${USER_CLUB_LIST[0].id}`);
+      navigate(`${USER_CLUB_BASE_URL}/${USER_CLUB_LIST[0].id}`);
     }
   }, [activeUserClub]);
 
   return (
     <S.ManageUserBookPageContainer>
-      {/* <S.ManageMessage>
-        현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.
-      </S.ManageMessage> */}
-      <S.ManageUserBookPageSubTitle>
-        앙기모링님은 현재 2권 대출중이에요.
-      </S.ManageUserBookPageSubTitle>
-      <S.ManageUserBookPageTitle>대출 중인 {activeUserClub?.name} 도서</S.ManageUserBookPageTitle>
-      <S.UserClubList>
-        {USER_CLUB_LIST.map(({ name, id }) => (
-          <S.UserClubLink
-            key={id}
-            to={`/manage/user-book/${id}`}
-            isActive={userClubIsActive(userClubId, id)}
-          >
-            {name}
-          </S.UserClubLink>
-        ))}
-        <S.ClubAddIconWrap onClick={onClick}>
-          <FaPlus size={'0.9rem'} />
-        </S.ClubAddIconWrap>
-      </S.UserClubList>
+      {activeUserClub && (
+        <HeaderSection
+          name={activeUserClub.name}
+          activeId={userClubId}
+          href={`${BASE_URL}`}
+          list={USER_CLUB_LIST}
+          onClick={onClick}
+          manageUserBookPage={true}
+          userBookInfo={`앙기모링님은 현재 2권 대출중이에요.`}
+          // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
+        />
+      )}
       <Section activeClub={activeUserClub} />
       {(modalActive && !status && !bookClick && (
         <Modal.OverLay>
@@ -108,7 +99,7 @@ export const ManageUserBookPage: React.FC = () => {
           />
         </Modal.OverLay>
       )) ||
-        (modalActive && status && !bookClick && <StatusModal url={`${BASE_URL}`} />) ||
+        (modalActive && status && !bookClick && <StatusModal url={`${USER_CLUB_BASE_URL}`} />) ||
         (modalActive && bookClick && (
           <DetailModal
             message={<S.ModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.ModalMessage>}

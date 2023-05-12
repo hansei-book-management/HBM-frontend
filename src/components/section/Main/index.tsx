@@ -12,8 +12,8 @@ import { useModal } from '@/hooks/useModal';
 import { useGetLocation } from '@/hooks';
 import { BookState } from '@/atoms';
 
-import { RentMessage } from '../RentMessage';
-import { Skeleton } from '../Skeleton';
+import { RentMessage } from '../../common/RentMessage';
+import { Skeleton } from '../../common/Skeleton';
 
 import * as S from './styled';
 
