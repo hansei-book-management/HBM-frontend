@@ -6,6 +6,12 @@ export interface FormCommonProps {
   children?: React.ReactNode;
 }
 
+type FormLinkContainerProps = FormCommonProps;
+
+export const FormLinkContainer: React.FC<FormLinkContainerProps> = ({ children }) => {
+  return <S.FormLinkContainer>{children}</S.FormLinkContainer>;
+};
+
 interface FormInputContainerProps extends FormCommonProps {
   inputTitle: string;
   errorMessage?: string;
@@ -32,11 +38,11 @@ export const FormTitle: React.FC<FormTitleProps> = ({ children }) => {
 };
 
 interface FormButtonProps extends FormCommonProps {
-  phoneToken?: boolean;
+  phoneToken: boolean;
 }
 
 export const FormButton: React.FC<FormButtonProps> = ({ children, phoneToken }) => {
-  return <S.FormButton phoneToken={phoneToken || true}>{children}</S.FormButton>;
+  return <S.FormButton phoneToken={phoneToken}>{children}</S.FormButton>;
 };
 
 interface FormComponentProps extends FormCommonProps {
@@ -51,4 +57,5 @@ export const Form = Object.assign(FormComponent, {
   Button: FormButton,
   Title: FormTitle,
   InputContainer: FormInputContainer,
+  LinkContainer: FormLinkContainer,
 });

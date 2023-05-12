@@ -53,10 +53,10 @@ export const LoginPage: React.FC = () => {
           />
         </Form.InputContainer>
         <div>
-          <Form.Button>로그인</Form.Button>
-          <S.LoginLinkContainer>
-            이미 계정이 있으신가요? <Link to="/auth/register">회원가입</Link>
-          </S.LoginLinkContainer>
+          <Form.Button phoneToken>로그인</Form.Button>
+          <Form.LinkContainer>
+            아직 계정이 없으신가요? <Link to="/auth/register">회원가입</Link>
+          </Form.LinkContainer>
         </div>
       </Form>
     </S.LoginWrapper>

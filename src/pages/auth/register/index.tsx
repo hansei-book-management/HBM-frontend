@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -66,6 +67,7 @@ export const RegisterPage: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log(phoneAccessToken.state);
     setPhoneAccessToken({ state: false, token: '' });
   }, []);
 
@@ -189,9 +191,14 @@ export const RegisterPage: React.FC = () => {
             />
           </Form.InputContainer>
         )}
-        <Form.Button phoneToken={phoneAccessToken.state}>
-          {phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능해요.'}
-        </Form.Button>
+        <div>
+          <Form.Button phoneToken={phoneAccessToken.state}>
+            {phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능해요.'}
+          </Form.Button>
+          <Form.LinkContainer>
+            이미 계정이 있으신가요? <Link to="/auth/login">로그인</Link>
+          </Form.LinkContainer>
+        </div>
       </Form>
     </S.RegisterWrapper>
   );

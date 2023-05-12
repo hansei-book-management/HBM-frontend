@@ -76,3 +76,24 @@ export const FormInputError = styled.span`
   font-size: 13px;
   color: #ba1a1a;
 `;
+
+export const FormLinkContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+
+  a {
+    color: ${({ theme }) => theme.primary.darkBlue};
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 200ms ease-in-out;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+`;
