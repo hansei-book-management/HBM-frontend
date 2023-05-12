@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-export const ClubApplyWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 14rem 0;
-`;
-
 export const ClubApplyInput = styled.input`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};

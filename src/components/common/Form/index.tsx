@@ -31,28 +31,31 @@ export const FormInputContainer: React.FC<FormInputContainerProps> = ({
   );
 };
 
-interface FormComponentProps extends FormCommonProps {
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
-  buttonChildren: React.ReactNode;
+interface FormButtonProps extends FormCommonProps {
   phoneToken: boolean;
 }
 
-export const FormComponent: React.FC<FormComponentProps> = ({
-  children,
-  onSubmit,
-  buttonChildren,
-  phoneToken,
-}) => {
+export const FormButton: React.FC<FormButtonProps> = ({ children, phoneToken }) => {
+  return <S.FormButton phoneToken={phoneToken}>{children}</S.FormButton>;
+};
+
+interface FormComponentProps extends FormCommonProps {
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export const FormComponent: React.FC<FormComponentProps> = ({ children, onSubmit }) => {
   return (
-    <S.FormContainer onSubmit={onSubmit}>
-      <S.FormTitle>HANBOOK</S.FormTitle>
-      {children}
-      <S.FormButton phoneToken={phoneToken}>{buttonChildren}</S.FormButton>
-    </S.FormContainer>
+    <S.FormWrapper>
+      <S.FormContainer onSubmit={onSubmit}>
+        <S.FormTitle>HANBOOK</S.FormTitle>
+        {children}
+      </S.FormContainer>
+    </S.FormWrapper>
   );
 };
 
 export const Form = Object.assign(FormComponent, {
+  Button: FormButton,
   InputContainer: FormInputContainer,
   LinkContainer: FormLinkContainer,
 });
