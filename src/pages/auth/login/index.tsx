@@ -25,7 +25,6 @@ export const LoginPage: React.FC = () => {
   return (
     <S.LoginWrapper>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Title>HANBOOK</Form.Title>
         <Form.InputContainer inputTitle="아이디" errorMessage={errors.username?.message}>
           <S.LoginInput
             type="text"
