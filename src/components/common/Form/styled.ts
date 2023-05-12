@@ -1,5 +1,13 @@
 import styled, { css } from 'styled-components';
 
+export const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+`;
+
 export const FormContainer = styled.form`
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.imageBorder};

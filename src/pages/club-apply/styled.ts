@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LoginInput = styled.input`
+export const ClubApplyInput = styled.input`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
   padding: 16px;

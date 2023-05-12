@@ -30,6 +30,7 @@ export const FormInputContainer: React.FC<FormInputContainerProps> = ({
     </S.FormInputContainer>
   );
 };
+
 interface FormButtonProps extends FormCommonProps {
   phoneToken: boolean;
 }
@@ -44,10 +45,12 @@ interface FormComponentProps extends FormCommonProps {
 
 export const FormComponent: React.FC<FormComponentProps> = ({ children, onSubmit }) => {
   return (
-    <S.FormContainer onSubmit={onSubmit}>
-      <S.FormTitle>HANBOOK</S.FormTitle>
-      {children}
-    </S.FormContainer>
+    <S.FormWrapper>
+      <S.FormContainer onSubmit={onSubmit}>
+        <S.FormTitle>HANBOOK</S.FormTitle>
+        {children}
+      </S.FormContainer>
+    </S.FormWrapper>
   );
 };
 

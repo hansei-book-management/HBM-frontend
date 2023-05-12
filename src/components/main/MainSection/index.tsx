@@ -29,7 +29,7 @@ export const MainSection: React.FC<MainSectionProps> = ({
         <Text size="small">{smallText}</Text>
         <Text size="large">{largeText}</Text>
         <div style={{ width: 'fit-content' }}>
-          {largeText === 'HANBOOK' && <Button to="/" description="서비스 신청하기" />}
+          {largeText === 'HANBOOK' && <Button to="/club-apply" description="서비스 신청하기" />}
         </div>
       </Text.Column>
       <S.MainSectionImage src={imageUrl} />

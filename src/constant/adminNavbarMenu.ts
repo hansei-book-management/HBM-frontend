@@ -17,7 +17,7 @@ export const ADMIN_NAVBAR_MENU_LIST: AdminNavbarMenuItem[] = [
     href: '/manage/club-book',
   },
   {
-    text: '부원 관리',
-    href: '/manage/user/',
+    text: '동아리 관리',
+    href: '/manage/club/',
   },
 ];

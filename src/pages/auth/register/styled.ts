@@ -2,15 +2,6 @@ import styled from 'styled-components';
 
 import { colors } from '@/styles';
 
-export const RegisterWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 0;
-  padding-bottom: 3rem;
-`;
-
 export const RegisterContainer = styled.form`
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.imageBorder};
