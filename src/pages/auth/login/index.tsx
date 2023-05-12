@@ -24,7 +24,7 @@ export const LoginPage: React.FC = () => {
 
   return (
     <S.LoginWrapper>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} phoneToken buttonChildren="로그인">
         <Form.InputContainer inputTitle="아이디" errorMessage={errors.username?.message}>
           <S.LoginInput
             type="text"
@@ -52,7 +52,6 @@ export const LoginPage: React.FC = () => {
           />
         </Form.InputContainer>
         <div>
-          <Form.Button phoneToken>로그인</Form.Button>
           <Form.LinkContainer>
             아직 계정이 없으신가요? <Link to="/auth/register">회원가입</Link>
           </Form.LinkContainer>

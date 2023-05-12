@@ -11,11 +11,12 @@ export const LoginWrapper = styled.div`
 export const LoginInput = styled.input`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
-  padding: 14px;
+  padding: 16px;
   align-self: center;
   border-radius: 0.8rem;
   height: 3rem;
   width: 100%;
+  font-size: 1rem;
   &::placeholder {
     font-size: 1rem;
     font-weight: 500;

@@ -73,7 +73,11 @@ export const RegisterPage: React.FC = () => {
 
   return (
     <S.RegisterWrapper>
-      <Form onSubmit={handleSubmit(onSubmitHandler)}>
+      <Form
+        onSubmit={handleSubmit(onSubmitHandler)}
+        phoneToken={phoneAccessToken.state}
+        buttonChildren={phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능해요.'}
+      >
         <Form.InputContainer inputTitle="아이디" errorMessage={errors.username?.message}>
           <S.RegisterInput
             type="text"
@@ -191,9 +195,6 @@ export const RegisterPage: React.FC = () => {
           </Form.InputContainer>
         )}
         <div>
-          <Form.Button phoneToken={phoneAccessToken.state}>
-            {phoneAccessToken.state ? '회원가입' : '전화번호 인증 후 가능해요.'}
-          </Form.Button>
           <Form.LinkContainer>
             이미 계정이 있으신가요? <Link to="/auth/login">로그인</Link>
           </Form.LinkContainer>
