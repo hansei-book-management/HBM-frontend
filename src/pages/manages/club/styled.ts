@@ -2,6 +2,16 @@ import { FaUserCircle } from 'react-icons/fa';
 
 import styled from 'styled-components';
 
+export const ManageClubWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: center;
+`;
+
 export const ManageUserContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -19,6 +29,19 @@ export const ManageUserMenuBar = styled.div`
 export const ManageUserMenuBarItem = styled.span`
   font-size: 1rem;
   font-weight: 400;
+`;
+
+export const ManageClubAddCodeButton = styled.button`
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.primary.darkBlue};
+  color: ${({ theme }) => theme.white};
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  @media screen and (max-width: 2600px) and (min-width: 1000px) {
+    font-size: 1rem;
+  }
 `;
 
 export const ManageUserInfoContainer = styled.div`
