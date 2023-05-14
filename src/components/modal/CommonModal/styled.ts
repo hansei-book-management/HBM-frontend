@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 export const modalOpenKeyframe = keyframes`
     0% {
         opacity: 0;
-        transform: scale(0.5);
+        transform: scale(0.8);
     }
 
     100% {
@@ -19,7 +19,7 @@ export const modalCloseKeyframe = keyframes`
     }
     100% {
         opacity: 0;
-        transform: scale(0.2);
+        transform: scale(0.8);
     }
 `;
 

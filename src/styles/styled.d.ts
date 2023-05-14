@@ -21,6 +21,7 @@ declare module 'styled-components' {
       white: string;
       green: string;
       red: string;
+      shoftRed: string;
       darkBlue: string;
     };
     disable: {

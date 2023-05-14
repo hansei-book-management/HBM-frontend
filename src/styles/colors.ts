@@ -23,6 +23,7 @@ export const colors: DefaultTheme = {
     white: '#F7F7F7',
     green: '#4DAC27',
     red: '#D20000',
+    shoftRed: '#CD5050',
     darkBlue: '#5E63C7',
   },
 

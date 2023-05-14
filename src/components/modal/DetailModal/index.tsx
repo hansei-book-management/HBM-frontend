@@ -41,11 +41,9 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => 
                 <S.ModalInfo>
                   세이노 저자(글)
                   <br />
-                  데이원 · 2023년 03월 02일
+                  데이원(출판사) · 2023년 03월 02일
                 </S.ModalInfo>
                 <S.ModalSubTitle>
-                  머릿글: 초판 한정 블랙 에디션
-                  <br />
                   재야의 명저 《세이노의 가르침》 2023년판 정식 출간!
                   <br />
                   순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
@@ -69,7 +67,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => 
         }
         {...(clubId
           ? {
-              leftButtonText: '취소',
+              leftButtonText: '닫기',
               rightButtonText: '대여하기',
               onNavigate: () => onNextNavigate(2, 1),
             }
