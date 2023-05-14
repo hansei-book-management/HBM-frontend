@@ -44,32 +44,26 @@ export const ClubApplyPage: React.FC = () => {
           placeholder="무엇을 하는 동아리인지 입력해주세요..."
         />
       </Form.InputContainer>
-      <Form.InputContainer
-        inputTitle="동아리 부장"
-        errorMessage={errors.clubRepresentative?.message}
-      >
+      <Form.InputContainer inputTitle="부장 이름" errorMessage={errors.clubRepresentative?.message}>
         <S.ClubApplyInput
           type="text"
           {...register('clubRepresentative', {
-            required: '동아리 부장은 필수입니다.',
+            required: '부장 이름은 필수입니다.',
           })}
           placeholder="동아리 부장의 이름을 입력해주세요..."
         />
       </Form.InputContainer>
-      <Form.InputContainer
-        inputTitle="동아리 부원 수"
-        errorMessage={errors.clubMemberNumber?.message}
-      >
+      <Form.InputContainer inputTitle="부원 수" errorMessage={errors.clubMemberNumber?.message}>
         <S.ClubApplyInput
           type="text"
           {...register('clubMemberNumber', {
-            required: '동아리 부원 수는 필수입니다.',
+            required: '부원 수는 필수입니다.',
           })}
           placeholder="동아리에 몇명의 부원이 있는지 입력해주세요..."
         />
       </Form.InputContainer>
       <Form.InputContainer
-        inputTitle="동아리 부장 전화번호"
+        inputTitle="부장 전화번호"
         errorMessage={errors.clubRepresentativePhone?.message}
       >
         <S.ClubApplyInput

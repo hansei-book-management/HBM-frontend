@@ -31,6 +31,9 @@ export const RentPage: React.FC = () => {
       setStatus(true);
     }, 2000);
   };
+  const onNextPageNavigate = (id: number, stepNum: number) => {
+    navigate(`/rent/${rentClubId}/book-rent/${id}?step=${stepNum}`);
+  };
 
   const onCloseNavigate = () => {
     navigate(`/rent/${rentClubId}`);
@@ -59,7 +62,12 @@ export const RentPage: React.FC = () => {
       )}
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && (
-        <DetailModal clubId={rentClubId} message={<RentMessage canRent={true} />} />
+        <DetailModal
+          onNavigate={() => onNextPageNavigate(2, 1)}
+          leftButtonText="닫기"
+          rightButtonText="대여하기"
+          message={<RentMessage canRent={true} />}
+        />
       )) ||
         (modalActive && rentBookPage && !status && (
           <Modal.OverLay>

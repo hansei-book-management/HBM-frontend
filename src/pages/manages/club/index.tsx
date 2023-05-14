@@ -59,7 +59,6 @@ export const ManageClubPage: React.FC = () => {
                 </S.ModalUserBookInfo>
               </S.ModalUserContainer>
             }
-            leftButtonText="닫기"
             rightButtonText="확인"
           />
         </Modal.OverLay>

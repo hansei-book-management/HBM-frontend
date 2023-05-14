@@ -5,7 +5,7 @@ export const LoginInput = styled.input`
   border: 1px solid ${({ theme }) => theme.imageBorder};
   padding: 16px;
   align-self: center;
-  border-radius: 0.8rem;
+  border-radius: 2rem;
   height: 3rem;
   width: 100%;
   font-size: 1rem;

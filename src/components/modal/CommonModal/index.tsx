@@ -11,7 +11,7 @@ export interface ModalProps {
   lastPage?: boolean;
   addModal?: boolean;
   disable?: boolean;
-  leftButtonText: string;
+  leftButtonText?: string;
   rightButtonText: React.ReactNode;
 }
 
@@ -50,9 +50,11 @@ export const ModalElement: React.FC<ModalProps> = ({
           <S.ModalLastPageButton onClick={closing}>{rightButtonText}</S.ModalLastPageButton>
         ) : (
           <>
-            <S.ModalButton left onClick={closing} disable={disable}>
-              {leftButtonText}
-            </S.ModalButton>
+            {leftButtonText && (
+              <S.ModalButton left onClick={closing} disable={disable}>
+                {leftButtonText}
+              </S.ModalButton>
+            )}
             <S.ModalButton onClick={onNavigate || closing}>{rightButtonText}</S.ModalButton>
           </>
         )}

@@ -1,5 +1,4 @@
-import React, { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import { useGetWindowSize } from '@/hooks';
 import { Book1PNG } from '@/assets';
@@ -9,17 +8,19 @@ import { Modal } from '../CommonModal';
 import * as S from './styled';
 
 export interface DetailModalProps {
-  clubId?: string;
-  message: ReactNode;
+  message: React.ReactNode;
+  leftButtonText?: string;
+  rightButtonText: string;
+  onNavigate?: () => void;
 }
 
-export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => {
-  const navigate = useNavigate();
+export const DetailModal: React.FC<DetailModalProps> = ({
+  message,
+  leftButtonText,
+  rightButtonText,
+  onNavigate,
+}) => {
   const { getWidth } = useGetWindowSize();
-
-  const onNextNavigate = (id: number, stepNum: number) => {
-    navigate(`/rent/${clubId}/book-rent/${id}?step=${stepNum}`);
-  };
 
   return (
     <Modal.OverLay>
@@ -65,16 +66,9 @@ export const DetailModal: React.FC<DetailModalProps> = ({ clubId, message }) => 
             </S.ModalContent>
           </>
         }
-        {...(clubId
-          ? {
-              leftButtonText: '닫기',
-              rightButtonText: '대여하기',
-              onNavigate: () => onNextNavigate(2, 1),
-            }
-          : {
-              leftButtonText: '닫기',
-              rightButtonText: '확인',
-            })}
+        leftButtonText={leftButtonText}
+        rightButtonText={rightButtonText}
+        onNavigate={onNavigate}
       />
     </Modal.OverLay>
   );

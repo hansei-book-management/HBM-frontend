@@ -100,7 +100,9 @@ export const ManageClubBookPage: React.FC = () => {
         </Modal.OverLay>
       )}
       {modalActive && status && !bookClick && <StatusModal url={`${BASE_URL}`} />}
-      {modalActive && bookClick && <DetailModal message={<RentMessage canRent={true} />} />}
+      {modalActive && bookClick && (
+        <DetailModal message={<RentMessage canRent={true} />} rightButtonText="닫기" />
+      )}
     </S.ManageClubBookPageContainer>
   );
 };

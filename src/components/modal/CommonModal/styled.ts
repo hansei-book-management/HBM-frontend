@@ -34,7 +34,6 @@ export const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.7);
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
   z-index: 9901;
 `;
 
@@ -50,6 +49,7 @@ export const ModalContainer = styled.div<{
   padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};
   background-color: ${({ theme }) => theme.white};
   border-radius: 1.2rem;
+  box-shadow: 0.4rem 0.2rem 0.8rem 0 rgba(0, 0, 0, 0.4);
   animation: 200ms cubic-bezier(0.33, 1, 0.68, 1)
     ${({ isClosed }) => (isClosed ? modalCloseKeyframe : modalOpenKeyframe)};
   overflow: scroll;

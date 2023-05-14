@@ -101,6 +101,8 @@ export const ManageUserBookPage: React.FC = () => {
         (modalActive && status && !bookClick && <StatusModal url={`${USER_CLUB_BASE_URL}`} />) ||
         (modalActive && bookClick && (
           <DetailModal
+            leftButtonText="닫기"
+            rightButtonText="반납하기"
             message={<S.ModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.ModalMessage>}
           />
         ))}
