@@ -34,12 +34,17 @@ export const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
   z-index: 9901;
 `;
 
-export const ModalContainer = styled.div<{ isClosed: boolean; lastPage: boolean }>`
+export const ModalContainer = styled.div<{
+  isClosed: boolean;
+  lastPage: boolean;
+  clubAddModal: boolean;
+}>`
   z-index: 9903;
-  width: ${({ lastPage }) => (lastPage ? '30rem' : '50rem')};
+  width: ${({ lastPage, clubAddModal }) => (lastPage || clubAddModal ? '30rem' : '50rem')};
   max-height: 40rem;
   padding: 2rem;
   padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};

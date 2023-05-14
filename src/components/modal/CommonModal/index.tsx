@@ -43,10 +43,10 @@ export const ModalElement: React.FC<ModalProps> = ({
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} lastPage={lastPage}>
+    <S.ModalContainer isClosed={isClosed} lastPage={lastPage} clubAddModal={clubAddModal}>
       <S.ModalContentContainer lastPage={lastPage}>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer lastPage={lastPage}>
-        {lastPage && !clubAddModal ? (
+        {lastPage ? (
           <S.ModalLastPageButton onClick={closing}>{rightButtonText}</S.ModalLastPageButton>
         ) : (
           <>

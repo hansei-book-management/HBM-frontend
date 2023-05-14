@@ -89,7 +89,6 @@ export const ManageUserBookPage: React.FC = () => {
                 '추가하기'
               )
             }
-            lastPage={true}
             clubAddModal={true}
             disable={loading}
             {...(!loading && {

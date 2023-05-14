@@ -1,5 +1,15 @@
 import { CheckLottie, FailLottie, LoadingLottie, NoDataLottie, NonePageLottie } from '@/lotties';
 
+export const checkLottieOptions = {
+  loop: false,
+  autoplay: true,
+  animationData: CheckLottie,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+    progressiveLoad: true,
+  },
+};
+
 const defaultOptions = {
   loop: true,
   autoplay: true,
@@ -7,11 +17,6 @@ const defaultOptions = {
     preserveAspectRatio: 'xMidYMid slice',
     progressiveLoad: true,
   },
-};
-
-export const checkLottieOptions = {
-  animationData: CheckLottie,
-  ...defaultOptions,
 };
 
 export const loadingLottieOptions = {
