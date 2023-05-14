@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useModal } from '@/hooks';
 import { USER_LIST } from '@/constant';
-import { Modal } from '@/components';
+import { Button, Modal } from '@/components';
 
 import * as S from './styled';
 
@@ -15,9 +15,7 @@ export const ManageClubPage: React.FC = () => {
 
   return (
     <S.ManageClubWrapper>
-      <div>
-        <S.ManageClubAddCodeButton>초대 코드 생성</S.ManageClubAddCodeButton>
-      </div>
+      <Button to="/" description="초대 코드 생성" />
       <S.ManageUserContainer>
         <S.ManageUserMenuBar>
           <S.ManageUserMenuBarItem>부원</S.ManageUserMenuBarItem>

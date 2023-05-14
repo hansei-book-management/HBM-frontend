@@ -41,10 +41,10 @@ export const ModalOverlay = styled.div`
 export const ModalContainer = styled.div<{
   isClosed: boolean;
   lastPage: boolean;
-  clubAddModal: boolean;
+  addModal: boolean;
 }>`
   z-index: 9903;
-  width: ${({ lastPage, clubAddModal }) => (lastPage || clubAddModal ? '30rem' : '50rem')};
+  width: ${({ lastPage, addModal }) => (lastPage || addModal ? '30rem' : '50rem')};
   max-height: 40rem;
   padding: 2rem;
   padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};

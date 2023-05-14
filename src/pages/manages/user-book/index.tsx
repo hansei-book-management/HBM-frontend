@@ -86,10 +86,10 @@ export const ManageUserBookPage: React.FC = () => {
               loading ? (
                 <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
               ) : (
-                '추가하기'
+                '등록'
               )
             }
-            clubAddModal={true}
+            addModal={true}
             disable={loading}
             {...(!loading && {
               onNavigate: () => onSubmit(2),

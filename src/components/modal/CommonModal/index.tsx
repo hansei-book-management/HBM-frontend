@@ -9,7 +9,7 @@ export interface ModalProps {
   onCloseNavigate?: () => void;
   textProps: React.ReactNode;
   lastPage?: boolean;
-  clubAddModal?: boolean;
+  addModal?: boolean;
   disable?: boolean;
   leftButtonText: string;
   rightButtonText: React.ReactNode;
@@ -25,7 +25,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   disable = false,
   leftButtonText,
   rightButtonText,
-  clubAddModal = false,
+  addModal = false,
   onNavigate,
   onCloseNavigate,
 }) => {
@@ -43,7 +43,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} lastPage={lastPage} clubAddModal={clubAddModal}>
+    <S.ModalContainer isClosed={isClosed} lastPage={lastPage} addModal={addModal}>
       <S.ModalContentContainer lastPage={lastPage}>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer lastPage={lastPage}>
         {lastPage ? (

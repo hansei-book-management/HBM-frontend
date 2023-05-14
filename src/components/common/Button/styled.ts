@@ -7,7 +7,7 @@ export const ApplyButton = styled(Link)`
   align-items: center;
   justify-content: center;
   padding: 1rem 2.4rem;
-  border-radius: 10px;
+  border-radius: 2rem;
   background-color: ${({ theme }) => theme.primary.darkBlue};
   color: ${({ theme }) => theme.white};
   font-size: 1.2rem;

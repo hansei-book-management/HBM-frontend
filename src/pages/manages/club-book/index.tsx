@@ -83,12 +83,13 @@ export const ManageClubBookPage: React.FC = () => {
               </S.ModalAddBookContainer>
             }
             disable={loading}
-            leftButtonText="아니요"
+            leftButtonText="닫기"
+            addModal={true}
             rightButtonText={
               loading ? (
                 <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
               ) : (
-                '네!'
+                '추가하기'
               )
             }
             {...(!loading && {
