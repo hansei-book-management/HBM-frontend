@@ -110,6 +110,8 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
     refetch();
   }, [activeClub]);
 
+// if (true) return <div/>
+
   return (
     <>
       <S.SectionContainer>
@@ -146,6 +148,13 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
               ))
             )}
           </S.TitleContainer>
+          {/* 
+          
+          const Rent = () => {
+              if (rendPage) return <div/
+              if (manageClubCanRend) return <div/
+          }
+          */}
         </S.ImageContainer>
         {/* ))} */}
       </S.SectionContainer>
