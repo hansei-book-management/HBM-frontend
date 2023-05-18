@@ -96,7 +96,7 @@ export const ClubApplyPage: React.FC = () => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {CLUB_INPUT_LIST.map(({ inputTitle, errorMessage, inputProps, placeHolder }) => (
-        <Form.InputContainer inputTitle={inputTitle} errorMessage={errorMessage}>
+        <Form.InputContainer inputTitle={inputTitle} errorMessage={errorMessage} key={inputTitle}>
           <S.ClubApplyInput {...inputProps} placeholder={placeHolder} />
         </Form.InputContainer>
       ))}
