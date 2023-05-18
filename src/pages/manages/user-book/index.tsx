@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { DetailModal, HeaderSection, Modal, Section, StatusModal } from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
-import { StatusState, BookState } from '@/atoms';
+import { StatusState } from '@/atoms';
 
 import * as S from './styled';
 
@@ -16,8 +16,8 @@ const BASE_URL = '/manage/user-book';
 export const ManageUserBookPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
+  const [addClub, setAddClub] = useState<boolean>(false);
   const [status, setStatus] = useRecoilState(StatusState);
-  const [bookClick, setBookClick] = useRecoilState(BookState);
   const { modalActive, open } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
@@ -27,7 +27,7 @@ export const ManageUserBookPage: React.FC = () => {
 
   const onClick = () => {
     setStatus(false);
-    setBookClick(false);
+    setAddClub(true);
     navigate(`${USER_CLUB_BASE_URL}?club-add-step=1`);
     open();
   };
@@ -69,7 +69,7 @@ export const ManageUserBookPage: React.FC = () => {
         />
       )}
       <Section activeClub={activeUserClub} />
-      {(modalActive && !status && !bookClick && (
+      {(modalActive && !status && addClub && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -98,8 +98,8 @@ export const ManageUserBookPage: React.FC = () => {
           />
         </Modal.OverLay>
       )) ||
-        (modalActive && status && !bookClick && <StatusModal url={`${USER_CLUB_BASE_URL}`} />) ||
-        (modalActive && bookClick && (
+        (modalActive && status && addClub && <StatusModal url={`${USER_CLUB_BASE_URL}`} />) ||
+        (modalActive && !addClub && (
           <DetailModal
             leftButtonText="닫기"
             rightButtonText="반납하기"

@@ -38,10 +38,6 @@ export const ManageClubBookPage: React.FC = () => {
     }, 1000);
   };
 
-  const onCloseNavigate = () => {
-    navigate(`${BASE_URL}`);
-  };
-
   useEffect(() => {
     status && setStatus(false);
     window.scrollTo(0, 0);
@@ -94,7 +90,6 @@ export const ManageClubBookPage: React.FC = () => {
             }
             {...(!loading && {
               onNavigate: () => onSubmit(),
-              onCloseNavigate: () => onCloseNavigate(),
             })}
           />
         </Modal.OverLay>

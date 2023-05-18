@@ -15,7 +15,7 @@ export const ManageClubPage: React.FC = () => {
 
   return (
     <S.ManageClubWrapper>
-      <Button to="/" description="초대 코드 생성" />
+      <Button to="?generate-code-step=1" description="초대 코드 생성" />
       <S.ManageUserContainer>
         <S.ManageUserMenuBar>
           <S.ManageUserMenuBarItem>부원</S.ManageUserMenuBarItem>

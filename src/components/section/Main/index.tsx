@@ -8,7 +8,6 @@ import { useRecoilState } from 'recoil';
 import { Book1PNG } from '@/assets';
 import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
-import { BookState } from '@/atoms';
 import { StatusMessage } from '@/components';
 
 import { Skeleton } from '../../common/Skeleton';
@@ -36,8 +35,6 @@ export interface BookItem {
 export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
-
-  const [bookClick, setBookClick] = useRecoilState(BookState);
 
   const navigate = useNavigate();
 
@@ -84,10 +81,6 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   };
 
   const openModal = (id: number) => {
-    if (!bookClick) {
-      setBookClick(true);
-      open();
-    }
     open();
     if (rentPage) {
       navigate(`/rent/${clubName}/detail/${id}`);
