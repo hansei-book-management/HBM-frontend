@@ -1,4 +1,4 @@
-import { FaUserCircle, FaRegCopy } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 
 import styled from 'styled-components';
 

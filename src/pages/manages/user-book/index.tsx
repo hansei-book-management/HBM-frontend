@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { DetailModal, HeaderSection, Modal, Section, StatusModal } from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
-import { AddClubState, StatusState } from '@/atoms';
+import { AddClubState } from '@/atoms';
 
 import * as S from './styled';
 
@@ -43,8 +43,6 @@ export const ManageUserBookPage: React.FC = () => {
   const onCloseNavigate = () => {
     navigate(`${USER_CLUB_BASE_URL}`);
   };
-
-  console.log(addClubClick, 'asdf');
 
   useEffect(() => {
     const clubAddStep = location.search;

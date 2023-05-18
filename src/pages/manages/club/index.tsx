@@ -49,6 +49,12 @@ export const ManageClubPage: React.FC = () => {
     navigator.clipboard.writeText(inviteCode);
   };
 
+  const onCheckClick = () => {
+    setInviteCodeClick(false);
+    navigate(`/manage/club/`);
+    console.log(inviteCodeClick, 'invite code click');
+  };
+
   return (
     <S.ManageClubWrapper>
       <Button onClick={onInviteCodeClick} to="?generate-code-step=1" description="초대 코드 생성" />
@@ -165,6 +171,7 @@ export const ManageClubPage: React.FC = () => {
             onlyRightButton={true}
             rightButtonText="확인했어요"
             smallModal={true}
+            onCloseNavigate={onCheckClick}
           />
         </Modal.OverLay>
       )}
