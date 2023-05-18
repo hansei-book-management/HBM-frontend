@@ -17,7 +17,7 @@ export const MANAGE_CLUB_BOOK_OPTIONS: ManageClubBookOptionItem[] = [
   },
   {
     name: '대여 중',
-    id: 'renting',
+    id: 'borrow',
     text: '대여 중인 도서',
   },
 ];
