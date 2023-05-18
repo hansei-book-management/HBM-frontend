@@ -64,7 +64,13 @@ export const ModalElement: React.FC<ModalProps> = ({
 };
 
 export const ModalOverlay: React.FC<ModalOverlayProps> = ({ children }) => {
-  return <S.ModalOverlay>{children}</S.ModalOverlay>;
+  const { close } = useModal();
+  return (
+    <S.ModalOverlay>
+      <S.ModalFuck onClick={close}></S.ModalFuck>
+      {children}
+    </S.ModalOverlay>
+  );
 };
 
 export const Modal = Object.assign(ModalElement, {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useModal } from '@/hooks';
 import { USER_LIST } from '@/constant';
@@ -8,37 +8,47 @@ import * as S from './styled';
 
 export const ManageClubPage: React.FC = () => {
   const { open, modalActive } = useModal();
+  const [inviteCodeClick, setInviteCodeClick] = useState<boolean>(false);
+  const [userBoxClick, setUserBoxClick] = useState<boolean>(false);
 
-  const onClick = () => {
+  const onInviteCodeClick = () => {
+    setInviteCodeClick(true);
+    setUserBoxClick(false);
+    open();
+  };
+
+  const onUserBoxClick = () => {
+    setUserBoxClick(true);
+    setInviteCodeClick(false);
     open();
   };
 
   return (
     <S.ManageClubWrapper>
-      <Button to="?generate-code-step=1" description="초대 코드 생성" />
-      <S.ManageUserContainer>
-        <S.ManageUserMenuBar>
-          <S.ManageUserMenuBarItem>부원</S.ManageUserMenuBarItem>
-          <S.ManageUserMenuBarItem>대여 책</S.ManageUserMenuBarItem>
-          <S.ManageUserMenuBarItem>상태</S.ManageUserMenuBarItem>
-        </S.ManageUserMenuBar>
+      <Button onClick={onInviteCodeClick} to="?generate-code-step=1" description="초대 코드 생성" />
+      <S.ManageClubUserMenuContainer>
+        <S.ManageClubUserMenuBar>
+          <S.ManageClubUserMenuBarItem>부원</S.ManageClubUserMenuBarItem>
+          <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
+          <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
+        </S.ManageClubUserMenuBar>
         {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
-          <S.ManageUserInfoContainer onClick={onClick}>
-            <S.ManageUserIconContainer>
-              <S.ManageUserIcon />
-              <S.ManageUserName>{name}</S.ManageUserName>
-            </S.ManageUserIconContainer>
-            <S.ManageUserBookInfo>{bookInfo}</S.ManageUserBookInfo>
-            <S.ManageUserStatus isOk={status}>
+          <S.ManageClubUserInfoContainer onClick={onUserBoxClick}>
+            <S.ManageClubUserIconContainer>
+              <S.ManageClubUserIcon />
+              <S.ManageClubUserName>{name}</S.ManageClubUserName>
+            </S.ManageClubUserIconContainer>
+            <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
+            <S.ManageClubUserStatus isOk={status}>
               {status ? '정상' : '대출정지'}
               <br />
               {errorMessage && `(${errorMessage})`}
-            </S.ManageUserStatus>
-          </S.ManageUserInfoContainer>
+            </S.ManageClubUserStatus>
+          </S.ManageClubUserInfoContainer>
         ))}
-      </S.ManageUserContainer>
+      </S.ManageClubUserMenuContainer>
 
-      {modalActive && (
+      {modalActive && userBoxClick && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -60,6 +70,38 @@ export const ManageClubPage: React.FC = () => {
               </S.ModalUserContainer>
             }
             rightButtonText="확인"
+          />
+        </Modal.OverLay>
+      )}
+      {modalActive && inviteCodeClick && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.GenerateCodeContainer>
+                <S.ModalUserTitle>코드 생성하기</S.ModalUserTitle>
+                <S.GenerateCodeSelectContainer>
+                  <S.GenerateCodeTitle>유효 기간</S.GenerateCodeTitle>
+                  <S.GenerateCodeSelect>
+                    <option>1일</option>
+                    <option>3일</option>
+                    <option>5일</option>
+                    <option>7일</option>
+                  </S.GenerateCodeSelect>
+                </S.GenerateCodeSelectContainer>
+                <S.GenerateCodeSelectContainer>
+                  <S.GenerateCodeTitle>최대 사용 횟수</S.GenerateCodeTitle>
+                  <S.GenerateCodeSelect>
+                    <option>1회</option>
+                    <option>3회</option>
+                    <option>5회</option>
+                    <option>7회</option>
+                  </S.GenerateCodeSelect>
+                </S.GenerateCodeSelectContainer>
+              </S.GenerateCodeContainer>
+            }
+            leftButtonText="닫기"
+            rightButtonText="생성하기"
+            addModal={true}
           />
         </Modal.OverLay>
       )}

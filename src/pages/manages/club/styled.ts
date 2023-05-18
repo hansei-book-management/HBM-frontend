@@ -12,7 +12,7 @@ export const ManageClubWrapper = styled.div`
   justify-content: center;
 `;
 
-export const ManageUserContainer = styled.div`
+export const ManageClubUserMenuContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -20,13 +20,13 @@ export const ManageUserContainer = styled.div`
   row-gap: 1rem;
 `;
 
-export const ManageUserMenuBar = styled.div`
+export const ManageClubUserMenuBar = styled.div`
   display: grid;
   grid-template-columns: 2.96fr 1fr 2fr;
   padding: 0.6rem 1rem;
 `;
 
-export const ManageUserMenuBarItem = styled.span`
+export const ManageClubUserMenuBarItem = styled.span`
   font-size: 1rem;
   font-weight: 400;
 `;
@@ -44,7 +44,7 @@ export const ManageClubAddCodeButton = styled.button`
   }
 `;
 
-export const ManageUserInfoContainer = styled.div`
+export const ManageClubUserInfoContainer = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr 2fr;
   padding: 1rem 1.4rem;
@@ -53,29 +53,29 @@ export const ManageUserInfoContainer = styled.div`
   border-radius: 1rem;
 `;
 
-export const ManageUserIconContainer = styled.div`
+export const ManageClubUserIconContainer = styled.div`
   display: flex;
   align-items: center;
 `;
 
-export const ManageUserIcon = styled(FaUserCircle)`
+export const ManageClubUserIcon = styled(FaUserCircle)`
   width: 1.8rem;
   height: 1.8rem;
   color: ${({ theme }) => theme.primary.gray};
 `;
 
-export const ManageUserName = styled.span`
+export const ManageClubUserName = styled.span`
   font-size: 1rem;
   font-weight: 600;
   margin-left: 1rem;
 `;
 
-export const ManageUserBookInfo = styled.span`
+export const ManageClubUserBookInfo = styled.span`
   font-size: 1rem;
   font-weight: 400;
 `;
 
-export const ManageUserStatus = styled.span<{ isOk: boolean }>`
+export const ManageClubUserStatus = styled.span<{ isOk: boolean }>`
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.45em;
@@ -112,4 +112,39 @@ export const ModalUserBookInfoTitle = styled.span`
 export const ModalUserBookInfoStatus = styled(ModalUserBookInfoTitle)<{ isOk: boolean }>`
   margin-left: 0.8rem;
   color: ${({ isOk, theme }) => (isOk ? theme.primary.green : theme.primary.red)};
+`;
+
+export const GenerateCodeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  row-gap: 1.6rem;
+`;
+
+export const GenerateCodeSelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 0.6rem;
+`;
+
+export const GenerateCodeTitle = styled.h3`
+  font-size: 1rem;
+  font-weight: 500;
+`;
+
+export const GenerateCodeSelect = styled.select`
+  background-color: ${({ theme }) => theme.white};
+  border: 1px solid ${({ theme }) => theme.imageBorder};
+  padding: 14px;
+  align-self: center;
+  border-radius: 0.8rem;
+  height: 3rem;
+  width: 100%;
+  caret-color: auto;
+  appearance: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.black};
 `;

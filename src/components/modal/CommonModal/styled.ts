@@ -37,13 +37,20 @@ export const ModalOverlay = styled.div`
   z-index: 9901;
 `;
 
+export const ModalFuck = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
 export const ModalContainer = styled.div<{
   isClosed: boolean;
   lastPage: boolean;
   addModal: boolean;
 }>`
   z-index: 9903;
-  width: ${({ lastPage, addModal }) => (lastPage || addModal ? '30rem' : '50rem')};
+  width: ${({ lastPage, addModal }) => (lastPage || addModal ? '34rem' : '50rem')};
   max-height: 40rem;
   padding: 2rem;
   padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};
