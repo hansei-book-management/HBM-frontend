@@ -6,7 +6,7 @@ import { RentMessage } from '../RentMessage';
 
 import * as S from './styled';
 
-export const Rent: React.FC = () => {
+export const StatusMessage: React.FC = () => {
   const {
     rentPage,
     manageUserBookPage,
@@ -18,27 +18,14 @@ export const Rent: React.FC = () => {
   const canRent = true;
   const id = Math.floor(Math.random() * 10) + 1;
 
-  console.log(
-    rentPage,
-    'rent page',
-    manageUserBookPage,
-    'user book',
-    manageClubCanRentBookPage,
-    'can rent book ',
-    manageClubBorrowBookPage,
-    'renting books',
-    manageClubAllBookPage,
-    'all books',
-  );
-
   if (rentPage) {
     return <RentMessage canRent={canRent} />;
   }
   if (manageUserBookPage) {
     return (
-      <S.SectionManageMessage isOk={canRent}>
+      <S.StatusMessage isOk={canRent}>
         대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
-      </S.SectionManageMessage>
+      </S.StatusMessage>
     );
   }
   if (manageClubCanRentBookPage) {
@@ -46,9 +33,9 @@ export const Rent: React.FC = () => {
   }
   if (manageClubBorrowBookPage) {
     return (
-      <S.SectionManageMessage isOk={canRent}>
+      <S.StatusMessage isOk={canRent}>
         김태훈: 대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
-      </S.SectionManageMessage>
+      </S.StatusMessage>
     );
   }
   if (manageClubAllBookPage) {
@@ -57,9 +44,9 @@ export const Rent: React.FC = () => {
       return <RentMessage canRent={true} />;
     } else {
       return (
-        <S.SectionManageMessage isOk={isOk}>
+        <S.StatusMessage isOk={isOk}>
           김태훈: 대여중 - 2일 1시간 {isOk ? '남음' : '연체중'}
-        </S.SectionManageMessage>
+        </S.StatusMessage>
       );
     }
   }

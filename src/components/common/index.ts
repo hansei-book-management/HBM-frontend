@@ -5,4 +5,4 @@ export * from './RentMessage';
 export * from './Button';
 export * from './Skeleton';
 export * from './Form';
-export * from './Rent';
+export * from './StatusMessage';

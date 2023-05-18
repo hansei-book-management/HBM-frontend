@@ -9,7 +9,7 @@ import { Book1PNG } from '@/assets';
 import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
 import { BookState } from '@/atoms';
-import { Rent } from '@/components';
+import { StatusMessage } from '@/components';
 
 import { Skeleton } from '../../common/Skeleton';
 
@@ -110,7 +110,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
           <S.TitleContainer>
             <S.ImageTitle onClick={() => openModal(id)}>세이노의 가르침</S.ImageTitle>
             <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-            <Rent />
+            <StatusMessage />
           </S.TitleContainer>
           {/* 
           
