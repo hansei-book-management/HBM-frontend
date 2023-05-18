@@ -4,7 +4,7 @@ import { FaRegCopy } from 'react-icons/fa';
 import Lottie from 'react-lottie';
 
 import { useModal } from '@/hooks';
-import { USER_LIST, loadingLottieOptions } from '@/constant';
+import { USER_LIST, generateCodeOptionList, loadingLottieOptions } from '@/constant';
 import { Button, Modal } from '@/components';
 
 import * as S from './styled';
@@ -126,24 +126,16 @@ export const ManageClubPage: React.FC = () => {
             textProps={
               <S.GenerateCodeContainer>
                 <S.ModalTitle>코드 생성하기</S.ModalTitle>
-                <S.GenerateCodeSelectContainer>
-                  <S.GenerateCodeTitle>유효 기간</S.GenerateCodeTitle>
-                  <S.GenerateCodeSelect>
-                    <option>1일</option>
-                    <option>3일</option>
-                    <option>5일</option>
-                    <option>7일</option>
-                  </S.GenerateCodeSelect>
-                </S.GenerateCodeSelectContainer>
-                <S.GenerateCodeSelectContainer>
-                  <S.GenerateCodeTitle>최대 사용 횟수</S.GenerateCodeTitle>
-                  <S.GenerateCodeSelect>
-                    <option>1회</option>
-                    <option>3회</option>
-                    <option>5회</option>
-                    <option>7회</option>
-                  </S.GenerateCodeSelect>
-                </S.GenerateCodeSelectContainer>
+                {generateCodeOptionList.map(({ title, optionList }) => (
+                  <S.GenerateCodeSelectContainer>
+                    <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
+                    <S.GenerateCodeSelect>
+                      {optionList.map(({ value }) => (
+                        <option key={value}>{value}</option>
+                      ))}
+                    </S.GenerateCodeSelect>
+                  </S.GenerateCodeSelectContainer>
+                ))}
               </S.GenerateCodeContainer>
             }
             leftButtonText="닫기"
