@@ -6,3 +6,4 @@ export * from './icons';
 export * from './lotties';
 export * from './manageClubBook';
 export * from './user';
+export * from './generateCode';

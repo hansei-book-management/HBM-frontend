@@ -1,16 +1,4 @@
-import styled, { keyframes } from 'styled-components';
-
-export const modalChanagePageKeyframes = keyframes`
-    0% {
-        opacity: 0;
-        transform: opacity(0.2);
-    }
-
-    100% {
-        opacity: 1;
-        transform: opacity(1);
-    }
-`;
+import styled from 'styled-components';
 
 export const ModalTitle = styled.h1`
   font-size: 2.2rem;

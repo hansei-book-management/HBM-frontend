@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import Lottie from 'react-lottie';
 
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 
 import { Book1PNG } from '@/assets';
 import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
-import { useModal } from '@/hooks/useModal';
-import { useGetLocation } from '@/hooks';
-import { BookState } from '@/atoms';
+import { useGetLocation, useModal } from '@/hooks';
+import { StatusMessage } from '@/components';
 
-import { RentMessage } from '../../common/RentMessage';
 import { Skeleton } from '../../common/Skeleton';
 
 import * as S from './styled';
@@ -39,17 +36,9 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   const [page, setPage] = useState(1);
   const { open } = useModal();
 
-  const [bookClick, setBookClick] = useRecoilState(BookState);
-
   const navigate = useNavigate();
 
-  const {
-    rentPage,
-    manageUserBookPage,
-    manageClubAllBookPage,
-    manageClubCanRentBookPage,
-    manageClubRentingBookPage,
-  } = useGetLocation({});
+  const { rentPage } = useGetLocation({});
 
   const clubName = activeClub?.id;
 
@@ -92,15 +81,13 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   };
 
   const openModal = (id: number) => {
-    if (!bookClick) {
-      setBookClick(true);
-      open();
-    }
     open();
     if (rentPage) {
       navigate(`/rent/${clubName}/detail/${id}`);
     }
   };
+
+  const id = Math.floor(Math.random() * 10) + 1;
 
   useEffect(() => {
     setPage(1);
@@ -109,73 +96,37 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
 
   return (
     <>
-      {isLoading ? (
-        <Skeleton isRentPage={rentPage || false} />
-      ) : (
-        <>
-          {data?.books.length !== 0 ? (
-            <>
-              <S.SectionContainer>
-                {data?.books.map(({ id, canRent, club }, i) => (
-                  <S.ImageContainer key={i}>
-                    <S.Image src={Book1PNG} onClick={() => openModal(id)} />
-                    <S.TitleContainer>
-                      <S.ImageTitle onClick={() => openModal(id)}>
-                        세이노의 가르침 id:{id}, {club}
-                      </S.ImageTitle>
-                      <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
-                      {rentPage ? (
-                        <RentMessage canRent={canRent} />
-                      ) : manageUserBookPage ? (
-                        <S.SectionManageMessage isOk={canRent}>
-                          대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
-                        </S.SectionManageMessage>
-                      ) : manageClubCanRentBookPage ? (
-                        <RentMessage canRent={true} />
-                      ) : manageClubRentingBookPage ? (
-                        <S.SectionManageMessage isOk={canRent}>
-                          김태훈: 대여중 - 2일 1시간 {canRent ? '남음' : '연체중'}
-                        </S.SectionManageMessage>
-                      ) : (
-                        manageClubAllBookPage &&
-                        (canRent ? (
-                          <RentMessage canRent={true} />
-                        ) : id === 2 ? (
-                          <S.SectionManageMessage isOk={false}>
-                            김태훈: 대여중 - 2일 1시간 {false ? '남음' : '연체중'}
-                          </S.SectionManageMessage>
-                        ) : (
-                          <S.SectionManageMessage isOk={true}>
-                            김태훈: 대여중 - 2일 1시간 {true ? '남음' : '연체중'}
-                          </S.SectionManageMessage>
-                        ))
-                      )}
-                    </S.TitleContainer>
-                  </S.ImageContainer>
-                ))}
-              </S.SectionContainer>
-              {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
-                <S.PaginationContainer>
-                  {page > 1 && (
-                    <S.PaginationButton onClick={onPrevPageClick}>&larr;</S.PaginationButton>
-                  )}
-                  <S.PaginationText>
-                    {page} / {data?.totalPages}
-                  </S.PaginationText>
-                  {page !== data?.totalPages && (
-                    <S.PaginationButton onClick={onNextPageClick}>&rarr;</S.PaginationButton>
-                  )}
-                </S.PaginationContainer>
-              )}
-            </>
-          ) : (
-            <>
-              <Lottie options={NoDataLottieOptions} width={'40rem'} height={'20rem'} />
-              <S.SectionTitle>아직 도서가 등록되지 않았어요</S.SectionTitle>
-            </>
+      <S.SectionContainer>
+        {/* {data?.books.map(({ id, canRent, club }, i) => ( */}
+        <S.ImageContainer>
+          <S.Image src={Book1PNG} onClick={() => openModal(id)} />
+          <S.TitleContainer>
+            <S.ImageTitle onClick={() => openModal(id)}>세이노의 가르침</S.ImageTitle>
+            <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
+            <StatusMessage />
+          </S.TitleContainer>
+          {/* 
+          
+          const Rent = () => {
+              if (rendPage) return <div/
+              if (manageClubCanRend) return <div/
+          }
+          */}
+        </S.ImageContainer>
+        {/* ))} */}
+      </S.SectionContainer>
+      {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
+        <S.PaginationContainer>
+          {page > 1 && <S.PaginationButton onClick={onPrevPageClick}>&larr;</S.PaginationButton>}
+          <S.PaginationText>
+            {page} / {data?.totalPages}
+          </S.PaginationText>
+          {page !== data?.totalPages && (
+            <S.PaginationButton onClick={onNextPageClick}>&rarr;</S.PaginationButton>
           )}
-        </>
+        </S.PaginationContainer>
       )}
+      {/* {isLoading ? <Skeleton isRentPage={rentPage || false} /> : <></>} */}
     </>
   );
 };

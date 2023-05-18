@@ -18,6 +18,6 @@ export const ADMIN_NAVBAR_MENU_LIST: AdminNavbarMenuItem[] = [
   },
   {
     text: '동아리 관리',
-    href: '/manage/club/',
+    href: '/manage/club',
   },
 ];

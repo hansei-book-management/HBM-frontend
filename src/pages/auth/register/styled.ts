@@ -36,7 +36,7 @@ export const RegisterInput = styled.input`
   border: 1px solid ${({ theme }) => theme.imageBorder};
   padding: 16px;
   align-self: center;
-  border-radius: 0.8rem;
+  border-radius: 2rem;
   height: 3rem;
   width: 100%;
   font-size: 1rem;
@@ -67,7 +67,7 @@ export const RegisterPhoneRequestButton = styled.button`
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 0.6rem;
+  border-radius: 2rem;
   color: ${colors.white};
   background-color: ${({ theme }) => theme.primary.darkBlue};
   transition: opacity 150ms ease-in-out;

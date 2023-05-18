@@ -1,46 +1,105 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaRegCopy } from 'react-icons/fa';
+import Lottie from 'react-lottie';
 
 import { useModal } from '@/hooks';
-import { USER_LIST } from '@/constant';
-import { Modal } from '@/components';
+import { USER_LIST, generateCodeOptionList, loadingLottieOptions } from '@/constant';
+import { Button, Modal } from '@/components';
 
 import * as S from './styled';
 
 export const ManageClubPage: React.FC = () => {
   const { open, modalActive } = useModal();
+  const [inviteCodeClick, setInviteCodeClick] = useState<boolean>(false);
+  const [userBoxClick, setUserBoxClick] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [ok, setOk] = useState<boolean>(false);
+  const [inviteCode, setInviteCode] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
 
-  const onClick = () => {
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
+    navigate(`/manage/club?generate-code-step=2`);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOk(true);
+      setPage(2);
+    }, 1000);
+    setOk(false);
+    setInviteCode('앙앙기모링');
+  };
+
+  const onCloseNavigate = () => {
+    navigate(`/manage/club`);
+  };
+
+  const onInviteCodeClick = () => {
+    setInviteCodeClick(true);
+    setUserBoxClick(false);
+    setPage(1);
+    setOk(false);
     open();
   };
 
-  return (
-    <S.ManageUserContainer>
-      <S.ManageUserMenuBar>
-        <S.ManageUserMenuBarItem>부원</S.ManageUserMenuBarItem>
-        <S.ManageUserMenuBarItem>대여 책</S.ManageUserMenuBarItem>
-        <S.ManageUserMenuBarItem>상태</S.ManageUserMenuBarItem>
-      </S.ManageUserMenuBar>
-      {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
-        <S.ManageUserInfoContainer onClick={onClick}>
-          <S.ManageUserIconContainer>
-            <S.ManageUserIcon />
-            <S.ManageUserName>{name}</S.ManageUserName>
-          </S.ManageUserIconContainer>
-          <S.ManageUserBookInfo>{bookInfo}</S.ManageUserBookInfo>
-          <S.ManageUserStatus isOk={status}>
-            {status ? '정상' : '대출정지'}
-            <br />
-            {errorMessage && `(${errorMessage})`}
-          </S.ManageUserStatus>
-        </S.ManageUserInfoContainer>
-      ))}
+  const onUserBoxClick = () => {
+    setUserBoxClick(true);
+    setInviteCodeClick(false);
+    open();
+  };
 
-      {modalActive && (
+  const onCopyText = () => {
+    navigator.clipboard.writeText(inviteCode);
+  };
+
+  const onCheckClick = () => {
+    setOk(false);
+    setInviteCodeClick(false);
+    navigate(`/manage/club`);
+  };
+
+  const onEditClick = () => {
+    setOk(false);
+    setPage(1);
+  };
+
+  useEffect(() => {
+    navigate(`/manage/club`);
+  }, []);
+
+  return (
+    <S.ManageClubWrapper>
+      <Button onClick={onInviteCodeClick} to="?generate-code-step=1" description="초대 코드 생성" />
+      <S.ManageClubUserMenuContainer>
+        <S.ManageClubUserMenuBar>
+          <S.ManageClubUserMenuBarItem>부원</S.ManageClubUserMenuBarItem>
+          <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
+          <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
+        </S.ManageClubUserMenuBar>
+        {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
+          <S.ManageClubUserInfoContainer onClick={onUserBoxClick}>
+            <S.ManageClubUserIconContainer>
+              <S.ManageClubUserIcon />
+              <S.ManageClubUserName>{name}</S.ManageClubUserName>
+            </S.ManageClubUserIconContainer>
+            <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
+            <S.ManageClubUserStatus isOk={status}>
+              {status ? '정상' : '대출정지'}
+              <br />
+              {errorMessage && `(${errorMessage})`}
+            </S.ManageClubUserStatus>
+          </S.ManageClubUserInfoContainer>
+        ))}
+      </S.ManageClubUserMenuContainer>
+
+      {modalActive && userBoxClick && (
         <Modal.OverLay>
           <Modal
             textProps={
               <S.ModalUserContainer>
-                <S.ModalUserTitle>부원 박찬영</S.ModalUserTitle>
+                <S.ModalTitle>부원 박찬영</S.ModalTitle>
                 <S.ModalUserBookInfoText>현재 대출중인 책: 3권</S.ModalUserBookInfoText>
                 <S.ModalUserBookInfo>
                   <S.ModalUserBookInfoTitle>너의 이름은:</S.ModalUserBookInfoTitle>
@@ -56,11 +115,75 @@ export const ManageClubPage: React.FC = () => {
                 </S.ModalUserBookInfo>
               </S.ModalUserContainer>
             }
-            leftButtonText="닫기"
             rightButtonText="확인"
+            modalSize="large"
           />
         </Modal.OverLay>
       )}
-    </S.ManageUserContainer>
+      {modalActive && inviteCodeClick && !ok && page === 1 && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.GenerateCodeContainer>
+                <S.ModalTitle>코드 생성하기</S.ModalTitle>
+                {generateCodeOptionList.map(({ title, optionList }) => (
+                  <S.GenerateCodeSelectContainer>
+                    <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
+                    <S.GenerateCodeSelect>
+                      {optionList.map(({ value }) => (
+                        <option key={value}>{value}</option>
+                      ))}
+                    </S.GenerateCodeSelect>
+                  </S.GenerateCodeSelectContainer>
+                ))}
+              </S.GenerateCodeContainer>
+            }
+            leftButtonText="닫기"
+            rightButtonText={
+              loading ? (
+                <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+              ) : (
+                '생성하기'
+              )
+            }
+            disable={loading}
+            modalSize="medium"
+            {...(!loading && {
+              nextButtonClick: () => onSubmit(),
+              doneButtonClick: () => onCloseNavigate(),
+            })}
+          />
+        </Modal.OverLay>
+      )}
+      {modalActive && inviteCodeClick && ok && page === 2 && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.InviteCodeContainer>
+                <div>
+                  <S.ModalTitle>초대 코드 발급</S.ModalTitle>
+                  <S.InviteCodeSubTitleContainer>
+                    최대 사용 횟수는 7회이고, 30일 동안 유효해요.
+                    <Link to="?generate-code-step=1" onClick={onEditClick}>
+                      수정하기
+                    </Link>
+                  </S.InviteCodeSubTitleContainer>
+                </div>
+                <S.InviteCodeValueContainer>
+                  <S.InviteCodeText>앙기모링</S.InviteCodeText>
+                  <S.InviteCodeCopyButtonWrapper onClick={onCopyText}>
+                    <FaRegCopy size={'0.9rem'} />
+                  </S.InviteCodeCopyButtonWrapper>
+                </S.InviteCodeValueContainer>
+              </S.InviteCodeContainer>
+            }
+            onlyRightButton={true}
+            rightButtonText="확인했어요"
+            modalSize="small"
+            doneButtonClick={() => onCheckClick()}
+          />
+        </Modal.OverLay>
+      )}
+    </S.ManageClubWrapper>
   );
 };

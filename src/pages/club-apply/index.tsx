@@ -13,6 +13,17 @@ export interface ClubApplyFormValues {
   clubRepresentativePhone: string;
 }
 
+export interface ClubApplyInputProps {
+  type: string;
+}
+
+export interface ClubApplyListProps {
+  inputTitle: string;
+  errorMessage?: string;
+  inputProps: ClubApplyInputProps;
+  placeHolder: string;
+}
+
 export const ClubApplyPage: React.FC = () => {
   const {
     register,
@@ -24,62 +35,71 @@ export const ClubApplyPage: React.FC = () => {
     console.log(data);
   };
 
+  const CLUB_INPUT_LIST: ClubApplyListProps[] = [
+    {
+      inputTitle: '동아리 이름',
+      errorMessage: errors.clubName?.message,
+      inputProps: {
+        type: 'text',
+        ...register('clubName', {
+          required: '동아리 이름은 필수입니다.',
+        }),
+      },
+      placeHolder: '동아리 이름을 입력해주세요...',
+    },
+    {
+      inputTitle: '동아리 설명',
+      errorMessage: errors.clubDescription?.message,
+      inputProps: {
+        type: 'text',
+        ...register('clubDescription', {
+          required: '동아리 설명은 필수입니다.',
+        }),
+      },
+      placeHolder: '무엇을 하는 동아리인지 입력해주세요...',
+    },
+    {
+      inputTitle: '부장 이름',
+      errorMessage: errors.clubRepresentative?.message,
+      inputProps: {
+        type: 'text',
+        ...register('clubRepresentative', {
+          required: '부장 이름은 필수입니다.',
+        }),
+      },
+      placeHolder: '동아리 부장의 이름을 입력해주세요...',
+    },
+    {
+      inputTitle: '부원 수',
+      errorMessage: errors.clubMemberNumber?.message,
+      inputProps: {
+        type: 'text',
+        ...register('clubMemberNumber', {
+          required: '부원 수은 필수입니다.',
+        }),
+      },
+      placeHolder: '동아리에 몇명의 부원이 있는지 입력해주세요...',
+    },
+    {
+      inputTitle: '부장 전화번호',
+      errorMessage: errors.clubRepresentativePhone?.message,
+      inputProps: {
+        type: 'text',
+        ...register('clubRepresentativePhone', {
+          required: '부장 전화번호은 필수입니다.',
+        }),
+      },
+      placeHolder: '동아리 부장의 전화번호를 입력해주세요...',
+    },
+  ];
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Form.InputContainer inputTitle="동아리 이름" errorMessage={errors.clubName?.message}>
-        <S.ClubApplyInput
-          type="text"
-          {...register('clubName', {
-            required: '동아리 이름은 필수입니다.',
-          })}
-          placeholder="동아리 이름을 입력해주세요..."
-        />
-      </Form.InputContainer>
-      <Form.InputContainer inputTitle="동아리 설명" errorMessage={errors.clubDescription?.message}>
-        <S.ClubApplyInput
-          type="text"
-          {...register('clubDescription', {
-            required: '동아리 설명은 필수입니다.',
-          })}
-          placeholder="무엇을 하는 동아리인지 입력해주세요..."
-        />
-      </Form.InputContainer>
-      <Form.InputContainer
-        inputTitle="동아리 부장"
-        errorMessage={errors.clubRepresentative?.message}
-      >
-        <S.ClubApplyInput
-          type="text"
-          {...register('clubRepresentative', {
-            required: '동아리 부장은 필수입니다.',
-          })}
-          placeholder="동아리 부장의 이름을 입력해주세요..."
-        />
-      </Form.InputContainer>
-      <Form.InputContainer
-        inputTitle="동아리 부원 수"
-        errorMessage={errors.clubMemberNumber?.message}
-      >
-        <S.ClubApplyInput
-          type="text"
-          {...register('clubMemberNumber', {
-            required: '동아리 부원 수는 필수입니다.',
-          })}
-          placeholder="동아리에 몇명의 부원이 있는지 입력해주세요..."
-        />
-      </Form.InputContainer>
-      <Form.InputContainer
-        inputTitle="동아리 부장 전화번호"
-        errorMessage={errors.clubRepresentativePhone?.message}
-      >
-        <S.ClubApplyInput
-          type="text"
-          {...register('clubRepresentativePhone', {
-            required: '동아리 부장 전화번호는 필수입니다.',
-          })}
-          placeholder="동아리 부장의 전화번호를 입력해주세요..."
-        />
-      </Form.InputContainer>
+      {CLUB_INPUT_LIST.map(({ inputTitle, errorMessage, inputProps, placeHolder }) => (
+        <Form.InputContainer inputTitle={inputTitle} errorMessage={errorMessage} key={inputTitle}>
+          <S.ClubApplyInput {...inputProps} placeholder={placeHolder} />
+        </Form.InputContainer>
+      ))}
       <Form.Button phoneToken>신청하기</Form.Button>
     </Form>
   );

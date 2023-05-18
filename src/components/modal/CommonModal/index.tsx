@@ -5,14 +5,15 @@ import { useModal } from '@/hooks/useModal';
 import * as S from './styled';
 
 export interface ModalProps {
-  onNavigate?: () => void;
-  onCloseNavigate?: () => void;
+  nextButtonClick?: () => void;
+  doneButtonClick?: () => void;
+  modalSize: 'small' | 'medium' | 'large';
   textProps: React.ReactNode;
-  lastPage?: boolean;
-  clubAddModal?: boolean;
+  statusModal?: boolean;
   disable?: boolean;
-  leftButtonText: string;
+  leftButtonText?: string;
   rightButtonText: React.ReactNode;
+  onlyRightButton?: boolean;
 }
 
 export interface ModalOverlayProps {
@@ -21,13 +22,14 @@ export interface ModalOverlayProps {
 
 export const ModalElement: React.FC<ModalProps> = ({
   textProps,
-  lastPage = false,
+  statusModal = false,
   disable = false,
   leftButtonText,
   rightButtonText,
-  clubAddModal = false,
-  onNavigate,
-  onCloseNavigate,
+  modalSize,
+  onlyRightButton,
+  nextButtonClick,
+  doneButtonClick,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
   const { close } = useModal();
@@ -37,23 +39,25 @@ export const ModalElement: React.FC<ModalProps> = ({
       setIsClosed(true);
       setTimeout(() => {
         close();
-        onCloseNavigate && onCloseNavigate();
+        doneButtonClick && doneButtonClick();
       }, 200);
     }
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} lastPage={lastPage}>
-      <S.ModalContentContainer lastPage={lastPage}>{textProps}</S.ModalContentContainer>
-      <S.ModalButtonContainer lastPage={lastPage}>
-        {lastPage && !clubAddModal ? (
-          <S.ModalLastPageButton onClick={closing}>{rightButtonText}</S.ModalLastPageButton>
+    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} modalSize={modalSize}>
+      <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
+      <S.ModalButtonContainer statusModal={statusModal}>
+        {statusModal || onlyRightButton ? (
+          <S.StatusModalButton onClick={closing}>{rightButtonText}</S.StatusModalButton>
         ) : (
           <>
-            <S.ModalButton left onClick={closing} disable={disable}>
-              {leftButtonText}
-            </S.ModalButton>
-            <S.ModalButton onClick={onNavigate || closing}>{rightButtonText}</S.ModalButton>
+            {leftButtonText && (
+              <S.ModalButton left onClick={closing} disable={disable}>
+                {leftButtonText}
+              </S.ModalButton>
+            )}
+            <S.ModalButton onClick={nextButtonClick}>{rightButtonText}</S.ModalButton>
           </>
         )}
       </S.ModalButtonContainer>
