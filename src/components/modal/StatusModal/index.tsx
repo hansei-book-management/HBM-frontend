@@ -60,7 +60,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
         }
         rightButtonText="확인했어요"
         onCloseNavigate={() => onCloseNavigate()}
-        lastPage={true}
+        statusModal={true}
       />
     </Modal.OverLay>
   );

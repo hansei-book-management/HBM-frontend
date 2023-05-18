@@ -89,7 +89,7 @@ export const ManageUserBookPage: React.FC = () => {
                 '등록'
               )
             }
-            addModal={true}
+            smallModal={true}
             disable={loading}
             {...(!loading && {
               onNavigate: () => onSubmit(2),

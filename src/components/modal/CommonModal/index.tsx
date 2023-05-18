@@ -8,11 +8,12 @@ export interface ModalProps {
   onNavigate?: () => void;
   onCloseNavigate?: () => void;
   textProps: React.ReactNode;
-  lastPage?: boolean;
-  addModal?: boolean;
+  statusModal?: boolean;
+  smallModal?: boolean;
   disable?: boolean;
   leftButtonText?: string;
   rightButtonText: React.ReactNode;
+  onlyRightButton?: boolean;
 }
 
 export interface ModalOverlayProps {
@@ -21,11 +22,12 @@ export interface ModalOverlayProps {
 
 export const ModalElement: React.FC<ModalProps> = ({
   textProps,
-  lastPage = false,
+  statusModal = false,
   disable = false,
   leftButtonText,
   rightButtonText,
-  addModal = false,
+  smallModal = false,
+  onlyRightButton,
   onNavigate,
   onCloseNavigate,
 }) => {
@@ -43,11 +45,11 @@ export const ModalElement: React.FC<ModalProps> = ({
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} lastPage={lastPage} addModal={addModal}>
-      <S.ModalContentContainer lastPage={lastPage}>{textProps}</S.ModalContentContainer>
-      <S.ModalButtonContainer lastPage={lastPage}>
-        {lastPage ? (
-          <S.ModalLastPageButton onClick={closing}>{rightButtonText}</S.ModalLastPageButton>
+    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} smallModal={smallModal}>
+      <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
+      <S.ModalButtonContainer statusModal={statusModal}>
+        {statusModal || onlyRightButton ? (
+          <S.StatusModalButton onClick={closing}>{rightButtonText}</S.StatusModalButton>
         ) : (
           <>
             {leftButtonText && (

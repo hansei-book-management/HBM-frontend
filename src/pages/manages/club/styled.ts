@@ -1,4 +1,4 @@
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaRegCopy } from 'react-icons/fa';
 
 import styled from 'styled-components';
 
@@ -89,7 +89,7 @@ export const ModalUserContainer = styled.div`
   gap: 0.8rem;
 `;
 
-export const ModalUserTitle = styled.h1`
+export const ModalTitle = styled.h1`
   font-size: 1.8rem;
   font-weight: 700;
 `;
@@ -147,4 +147,65 @@ export const GenerateCodeSelect = styled.select`
   font-size: 1rem;
   font-weight: 500;
   color: ${({ theme }) => theme.black};
+`;
+
+export const InviteCodeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  row-gap: 2rem;
+`;
+
+export const InviteCodeSubTitleContainer = styled.div`
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+
+  a {
+    color: ${({ theme }) => theme.primary.darkBlue};
+    font-size: 0.9rem;
+    font-weight: 450;
+    text-decoration: none;
+    transition: opacity 200ms ease-in-out;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+`;
+
+export const InviteCodeValueContainer = styled.div`
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
+  width: 90%;
+  background-color: ${({ theme }) => theme.imageBorder};
+  height: 2.6rem;
+  border-radius: 2rem;
+`;
+
+export const InviteCodeText = styled.span`
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6f6f6f;
+`;
+
+export const InviteCodeCopyButtonWrapper = styled.div`
+  border-radius: 50%;
+  width: 3rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease-in-out;
+  cursor: pointer;
+  &:active {
+    background-color: #b3b3b3;
+  }
 `;

@@ -46,14 +46,14 @@ export const ModalFuck = styled.div`
 `;
 export const ModalContainer = styled.div<{
   isClosed: boolean;
-  lastPage: boolean;
-  addModal: boolean;
+  statusModal: boolean;
+  smallModal: boolean;
 }>`
   z-index: 9903;
-  width: ${({ lastPage, addModal }) => (lastPage || addModal ? '34rem' : '50rem')};
+  width: ${({ statusModal, smallModal }) => (statusModal || smallModal ? '34rem' : '50rem')};
   max-height: 40rem;
   padding: 2rem;
-  padding-bottom: ${({ lastPage }) => (lastPage ? '2rem' : '0')};
+  padding-bottom: ${({ statusModal }) => (statusModal ? '2rem' : '0')};
   background-color: ${({ theme }) => theme.white};
   border-radius: 1.2rem;
   box-shadow: 0.4rem 0.2rem 0.8rem 0 rgba(0, 0, 0, 0.4);
@@ -62,13 +62,13 @@ export const ModalContainer = styled.div<{
   overflow: scroll;
 `;
 
-export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
+export const ModalContentContainer = styled.div<{ statusModal: boolean }>`
   display: flex;
   flex-direction: column;
   padding-bottom: 1rem;
   gap: 1.4rem;
-  ${({ lastPage }) =>
-    lastPage &&
+  ${({ statusModal }) =>
+    statusModal &&
     css`
       align-items: center;
       justify-content: center;
@@ -76,7 +76,7 @@ export const ModalContentContainer = styled.div<{ lastPage: boolean }>`
     `};
 `;
 
-export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
+export const ModalButtonContainer = styled.div<{ statusModal: boolean }>`
   position: sticky;
   bottom: 0;
   left: 0;
@@ -84,7 +84,7 @@ export const ModalButtonContainer = styled.div<{ lastPage: boolean }>`
   align-items: center;
   justify-content: flex-end;
   gap: 1rem;
-  padding: ${({ lastPage }) => (lastPage ? '0' : '1rem 0')};
+  padding: ${({ statusModal }) => (statusModal ? '0' : '1rem 0')};
   width: 100%;
   z-index: 9999;
   background-color: ${({ theme }) => theme.white};
@@ -106,7 +106,7 @@ export const ModalButton = styled.button<{ left?: boolean; disable?: boolean }>`
   }
 `;
 
-export const ModalLastPageButton = styled.button`
+export const StatusModalButton = styled.button`
   width: 100%;
   cursor: pointer;
   padding: 0.7rem 0;

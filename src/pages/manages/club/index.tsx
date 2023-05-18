@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaRegCopy } from 'react-icons/fa';
+import Lottie from 'react-lottie';
 
 import { useModal } from '@/hooks';
-import { USER_LIST } from '@/constant';
+import { USER_LIST, loadingLottieOptions } from '@/constant';
 import { Button, Modal } from '@/components';
 
 import * as S from './styled';
@@ -10,6 +13,25 @@ export const ManageClubPage: React.FC = () => {
   const { open, modalActive } = useModal();
   const [inviteCodeClick, setInviteCodeClick] = useState<boolean>(false);
   const [userBoxClick, setUserBoxClick] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [ok, setOk] = useState<boolean>(false);
+  const [inviteCode, setInviteCode] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
+    navigate(`/manage/club/?generate-code-step=2`);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOk(true);
+    }, 1000);
+    setInviteCode('앙앙기모링');
+  };
+
+  const onCloseNavigate = () => {
+    navigate(`/manage/club/`);
+  };
 
   const onInviteCodeClick = () => {
     setInviteCodeClick(true);
@@ -21,6 +43,10 @@ export const ManageClubPage: React.FC = () => {
     setUserBoxClick(true);
     setInviteCodeClick(false);
     open();
+  };
+
+  const onCopyText = () => {
+    navigator.clipboard.writeText(inviteCode);
   };
 
   return (
@@ -53,7 +79,7 @@ export const ManageClubPage: React.FC = () => {
           <Modal
             textProps={
               <S.ModalUserContainer>
-                <S.ModalUserTitle>부원 박찬영</S.ModalUserTitle>
+                <S.ModalTitle>부원 박찬영</S.ModalTitle>
                 <S.ModalUserBookInfoText>현재 대출중인 책: 3권</S.ModalUserBookInfoText>
                 <S.ModalUserBookInfo>
                   <S.ModalUserBookInfoTitle>너의 이름은:</S.ModalUserBookInfoTitle>
@@ -73,12 +99,12 @@ export const ManageClubPage: React.FC = () => {
           />
         </Modal.OverLay>
       )}
-      {modalActive && inviteCodeClick && (
+      {modalActive && inviteCodeClick && !ok && (
         <Modal.OverLay>
           <Modal
             textProps={
               <S.GenerateCodeContainer>
-                <S.ModalUserTitle>코드 생성하기</S.ModalUserTitle>
+                <S.ModalTitle>코드 생성하기</S.ModalTitle>
                 <S.GenerateCodeSelectContainer>
                   <S.GenerateCodeTitle>유효 기간</S.GenerateCodeTitle>
                   <S.GenerateCodeSelect>
@@ -100,8 +126,45 @@ export const ManageClubPage: React.FC = () => {
               </S.GenerateCodeContainer>
             }
             leftButtonText="닫기"
-            rightButtonText="생성하기"
-            addModal={true}
+            rightButtonText={
+              loading ? (
+                <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+              ) : (
+                '생성하기'
+              )
+            }
+            disable={loading}
+            smallModal={true}
+            {...(!loading && {
+              onNavigate: () => onSubmit(),
+              onCloseNavigate: () => onCloseNavigate(),
+            })}
+          />
+        </Modal.OverLay>
+      )}
+      {modalActive && inviteCodeClick && ok && (
+        <Modal.OverLay>
+          <Modal
+            textProps={
+              <S.InviteCodeContainer>
+                <div>
+                  <S.ModalTitle>초대 코드 발급</S.ModalTitle>
+                  <S.InviteCodeSubTitleContainer>
+                    최대 사용 횟수는 7회이고, 30일 동안 유효해요.
+                    <Link to="?generate-code-step=1">수정하기</Link>
+                  </S.InviteCodeSubTitleContainer>
+                </div>
+                <S.InviteCodeValueContainer>
+                  <S.InviteCodeText>앙기모링</S.InviteCodeText>
+                  <S.InviteCodeCopyButtonWrapper onClick={onCopyText}>
+                    <FaRegCopy size={'0.9rem'} />
+                  </S.InviteCodeCopyButtonWrapper>
+                </S.InviteCodeValueContainer>
+              </S.InviteCodeContainer>
+            }
+            onlyRightButton={true}
+            rightButtonText="확인했어요"
+            smallModal={true}
           />
         </Modal.OverLay>
       )}
