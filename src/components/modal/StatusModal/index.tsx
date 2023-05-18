@@ -59,7 +59,8 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
           </S.ModalSuccessContainer>
         }
         rightButtonText="확인했어요"
-        onCloseNavigate={() => onCloseNavigate()}
+        doneButtonClick={() => onCloseNavigate()}
+        modalSize="medium"
         statusModal={true}
       />
     </Modal.OverLay>

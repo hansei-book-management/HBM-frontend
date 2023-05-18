@@ -91,9 +91,10 @@ export const RentPage: React.FC = () => {
                   '네!'
                 )
               }
+              modalSize="large"
               {...(!loading && {
-                onNavigate: () => onRentNavigate(1, 2),
-                onCloseNavigate: () => onCloseNavigate(),
+                nextButtonClick: () => onRentNavigate(1, 2),
+                doneButtonClick: () => onCloseNavigate(),
               })}
             />
           </Modal.OverLay>

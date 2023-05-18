@@ -47,10 +47,9 @@ export const ModalFuck = styled.div`
 export const ModalContainer = styled.div<{
   isClosed: boolean;
   statusModal: boolean;
-  smallModal: boolean;
+  modalSize: string;
 }>`
   z-index: 9903;
-  width: ${({ statusModal, smallModal }) => (statusModal || smallModal ? '34rem' : '50rem')};
   max-height: 40rem;
   padding: 2rem;
   padding-bottom: ${({ statusModal }) => (statusModal ? '2rem' : '0')};
@@ -60,6 +59,22 @@ export const ModalContainer = styled.div<{
   animation: 200ms cubic-bezier(0.33, 1, 0.68, 1)
     ${({ isClosed }) => (isClosed ? modalCloseKeyframe : modalOpenKeyframe)};
   overflow: scroll;
+  ${({ modalSize }) => {
+    switch (modalSize) {
+      case 'large':
+        return css`
+          width: 50rem;
+        `;
+      case 'medium':
+        return css`
+          width: 34rem;
+        `;
+      case 'small':
+        return css`
+          width: 28rem;
+        `;
+    }
+  }}
 `;
 
 export const ModalContentContainer = styled.div<{ statusModal: boolean }>`
@@ -120,4 +135,5 @@ export const StatusModalButton = styled.button`
   &:hover {
     background-color: #3988ff;
   }
+  margin-bottom: 1rem;
 `;

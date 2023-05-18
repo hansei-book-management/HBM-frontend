@@ -168,7 +168,7 @@ export const InviteCodeSubTitleContainer = styled.div`
 
   a {
     color: ${({ theme }) => theme.primary.darkBlue};
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     font-weight: 450;
     text-decoration: none;
     transition: opacity 200ms ease-in-out;
@@ -183,8 +183,9 @@ export const InviteCodeValueContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 1rem;
-  width: 90%;
+  padding: 1.46rem 1rem;
+  padding-right: 0;
+  width: 100%;
   background-color: ${({ theme }) => theme.imageBorder};
   height: 2.6rem;
   border-radius: 2rem;

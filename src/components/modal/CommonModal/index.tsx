@@ -5,11 +5,11 @@ import { useModal } from '@/hooks/useModal';
 import * as S from './styled';
 
 export interface ModalProps {
-  onNavigate?: () => void;
-  onCloseNavigate?: () => void;
+  nextButtonClick?: () => void;
+  doneButtonClick?: () => void;
+  modalSize: 'small' | 'medium' | 'large';
   textProps: React.ReactNode;
   statusModal?: boolean;
-  smallModal?: boolean;
   disable?: boolean;
   leftButtonText?: string;
   rightButtonText: React.ReactNode;
@@ -26,10 +26,10 @@ export const ModalElement: React.FC<ModalProps> = ({
   disable = false,
   leftButtonText,
   rightButtonText,
-  smallModal = false,
+  modalSize,
   onlyRightButton,
-  onNavigate,
-  onCloseNavigate,
+  nextButtonClick,
+  doneButtonClick,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
   const { close } = useModal();
@@ -39,13 +39,13 @@ export const ModalElement: React.FC<ModalProps> = ({
       setIsClosed(true);
       setTimeout(() => {
         close();
-        onCloseNavigate && onCloseNavigate();
+        doneButtonClick && doneButtonClick();
       }, 200);
     }
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} smallModal={smallModal}>
+    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} modalSize={modalSize}>
       <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer statusModal={statusModal}>
         {statusModal || onlyRightButton ? (
@@ -57,7 +57,7 @@ export const ModalElement: React.FC<ModalProps> = ({
                 {leftButtonText}
               </S.ModalButton>
             )}
-            <S.ModalButton onClick={onNavigate || closing}>{rightButtonText}</S.ModalButton>
+            <S.ModalButton onClick={nextButtonClick}>{rightButtonText}</S.ModalButton>
           </>
         )}
       </S.ModalButtonContainer>
@@ -66,13 +66,7 @@ export const ModalElement: React.FC<ModalProps> = ({
 };
 
 export const ModalOverlay: React.FC<ModalOverlayProps> = ({ children }) => {
-  const { close } = useModal();
-  return (
-    <S.ModalOverlay>
-      <S.ModalFuck onClick={close}></S.ModalFuck>
-      {children}
-    </S.ModalOverlay>
-  );
+  return <S.ModalOverlay>{children}</S.ModalOverlay>;
 };
 
 export const Modal = Object.assign(ModalElement, {

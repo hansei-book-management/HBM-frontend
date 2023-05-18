@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 import Lottie from 'react-lottie';
@@ -16,26 +16,31 @@ export const ManageClubPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [ok, setOk] = useState<boolean>(false);
   const [inviteCode, setInviteCode] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
 
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    navigate(`/manage/club/?generate-code-step=2`);
+    navigate(`/manage/club?generate-code-step=2`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setOk(true);
+      setPage(2);
     }, 1000);
+    setOk(false);
     setInviteCode('앙앙기모링');
   };
 
   const onCloseNavigate = () => {
-    navigate(`/manage/club/`);
+    navigate(`/manage/club`);
   };
 
   const onInviteCodeClick = () => {
     setInviteCodeClick(true);
     setUserBoxClick(false);
+    setPage(1);
+    setOk(false);
     open();
   };
 
@@ -50,10 +55,19 @@ export const ManageClubPage: React.FC = () => {
   };
 
   const onCheckClick = () => {
+    setOk(false);
     setInviteCodeClick(false);
-    navigate(`/manage/club/`);
-    console.log(inviteCodeClick, 'invite code click');
+    navigate(`/manage/club`);
   };
+
+  const onEditClick = () => {
+    setOk(false);
+    setPage(1);
+  };
+
+  useEffect(() => {
+    navigate(`/manage/club`);
+  }, []);
 
   return (
     <S.ManageClubWrapper>
@@ -102,10 +116,11 @@ export const ManageClubPage: React.FC = () => {
               </S.ModalUserContainer>
             }
             rightButtonText="확인"
+            modalSize="large"
           />
         </Modal.OverLay>
       )}
-      {modalActive && inviteCodeClick && !ok && (
+      {modalActive && inviteCodeClick && !ok && page === 1 && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -140,15 +155,15 @@ export const ManageClubPage: React.FC = () => {
               )
             }
             disable={loading}
-            smallModal={true}
+            modalSize="medium"
             {...(!loading && {
-              onNavigate: () => onSubmit(),
-              onCloseNavigate: () => onCloseNavigate(),
+              nextButtonClick: () => onSubmit(),
+              doneButtonClick: () => onCloseNavigate(),
             })}
           />
         </Modal.OverLay>
       )}
-      {modalActive && inviteCodeClick && ok && (
+      {modalActive && inviteCodeClick && ok && page === 2 && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -157,7 +172,9 @@ export const ManageClubPage: React.FC = () => {
                   <S.ModalTitle>초대 코드 발급</S.ModalTitle>
                   <S.InviteCodeSubTitleContainer>
                     최대 사용 횟수는 7회이고, 30일 동안 유효해요.
-                    <Link to="?generate-code-step=1">수정하기</Link>
+                    <Link to="?generate-code-step=1" onClick={onEditClick}>
+                      수정하기
+                    </Link>
                   </S.InviteCodeSubTitleContainer>
                 </div>
                 <S.InviteCodeValueContainer>
@@ -170,8 +187,8 @@ export const ManageClubPage: React.FC = () => {
             }
             onlyRightButton={true}
             rightButtonText="확인했어요"
-            smallModal={true}
-            onCloseNavigate={onCheckClick}
+            modalSize="small"
+            doneButtonClick={() => onCheckClick()}
           />
         </Modal.OverLay>
       )}

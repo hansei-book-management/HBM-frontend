@@ -87,11 +87,11 @@ export const ManageUserBookPage: React.FC = () => {
                 '등록'
               )
             }
-            smallModal={true}
+            modalSize="medium"
             disable={loading}
             {...(!loading && {
-              onNavigate: () => onSubmit(2),
-              onCloseNavigate: () => onCloseNavigate(),
+              nextButtonClick: () => onSubmit(2),
+              doneButtonClick: () => onCloseNavigate(),
             })}
           />
         </Modal.OverLay>
