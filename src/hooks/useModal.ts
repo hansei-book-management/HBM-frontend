@@ -1,21 +1,21 @@
-import { SetterOrUpdater, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { ModalState } from '@/atoms';
 
 export const useModal = () => {
   const [modalActive, setModalActive] = useRecoilState(ModalState);
 
-  const closeModal = (setModalActive: SetterOrUpdater<boolean>) => () => {
+  const closeModal = () => () => {
     setModalActive(false);
   };
 
-  const openModal = (setModalActive: SetterOrUpdater<boolean>) => () => {
+  const openModal = () => () => {
     setModalActive(true);
   };
 
   return {
     modalActive,
-    close: closeModal(setModalActive),
-    open: openModal(setModalActive),
+    close: closeModal(),
+    open: openModal(),
   };
 };

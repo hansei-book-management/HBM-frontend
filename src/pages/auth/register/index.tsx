@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { useRegister, useRegisterPhone } from '@/hooks/query/useAuth';
-import { PhoneToken } from '@/atoms';
-import { VerificationCode } from '@/atoms/verificatoinCode';
+import { useRegister, useRegisterPhone } from '@/hooks';
+import { PhoneToken, VerificationCode } from '@/atoms';
 import { Form } from '@/components';
 
 import * as S from './styled';

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSetRecoilState } from 'recoil';
 
-import { checkLottieOptions } from '@/constant';
+import { checkLottieOptions, failLottieOptions } from '@/constant';
 import { useGetLocation } from '@/hooks';
 import { AddClubState } from '@/atoms';
 
@@ -27,12 +27,18 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
     setAddClubClick(false);
   };
 
+  const isOk = false;
+
   return (
     <Modal.OverLay>
       <Modal
         textProps={
           <S.ModalSuccessContainer>
-            <Lottie options={checkLottieOptions} height={'8rem'} width={'8rem'} />
+            <Lottie
+              options={isOk ? checkLottieOptions : failLottieOptions}
+              height={'8rem'}
+              width={'8rem'}
+            />
             <S.ModalTitle>{manageUserBookPage ? '추가 성공' : '대여 성공'}</S.ModalTitle>
             <S.ModalLastContainer>
               {manageUserBookPage ? (
@@ -62,6 +68,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
         doneButtonClick={() => onCloseNavigate()}
         modalSize="medium"
         statusModal={true}
+        isOk={isOk}
       />
     </Modal.OverLay>
   );

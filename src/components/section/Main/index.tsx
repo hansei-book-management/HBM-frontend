@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 
 import { Book1PNG } from '@/assets';
-import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
+import { RentClubItem, noDataLottieOptions, UserClubItem } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
 import { StatusMessage } from '@/components';
 
