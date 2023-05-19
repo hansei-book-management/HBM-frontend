@@ -37,7 +37,7 @@ export const NavBarWrapper = styled.div`
   }
 `;
 
-export const ToggleBar = styled(motion.div)`
+export const NavbarToggleBar = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,14 +74,14 @@ export const NavbarMenuWrapper = styled.div`
   }
 `;
 
-export const TitleLink = styled(Link)`
+export const NavbarTitleLink = styled(Link)`
   font-size: 26px;
   font-weight: 500;
   text-decoration: none;
   color: ${({ theme }) => theme.black};
 `;
 
-export const MenuItem = styled(Link)<{ isActive: boolean }>`
+export const NavbarMenuItem = styled(Link)<{ isActive: boolean }>`
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
@@ -95,7 +95,7 @@ export const MenuItem = styled(Link)<{ isActive: boolean }>`
     `}
 `;
 
-export const UserContainer = styled.div`
+export const NavbarUserContainer = styled.div`
   display: flex;
   align-items: center;
   @media screen and (max-width: 630px) {
@@ -103,14 +103,14 @@ export const UserContainer = styled.div`
   }
 `;
 
-export const UserName = styled.span`
+export const NavbarUserName = styled.span`
   font-size: 16px;
   font-weight: 600;
   margin-right: 16px;
   color: ${({ theme }) => theme.black};
 `;
 
-export const LoginButton = styled(Link)`
+export const NavbarAuthButton = styled(Link)`
   color: ${({ theme }) => theme.primary.gray};
   background-color: ${({ theme }) => theme.primary.white};
   border-radius: 1.4rem;
@@ -123,7 +123,7 @@ export const LoginButton = styled(Link)`
   margin-top: 10px;
 `;
 
-export const TogIcon = styled(MdDehaze)`
+export const NavbarTogIcon = styled(MdDehaze)`
   margin: 0;
   padding: 0;
   width: 30px;

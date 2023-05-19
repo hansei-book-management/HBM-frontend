@@ -72,6 +72,7 @@ export const ModalContainer = styled.div<{
       case 'small':
         return css`
           width: 28rem;
+          padding-bottom: 1rem;
         `;
     }
   }}
@@ -121,11 +122,11 @@ export const ModalButton = styled.button<{ left?: boolean; disable?: boolean }>`
   }
 `;
 
-export const StatusModalButton = styled.button`
+export const StatusModalButton = styled.button<{ isOk: boolean }>`
   width: 100%;
   cursor: pointer;
   padding: 0.7rem 0;
-  background-color: ${({ theme }) => theme.primary.blue};
+  background-color: ${({ isOk, theme }) => (isOk ? theme.primary.blue : theme.primary.statusRed)};
   border-radius: 4.8rem;
   color: ${({ theme }) => theme.white};
   font-size: 1.1rem;
@@ -133,7 +134,6 @@ export const StatusModalButton = styled.button`
   border: none;
   transition: background-color 150ms ease-in-out;
   &:hover {
-    background-color: #3988ff;
+    background-color: ${({ isOk }) => (isOk ? '#3988ff' : '#E46767')};
   }
-  margin-bottom: 1rem;
 `;

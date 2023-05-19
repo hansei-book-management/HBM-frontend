@@ -72,10 +72,10 @@ export const Navbar: React.FC = () => {
       transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.5 }}
     >
       <S.NavBarWrapper>
-        <S.ToggleBar>
-          <S.TitleLink to="/">HANBOOK</S.TitleLink>
-          <S.TogIcon onClick={onClick} />
-        </S.ToggleBar>
+        <S.NavbarToggleBar>
+          <S.NavbarTitleLink to="/">HANBOOK</S.NavbarTitleLink>
+          <S.NavbarTogIcon onClick={onClick} />
+        </S.NavbarToggleBar>
         <S.NavbarMenuContainer
           variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: -25 } }} // -> 말아올리기
           animate={navbarClose ? 'hidden' : 'visible'}
@@ -85,20 +85,20 @@ export const Navbar: React.FC = () => {
         >
           <S.NavbarMenuWrapper>
             {ADMIN_NAVBAR_MENU_LIST.map(({ text, href }, i) => (
-              <S.MenuItem
+              <S.NavbarMenuItem
                 {...(getWidth <= 630 && { onClick })}
                 to={href}
                 key={i}
                 isActive={location.pathname.includes(href)}
               >
                 {text}
-              </S.MenuItem>
+              </S.NavbarMenuItem>
             ))}
           </S.NavbarMenuWrapper>
-          <S.UserContainer>
-            {/* <S.UserName>앙기모링님</S.UserName> */}
-            <S.LoginButton to="/auth/login">로그인</S.LoginButton>
-          </S.UserContainer>
+          <S.NavbarUserContainer>
+            {/* <S.NavbarUserName>앙기모링님</S.NavbarUserName> */}
+            <S.NavbarAuthButton to="/auth/login">로그인</S.NavbarAuthButton>
+          </S.NavbarUserContainer>
         </S.NavbarMenuContainer>
       </S.NavBarWrapper>
     </S.NavBarContainer>

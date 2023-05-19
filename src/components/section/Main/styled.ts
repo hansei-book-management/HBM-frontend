@@ -14,7 +14,7 @@ export const SectionContainer = styled.section`
   }
 `;
 
-export const ImageContainer = styled.div`
+export const SectionImageContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -27,7 +27,7 @@ export const ImageWrapper = styled.div`
   align-items: flex-start;
 `;
 
-export const Image = styled.img`
+export const SectionImage = styled.img`
   width: 16rem;
   border: 1px solid ${({ theme }) => theme.imageBorder};
   @media screen and (max-width: 500px) and (min-width: 300px) {
@@ -43,14 +43,14 @@ export const Image = styled.img`
   }
 `;
 
-export const TitleContainer = styled.div`
+export const SectionImageTitleContainer = styled.div`
   margin-top: 0.8rem;
   display: flex;
   flex-direction: column;
   row-gap: 0.4rem;
 `;
 
-export const ImageTitle = styled.span`
+export const SectionImageTitle = styled.span`
   text-decoration: none;
   color: ${({ theme }) => theme.black};
   font-size: 1rem;
@@ -61,13 +61,13 @@ export const ImageTitle = styled.span`
   }
 `;
 
-export const ImageSubTitle = styled.span`
+export const SectionImageSubTitle = styled.span`
   font-size: 0.8rem;
   font-weight: 400;
   color: ${({ theme }) => theme.black};
 `;
 
-export const PaginationContainer = styled.div`
+export const SectionPaginationContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -76,7 +76,7 @@ export const PaginationContainer = styled.div`
   padding: 4rem 0;
 `;
 
-export const PaginationButton = styled.button`
+export const SectionPaginationButton = styled.button`
   cursor: pointer;
   align-self: center;
   justify-self: center;
@@ -87,7 +87,7 @@ export const PaginationButton = styled.button`
   background-color: transparent;
 `;
 
-export const PaginationText = styled.span`
+export const SectionPaginationText = styled.span`
   font-size: 1.2rem;
   font-weight: 400;
   color: ${({ theme }) => theme.black};

@@ -53,7 +53,7 @@ export const ManageUserBookPage: React.FC = () => {
   }, [activeUserClub]);
 
   return (
-    <S.ManageUserBookPageContainer>
+    <S.ManageUserBookContainer>
       {activeUserClub && (
         <HeaderSection
           name={activeUserClub.name}
@@ -71,13 +71,13 @@ export const ManageUserBookPage: React.FC = () => {
         <Modal.OverLay>
           <Modal
             textProps={
-              <S.ModalAddClubContainer>
-                <S.ModalAddClubTitle>동아리 회원 등록</S.ModalAddClubTitle>
+              <S.AddClubModalContainer>
+                <S.AddClubModalTitle>동아리 회원 등록</S.AddClubModalTitle>
                 <S.ModalAddClubInputContainer>
-                  <S.ModalAddClubInputText>인증키 입력</S.ModalAddClubInputText>
-                  <S.ModalAddClubInput placeholder="동아리 인증키를 입력해주세요..." />
+                  <S.AddClubModalInputText>인증키 입력</S.AddClubModalInputText>
+                  <S.AddClubModalInput placeholder="동아리 인증키를 입력해주세요..." />
                 </S.ModalAddClubInputContainer>
-              </S.ModalAddClubContainer>
+              </S.AddClubModalContainer>
             }
             leftButtonText="취소"
             rightButtonText={
@@ -101,9 +101,11 @@ export const ManageUserBookPage: React.FC = () => {
           <DetailModal
             leftButtonText="닫기"
             rightButtonText="반납하기"
-            message={<S.ModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.ModalMessage>}
+            message={
+              <S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>
+            }
           />
         ))}
-    </S.ManageUserBookPageContainer>
+    </S.ManageUserBookContainer>
   );
 };

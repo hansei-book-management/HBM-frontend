@@ -14,6 +14,7 @@ export interface ModalProps {
   leftButtonText?: string;
   rightButtonText: React.ReactNode;
   onlyRightButton?: boolean;
+  isOk?: boolean;
 }
 
 export interface ModalOverlayProps {
@@ -30,6 +31,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   onlyRightButton,
   nextButtonClick,
   doneButtonClick,
+  isOk = false,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
   const { close } = useModal();
@@ -49,7 +51,9 @@ export const ModalElement: React.FC<ModalProps> = ({
       <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer statusModal={statusModal}>
         {statusModal || onlyRightButton ? (
-          <S.StatusModalButton onClick={closing}>{rightButtonText}</S.StatusModalButton>
+          <S.StatusModalButton onClick={closing} isOk={isOk}>
+            {rightButtonText}
+          </S.StatusModalButton>
         ) : (
           <>
             {leftButtonText && (

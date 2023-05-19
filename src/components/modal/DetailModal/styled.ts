@@ -1,6 +1,17 @@
 import styled from 'styled-components';
 
-export const ModalTitle = styled.h1`
+export const DetailModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  gap: 1.4rem;
+  flex-direction: row;
+  @media screen and (min-width: 300px) and (max-width: 580px) {
+    flex-direction: column;
+  }
+`;
+
+export const DetailModalTitle = styled.h1`
   font-size: 2.2rem;
   font-weight: 700;
   @media screen and (min-width: 300px) and (max-width: 580px) {
@@ -8,7 +19,7 @@ export const ModalTitle = styled.h1`
   }
 `;
 
-export const MobileModalTitle = styled.h1`
+export const DetailModalMobileTitle = styled.h1`
   display: none;
   @media screen and (min-width: 300px) and (max-width: 580px) {
     display: block;
@@ -18,7 +29,7 @@ export const MobileModalTitle = styled.h1`
   }
 `;
 
-export const ModalImage = styled.img`
+export const DetailModalImage = styled.img`
   width: 16rem;
   border: 1px solid ${({ theme }) => theme.imageBorder};
   @media screen and (min-width: 500px) and (max-width: 580px) {
@@ -30,7 +41,7 @@ export const ModalImage = styled.img`
   }
 `;
 
-export const ModalInfoContainer = styled.div`
+export const DetailModalInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -43,48 +54,27 @@ export const ModalInfoContainer = styled.div`
   }
 `;
 
-export const ModalSubTitle = styled.h3`
+export const DetailModalSubTitle = styled.h3`
   font-size: 1.1rem;
   font-weight: 550;
   line-height: 1.8rem;
 `;
 
-export const ModalInfo = styled.p`
+export const DetailModalInfoText = styled.p`
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6rem;
   margin: 1rem 0;
 `;
 
-export const ModalContentTitle = styled.h3`
+export const DetailModalSummaryTitle = styled.h3`
   font-size: 1.4rem;
   font-weight: 550;
   margin-top: 1rem;
 `;
 
-export const ModalContent = styled.p`
+export const DetailModalSummary = styled.p`
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.6rem;
-`;
-
-export const ModalLastContainer = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  > * {
-    line-height: 2rem;
-  }
-`;
-
-export const ModalDetailContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1rem;
-  gap: 1.4rem;
-  flex-direction: row;
-  @media screen and (min-width: 300px) and (max-width: 580px) {
-    flex-direction: column;
-  }
 `;

@@ -1,13 +1,22 @@
 import { CheckLottie, FailLottie, LoadingLottie, NoDataLottie, NonePageLottie } from '@/lotties';
 
-export const checkLottieOptions = {
+const statusOptions = {
   loop: false,
   autoplay: true,
-  animationData: CheckLottie,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice',
     progressiveLoad: true,
   },
+};
+
+export const checkLottieOptions = {
+  animationData: CheckLottie,
+  ...statusOptions,
+};
+
+export const failLottieOptions = {
+  animationData: FailLottie,
+  ...statusOptions,
 };
 
 const defaultOptions = {
@@ -24,17 +33,12 @@ export const loadingLottieOptions = {
   ...defaultOptions,
 };
 
-export const NotFoundLottieOptions = {
+export const notFoundPageLottieOptions = {
   animationData: NonePageLottie,
   ...defaultOptions,
 };
 
-export const NoDataLottieOptions = {
+export const noDataLottieOptions = {
   animationData: NoDataLottie,
-  ...defaultOptions,
-};
-
-export const FailLottieOptions = {
-  animationData: FailLottie,
   ...defaultOptions,
 };

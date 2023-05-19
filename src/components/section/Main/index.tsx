@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
 
 import { Book1PNG } from '@/assets';
-import { RentClubItem, NoDataLottieOptions, UserClubItem } from '@/constant';
+import { RentClubItem, noDataLottieOptions, UserClubItem } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
 import { StatusMessage } from '@/components';
 
@@ -98,13 +97,13 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
     <>
       <S.SectionContainer>
         {/* {data?.books.map(({ id, canRent, club }, i) => ( */}
-        <S.ImageContainer>
-          <S.Image src={Book1PNG} onClick={() => openModal(id)} />
-          <S.TitleContainer>
-            <S.ImageTitle onClick={() => openModal(id)}>세이노의 가르침</S.ImageTitle>
-            <S.ImageSubTitle>세이노 · 데이원</S.ImageSubTitle>
+        <S.SectionImageContainer>
+          <S.SectionImage src={Book1PNG} onClick={() => openModal(id)} />
+          <S.SectionImageTitleContainer>
+            <S.SectionImageTitle onClick={() => openModal(id)}>세이노의 가르침</S.SectionImageTitle>
+            <S.SectionImageSubTitle>세이노 · 데이원</S.SectionImageSubTitle>
             <StatusMessage />
-          </S.TitleContainer>
+          </S.SectionImageTitleContainer>
           {/* 
           
           const Rent = () => {
@@ -112,19 +111,21 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
               if (manageClubCanRend) return <div/
           }
           */}
-        </S.ImageContainer>
+        </S.SectionImageContainer>
         {/* ))} */}
       </S.SectionContainer>
       {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
-        <S.PaginationContainer>
-          {page > 1 && <S.PaginationButton onClick={onPrevPageClick}>&larr;</S.PaginationButton>}
-          <S.PaginationText>
-            {page} / {data?.totalPages}
-          </S.PaginationText>
-          {page !== data?.totalPages && (
-            <S.PaginationButton onClick={onNextPageClick}>&rarr;</S.PaginationButton>
+        <S.SectionPaginationContainer>
+          {page > 1 && (
+            <S.SectionPaginationButton onClick={onPrevPageClick}>&larr;</S.SectionPaginationButton>
           )}
-        </S.PaginationContainer>
+          <S.SectionPaginationText>
+            {page} / {data?.totalPages}
+          </S.SectionPaginationText>
+          {page !== data?.totalPages && (
+            <S.SectionPaginationButton onClick={onNextPageClick}>&rarr;</S.SectionPaginationButton>
+          )}
+        </S.SectionPaginationContainer>
       )}
       {/* {isLoading ? <Skeleton isRentPage={rentPage || false} /> : <></>} */}
     </>
