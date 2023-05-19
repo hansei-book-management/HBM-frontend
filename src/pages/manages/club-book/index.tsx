@@ -14,7 +14,7 @@ const BASE_URL = '/manage/club-book';
 
 export const ManageClubBookPage: React.FC = () => {
   const navigate = useNavigate();
-  const { modalActive, open } = useModal();
+  const { modalActive, open, close } = useModal();
   const [status, setStatus] = useRecoilState(StatusState);
 
   const { option } = useParams<{ option: string }>();
@@ -32,7 +32,7 @@ export const ManageClubBookPage: React.FC = () => {
   }, [activeOption]);
 
   return (
-    <S.ManageClubBookPageContainer>
+    <S.ManageClubBookContainer>
       {activeOption && (
         <HeaderSection
           name={activeOption.text}
@@ -44,8 +44,12 @@ export const ManageClubBookPage: React.FC = () => {
       )}
       <Section mangeClubName="hsoc" />
       {modalActive && (
-        <DetailModal message={<RentMessage canRent={true} />} rightButtonText="닫기" />
+        <DetailModal
+          message={<RentMessage canRent={true} />}
+          rightButtonText="닫기"
+          onNavigate={close}
+        />
       )}
-    </S.ManageClubBookPageContainer>
+    </S.ManageClubBookContainer>
   );
 };

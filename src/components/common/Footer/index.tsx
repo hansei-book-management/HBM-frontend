@@ -8,9 +8,9 @@ export const Footer: React.FC = () => {
       <S.FooterTitle to="/">HANBOOK</S.FooterTitle>
       <S.FooterIcon>
         {ICON_LIST.map(({ icon, href }, i) => (
-          <S.IconWrapper to={href} key={i}>
+          <S.FooterIconWrapper to={href} key={i}>
             {icon}
-          </S.IconWrapper>
+          </S.FooterIconWrapper>
         ))}
       </S.FooterIcon>
       <S.FooterText>© HANBOOK. 2023 All rights reserved</S.FooterText>

@@ -29,7 +29,7 @@ export const FooterIcon = styled.div`
   column-gap: 10px;
 `;
 
-export const IconWrapper = styled(Link)`
+export const FooterIconWrapper = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
