@@ -125,6 +125,7 @@ export const ModalButton = styled.button<{ left?: boolean; disable: boolean }>`
           }
         `
       : css`
+          color: ${theme.white};
           background-color: ${disable ? '#AAAAAA' : theme.primary.blue};
           &:hover {
             background-color: ${disable ? '#AAAAAA' : '#3988FF'};

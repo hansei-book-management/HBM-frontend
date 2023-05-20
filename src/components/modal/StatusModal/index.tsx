@@ -24,7 +24,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url }) => {
 
   const onCloseNavigate = () => {
     navigate(`${url}`);
-    setAddClubClick(false);
+    setAddClubClick({ state: false, isOk: false });
   };
 
   const isOk = false;

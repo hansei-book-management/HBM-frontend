@@ -2,5 +2,8 @@ import { atom } from 'recoil';
 
 export const AddClubState = atom({
   key: 'AddClubState',
-  default: false,
+  default: {
+    state: false,
+    isOk: false,
+  },
 });

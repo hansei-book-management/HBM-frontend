@@ -63,7 +63,7 @@ export const RentPage: React.FC = () => {
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && (
         <DetailModal
-          onNavigate={() => onNextPageNavigate(2, 1)}
+          nextButtonClick={() => onNextPageNavigate(2, 1)}
           leftButtonText="닫기"
           rightButtonText="대여하기"
           message={<RentMessage canRent={true} />}
@@ -82,7 +82,7 @@ export const RentPage: React.FC = () => {
                   </S.ModalSubTitle>
                 </S.ModalQuestionContainer>
               }
-              disable={loading}
+              statusDisable={loading}
               leftButtonText="아니요"
               rightButtonText={
                 loading ? (
