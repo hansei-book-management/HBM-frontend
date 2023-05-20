@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useGetWindowSize, useModal } from '@/hooks';
+import { useGetWindowSize } from '@/hooks';
 import { Book1PNG } from '@/assets';
 
 import { Modal } from '../CommonModal';

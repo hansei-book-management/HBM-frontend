@@ -61,7 +61,9 @@ export const ModalElement: React.FC<ModalProps> = ({
                 {leftButtonText}
               </S.ModalButton>
             )}
-            <S.ModalButton onClick={nextButtonClick}>{rightButtonText}</S.ModalButton>
+            <S.ModalButton disable={disable} onClick={nextButtonClick}>
+              {rightButtonText}
+            </S.ModalButton>
           </>
         )}
       </S.ModalButtonContainer>

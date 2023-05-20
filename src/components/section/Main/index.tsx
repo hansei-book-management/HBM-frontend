@@ -41,23 +41,23 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
 
   const clubName = activeClub?.id;
 
-  const getRentApi = async (clubName: string, page: number) => {
-    const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
-    return res.data;
-  };
+  // const getRentApi = async (clubName: string, page: number) => {
+  //   const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
+  //   return res.data;
+  // };
 
-  const getManageApi = async (clubName: string, page: number) => {
-    const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
-    return res.data;
-  };
+  // const getManageApi = async (clubName: string, page: number) => {
+  //   const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
+  //   return res.data;
+  // };
 
-  const { data, isLoading, refetch } = useQuery<BookItem>(['bookList', clubName, page], () => {
-    if (rentPage) {
-      return getRentApi(clubName || '', page);
-    } else {
-      return getManageApi(clubName || mangeClubName || '', page);
-    }
-  });
+  // const { data, isLoading, refetch } = useQuery<BookItem>(['bookList', clubName, page], () => {
+  //   if (rentPage) {
+  //     return getRentApi(clubName || '', page);
+  //   } else {
+  //     return getManageApi(clubName || mangeClubName || '', page);
+  //   }
+  // });
 
   const onNextPageClick = () => {
     setPage((prev) => prev + 1);
@@ -90,7 +90,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
 
   useEffect(() => {
     setPage(1);
-    refetch();
+    // refetch();
   }, [activeClub]);
 
   return (
@@ -114,7 +114,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
         </S.SectionImageContainer>
         {/* ))} */}
       </S.SectionContainer>
-      {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
+      {/* {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
         <S.SectionPaginationContainer>
           {page > 1 && (
             <S.SectionPaginationButton onClick={onPrevPageClick}>&larr;</S.SectionPaginationButton>
@@ -126,7 +126,7 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
             <S.SectionPaginationButton onClick={onNextPageClick}>&rarr;</S.SectionPaginationButton>
           )}
         </S.SectionPaginationContainer>
-      )}
+      )} */}
       {/* {isLoading ? <Skeleton isRentPage={rentPage || false} /> : <></>} */}
     </>
   );

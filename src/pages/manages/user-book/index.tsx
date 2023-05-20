@@ -25,13 +25,18 @@ export const ManageUserBookPage: React.FC = () => {
 
   const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
 
-  const onClick = () => {
+  const onAddClubModalOpen = () => {
     setAddClubClick(true);
     navigate(`${USER_CLUB_BASE_URL}?club-add-step=1`);
     open();
   };
 
-  const onSubmit = (stepNum: number) => {
+  const onAddClubModalClose = () => {
+    setAddClubClick(false);
+    navigate(`${USER_CLUB_BASE_URL}`);
+  };
+
+  const onAddClubModalSubmit = (stepNum: number) => {
     navigate(`${USER_CLUB_BASE_URL}?club-add-step=${stepNum}`);
     setLoading(true);
     setTimeout(() => {
@@ -40,8 +45,39 @@ export const ManageUserBookPage: React.FC = () => {
     }, 1000);
   };
 
-  const onCloseNavigate = () => {
-    navigate(`${USER_CLUB_BASE_URL}`);
+  const getLocationSuccess = (position: GeolocationPosition) => {
+    const coords = position.coords;
+    const latitude = coords.latitude;
+    const longitude = coords.longitude;
+    if (latitude < 37.55 || latitude > 37.56 || longitude < 126.95 || longitude > 126.96) {
+      console.log('위치 정보를 사용할 수 없습니다.');
+      return;
+    }
+    console.log(latitude, longitude);
+  };
+
+  const getLocationFail = (error: GeolocationPositionError) => {
+    console.log(error, '에러임');
+  };
+
+  const onReturnBookModalOpen = () => {
+    const { geolocation } = navigator;
+
+    if (!geolocation) {
+      console.log('위치 정보를 사용할 수 없습니다.');
+      return;
+    }
+
+    geolocation.getCurrentPosition(
+      (position) => {
+        getLocationSuccess(position);
+      },
+      (error) => {
+        getLocationFail(error);
+      },
+    );
+
+    close();
   };
 
   useEffect(() => {
@@ -52,6 +88,8 @@ export const ManageUserBookPage: React.FC = () => {
     }
   }, [activeUserClub]);
 
+  // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
+
   return (
     <S.ManageUserBookContainer>
       {activeUserClub && (
@@ -60,10 +98,9 @@ export const ManageUserBookPage: React.FC = () => {
           activeId={userClubId}
           href={`${BASE_URL}`}
           list={USER_CLUB_LIST}
-          onClick={onClick}
+          onClick={onAddClubModalOpen}
           manageUserBookPage={true}
           userBookInfo={`앙기모링님은 현재 2권 대출중이에요.`}
-          // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
         />
       )}
       <Section activeClub={activeUserClub} />
@@ -90,8 +127,8 @@ export const ManageUserBookPage: React.FC = () => {
             modalSize="medium"
             disable={loading}
             {...(!loading && {
-              nextButtonClick: () => onSubmit(2),
-              doneButtonClick: () => onCloseNavigate(),
+              nextButtonClick: () => onAddClubModalSubmit(2),
+              doneButtonClick: () => onAddClubModalClose(),
             })}
           />
         </Modal.OverLay>
@@ -104,7 +141,7 @@ export const ManageUserBookPage: React.FC = () => {
             message={
               <S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>
             }
-            nextButtonClick={close}
+            nextButtonClick={onReturnBookModalOpen}
           />
         ))}
     </S.ManageUserBookContainer>
