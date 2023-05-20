@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
 
 import { Modal } from '../CommonModal';
@@ -18,18 +18,20 @@ export interface ReturnBookModalProps {
   doneButtonClick: () => void;
   nextButtonClick: () => void;
   correctLocation: boolean;
+  setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedImage: string | null;
 }
 
 export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   modalActive,
-  returnBookModalActive: { state: returnBookModalState, isOk: returnBookModalIsOk },
+  returnBookModalActive: { state: returnBookModalState },
   allowLocation: { state: allowLocationState, loading: allowLocationLoading },
   doneButtonClick,
   nextButtonClick,
   correctLocation,
+  setSelectedImage,
+  selectedImage,
 }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const image = event.target.files[0];
@@ -112,7 +114,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
               <S.ModalTitle>도서 반납하기</S.ModalTitle>
               <S.ReturnBookModalContainer>
                 <div>
-                  <S.ReturnModalIconContainer imageUrl={selectedImage} for="input-file">
+                  <S.ReturnModalIconContainer imageUrl={selectedImage} htmlFor="input-file">
                     {!selectedImage && (
                       <>
                         <MdCameraAlt size={'6rem'} color={'#828282'} />

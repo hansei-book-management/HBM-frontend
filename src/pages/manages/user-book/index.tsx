@@ -23,6 +23,7 @@ export const ManageUserBookPage: React.FC = () => {
     loading: false,
   });
   const [correctLocation, setCorrectLocation] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { modalActive, open, close } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
@@ -91,6 +92,7 @@ export const ManageUserBookPage: React.FC = () => {
   const onReturnBookModalClose = () => {
     close();
     setReturnBookModalActive({ state: false, isOk: false });
+    setSelectedImage(null);
   };
 
   useEffect(() => {
@@ -146,6 +148,8 @@ export const ManageUserBookPage: React.FC = () => {
         doneButtonClick={onReturnBookModalClose}
         nextButtonClick={onReturnBookModalClose}
         correctLocation={correctLocation}
+        setSelectedImage={setSelectedImage}
+        selectedImage={selectedImage}
       />
     </S.ManageUserBookContainer>
   );

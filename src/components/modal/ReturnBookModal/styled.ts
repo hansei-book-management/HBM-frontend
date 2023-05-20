@@ -24,7 +24,7 @@ export const ReturnBookModalContainer = styled.div`
   row-gap: 1rem;
 `;
 
-export const ReturnModalIconContainer = styled.label<{ imageUrl?: string }>`
+export const ReturnModalIconContainer = styled.label<{ imageUrl: string | null }>`
   width: 25rem;
   height: 14rem;
   border-radius: 2rem;
