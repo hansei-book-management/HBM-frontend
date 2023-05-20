@@ -10,7 +10,7 @@ import * as S from './styled';
 export interface DetailModalProps {
   message: React.ReactNode;
   leftButtonText?: string;
-  rightButtonText: string;
+  rightButtonText: React.ReactNode;
   nextButtonClick?: () => void;
 }
 

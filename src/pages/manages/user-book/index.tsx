@@ -5,7 +5,14 @@ import { MdLocationOff } from 'react-icons/md';
 
 import { useRecoilState } from 'recoil';
 
-import { DetailModal, HeaderSection, Modal, Section, StatusModal } from '@/components';
+import {
+  AddClubModal,
+  DetailModal,
+  HeaderSection,
+  Modal,
+  Section,
+  StatusModal,
+} from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
 import { AddClubState } from '@/atoms';
@@ -19,7 +26,10 @@ export const ManageUserBookPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [addClubModalActive, setAddClubModalActive] = useRecoilState(AddClubState);
   const [returnBookModalActive, setReturnBookModalActive] = useState({ state: false, isOk: false });
-  const [allowLocation, setAllowLocation] = useState<boolean>(false);
+  const [allowLocation, setAllowLocation] = useState({
+    state: false,
+    loading: false,
+  });
   const { modalActive, open } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
@@ -48,7 +58,8 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const getLocationSuccess = (position: GeolocationPosition) => {
-    setAllowLocation(true);
+    setAllowLocation({ state: true, loading: false });
+    setReturnBookModalActive({ state: true, isOk: false });
     const coords = position.coords;
     const latitude = coords.latitude;
     const longitude = coords.longitude;
@@ -59,21 +70,13 @@ export const ManageUserBookPage: React.FC = () => {
     console.log(latitude, longitude);
   };
 
-  const getLocationFail = (error?: GeolocationPositionError) => {
-    setAllowLocation(false);
-    console.log(
-      error,
-      `안전하게 반납하기 위해서 위치 권한이 필요해요.
-    브라우저의 설정을 확인해 주세요.`,
-      modalActive,
-      returnBookModalActive,
-      !allowLocation,
-    );
-    return;
+  const getLocationFail = () => {
+    setAllowLocation({ state: false, loading: false });
+    setReturnBookModalActive({ state: true, isOk: false });
   };
 
   const onReturnBookModalOpen = () => {
-    setReturnBookModalActive({ state: true, isOk: false });
+    setAllowLocation({ state: false, loading: true });
     const { geolocation } = navigator;
 
     if (!geolocation) {
@@ -84,14 +87,13 @@ export const ManageUserBookPage: React.FC = () => {
       (position) => {
         getLocationSuccess(position);
       },
-      (error) => {
-        getLocationFail(error);
+      () => {
+        getLocationFail();
       },
     );
   };
 
   const onReturnBookModalClose = () => {
-    console.log('닫기');
     setReturnBookModalActive({ state: false, isOk: false });
   };
 
@@ -99,7 +101,7 @@ export const ManageUserBookPage: React.FC = () => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
     if (!activeUserClub || clubAddStep) {
-      navigate(`/manage/user-book/${USER_CLUB_LIST[0].id}`);
+      navigate(`${BASE_URL}/${USER_CLUB_LIST[0].id}`);
     }
   }, [activeUserClub]);
 
@@ -119,73 +121,85 @@ export const ManageUserBookPage: React.FC = () => {
         />
       )}
       <Section activeClub={activeUserClub} />
-      {(modalActive && !addClubModalActive.isOk && addClubModalActive.state && (
-        <Modal.OverLay>
-          <Modal
-            textProps={
-              <S.ModalContainer>
-                <S.ModalTitle>동아리 회원 등록</S.ModalTitle>
-                <S.ModalAddClubInputContainer>
-                  <S.AddClubModalInputText>인증키 입력</S.AddClubModalInputText>
-                  <S.AddClubModalInput placeholder="동아리 인증키를 입력해주세요..." />
-                </S.ModalAddClubInputContainer>
-              </S.ModalContainer>
-            }
-            leftButtonText="취소"
-            rightButtonText={
-              loading ? (
-                <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
-              ) : (
-                '등록'
-              )
-            }
-            modalSize="medium"
-            statusDisable={loading}
-            {...(!loading && {
-              nextButtonClick: () => onAddClubModalSubmit(2),
-              doneButtonClick: () => onAddClubModalClose(),
-            })}
-          />
-        </Modal.OverLay>
+      <AddClubModal
+        modalActive={modalActive}
+        addClubModalActive={addClubModalActive}
+        nextButtonClick={() => onAddClubModalSubmit(2)}
+        doneButtonClick={() => onAddClubModalClose()}
+        loading={loading}
+        url={USER_CLUB_BASE_URL}
+      />
+      {(modalActive && !addClubModalActive.state && !returnBookModalActive.state && (
+        <DetailModal
+          leftButtonText="닫기"
+          rightButtonText={
+            allowLocation.loading ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              '반납하기'
+            )
+          }
+          message={<S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>}
+          nextButtonClick={onReturnBookModalOpen}
+        />
       )) ||
-        (modalActive && addClubModalActive.isOk && addClubModalActive.state && (
-          <StatusModal url={`${USER_CLUB_BASE_URL}`} />
-        )) ||
-        (modalActive && !addClubModalActive.state && !returnBookModalActive.state && (
-          <DetailModal
-            leftButtonText="닫기"
-            rightButtonText="반납하기"
-            message={
-              <S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>
-            }
-            nextButtonClick={onReturnBookModalOpen}
-          />
-        )) ||
-        (modalActive && returnBookModalActive.state && !allowLocation && (
-          <Modal.OverLay>
-            <Modal
-              textProps={
-                <S.ModalContainer>
-                  <S.ModalTitle>도서 반납하기</S.ModalTitle>
-                  <S.ReturnBookModalContainer>
-                    <MdLocationOff size={'8rem'} color={'#828282'} />
-                    <S.ReturnBookModalTitle>위치를 식별할 수 없음</S.ReturnBookModalTitle>
-                    <S.ReturnBookModalMessage>
-                      안전하게 반납하기 위해서 위치 권한이 필요해요. <br />
-                      브라우저의 설정을 확인해 주세요.
-                    </S.ReturnBookModalMessage>
-                  </S.ReturnBookModalContainer>
-                </S.ModalContainer>
-              }
-              leftButtonText="취소"
-              rightButtonText="등록"
-              modalSize="medium"
-              doneButtonClick={onReturnBookModalClose}
-              nextButtonClick={onReturnBookModalClose}
-              returnBookDisable={true}
-            />
-          </Modal.OverLay>
-        ))}
+        (modalActive &&
+          returnBookModalActive.state &&
+          !allowLocation.state &&
+          !allowLocation.loading && (
+            <Modal.OverLay>
+              <Modal
+                textProps={
+                  <S.ModalContainer>
+                    <S.ModalTitle>도서 반납하기</S.ModalTitle>
+                    <S.ReturnBookModalContainer>
+                      <MdLocationOff size={'8rem'} color={'#828282'} />
+                      <S.ReturnBookModalTitle>위치를 식별할 수 없음</S.ReturnBookModalTitle>
+                      <S.ReturnBookModalMessage>
+                        안전하게 반납하기 위해서 위치 권한이 필요해요. <br />
+                        브라우저의 설정을 확인해 주세요.
+                      </S.ReturnBookModalMessage>
+                    </S.ReturnBookModalContainer>
+                  </S.ModalContainer>
+                }
+                leftButtonText="취소"
+                rightButtonText="등록"
+                modalSize="medium"
+                doneButtonClick={onReturnBookModalClose}
+                returnBookDisable={true}
+              />
+            </Modal.OverLay>
+          )) ||
+        (modalActive &&
+          returnBookModalActive.state &&
+          allowLocation.state &&
+          !allowLocation.loading && (
+            <Modal.OverLay>
+              <Modal
+                textProps={
+                  <S.ModalContainer>
+                    <S.ModalTitle>동아리 회원 등록</S.ModalTitle>
+                    <S.ModalAddClubInputContainer>
+                      <S.AddClubModalInputText>인증키 입력</S.AddClubModalInputText>
+                      <S.AddClubModalInput placeholder="동아리 인증키를 입력해주세요..." />
+                    </S.ModalAddClubInputContainer>
+                  </S.ModalContainer>
+                }
+                leftButtonText="취소"
+                rightButtonText={
+                  loading ? (
+                    <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+                  ) : (
+                    '등록'
+                  )
+                }
+                modalSize="medium"
+                statusDisable={loading}
+                nextButtonClick={onReturnBookModalClose}
+                doneButtonClick={onReturnBookModalClose}
+              />
+            </Modal.OverLay>
+          ))}
     </S.ManageUserBookContainer>
   );
 };
