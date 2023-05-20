@@ -28,7 +28,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   nextButtonClick,
   correctLocation,
 }) => {
-  const [selectedImage, setSelectedImage] = useState<string>();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -129,13 +129,25 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
                     id="input-file"
                   />
                 </div>
-                <S.ReturnBookModalTitleBlack>반납 사진 제출하기</S.ReturnBookModalTitleBlack>
+                <S.ReturnBookModalTitleBlack>
+                  {selectedImage ? '반납 사진 제출하기' : '반납 완료하기'}
+                </S.ReturnBookModalTitleBlack>
                 <S.ReturnBookModalMessageBlack>
-                  반납 사진을 제출하면 반납이 완료돼요.
-                  <br />
-                  반납 사진은 반납 위치와 책이 잘 나오도록 촬영해 주세요.
-                  <br />
-                  허위로 제출할 경우 추후 서비스 이용이 어려울 수 있어요.
+                  {selectedImage ? (
+                    <>
+                      반납 사진을 확인했어요! :)
+                      <br />
+                      반납을 계속하려면 아래 “반납하기” 버튼을 눌러 주세요.
+                    </>
+                  ) : (
+                    <>
+                      반납 사진을 제출하면 반납이 완료돼요.
+                      <br />
+                      반납 사진은 반납 위치와 책이 잘 나오도록 촬영해 주세요.
+                      <br />
+                      허위로 제출할 경우 추후 서비스 이용이 어려울 수 있어요.
+                    </>
+                  )}
                 </S.ReturnBookModalMessageBlack>
               </S.ReturnBookModalContainer>
             </S.ModalContainer>
@@ -144,7 +156,8 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           rightButtonText="반납하기"
           modalSize="medium"
           doneButtonClick={doneButtonClick}
-          returnBookDisable={true}
+          nextButtonClick={nextButtonClick}
+          {...(!selectedImage && { returnBookDisable: true })}
         />
       </Modal.OverLay>
     );

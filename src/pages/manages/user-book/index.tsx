@@ -23,7 +23,7 @@ export const ManageUserBookPage: React.FC = () => {
     loading: false,
   });
   const [correctLocation, setCorrectLocation] = useState<boolean>(false);
-  const { modalActive, open } = useModal();
+  const { modalActive, open, close } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
@@ -58,10 +58,10 @@ export const ManageUserBookPage: React.FC = () => {
     const coords = position.coords;
     const latitude = coords.latitude;
     const longitude = coords.longitude;
-    // if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
-    //   setCorrectLocation(true);
-    //   console.log(latitude, longitude);
-    // }
+    if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
+      setCorrectLocation(false);
+      console.log(latitude, longitude);
+    }
     setCorrectLocation(true);
   };
 
@@ -89,6 +89,7 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onReturnBookModalClose = () => {
+    close();
     setReturnBookModalActive({ state: false, isOk: false });
   };
 
