@@ -18,7 +18,7 @@ export const ManageUserBookPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [addClubClick, setAddClubClick] = useRecoilState(AddClubState);
   const [ok, setOk] = useState<boolean>(false);
-  const { modalActive, open } = useModal();
+  const { modalActive, open, close } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
@@ -104,6 +104,7 @@ export const ManageUserBookPage: React.FC = () => {
             message={
               <S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>
             }
+            nextButtonClick={close}
           />
         ))}
     </S.ManageUserBookContainer>

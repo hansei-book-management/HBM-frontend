@@ -47,7 +47,7 @@ export const ManageClubBookPage: React.FC = () => {
         <DetailModal
           message={<RentMessage canRent={true} />}
           rightButtonText="닫기"
-          onNavigate={close}
+          nextButtonClick={close}
         />
       )}
     </S.ManageClubBookContainer>
