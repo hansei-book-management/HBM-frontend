@@ -63,7 +63,7 @@ export const RentPage: React.FC = () => {
       <Section activeClub={activeClub} />
       {(modalActive && rentDetailPage && (
         <DetailModal
-          onNavigate={() => onNextPageNavigate(2, 1)}
+          nextButtonClick={() => onNextPageNavigate(2, 1)}
           leftButtonText="닫기"
           rightButtonText="대여하기"
           message={<RentMessage canRent={true} />}
@@ -82,7 +82,7 @@ export const RentPage: React.FC = () => {
                   </S.ModalSubTitle>
                 </S.ModalQuestionContainer>
               }
-              disable={loading}
+              statusDisable={loading}
               leftButtonText="아니요"
               rightButtonText={
                 loading ? (
@@ -99,7 +99,40 @@ export const RentPage: React.FC = () => {
             />
           </Modal.OverLay>
         )) ||
-        (modalActive && rentBookPage && status && <StatusModal url={`/rent/${rentClubId}`} />)}
+        (modalActive && rentBookPage && status && (
+          <StatusModal
+            url={`/rent/${rentClubId}`}
+            {...(status
+              ? {
+                  title: '대여 성공',
+                  isOk: true,
+                  message: (
+                    <>
+                      <S.StatusModalText>
+                        ‘당신이 모르는 민주주의’ 책을 대여했어요.
+                        <br />
+                        대출 기한은 10일이며, 연장 신청을 할 수 있어요.
+                        <br />
+                        1차 반납 기간은 2023년 X월 X일까지에요.
+                      </S.StatusModalText>
+                    </>
+                  ),
+                }
+              : {
+                  title: '대여 성공',
+                  isOk: true,
+                  message: (
+                    <>
+                      <S.StatusModalText>
+                        대출한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.
+                        <br />
+                        대출 정지는 10일 5시간 후 자동으로 해제돼요.
+                      </S.StatusModalText>
+                    </>
+                  ),
+                })}
+          />
+        ))}
     </S.RentPageContainer>
   );
 };

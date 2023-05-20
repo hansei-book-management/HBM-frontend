@@ -106,20 +106,31 @@ export const ModalButtonContainer = styled.div<{ statusModal: boolean }>`
   background-color: ${({ theme }) => theme.white};
 `;
 
-export const ModalButton = styled.button<{ left?: boolean; disable?: boolean }>`
+export const ModalButton = styled.button<{ left?: boolean; disable: boolean }>`
   cursor: pointer;
   width: 6.5rem;
   padding: 0.5rem 0.8rem;
-  background-color: ${({ theme, left }) => (left ? theme.primary.black : theme.primary.blue)};
   border-radius: 4.8rem;
-  color: ${({ disable, theme }) => (disable ? '#656565' : theme.white)};
   font-size: 1.1rem;
   font-weight: 700;
   border: none;
   transition: background-color 150ms ease-in-out;
-  &:hover {
-    background-color: ${({ left }) => (left ? '#212121' : '#3988FF')};
-  }
+  ${({ left, theme, disable }) =>
+    left
+      ? css`
+          background-color: ${theme.primary.black};
+          color: ${disable ? '#656565' : theme.white};
+          &:hover {
+            background-color: '#212121';
+          }
+        `
+      : css`
+          color: ${theme.white};
+          background-color: ${disable ? '#AAAAAA' : theme.primary.blue};
+          &:hover {
+            background-color: ${disable ? '#AAAAAA' : '#3988FF'};
+          }
+        `}
 `;
 
 export const StatusModalButton = styled.button<{ isOk: boolean }>`

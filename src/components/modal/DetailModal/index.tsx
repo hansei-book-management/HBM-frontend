@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useGetWindowSize, useModal } from '@/hooks';
+import { useGetWindowSize } from '@/hooks';
 import { Book1PNG } from '@/assets';
 
 import { Modal } from '../CommonModal';
@@ -10,7 +10,7 @@ import * as S from './styled';
 export interface DetailModalProps {
   message: React.ReactNode;
   leftButtonText?: string;
-  rightButtonText: string;
+  rightButtonText: React.ReactNode;
   nextButtonClick?: () => void;
 }
 

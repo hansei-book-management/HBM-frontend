@@ -146,7 +146,7 @@ export const ManageClubPage: React.FC = () => {
                 '생성하기'
               )
             }
-            disable={loading}
+            statusDisable={loading}
             modalSize="medium"
             {...(!loading && {
               nextButtonClick: () => onSubmit(),

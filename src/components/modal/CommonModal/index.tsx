@@ -10,7 +10,8 @@ export interface ModalProps {
   modalSize: 'small' | 'medium' | 'large';
   textProps: React.ReactNode;
   statusModal?: boolean;
-  disable?: boolean;
+  statusDisable?: boolean;
+  returnBookDisable?: boolean;
   leftButtonText?: string;
   rightButtonText: React.ReactNode;
   onlyRightButton?: boolean;
@@ -24,7 +25,8 @@ export interface ModalOverlayProps {
 export const ModalElement: React.FC<ModalProps> = ({
   textProps,
   statusModal = false,
-  disable = false,
+  statusDisable = false,
+  returnBookDisable = false,
   leftButtonText,
   rightButtonText,
   modalSize,
@@ -37,7 +39,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   const { close } = useModal();
 
   const closing = () => {
-    if (!disable) {
+    if (!statusDisable) {
       setIsClosed(true);
       setTimeout(() => {
         close();
@@ -57,11 +59,13 @@ export const ModalElement: React.FC<ModalProps> = ({
         ) : (
           <>
             {leftButtonText && (
-              <S.ModalButton left onClick={closing} disable={disable}>
+              <S.ModalButton left onClick={closing} disable={statusDisable}>
                 {leftButtonText}
               </S.ModalButton>
             )}
-            <S.ModalButton onClick={nextButtonClick}>{rightButtonText}</S.ModalButton>
+            <S.ModalButton disable={returnBookDisable} onClick={nextButtonClick}>
+              {rightButtonText}
+            </S.ModalButton>
           </>
         )}
       </S.ModalButtonContainer>
