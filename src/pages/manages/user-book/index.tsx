@@ -22,6 +22,7 @@ export const ManageUserBookPage: React.FC = () => {
     state: false,
     loading: false,
   });
+  const [correctLocation, setCorrectLocation] = useState<boolean>(false);
   const { modalActive, open } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
@@ -29,6 +30,7 @@ export const ManageUserBookPage: React.FC = () => {
 
   const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
 
+  // add club modal FN
   const onAddClubModalOpen = () => {
     setAddClubModalActive({ state: true, isOk: false });
     navigate(`${USER_CLUB_BASE_URL}?club-add-step=1`);
@@ -49,17 +51,18 @@ export const ManageUserBookPage: React.FC = () => {
     }, 1000);
   };
 
+  // return book modal FN
   const getLocationSuccess = (position: GeolocationPosition) => {
     setAllowLocation({ state: true, loading: false });
     setReturnBookModalActive({ state: true, isOk: false });
     const coords = position.coords;
     const latitude = coords.latitude;
     const longitude = coords.longitude;
-    if (latitude < 37.55 || latitude > 37.56 || longitude < 126.95 || longitude > 126.96) {
-      console.log('위치 정보를 사용할 수 없습니다.');
-      return;
-    }
-    console.log(latitude, longitude);
+    // if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
+    //   setCorrectLocation(true);
+    //   console.log(latitude, longitude);
+    // }
+    setCorrectLocation(true);
   };
 
   const getLocationFail = () => {
@@ -136,11 +139,12 @@ export const ManageUserBookPage: React.FC = () => {
         />
       )}
       <ReturnBookModal
-        modalActive
+        modalActive={modalActive}
         returnBookModalActive={returnBookModalActive}
         allowLocation={allowLocation}
         doneButtonClick={onReturnBookModalClose}
         nextButtonClick={onReturnBookModalClose}
+        correctLocation={correctLocation}
       />
     </S.ManageUserBookContainer>
   );

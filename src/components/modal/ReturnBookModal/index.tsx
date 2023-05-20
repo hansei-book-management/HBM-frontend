@@ -1,5 +1,5 @@
-import React from 'react';
-import { MdLocationOff, MdNotListedLocation } from 'react-icons/md';
+import React, { useState } from 'react';
+import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
 
 import { Modal } from '../CommonModal';
 
@@ -17,6 +17,7 @@ export interface ReturnBookModalProps {
   };
   doneButtonClick: () => void;
   nextButtonClick: () => void;
+  correctLocation: boolean;
 }
 
 export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
@@ -25,7 +26,18 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   allowLocation: { state: allowLocationState, loading: allowLocationLoading },
   doneButtonClick,
   nextButtonClick,
+  correctLocation,
 }) => {
+  const [selectedImage, setSelectedImage] = useState<string>();
+
+  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const image = event.target.files[0];
+      console.log(image);
+      setSelectedImage(URL.createObjectURL(image));
+    }
+  };
+
   if (modalActive && returnBookModalState && !allowLocationState && !allowLocationLoading) {
     return (
       <Modal.OverLay>
@@ -52,7 +64,13 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (modalActive && returnBookModalState && allowLocationState && !allowLocationLoading) {
+  if (
+    modalActive &&
+    returnBookModalState &&
+    allowLocationState &&
+    !allowLocationLoading &&
+    !correctLocation
+  ) {
     return (
       <Modal.OverLay>
         <Modal
@@ -67,6 +85,58 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
                   <br />
                   학교에서 반납을 해주세요.
                 </S.ReturnBookModalMessage>
+              </S.ReturnBookModalContainer>
+            </S.ModalContainer>
+          }
+          leftButtonText="닫기"
+          rightButtonText="반납하기"
+          modalSize="medium"
+          doneButtonClick={doneButtonClick}
+          returnBookDisable={true}
+        />
+      </Modal.OverLay>
+    );
+  }
+  if (
+    modalActive &&
+    returnBookModalState &&
+    allowLocationState &&
+    !allowLocationLoading &&
+    correctLocation
+  ) {
+    return (
+      <Modal.OverLay>
+        <Modal
+          textProps={
+            <S.ModalContainer>
+              <S.ModalTitle>도서 반납하기</S.ModalTitle>
+              <S.ReturnBookModalContainer>
+                <div>
+                  <S.ReturnModalIconContainer imageUrl={selectedImage} for="input-file">
+                    {!selectedImage && (
+                      <>
+                        <MdCameraAlt size={'6rem'} color={'#828282'} />
+                        <S.ReturnModalIconTitle>클릭하여 사진 촬영</S.ReturnModalIconTitle>
+                      </>
+                    )}
+                  </S.ReturnModalIconContainer>
+                  <S.ReturnBookModalPhotoInput
+                    type="file"
+                    accept="image/*"
+                    title="&nbsp;"
+                    value=""
+                    onChange={onImageChange}
+                    id="input-file"
+                  />
+                </div>
+                <S.ReturnBookModalTitleBlack>반납 사진 제출하기</S.ReturnBookModalTitleBlack>
+                <S.ReturnBookModalMessageBlack>
+                  반납 사진을 제출하면 반납이 완료돼요.
+                  <br />
+                  반납 사진은 반납 위치와 책이 잘 나오도록 촬영해 주세요.
+                  <br />
+                  허위로 제출할 경우 추후 서비스 이용이 어려울 수 있어요.
+                </S.ReturnBookModalMessageBlack>
               </S.ReturnBookModalContainer>
             </S.ModalContainer>
           }

@@ -15,19 +15,53 @@ export const ModalTitle = styled.h1`
 `;
 
 export const ReturnBookModalContainer = styled.div`
-  padding: 0.8rem 0;
+  padding: 0 0;
   align-self: center;
   align-items: center;
   justify-content: center;
   display: flex;
   flex-direction: column;
-  row-gap: 1.6rem;
+  row-gap: 1rem;
+`;
+
+export const ReturnModalIconContainer = styled.label<{ imageUrl?: string }>`
+  width: 25rem;
+  height: 14rem;
+  border-radius: 2rem;
+  background-color: #dddddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 0.4rem;
+  cursor: default;
+  background-image: url(${(props) => props.imageUrl});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+export const ReturnBookModalPhotoInput = styled.input`
+  margin-top: 0.4rem;
+  width: 100%;
+  display: none;
+`;
+
+export const ReturnModalIconTitle = styled.h1`
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #999999;
 `;
 
 export const ReturnBookModalTitle = styled.h2`
   font-size: 1.4rem;
-  font-weight: 550;
+  font-weight: 700;
   color: #828282;
+`;
+
+export const ReturnBookModalTitleBlack = styled(ReturnBookModalTitle)`
+  margin-top: 1rem;
+  color: black;
 `;
 
 export const ReturnBookModalMessage = styled.span`
@@ -37,4 +71,8 @@ export const ReturnBookModalMessage = styled.span`
   color: #828282;
   text-align: center;
   margin-bottom: 0.4rem;
+`;
+
+export const ReturnBookModalMessageBlack = styled(ReturnBookModalMessage)`
+  color: black;
 `;
