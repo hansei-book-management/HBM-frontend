@@ -76,3 +76,12 @@ export const ReturnBookModalMessage = styled.span`
 export const ReturnBookModalMessageBlack = styled(ReturnBookModalMessage)`
   color: black;
 `;
+
+export const StatusModalText = styled.h3`
+  font-size: 1.1rem;
+  font-weight: 550;
+  line-height: 1.8rem;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+`;

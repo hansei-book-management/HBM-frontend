@@ -17,7 +17,10 @@ export const ManageUserBookPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [addClubModalActive, setAddClubModalActive] = useRecoilState(AddClubState);
-  const [returnBookModalActive, setReturnBookModalActive] = useState({ state: false, isOk: false });
+  const [returnBookModalActive, setReturnBookModalActive] = useState({
+    state: false,
+    isOk: null || false,
+  });
   const [allowLocation, setAllowLocation] = useState({
     state: false,
     loading: false,
@@ -90,8 +93,8 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onReturnBookModalClose = () => {
-    close();
     setReturnBookModalActive({ state: false, isOk: false });
+    close();
     setSelectedImage(null);
   };
 
@@ -150,6 +153,7 @@ export const ManageUserBookPage: React.FC = () => {
         correctLocation={correctLocation}
         setSelectedImage={setSelectedImage}
         selectedImage={selectedImage}
+        url={USER_CLUB_BASE_URL}
       />
     </S.ManageUserBookContainer>
   );

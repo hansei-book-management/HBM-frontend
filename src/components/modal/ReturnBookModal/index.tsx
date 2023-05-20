@@ -2,6 +2,7 @@ import React from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
 
 import { Modal } from '../CommonModal';
+import { StatusModal } from '../StatusModal';
 
 import * as S from './styled';
 
@@ -9,7 +10,7 @@ export interface ReturnBookModalProps {
   modalActive: boolean;
   returnBookModalActive: {
     state: boolean;
-    isOk: boolean;
+    isOk: boolean | null;
   };
   allowLocation: {
     state: boolean;
@@ -20,17 +21,19 @@ export interface ReturnBookModalProps {
   correctLocation: boolean;
   setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
   selectedImage: string | null;
+  url: string;
 }
 
 export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   modalActive,
-  returnBookModalActive: { state: returnBookModalState },
+  returnBookModalActive: { state: returnBookModalState, isOk: returnBookModalIsOk },
   allowLocation: { state: allowLocationState, loading: allowLocationLoading },
   doneButtonClick,
   nextButtonClick,
   correctLocation,
   setSelectedImage,
   selectedImage,
+  url,
 }) => {
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -162,6 +165,35 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           {...(!selectedImage && { returnBookDisable: true })}
         />
       </Modal.OverLay>
+    );
+  }
+  if (
+    modalActive &&
+    returnBookModalState &&
+    returnBookModalIsOk === false &&
+    allowLocationState &&
+    !allowLocationLoading &&
+    correctLocation
+  ) {
+    return (
+      <StatusModal
+        url={url}
+        title="반납 실패"
+        isOk={false}
+        message={
+          <>
+            <S.StatusModalText>
+              반납 사진이 잘못되었어요 아래 사항을 확인해주세요.
+              <br />
+              기존 사진은 업로드할 수 없어요.
+              <br />
+              새로 촬영해주세요. 기본 카메라 앱으로 촬영해주세요.
+              <br />
+              문제가 지속되면 부장에게 연락해 주세요.
+            </S.StatusModalText>
+          </>
+        }
+      />
     );
   }
   return null;
