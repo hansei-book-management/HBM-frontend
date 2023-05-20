@@ -1,18 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
-import { MdLocationOff } from 'react-icons/md';
 
 import { useRecoilState } from 'recoil';
 
-import {
-  AddClubModal,
-  DetailModal,
-  HeaderSection,
-  Modal,
-  Section,
-  StatusModal,
-} from '@/components';
+import { AddClubModal, DetailModal, HeaderSection, ReturnBookModal, Section } from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
 import { AddClubState } from '@/atoms';
@@ -129,7 +121,7 @@ export const ManageUserBookPage: React.FC = () => {
         loading={loading}
         url={USER_CLUB_BASE_URL}
       />
-      {(modalActive && !addClubModalActive.state && !returnBookModalActive.state && (
+      {modalActive && !addClubModalActive.state && !returnBookModalActive.state && (
         <DetailModal
           leftButtonText="닫기"
           rightButtonText={
@@ -142,64 +134,14 @@ export const ManageUserBookPage: React.FC = () => {
           message={<S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>}
           nextButtonClick={onReturnBookModalOpen}
         />
-      )) ||
-        (modalActive &&
-          returnBookModalActive.state &&
-          !allowLocation.state &&
-          !allowLocation.loading && (
-            <Modal.OverLay>
-              <Modal
-                textProps={
-                  <S.ModalContainer>
-                    <S.ModalTitle>도서 반납하기</S.ModalTitle>
-                    <S.ReturnBookModalContainer>
-                      <MdLocationOff size={'8rem'} color={'#828282'} />
-                      <S.ReturnBookModalTitle>위치를 식별할 수 없음</S.ReturnBookModalTitle>
-                      <S.ReturnBookModalMessage>
-                        안전하게 반납하기 위해서 위치 권한이 필요해요. <br />
-                        브라우저의 설정을 확인해 주세요.
-                      </S.ReturnBookModalMessage>
-                    </S.ReturnBookModalContainer>
-                  </S.ModalContainer>
-                }
-                leftButtonText="취소"
-                rightButtonText="등록"
-                modalSize="medium"
-                doneButtonClick={onReturnBookModalClose}
-                returnBookDisable={true}
-              />
-            </Modal.OverLay>
-          )) ||
-        (modalActive &&
-          returnBookModalActive.state &&
-          allowLocation.state &&
-          !allowLocation.loading && (
-            <Modal.OverLay>
-              <Modal
-                textProps={
-                  <S.ModalContainer>
-                    <S.ModalTitle>동아리 회원 등록</S.ModalTitle>
-                    <S.ModalAddClubInputContainer>
-                      <S.AddClubModalInputText>인증키 입력</S.AddClubModalInputText>
-                      <S.AddClubModalInput placeholder="동아리 인증키를 입력해주세요..." />
-                    </S.ModalAddClubInputContainer>
-                  </S.ModalContainer>
-                }
-                leftButtonText="취소"
-                rightButtonText={
-                  loading ? (
-                    <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
-                  ) : (
-                    '등록'
-                  )
-                }
-                modalSize="medium"
-                statusDisable={loading}
-                nextButtonClick={onReturnBookModalClose}
-                doneButtonClick={onReturnBookModalClose}
-              />
-            </Modal.OverLay>
-          ))}
+      )}
+      <ReturnBookModal
+        modalActive
+        returnBookModalActive={returnBookModalActive}
+        allowLocation={allowLocation}
+        doneButtonClick={onReturnBookModalClose}
+        nextButtonClick={onReturnBookModalClose}
+      />
     </S.ManageUserBookContainer>
   );
 };
