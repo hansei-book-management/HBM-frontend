@@ -9,11 +9,11 @@ import * as S from './styled';
 export interface ReturnBookModalProps {
   modalActive: boolean;
   returnBookModalActive: {
-    state: boolean;
+    status: boolean;
     isOk: boolean | null;
   };
   allowLocation: {
-    state: boolean;
+    status: boolean;
     loading: boolean;
   };
   doneButtonClick: () => void;
@@ -26,8 +26,8 @@ export interface ReturnBookModalProps {
 
 export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   modalActive,
-  returnBookModalActive: { state: returnBookModalState, isOk: returnBookModalIsOk },
-  allowLocation: { state: allowLocationState, loading: allowLocationLoading },
+  returnBookModalActive: { status: returnBookModalStatus, isOk: returnBookModalIsOk },
+  allowLocation: { status: allowLocationStatus, loading: allowLocationLoading },
   doneButtonClick,
   nextButtonClick,
   correctLocation,
@@ -43,7 +43,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
     }
   };
 
-  if (modalActive && returnBookModalState && !allowLocationState && !allowLocationLoading) {
+  if (modalActive && returnBookModalStatus && !allowLocationStatus && !allowLocationLoading) {
     return (
       <Modal.OverLay>
         <Modal
@@ -71,8 +71,8 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   }
   if (
     modalActive &&
-    returnBookModalState &&
-    allowLocationState &&
+    returnBookModalStatus &&
+    allowLocationStatus &&
     !allowLocationLoading &&
     !correctLocation
   ) {
@@ -104,8 +104,8 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   }
   if (
     modalActive &&
-    returnBookModalState &&
-    allowLocationState &&
+    returnBookModalStatus &&
+    allowLocationStatus &&
     !allowLocationLoading &&
     correctLocation
   ) {
@@ -169,9 +169,9 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   }
   if (
     modalActive &&
-    returnBookModalState &&
+    returnBookModalStatus &&
     returnBookModalIsOk === false &&
-    allowLocationState &&
+    allowLocationStatus &&
     !allowLocationLoading &&
     correctLocation
   ) {

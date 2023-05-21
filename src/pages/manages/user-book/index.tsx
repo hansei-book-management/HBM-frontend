@@ -11,18 +11,28 @@ import { AddClubState } from '@/atoms';
 
 import * as S from './styled';
 
+export interface ReturnBookModalStateProps {
+  status: boolean;
+  isOk: null | boolean;
+}
+
+export interface AllowLocationStateProps {
+  status: boolean;
+  loading: boolean;
+}
+
 const BASE_URL = '/manage/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [addClubModalActive, setAddClubModalActive] = useRecoilState(AddClubState);
-  const [returnBookModalActive, setReturnBookModalActive] = useState({
-    state: false,
+  const [returnBookModalActive, setReturnBookModalActive] = useState<ReturnBookModalStateProps>({
+    status: false,
     isOk: null || false,
   });
-  const [allowLocation, setAllowLocation] = useState({
-    state: false,
+  const [allowLocation, setAllowLocation] = useState<AllowLocationStateProps>({
+    status: false,
     loading: false,
   });
   const [correctLocation, setCorrectLocation] = useState<boolean>(false);
@@ -57,8 +67,8 @@ export const ManageUserBookPage: React.FC = () => {
 
   // return book modal FN
   const getLocationSuccess = (position: GeolocationPosition) => {
-    setAllowLocation({ state: true, loading: false });
-    setReturnBookModalActive({ state: true, isOk: false });
+    setAllowLocation({ status: true, loading: false });
+    setReturnBookModalActive({ status: true, isOk: false });
     const coords = position.coords;
     const latitude = coords.latitude;
     const longitude = coords.longitude;
@@ -70,12 +80,12 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const getLocationFail = () => {
-    setAllowLocation({ state: false, loading: false });
-    setReturnBookModalActive({ state: true, isOk: false });
+    setAllowLocation({ status: false, loading: false });
+    setReturnBookModalActive({ status: true, isOk: false });
   };
 
   const onReturnBookModalOpen = () => {
-    setAllowLocation({ state: false, loading: true });
+    setAllowLocation({ status: false, loading: true });
     const { geolocation } = navigator;
 
     if (!geolocation) {
@@ -93,7 +103,7 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onReturnBookModalClose = () => {
-    setReturnBookModalActive({ state: false, isOk: false });
+    setReturnBookModalActive({ status: false, isOk: false });
     close();
     setSelectedImage(null);
   };
@@ -130,7 +140,7 @@ export const ManageUserBookPage: React.FC = () => {
         loading={loading}
         url={USER_CLUB_BASE_URL}
       />
-      {modalActive && !addClubModalActive.state && !returnBookModalActive.state && (
+      {modalActive && !addClubModalActive.state && !returnBookModalActive.status && (
         <DetailModal
           leftButtonText="닫기"
           rightButtonText={
