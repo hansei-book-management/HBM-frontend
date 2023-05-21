@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import { BOOK_LIST, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
-import { RentMessage, Section, DetailModal, HeaderSection, Modal } from '@/components';
+import { RentMessage, Section, DetailModal, HeaderSection, Modal, StatusModal } from '@/components';
 import { useModal } from '@/hooks';
 import { Book1PNG } from '@/assets';
 
@@ -48,13 +49,14 @@ export const ManageClubBookPage: React.FC = () => {
   };
 
   const onAddBookModalClose = () => {
-    setAddBookModalActive({ status: false, isOk: null });
-    close();
+    setAddBookModalActive({ status: true, isOk: false });
+    // close();
+    // toast.success('도서가 추가되었습니다.', { position: toast.POSITION.BOTTOM_RIGHT });
   };
 
   const toggleBookSelect = (id: number) => {
     if (bookList.includes(id)) {
-      setBookList(bookList.filter((bookId) => bookId !== id)); //해석하면 bookList에 있는 id와 id가 같지 않은 것만 남긴다.
+      setBookList(bookList.filter((bookId) => bookId !== id));
       setSelect(true);
       setSelectNumber(BOOK_LIST.length - bookList.length + 1);
     } else {
@@ -93,7 +95,7 @@ export const ManageClubBookPage: React.FC = () => {
           nextButtonClick={close}
         />
       )}
-      {modalActive && addBookModalActive.status && (
+      {modalActive && addBookModalActive.status && addBookModalActive.isOk === null && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -168,6 +170,22 @@ export const ManageClubBookPage: React.FC = () => {
                 })}
           />
         </Modal.OverLay>
+      )}
+      {modalActive && addBookModalActive.status && addBookModalActive.isOk === false && (
+        <StatusModal
+          url={`${BASE_URL}`}
+          isOk={false}
+          title="책 추가 실패"
+          message={
+            <>
+              <S.StatusModalText>
+                알 수 없는 오류로 인해 책 추가가 실패했어요.
+                <br />
+                잠시 후에 다시 시도해주세요.
+              </S.StatusModalText>
+            </>
+          }
+        />
       )}
     </S.ManageClubBookContainer>
   );
