@@ -7,9 +7,6 @@ ${reset}
 
 * {
   box-sizing: border-box;
-  ::-webkit-scrollbar{
-    display: none;
-  }
   &:focus {
     outline: none;
   }
