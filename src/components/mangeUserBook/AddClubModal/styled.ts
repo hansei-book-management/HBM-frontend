@@ -45,6 +45,13 @@ export const AddClubModalInput = styled.input`
   }
 `;
 
+export const AddClubModalFormErrorMessage = styled.span`
+  text-align: left;
+  margin-left: 10px;
+  font-size: 13px;
+  color: #ba1a1a;
+`;
+
 export const StatusModalText = styled.h3`
   font-size: 1.1rem;
   font-weight: 550;

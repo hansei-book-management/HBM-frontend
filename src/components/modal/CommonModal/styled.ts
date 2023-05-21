@@ -108,7 +108,7 @@ export const ModalButtonContainer = styled.div<{ statusModal: boolean }>`
 
 export const ModalButton = styled.button<{ left?: boolean; disable: boolean }>`
   cursor: pointer;
-  width: 6.5rem;
+  width: 8.5rem;
   padding: 0.5rem 0.8rem;
   border-radius: 4.8rem;
   font-size: 1.1rem;
