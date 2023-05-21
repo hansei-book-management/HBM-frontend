@@ -72,6 +72,20 @@ export const AddBookModalBookList = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   row-gap: 2rem;
+  overflow-y: auto;
+  height: 20rem;
+  padding-right: 1rem;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #d9d9d9;
+    border-radius: 1rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #878787;
+    border-radius: 1rem;
+  }
 `;
 
 export const AddBookModalBookContainer = styled.div<{ select: boolean }>`

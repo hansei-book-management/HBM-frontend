@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
 
-import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
+import { BOOK_LIST, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section, DetailModal, HeaderSection, Modal } from '@/components';
 import { useModal } from '@/hooks';
 import { Book1PNG } from '@/assets';
@@ -29,15 +29,17 @@ export const ManageClubBookPage: React.FC = () => {
     formState: { errors },
   } = useForm<SearchFormValues>();
 
-  const { modalActive, open, close } = useModal();
   const [addBookModalActive, setAddBookModalActive] = useState<AddBookModalStateProps>({
     status: false,
     isOk: null || false,
   });
-  const [select, setSelect] = useState<boolean>(false);
+
+  const [select, setSelect] = useState(false);
 
   const { option } = useParams<{ option: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
+
+  const { modalActive, open, close } = useModal();
   const onAddBookModalOpen = () => {
     setAddBookModalActive({ status: true, isOk: null });
     open();
@@ -49,7 +51,7 @@ export const ManageClubBookPage: React.FC = () => {
   };
 
   const onSelectClick = () => {
-    setSelect(!select);
+    setSelect((prev) => !prev);
   };
 
   const onValid = ({ searchName }: SearchFormValues) => {
@@ -103,41 +105,43 @@ export const ManageClubBookPage: React.FC = () => {
                   )}
                 </S.AddBookModalInputContainer>
                 <S.AddBookModalBookList>
-                  <S.AddBookModalBookContainer select={select}>
-                    <div style={{ height: '100% ', display: 'flex', columnGap: ' 1.6rem' }}>
-                      <S.AddBookModalBookItem src={Book1PNG} />
-                      <S.AddBookModalBookInfoContainer>
-                        <div style={{ display: 'flex' }}>
-                          <S.AddBookModalBookTitle>세이노의 가르침</S.AddBookModalBookTitle>
-                          <S.AddBookModalBookContent>세이노 저자</S.AddBookModalBookContent>
-                        </div>
-                        <S.AddBookModalBookContent>
-                          재야의 명저 『세이노의 가르침』 2023년판 정식 출간!
-                          <br />
-                          순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
-                        </S.AddBookModalBookContent>
-                      </S.AddBookModalBookInfoContainer>
-                    </div>
-                    {select ? (
-                      <>
-                        <MdCheckBox
-                          size={'1.4rem'}
-                          style={{ alignSelf: 'center' }}
-                          color="#00A3FF"
-                          onClick={onSelectClick}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <MdCheckBoxOutlineBlank
-                          size={'1.4rem'}
-                          style={{ alignSelf: 'center' }}
-                          color="#727272"
-                          onClick={onSelectClick}
-                        />
-                      </>
-                    )}
-                  </S.AddBookModalBookContainer>
+                  {BOOK_LIST.map(({ id }) => (
+                    <S.AddBookModalBookContainer select={select} key={id}>
+                      <div style={{ height: '100% ', display: 'flex', columnGap: ' 1.6rem' }}>
+                        <S.AddBookModalBookItem src={Book1PNG} />
+                        <S.AddBookModalBookInfoContainer>
+                          <div style={{ display: 'flex' }}>
+                            <S.AddBookModalBookTitle>세이노의 가르침</S.AddBookModalBookTitle>
+                            <S.AddBookModalBookContent>세이노 저자</S.AddBookModalBookContent>
+                          </div>
+                          <S.AddBookModalBookContent>
+                            재야의 명저 『세이노의 가르침』 2023년판 정식 출간!
+                            <br />
+                            순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
+                          </S.AddBookModalBookContent>
+                        </S.AddBookModalBookInfoContainer>
+                      </div>
+                      {select ? (
+                        <>
+                          <MdCheckBox
+                            size={'1.4rem'}
+                            style={{ alignSelf: 'center' }}
+                            color="#00A3FF"
+                            onClick={onSelectClick}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <MdCheckBoxOutlineBlank
+                            size={'1.4rem'}
+                            style={{ alignSelf: 'center' }}
+                            color="#727272"
+                            onClick={onSelectClick}
+                          />
+                        </>
+                      )}
+                    </S.AddBookModalBookContainer>
+                  ))}
                 </S.AddBookModalBookList>
               </S.AddBookModalContainer>
             }
