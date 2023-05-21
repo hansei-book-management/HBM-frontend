@@ -97,10 +97,12 @@ export const AddBookModalBookContainer = styled.div<{ select: boolean }>`
   height: 12rem;
   border-radius: 2rem;
   transition: background-color 200ms ease-in-out;
+  background-color: rgba(0, 133, 255, 0.2);
+  cursor: pointer;
   ${({ select }) =>
     select &&
     css`
-      background-color: rgba(0, 133, 255, 0.2);
+      background-color: transparent;
     `}
 `;
 

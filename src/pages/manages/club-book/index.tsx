@@ -34,7 +34,9 @@ export const ManageClubBookPage: React.FC = () => {
     isOk: null || false,
   });
 
+  const [bookList, setBookList] = useState(BOOK_LIST.map(({ id }) => id));
   const [select, setSelect] = useState(false);
+  const [selectNumber, setSelectNumber] = useState(0);
 
   const { option } = useParams<{ option: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
@@ -50,8 +52,15 @@ export const ManageClubBookPage: React.FC = () => {
     close();
   };
 
-  const onSelectClick = () => {
-    setSelect((prev) => !prev);
+  const toggleBookSelect = (id: number) => {
+    if (bookList.includes(id)) {
+      setBookList(bookList.filter((bookId) => bookId !== id)); //해석하면 bookList에 있는 id와 id가 같지 않은 것만 남긴다.
+      setSelect(true);
+      setSelectNumber(BOOK_LIST.length - bookList.length + 1);
+    } else {
+      setBookList([...bookList, id]);
+      setSelect(false);
+    }
   };
 
   const onValid = ({ searchName }: SearchFormValues) => {
@@ -106,7 +115,11 @@ export const ManageClubBookPage: React.FC = () => {
                 </S.AddBookModalInputContainer>
                 <S.AddBookModalBookList>
                   {BOOK_LIST.map(({ id }) => (
-                    <S.AddBookModalBookContainer select={select} key={id}>
+                    <S.AddBookModalBookContainer
+                      select={bookList.includes(id)}
+                      key={id}
+                      onClick={() => toggleBookSelect(id)}
+                    >
                       <div style={{ height: '100% ', display: 'flex', columnGap: ' 1.6rem' }}>
                         <S.AddBookModalBookItem src={Book1PNG} />
                         <S.AddBookModalBookInfoContainer>
@@ -121,22 +134,20 @@ export const ManageClubBookPage: React.FC = () => {
                           </S.AddBookModalBookContent>
                         </S.AddBookModalBookInfoContainer>
                       </div>
-                      {select ? (
-                        <>
-                          <MdCheckBox
-                            size={'1.4rem'}
-                            style={{ alignSelf: 'center' }}
-                            color="#00A3FF"
-                            onClick={onSelectClick}
-                          />
-                        </>
-                      ) : (
+                      {bookList.includes(id) ? (
                         <>
                           <MdCheckBoxOutlineBlank
                             size={'1.4rem'}
                             style={{ alignSelf: 'center' }}
                             color="#727272"
-                            onClick={onSelectClick}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <MdCheckBox
+                            size={'1.4rem'}
+                            style={{ alignSelf: 'center' }}
+                            color="#00A3FF"
                           />
                         </>
                       )}
@@ -150,7 +161,7 @@ export const ManageClubBookPage: React.FC = () => {
             {...(select
               ? {
                   leftButtonText: '닫기',
-                  rightButtonText: `${1}권 추가하기`,
+                  rightButtonText: `${selectNumber}권 추가하기`,
                 }
               : {
                   rightButtonText: `닫기`,
