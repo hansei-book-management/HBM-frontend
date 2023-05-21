@@ -1,5 +1,6 @@
 import React from 'react';
 import Lottie from 'react-lottie';
+import { useForm } from 'react-hook-form';
 
 import { loadingLottieOptions } from '@/constant';
 
@@ -7,6 +8,10 @@ import { Modal } from '../../modal/CommonModal';
 import { StatusModal } from '../../modal/StatusModal';
 
 import * as S from './styled';
+
+export interface AddClubFormValues {
+  clubCode: string;
+}
 
 export interface AddClubModalProps {
   modalActive: boolean;
@@ -28,16 +33,35 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
   loading,
   url,
 }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddClubFormValues>();
+
+  const onValid = ({ clubCode }: AddClubFormValues) => {
+    console.log(clubCode, '동아리 코드');
+  };
   if (modalActive && !isOk && state) {
     return (
       <Modal.OverLay>
         <Modal
           textProps={
-            <S.ModalContainer>
+            <S.ModalContainer onSubmit={handleSubmit(onValid)}>
               <S.ModalTitle>동아리 회원 등록</S.ModalTitle>
               <S.ModalAddClubInputContainer>
                 <S.AddClubModalInputText>인증키 입력</S.AddClubModalInputText>
-                <S.AddClubModalInput placeholder="동아리 인증키를 입력해주세요..." />
+                <S.AddClubModalInput
+                  {...register('clubCode', {
+                    required: '동아리 인증키 입력은 필수 입니다.',
+                  })}
+                  placeholder="동아리 인증키를 입력해주세요..."
+                />
+                {errors.clubCode?.message && (
+                  <S.AddClubModalFormErrorMessage>
+                    {errors.clubCode.message}
+                  </S.AddClubModalFormErrorMessage>
+                )}
               </S.ModalAddClubInputContainer>
             </S.ModalContainer>
           }
@@ -51,10 +75,11 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
           }
           modalSize="medium"
           statusDisable={loading}
-          {...(!loading && {
-            nextButtonClick: () => nextButtonClick(),
-            doneButtonClick: () => doneButtonClick(),
-          })}
+          {...(!loading &&
+            !errors.clubCode?.message && {
+              nextButtonClick: () => nextButtonClick(),
+              doneButtonClick: () => doneButtonClick(),
+            })}
         />
       </Modal.OverLay>
     );

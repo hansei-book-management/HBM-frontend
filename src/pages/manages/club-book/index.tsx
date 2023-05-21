@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
 
 import { MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section, DetailModal, HeaderSection, Modal } from '@/components';
 import { useModal } from '@/hooks';
+import { Book1PNG } from '@/assets';
 
 import * as S from './styled';
 
-export interface SearchFormProps {
+export interface SearchFormValues {
   searchName: string;
 }
 
@@ -25,13 +27,14 @@ export const ManageClubBookPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SearchFormProps>();
+  } = useForm<SearchFormValues>();
 
   const { modalActive, open, close } = useModal();
   const [addBookModalActive, setAddBookModalActive] = useState<AddBookModalStateProps>({
     status: false,
     isOk: null || false,
   });
+  const [select, setSelect] = useState<boolean>(false);
 
   const { option } = useParams<{ option: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
@@ -45,7 +48,11 @@ export const ManageClubBookPage: React.FC = () => {
     close();
   };
 
-  const onValid = ({ searchName }: SearchFormProps) => {
+  const onSelectClick = () => {
+    setSelect(!select);
+  };
+
+  const onValid = ({ searchName }: SearchFormValues) => {
     console.log(searchName, '앙기모링');
   };
 
@@ -80,10 +87,11 @@ export const ManageClubBookPage: React.FC = () => {
           <Modal
             textProps={
               <S.AddBookModalContainer onSubmit={handleSubmit(onValid)}>
-                <S.AddBookModalTitle>도서 반납하기</S.AddBookModalTitle>
-                <S.AddBookModalInputForm>
+                <S.AddBookModalTitle>도서 추가하기</S.AddBookModalTitle>
+                <S.AddBookModalInputContainer>
                   <S.AddBookModalInput
                     {...register('searchName', {
+                      required: '최소 2글자 이상 입력하셔야합니다.',
                       minLength: { value: 2, message: '최소 2글자 이상 입력하셔야합니다.' },
                     })}
                     placeholder="검색어를 입력해주세요..."
@@ -93,12 +101,56 @@ export const ManageClubBookPage: React.FC = () => {
                       {errors.searchName.message}
                     </S.AddBookModalFormErrorMessage>
                   )}
-                </S.AddBookModalInputForm>
+                </S.AddBookModalInputContainer>
+                <S.AddBookModalBookList>
+                  <S.AddBookModalBookContainer select={select}>
+                    <div style={{ height: '100% ', display: 'flex', columnGap: ' 1.6rem' }}>
+                      <S.AddBookModalBookItem src={Book1PNG} />
+                      <S.AddBookModalBookInfoContainer>
+                        <div style={{ display: 'flex' }}>
+                          <S.AddBookModalBookTitle>세이노의 가르침</S.AddBookModalBookTitle>
+                          <S.AddBookModalBookContent>세이노 저자</S.AddBookModalBookContent>
+                        </div>
+                        <S.AddBookModalBookContent>
+                          재야의 명저 『세이노의 가르침』 2023년판 정식 출간!
+                          <br />
+                          순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
+                        </S.AddBookModalBookContent>
+                      </S.AddBookModalBookInfoContainer>
+                    </div>
+                    {select ? (
+                      <>
+                        <MdCheckBox
+                          size={'1.4rem'}
+                          style={{ alignSelf: 'center' }}
+                          color="#00A3FF"
+                          onClick={onSelectClick}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <MdCheckBoxOutlineBlank
+                          size={'1.4rem'}
+                          style={{ alignSelf: 'center' }}
+                          color="#727272"
+                          onClick={onSelectClick}
+                        />
+                      </>
+                    )}
+                  </S.AddBookModalBookContainer>
+                </S.AddBookModalBookList>
               </S.AddBookModalContainer>
             }
-            rightButtonText="닫기"
             modalSize="large"
             nextButtonClick={onAddBookModalClose}
+            {...(select
+              ? {
+                  leftButtonText: '닫기',
+                  rightButtonText: `${1}권 추가하기`,
+                }
+              : {
+                  rightButtonText: `닫기`,
+                })}
           />
         </Modal.OverLay>
       )}

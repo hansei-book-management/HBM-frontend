@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 export const modalIconShowKeyframes = keyframes`
     0% {
@@ -33,7 +33,7 @@ export const AddBookModalTitle = styled.h1`
   font-weight: 700;
 `;
 
-export const AddBookModalInputForm = styled.div`
+export const AddBookModalInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,4 +63,55 @@ export const AddBookModalFormErrorMessage = styled.span`
   margin-left: 10px;
   font-size: 13px;
   color: #ba1a1a;
+`;
+
+export const AddBookModalBookList = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  row-gap: 2rem;
+`;
+
+export const AddBookModalBookContainer = styled.div<{ select: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 3rem 1rem 1rem;
+  width: 100%;
+  height: 12rem;
+  border-radius: 2rem;
+  transition: background-color 200ms ease-in-out;
+  ${({ select }) =>
+    select &&
+    css`
+      background-color: rgba(0, 133, 255, 0.2);
+    `}
+`;
+
+export const AddBookModalBookItem = styled.img`
+  height: 100%;
+  border-radius: 1rem;
+  border: 1px solid ${({ theme }) => theme.imageBorder};
+`;
+
+export const AddBookModalBookInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 1rem;
+  margin-top: 0.4rem;
+`;
+
+export const AddBookModalBookTitle = styled.h2`
+  font-size: 1.1rem;
+  font-weight: 650;
+  margin-right: 1rem;
+`;
+
+export const AddBookModalBookContent = styled.p`
+  font-size: 1rem;
+  font-weight: 350;
+  line-height: 1.4rem;
 `;
