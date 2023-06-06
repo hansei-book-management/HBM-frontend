@@ -4,9 +4,9 @@
 
 / - main 페이지
 /book/{clubId} - 모든 동아리에 있는 책 조회<br>
-/book/{clubId}/detail - 모든 동아리 책 상세 정보
-/login - 로그인 페이지
-/register - 회원가입 페이지
+/book/{clubId}/detail - 모든 동아리 책 상세 정보<br>
+/login - 로그인 페이지<br>
+/register - 회원가입 페이지<br>
 
 ## User(부원)
 
@@ -14,17 +14,17 @@
 /club/{clubId} - 동아리 책 조회<br>
 
 ### /club/{clubId}?club-add-step
-/club/{clubId}?club-add-step=1 - 동아리 코드 입력 모달 -> 백엔드에게 동아리 추가 요청 <br>
-/club/{clubId}?club-add-step=2 - 성공(성공모달)/실패(실패모달)
+/club/{clubId}/club-add?step=1 - 동아리 코드 입력 모달 -> 백엔드에게 동아리 추가 요청 <br>
+/club/{clubId}/club-add?step=2 - 성공(성공모달)/실패(실패모달)
 
 ### /club/{clubId}/book/{bookId}?book-rent-step
-/club/{clubId}/book/{bookId}?book-rent-step=1 - 대여 진행 질문 모달 -> 백엔드에게 대여 요청 <br>
-/club/{clubId}/book/{bookId}?book-rent-step=2 - 성공(성공모달)/실패(실패모달)
+/club/{clubId}/book/{bookId}/book-rent?step=1 - 대여 진행 질문 모달 -> 백엔드에게 대여 요청 <br>
+/club/{clubId}/book/{bookId}/book-rent?step=2 - 성공(성공모달)/실패(실패모달)
 
 ### /manage/user-book/{clubId}
 /manage/user-book/{clubId}/book/{bookId} - 동아리 책 상세 정보<br>
-/manage/user-book/{clubId}/book/{bookId}?return-book-step=1 - 반납 사진 제출 모달 (위치가 학교 근처가 아니거나 위치를 막아놓으면 빠꾸) -> 백엔드에게 반납 요청<br>
-/manage/user-book/{clubId}/book/{bookId}?return-book-step=2 - 성공(성공모달)/실패(실패모달)
+/manage/user-book/{clubId}/book/{bookId}/return-book?step=1 - 반납 사진 제출 모달 (위치가 학교 근처가 아니거나 위치를 막아놓으면 빠꾸) -> 백엔드에게 반납 요청<br>
+/manage/user-book/{clubId}/book/{bookId}/return-book?step=2 - 성공(성공모달)/실패(실패모달)
 
 ## Admin(부장)
 
@@ -38,8 +38,15 @@ manage/club-book?option=can-not-rent - 대여불가인 동아리 책 조회<br>
 
 ### /manage/club
 /manage/club - 동아리에 존재하는 모든 부원 조회 <br>
-/manage/club/member/{userId} - 동아리 부원 상세 모달 <br>
-**초대 코드 생성하기 버튼 누르면 로딩 창 뜬 후 백엔드에게 요청 -> 성공(초대 코드 발급 모달)/실패(실패 모달)**
+/manage/club/member/{userId}/detail - 동아리 부원 상세 모달 <br>
+/manage/club/generate-code?step=1 - 로딩 창 뜬 후 백엔드에게 초대 코드 생성 요청<br>
+/manage/club/generate-code?step=2 - 성공(초대 코드 발급 모달)/실패(실패 모달)<br>
+/manage/club/member/{userId}/expel?step=1 - 동아리 부원 추방 모달 <br>
+/manage/club/member/{userId}/expel?step=2 - 성공(성공모달)/실패(실패모달) <br>
+/manage/club/delete?step=1 - 동아리 삭제 모달 <br>
+/manage/club/delete?step=2 - 성공(성공모달)/실패(실패모달) <br>
+/manage/club/change-director?step=1 - 부장 변경 모달 <br>
+/manage/club/change-director?step=2 - 성공(성공모달)/실패(실패모달) <br>
 
 
 
