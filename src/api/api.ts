@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 export const API_SUFFIX = {
-  BASEURL: 'https://pcy06.me',
+  BASEURL: 'http://127.0.0.1:4000',
   REGISTER: '/auth/register/',
   REGISTER_PHONE: '/auth/register/phone',
-  LOGIN: '/auth/login/',
+  LOGIN: '/auth/login',
+  PROFILE: '/user/profile',
+  REFRESH: '/auth/refresh',
 };
 
 export const instance = axios.create({
@@ -15,13 +17,12 @@ export const instance = axios.create({
   },
 });
 
-export type APIResponseStatusType = boolean;
+export type APIResponseStatusType = 'SUCCESS' | 'FAILED';
 
 export interface APIResponse<T = unknown> {
   status: APIResponseStatusType;
   message: string;
-  token: string;
-  result?: T;
+  result: T;
 }
 
 export interface APIErrorResponse {
@@ -31,9 +32,23 @@ export interface APIErrorResponse {
   result?: null;
 }
 
+export interface UserProfileResponse {
+  id: number;
+  username: string;
+  name: string;
+  studentId: string;
+  phone: string;
+}
+
+export interface LoginFormValues {
+  username: string;
+  password: string;
+}
+
 export const setAccessToken = (token: string | null) => {
   if (token) {
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+    // 이렇게 보냈는데 401 error가 나는거면 백엔드에서 토큰을 못받아서 그런거임
   } else {
     delete instance.defaults.headers.common.Authorization;
   }

@@ -3,13 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { Form } from '@/components';
+import { LoginFormValues, getUserProfile } from '@/api';
+import { useFetchUser, useLogin } from '@/hooks';
 
 import * as S from './styled';
-
-export interface LoginFormValues {
-  username: string;
-  password: string;
-}
 
 export const LoginPage: React.FC = () => {
   const {
@@ -18,8 +15,15 @@ export const LoginPage: React.FC = () => {
     formState: { errors },
   } = useForm<LoginFormValues>();
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
+  const { mutate } = useLogin();
+  const { data: user, isFetching } = useFetchUser();
+
+  const onSubmit = ({ username, password }: LoginFormValues) => {
+    mutate({ username, password });
+  };
+
+  const onClick = () => {
+    console.log(user, 'user');
   };
 
   return (
@@ -56,6 +60,7 @@ export const LoginPage: React.FC = () => {
           아직 계정이 없으신가요? <Link to="/auth/register">회원가입</Link>
         </Form.LinkContainer>
       </div>
+      <h1 onClick={onClick}>Fetach User</h1>
     </Form>
   );
 };

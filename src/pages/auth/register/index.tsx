@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { useRegister, useRegisterPhone } from '@/hooks';
+// import { useRegister, useRegisterPhone } from '@/hooks';
 import { PhoneToken, VerificationCode } from '@/atoms';
 import { Form } from '@/components';
 
@@ -48,8 +48,8 @@ export const RegisterPage: React.FC = () => {
 
   const password = useRef({});
   password.current = watch('password');
-  const { mutate: registerMutate } = useRegister();
-  const { mutate: phoneMutate } = useRegisterPhone();
+  // const { mutate: registerMutate } = useRegister();
+  // const { mutate: phoneMutate } = useRegisterPhone();
 
   const onSubmitHandler = ({
     username,
@@ -58,22 +58,24 @@ export const RegisterPage: React.FC = () => {
     studentId,
     verificationCode,
   }: RegisterFormValues) => {
-    if (phoneAccessToken.state) {
-      registerMutate({
-        username,
-        password,
-        name,
-        studentId,
-        phoneToken: phoneAccessToken.token,
-        verificationCode,
-      });
-    } else {
-      return;
-    }
+    // if (phoneAccessToken.state) {
+    //   registerMutate({
+    //     username,
+    //     password,
+    //     name,
+    //     studentId,
+    //     phoneToken: phoneAccessToken.token,
+    //     verificationCode,
+    //   });
+    // } else {
+    //   return;
+    // }
+    console.log('register');
   };
 
   const onPhoneSubmitHandler = ({ phone }: RegisterFormProps) => {
-    phoneMutate(phone);
+    // phoneMutate(phone);
+    console.log('phone');
   };
 
   const REGISTER_INPUT_LIST: RegisterInputListProps[] = [
