@@ -21,7 +21,7 @@ export const BookPage: React.FC = () => {
           activeId={clubId}
           href="/book"
           list={CLUB_LIST}
-          rentPage={true}
+          notShowPlusIcon={true}
         />
       )}
       <Section activeClub={activeClub} />

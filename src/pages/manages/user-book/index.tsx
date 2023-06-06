@@ -37,33 +37,12 @@ export const ManageUserBookPage: React.FC = () => {
   });
   const [correctLocation, setCorrectLocation] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const { modalActive, open, close } = useModal();
+  const { modalActive, close } = useModal();
 
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
 
   const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
-
-  // add club modal FN
-  const onAddClubModalOpen = () => {
-    setAddClubModalActive({ state: true, isOk: false });
-    navigate(`${USER_CLUB_BASE_URL}?club-add-step=1`);
-    open();
-  };
-
-  const onAddClubModalClose = () => {
-    setAddClubModalActive({ state: true, isOk: false });
-    navigate(`${USER_CLUB_BASE_URL}`);
-  };
-
-  const onAddClubModalSubmit = (stepNum: number) => {
-    navigate(`${USER_CLUB_BASE_URL}?club-add-step=${stepNum}`);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setAddClubModalActive({ state: true, isOk: true });
-    }, 1000);
-  };
 
   // return book modal FN
   const getLocationSuccess = (position: GeolocationPosition) => {
@@ -126,20 +105,12 @@ export const ManageUserBookPage: React.FC = () => {
           activeId={userClubId}
           href={`${BASE_URL}`}
           list={USER_CLUB_LIST}
-          onClick={onAddClubModalOpen}
           manageUserBookPage={true}
+          notShowPlusIcon={true}
           userBookInfo={`앙기모링님은 현재 2권 대출중이에요.`}
         />
       )}
       <Section activeClub={activeUserClub} />
-      <AddClubModal
-        modalActive={modalActive}
-        addClubModalActive={addClubModalActive}
-        nextButtonClick={() => onAddClubModalSubmit(2)}
-        doneButtonClick={() => onAddClubModalClose()}
-        loading={loading}
-        url={USER_CLUB_BASE_URL}
-      />
       {modalActive && !addClubModalActive.state && !returnBookModalActive.status && (
         <DetailModal
           leftButtonText="닫기"

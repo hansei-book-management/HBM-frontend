@@ -14,7 +14,6 @@ export interface AddClubFormValues {
 }
 
 export interface AddClubModalProps {
-  modalActive: boolean;
   addClubModalActive: {
     isOk: boolean;
     state: boolean;
@@ -26,7 +25,6 @@ export interface AddClubModalProps {
 }
 
 export const AddClubModal: React.FC<AddClubModalProps> = ({
-  modalActive,
   addClubModalActive: { isOk, state },
   nextButtonClick,
   doneButtonClick,
@@ -42,7 +40,7 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
   const onValid = ({ clubCode }: AddClubFormValues) => {
     console.log(clubCode, '동아리 코드');
   };
-  if (modalActive && !isOk && state) {
+  if (!isOk && state) {
     return (
       <Modal.OverLay>
         <Modal
@@ -84,7 +82,7 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (modalActive && isOk && state) {
+  if (isOk && state) {
     return (
       <StatusModal
         url={`${url}`}

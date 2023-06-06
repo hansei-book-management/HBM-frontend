@@ -90,11 +90,7 @@ export const ManageClubBookPage: React.FC = () => {
       )}
       <Section mangeClubName="hsoc" />
       {modalActive && !addBookModalActive.status && (
-        <DetailModal
-          message={<RentMessage canRent={true} />}
-          rightButtonText="닫기"
-          nextButtonClick={close}
-        />
+        <DetailModal message={<RentMessage canRent={true} />} leftButtonText="닫기" />
       )}
       {modalActive && addBookModalActive.status && addBookModalActive.isOk === null && (
         <Modal.OverLay>
@@ -161,14 +157,17 @@ export const ManageClubBookPage: React.FC = () => {
             }
             modalSize="large"
             nextButtonClick={onAddBookModalClose}
-            {...(select
-              ? {
-                  leftButtonText: '닫기',
-                  rightButtonText: `${selectNumber}권 추가하기`,
-                }
-              : {
-                  rightButtonText: `닫기`,
-                })}
+            // {...(select
+            //   ? {
+            //       leftButtonText: '닫기',
+            //       rightButtonText: `${selectNumber}권 추가하기`,
+            //     }
+            //   : {
+            //       leftButtonText: `닫기`,
+            //     })}
+
+            leftButtonText={'닫기'}
+            rightButtonText={`${selectNumber} 권 추가하기`}
           />
         </Modal.OverLay>
       )}

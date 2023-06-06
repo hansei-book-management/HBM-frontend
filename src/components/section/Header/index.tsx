@@ -10,7 +10,7 @@ export interface HeaderSectionListProps {
 
 export interface HeaderSectionProps {
   manageUserBookPage?: boolean;
-  rentPage?: boolean;
+  notShowPlusIcon?: boolean;
   userBookInfo?: string;
   name: React.ReactNode;
   href: string;
@@ -25,7 +25,7 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
   name,
   href,
   list,
-  rentPage,
+  notShowPlusIcon,
   onClick,
   activeId,
   userBookInfo,
@@ -45,7 +45,7 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
             {name}
           </S.HeaderSectionItem>
         ))}
-        {!rentPage && (
+        {!notShowPlusIcon && (
           <S.HeaderSectionAddIconWrap onClick={onClick}>
             <FaPlus size={'0.9rem'} />
           </S.HeaderSectionAddIconWrap>

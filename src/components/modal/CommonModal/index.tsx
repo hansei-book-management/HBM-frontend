@@ -12,8 +12,8 @@ export interface ModalProps {
   statusModal?: boolean;
   statusDisable?: boolean;
   returnBookDisable?: boolean;
-  leftButtonText?: string;
-  rightButtonText: React.ReactNode;
+  leftButtonText: string;
+  rightButtonText?: React.ReactNode;
   onlyRightButton?: boolean;
   isOk?: boolean;
 }
@@ -79,7 +79,9 @@ export const ModalElement: React.FC<ModalProps> = ({
                   onClick={closing}
                   disable={statusDisable}
                   rightButtonExits={false}
-                ></S.ModalButton>
+                >
+                  {leftButtonText}
+                </S.ModalButton>
               ))}
           </>
         )}
