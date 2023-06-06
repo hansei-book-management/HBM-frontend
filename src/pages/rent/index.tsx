@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { RENT_CLUB_LIST, loadingLottieOptions } from '@/constant';
+import { CLUB, RENT_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { Modal, RentMessage, Section, StatusModal, DetailModal, HeaderSection } from '@/components';
 import { StatusState } from '@/atoms';
 import { useGetLocation, useModal } from '@/hooks';
@@ -12,64 +12,66 @@ import { useGetLocation, useModal } from '@/hooks';
 import * as S from './styled';
 
 export const RentPage: React.FC = () => {
+  // here have to fetch book api
   const navigate = useNavigate();
-  const { rentClubId } = useParams<{ rentClubId: string }>();
-  const activeClub = RENT_CLUB_LIST.find(({ id }) => id === rentClubId);
+  const { clubId } = useParams<{ clubId: string }>();
+  const activeClub = RENT_CLUB_LIST.find(({ id }) => id === clubId);
 
   const { modalActive } = useModal();
 
-  const { rentBookPage, rentDetailPage } = useGetLocation({ clubId: rentClubId });
+  const { clubBookRentPage, clubBookDetailPage } = useGetLocation({ clubId: clubId, bookId: 1 });
 
   const [status, setStatus] = useRecoilState(StatusState);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onRentNavigate = (id: number, stepNum: number) => {
-    navigate(`/rent/${rentClubId}/book-rent/${id}?step=${stepNum}`);
+  const onRentNavigate = (bookId: number, stepNum: number) => {
+    navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=${stepNum}`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setStatus(true);
     }, 2000);
   };
-  const onNextPageNavigate = (id: number, stepNum: number) => {
-    navigate(`/rent/${rentClubId}/book-rent/${id}?step=${stepNum}`);
+  const onNextPageNavigate = (bookId: number, stepNum: number) => {
+    navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=${stepNum}`);
   };
 
   const onCloseNavigate = () => {
-    navigate(`/rent/${rentClubId}`);
+    navigate(`${CLUB}/${clubId}`);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     status && setStatus(false);
     if (!activeClub) {
-      navigate(`/rent/${RENT_CLUB_LIST[0].id}`);
+      navigate(`${CLUB}/${RENT_CLUB_LIST[0].id}`);
     } else if (!modalActive) {
-      navigate(`/rent/${rentClubId}`);
+      navigate(`${CLUB}/${clubId}`);
     }
-  }, [activeClub, modalActive]);
+    console.log(clubBookRentPage, 'book rent');
+  }, [activeClub, modalActive, clubBookDetailPage]);
 
   return (
     <S.RentPageContainer>
       {activeClub && (
         <HeaderSection
           name={activeClub.name}
-          activeId={rentClubId}
-          href="/rent"
+          activeId={clubId}
+          href="/club"
           list={RENT_CLUB_LIST}
           rentPage={true}
         />
       )}
       <Section activeClub={activeClub} />
-      {(modalActive && rentDetailPage && (
+      {(modalActive && clubBookDetailPage && (
         <DetailModal
-          nextButtonClick={() => onNextPageNavigate(2, 1)}
+          nextButtonClick={() => onNextPageNavigate(1, 1)}
           leftButtonText="닫기"
           rightButtonText="대여하기"
           message={<RentMessage canRent={true} />}
         />
       )) ||
-        (modalActive && rentBookPage && !status && (
+        (modalActive && clubBookRentPage && !status && (
           <Modal.OverLay>
             <Modal
               textProps={
@@ -99,9 +101,9 @@ export const RentPage: React.FC = () => {
             />
           </Modal.OverLay>
         )) ||
-        (modalActive && rentBookPage && status && (
+        (modalActive && clubBookRentPage && status && (
           <StatusModal
-            url={`/rent/${rentClubId}`}
+            url={`/club/${clubId}`}
             {...(status
               ? {
                   title: '대여 성공',

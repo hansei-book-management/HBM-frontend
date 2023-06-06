@@ -26,11 +26,12 @@ export const App: React.FC = () => {
         }
       >
         <Route path="/" element={<MainPage />} />
-        <Route path="/rent">
-          <Route index element={<Navigate to={`/rent/${RENT_CLUB_LIST[0].id}`} />} />
-          <Route path=":rentClubId" element={<RentPage />} />
-          <Route path=":rentClubId/book-rent/:bookId" element={<RentPage />} />
-          <Route path=":rentClubId/detail/:bookId" element={<RentPage />} />
+        <Route path="/club">
+          <Route index element={<Navigate to={`/club/${RENT_CLUB_LIST[0].id}`} />} />
+          <Route path=":clubId" element={<RentPage />} />
+          <Route path=":clubId/book/:bookId/book-rent" element={<RentPage />} />
+          <Route path=":clubId/book/:bookId" element={<RentPage />} />
+          <Route path=":clubId/club-add" element={<RentPage />} />
         </Route>
         <Route path="/manage">
           <Route path="user-book">

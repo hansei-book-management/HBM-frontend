@@ -12,14 +12,16 @@
 
 ### /club/{clubId}
 /club/{clubId} - 동아리 책 조회<br>
+/club/{clubId}/book/{bookId} - 동아리 책 상세 모달<br>
 
-### /club/{clubId}?club-add-step
+### /club/{clubId}/book/{bookId}/book-rent
+/club/{clubId}/book/{bookId}/book-rent?step=1 - 대여 진행 질문 모달 -> 백엔드에게 대여 요청 <br>
+/club/{clubId}/book/{bookId}/book-rent?step=2 - 성공(성공모달)/실패(실패모달)
+
+### /club/{clubId}/club-add
 /club/{clubId}/club-add?step=1 - 동아리 코드 입력 모달 -> 백엔드에게 동아리 추가 요청 <br>
 /club/{clubId}/club-add?step=2 - 성공(성공모달)/실패(실패모달)
 
-### /club/{clubId}/book/{bookId}?book-rent-step
-/club/{clubId}/book/{bookId}/book-rent?step=1 - 대여 진행 질문 모달 -> 백엔드에게 대여 요청 <br>
-/club/{clubId}/book/{bookId}/book-rent?step=2 - 성공(성공모달)/실패(실패모달)
 
 ### /manage/user-book/{clubId}
 /manage/user-book/{clubId}/book/{bookId} - 동아리 책 상세 정보<br>
