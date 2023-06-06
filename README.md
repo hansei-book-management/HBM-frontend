@@ -12,7 +12,6 @@
 
 ### /club/{clubId}
 /club/{clubId} - 동아리 책 조회<br>
-/club/{clubId}/book/{bookId} - 동아리 책 상세 정보
 
 ### /club/{clubId}?club-add-step
 /club/{clubId}?club-add-step=1 - 동아리 코드 입력 모달 -> 백엔드에게 동아리 추가 요청 <br>
@@ -29,18 +28,18 @@
 
 ## Admin(부장)
 
-### manage/club-book
+### /manage/club-book
 manage/club-book?option=all - 모든 동아리 책 조회<br>
 manage/club-book?option=can-rent - 대여가능인 동아리 책 조회<br>
 manage/club-book?option=renting - 대여 중인 동아리 책 조회<br>
 manage/club-book?option=can-not-rent - 대여불가인 동아리 책 조회<br>
-**어느 옵션이든지 + 버튼을 누르면 책 추가 모달** 
+**어느 옵션이든지 + 버튼을 누르면 책 추가 모달** <br>
 책 추가 모달에서 추가하기 누르면 백엔드에게 요청 -> 성공(성공모달)/실패(실패모달)
 
 ### /manage/club
 /manage/club - 동아리에 존재하는 모든 부원 조회 <br>
 /manage/club/member/{userId} - 동아리 부원 상세 모달 <br>
-**초대 코드 생성하기 버튼 누르면 로딩 창 뜬후 백엔드에게 요청 -> 성공(초대 코드 발급 모달)/실패(실패 모달)**
+**초대 코드 생성하기 버튼 누르면 로딩 창 뜬 후 백엔드에게 요청 -> 성공(초대 코드 발급 모달)/실패(실패 모달)**
 
 
 
