@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
-import { CLUB, RENT_CLUB_LIST, loadingLottieOptions } from '@/constant';
+import { CLUB, USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { Modal, RentMessage, Section, StatusModal, DetailModal, HeaderSection } from '@/components';
 import { StatusState } from '@/atoms';
 import { useGetLocation, useModal } from '@/hooks';
@@ -15,7 +15,7 @@ export const RentPage: React.FC = () => {
   // here have to fetch book api
   const navigate = useNavigate();
   const { clubId } = useParams<{ clubId: string }>();
-  const activeClub = RENT_CLUB_LIST.find(({ id }) => id === clubId);
+  const activeClub = USER_CLUB_LIST.find(({ id }) => id === clubId);
 
   const { modalActive } = useModal();
 
@@ -44,7 +44,7 @@ export const RentPage: React.FC = () => {
     window.scrollTo(0, 0);
     status && setStatus(false);
     if (!activeClub) {
-      navigate(`${CLUB}/${RENT_CLUB_LIST[0].id}`);
+      navigate(`${CLUB}/${USER_CLUB_LIST[0].id}`);
     } else if (!modalActive) {
       navigate(`${CLUB}/${clubId}`);
     }
@@ -58,7 +58,7 @@ export const RentPage: React.FC = () => {
           name={activeClub.name}
           activeId={clubId}
           href="/club"
-          list={RENT_CLUB_LIST}
+          list={USER_CLUB_LIST}
           rentPage={true}
         />
       )}

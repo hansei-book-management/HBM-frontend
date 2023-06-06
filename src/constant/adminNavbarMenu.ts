@@ -5,7 +5,11 @@ export interface AdminNavbarMenuItem {
 
 export const ADMIN_NAVBAR_MENU_LIST: AdminNavbarMenuItem[] = [
   {
-    text: '대여하기',
+    text: '모든 도서',
+    href: '/book',
+  },
+  {
+    text: '도서 대여',
     href: '/club',
   },
   {

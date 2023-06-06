@@ -1,6 +1,6 @@
 export * from './userNavbarMenu';
 export * from './adminNavbarMenu';
-export * from './rent-club';
+export * from './club-list';
 export * from './user-club';
 export * from './icons';
 export * from './lotties';
