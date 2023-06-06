@@ -5,3 +5,4 @@ export * from './404';
 export * from './auth';
 export * from './club-apply';
 export * from './book';
+export * from './manage-club';

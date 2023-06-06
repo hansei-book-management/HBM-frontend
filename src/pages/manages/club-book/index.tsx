@@ -36,7 +36,6 @@ export const ManageClubBookPage: React.FC = () => {
   });
 
   const [bookList, setBookList] = useState(BOOK_LIST.map(({ id }) => id));
-  const [select, setSelect] = useState(false);
   const [selectNumber, setSelectNumber] = useState(0);
 
   const { option } = useParams<{ option: string }>();
@@ -58,11 +57,10 @@ export const ManageClubBookPage: React.FC = () => {
   const toggleBookSelect = (id: number) => {
     if (bookList.includes(id)) {
       setBookList(bookList.filter((bookId) => bookId !== id));
-      setSelect(true);
       setSelectNumber(BOOK_LIST.length - bookList.length + 1);
     } else {
       setBookList([...bookList, id]);
-      setSelect(false);
+      setSelectNumber(BOOK_LIST.length - bookList.length - 1);
     }
   };
 
@@ -157,17 +155,14 @@ export const ManageClubBookPage: React.FC = () => {
             }
             modalSize="large"
             nextButtonClick={onAddBookModalClose}
-            // {...(select
-            //   ? {
-            //       leftButtonText: '닫기',
-            //       rightButtonText: `${selectNumber}권 추가하기`,
-            //     }
-            //   : {
-            //       leftButtonText: `닫기`,
-            //     })}
-
-            leftButtonText={'닫기'}
-            rightButtonText={`${selectNumber} 권 추가하기`}
+            {...(selectNumber !== 0
+              ? {
+                  leftButtonText: '닫기',
+                  rightButtonText: `${selectNumber}권 추가하기`,
+                }
+              : {
+                  leftButtonText: `닫기`,
+                })}
           />
         </Modal.OverLay>
       )}

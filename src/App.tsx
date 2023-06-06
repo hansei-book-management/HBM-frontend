@@ -50,8 +50,8 @@ export const App: React.FC = () => {
             />
             <Route path=":option" element={<ManageUserBookPage />} />
           </Route>
-          <Route path="club" element={<ManageClubPage />} />
         </Route>
+        <Route path="/manage-club" element={<ManageClubPage />} />
         <Route path="/auth">
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />

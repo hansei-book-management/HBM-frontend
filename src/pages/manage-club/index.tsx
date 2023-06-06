@@ -21,7 +21,7 @@ export const ManageClubPage: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    navigate(`/manage/club?generate-code-step=2`);
+    navigate(`/manage-club?generate-code-step=2`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -33,7 +33,7 @@ export const ManageClubPage: React.FC = () => {
   };
 
   const onCloseNavigate = () => {
-    navigate(`/manage/club`);
+    navigate(`/manage-club`);
   };
 
   const onInviteCodeClick = () => {
@@ -57,7 +57,7 @@ export const ManageClubPage: React.FC = () => {
   const onCheckClick = () => {
     setOk(false);
     setInviteCodeClick(false);
-    navigate(`/manage/club`);
+    navigate(`/manage-club`);
   };
 
   const onEditClick = () => {
@@ -66,7 +66,7 @@ export const ManageClubPage: React.FC = () => {
   };
 
   useEffect(() => {
-    navigate(`/manage/club`);
+    navigate(`/manage-club`);
   }, []);
 
   return (
@@ -115,7 +115,7 @@ export const ManageClubPage: React.FC = () => {
                 </S.ModalUserBookInfo>
               </S.ModalUserContainer>
             }
-            rightButtonText="확인"
+            leftButtonText="확인"
             modalSize="large"
           />
         </Modal.OverLay>
@@ -178,7 +178,7 @@ export const ManageClubPage: React.FC = () => {
               </S.InviteCodeContainer>
             }
             onlyRightButton={true}
-            rightButtonText="확인했어요"
+            leftButtonText="확인했어요"
             modalSize="small"
             doneButtonClick={() => onCheckClick()}
           />

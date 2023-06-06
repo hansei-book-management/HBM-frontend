@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
 
-import { useRecoilState } from 'recoil';
-
-import { AddClubModal, DetailModal, HeaderSection, ReturnBookModal, Section } from '@/components';
+import { DetailModal, HeaderSection, ReturnBookModal, Section } from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
-import { AddClubState } from '@/atoms';
 
 import * as S from './styled';
 
@@ -25,8 +22,6 @@ const BASE_URL = '/manage/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [addClubModalActive, setAddClubModalActive] = useRecoilState(AddClubState);
   const [returnBookModalActive, setReturnBookModalActive] = useState<ReturnBookModalStateProps>({
     status: false,
     isOk: null || false,
@@ -111,7 +106,7 @@ export const ManageUserBookPage: React.FC = () => {
         />
       )}
       <Section activeClub={activeUserClub} />
-      {modalActive && !addClubModalActive.state && !returnBookModalActive.status && (
+      {modalActive && !returnBookModalActive.status && (
         <DetailModal
           leftButtonText="닫기"
           rightButtonText={

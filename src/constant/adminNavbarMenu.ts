@@ -10,7 +10,7 @@ export const ADMIN_NAVBAR_MENU_LIST: AdminNavbarMenuItem[] = [
   },
   {
     text: '도서 대여',
-    href: '/club',
+    href: '/club/',
   },
   {
     text: '내 도서',
@@ -22,6 +22,6 @@ export const ADMIN_NAVBAR_MENU_LIST: AdminNavbarMenuItem[] = [
   },
   {
     text: '동아리 관리',
-    href: '/manage/club',
+    href: '/manage-club',
   },
 ];
