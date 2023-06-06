@@ -79,10 +79,10 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
     window.scrollTo(0, 0);
   };
 
-  const openModal = (id: number) => {
+  const openModal = (bookId: number) => {
     open();
     if (rentPage) {
-      navigate(`/rent/${clubName}/detail/${id}`);
+      navigate(`/club/${clubName}/book/${bookId}`);
     }
   };
 
@@ -98,9 +98,9 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
       <S.SectionContainer>
         {/* {data?.books.map(({ id, canRent, club }, i) => ( */}
         <S.SectionImageContainer>
-          <S.SectionImage src={Book1PNG} onClick={() => openModal(id)} />
+          <S.SectionImage src={Book1PNG} onClick={() => openModal(1)} />
           <S.SectionImageTitleContainer>
-            <S.SectionImageTitle onClick={() => openModal(id)}>세이노의 가르침</S.SectionImageTitle>
+            <S.SectionImageTitle onClick={() => openModal(1)}>세이노의 가르침</S.SectionImageTitle>
             <S.SectionImageSubTitle>세이노 · 데이원</S.SectionImageSubTitle>
             <StatusMessage />
           </S.SectionImageTitleContainer>

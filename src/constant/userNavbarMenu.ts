@@ -5,7 +5,11 @@ export interface UserNavbarMenuItem {
 
 export const USER_NAVBAR_MENU_LIST: UserNavbarMenuItem[] = [
   {
-    text: '대여하기',
+    text: '모든 도서',
+    href: '/book',
+  },
+  {
+    text: '도서 대여',
     href: '/rent',
   },
   {

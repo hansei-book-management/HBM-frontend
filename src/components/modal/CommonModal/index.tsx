@@ -12,8 +12,8 @@ export interface ModalProps {
   statusModal?: boolean;
   statusDisable?: boolean;
   returnBookDisable?: boolean;
-  leftButtonText?: string;
-  rightButtonText: React.ReactNode;
+  leftButtonText: string;
+  rightButtonText?: React.ReactNode;
   onlyRightButton?: boolean;
   isOk?: boolean;
 }
@@ -58,14 +58,31 @@ export const ModalElement: React.FC<ModalProps> = ({
           </S.StatusModalButton>
         ) : (
           <>
-            {leftButtonText && (
-              <S.ModalButton left onClick={closing} disable={statusDisable}>
-                {leftButtonText}
-              </S.ModalButton>
-            )}
-            <S.ModalButton disable={returnBookDisable} onClick={nextButtonClick}>
-              {rightButtonText}
-            </S.ModalButton>
+            {(rightButtonText && (
+              <>
+                <S.ModalButton
+                  left
+                  onClick={closing}
+                  disable={statusDisable}
+                  rightButtonExits={true}
+                >
+                  {leftButtonText}
+                </S.ModalButton>
+                <S.ModalButton disable={returnBookDisable} onClick={nextButtonClick}>
+                  {rightButtonText}
+                </S.ModalButton>
+              </>
+            )) ||
+              (!rightButtonText && (
+                <S.ModalButton
+                  left
+                  onClick={closing}
+                  disable={statusDisable}
+                  rightButtonExits={false}
+                >
+                  {leftButtonText}
+                </S.ModalButton>
+              ))}
           </>
         )}
       </S.ModalButtonContainer>

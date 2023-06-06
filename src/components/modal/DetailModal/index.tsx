@@ -8,9 +8,9 @@ import { Modal } from '../CommonModal';
 import * as S from './styled';
 
 export interface DetailModalProps {
-  message: React.ReactNode;
-  leftButtonText?: string;
-  rightButtonText: React.ReactNode;
+  message?: React.ReactNode;
+  leftButtonText: string;
+  rightButtonText?: React.ReactNode;
   nextButtonClick?: () => void;
 }
 

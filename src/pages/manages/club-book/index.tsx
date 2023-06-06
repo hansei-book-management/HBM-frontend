@@ -36,7 +36,6 @@ export const ManageClubBookPage: React.FC = () => {
   });
 
   const [bookList, setBookList] = useState(BOOK_LIST.map(({ id }) => id));
-  const [select, setSelect] = useState(false);
   const [selectNumber, setSelectNumber] = useState(0);
 
   const { option } = useParams<{ option: string }>();
@@ -49,7 +48,6 @@ export const ManageClubBookPage: React.FC = () => {
   };
 
   const onAddBookModalClose = () => {
-    // setAddBookModalActive({ status: true, isOk: false });
     setAddBookModalActive({ status: false, isOk: true });
     close();
     toast.success('도서가 추가되었습니다.', { position: toast.POSITION.BOTTOM_RIGHT });
@@ -58,11 +56,10 @@ export const ManageClubBookPage: React.FC = () => {
   const toggleBookSelect = (id: number) => {
     if (bookList.includes(id)) {
       setBookList(bookList.filter((bookId) => bookId !== id));
-      setSelect(true);
       setSelectNumber(BOOK_LIST.length - bookList.length + 1);
     } else {
       setBookList([...bookList, id]);
-      setSelect(false);
+      setSelectNumber(BOOK_LIST.length - bookList.length - 1);
     }
   };
 
@@ -90,11 +87,7 @@ export const ManageClubBookPage: React.FC = () => {
       )}
       <Section mangeClubName="hsoc" />
       {modalActive && !addBookModalActive.status && (
-        <DetailModal
-          message={<RentMessage canRent={true} />}
-          rightButtonText="닫기"
-          nextButtonClick={close}
-        />
+        <DetailModal message={<RentMessage canRent={true} />} leftButtonText="닫기" />
       )}
       {modalActive && addBookModalActive.status && addBookModalActive.isOk === null && (
         <Modal.OverLay>
@@ -161,13 +154,13 @@ export const ManageClubBookPage: React.FC = () => {
             }
             modalSize="large"
             nextButtonClick={onAddBookModalClose}
-            {...(select
+            {...(selectNumber !== 0
               ? {
                   leftButtonText: '닫기',
                   rightButtonText: `${selectNumber}권 추가하기`,
                 }
               : {
-                  rightButtonText: `닫기`,
+                  leftButtonText: `닫기`,
                 })}
           />
         </Modal.OverLay>

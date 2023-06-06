@@ -3,7 +3,7 @@ export interface RentClubItem {
   id: string;
 }
 
-export const RENT_CLUB_LIST: RentClubItem[] = [
+export const CLUB_LIST: RentClubItem[] = [
   {
     name: '보안관제',
     id: 'hsoc',
