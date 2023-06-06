@@ -48,7 +48,6 @@ export const ManageClubBookPage: React.FC = () => {
   };
 
   const onAddBookModalClose = () => {
-    // setAddBookModalActive({ status: true, isOk: false });
     setAddBookModalActive({ status: false, isOk: true });
     close();
     toast.success('도서가 추가되었습니다.', { position: toast.POSITION.BOTTOM_RIGHT });
