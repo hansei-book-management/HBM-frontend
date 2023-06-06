@@ -58,14 +58,29 @@ export const ModalElement: React.FC<ModalProps> = ({
           </S.StatusModalButton>
         ) : (
           <>
-            {leftButtonText && (
-              <S.ModalButton left onClick={closing} disable={statusDisable}>
-                {leftButtonText}
-              </S.ModalButton>
-            )}
-            <S.ModalButton disable={returnBookDisable} onClick={nextButtonClick}>
-              {rightButtonText}
-            </S.ModalButton>
+            {(rightButtonText && (
+              <>
+                <S.ModalButton
+                  left
+                  onClick={closing}
+                  disable={statusDisable}
+                  rightButtonExits={true}
+                >
+                  {leftButtonText}
+                </S.ModalButton>
+                <S.ModalButton disable={returnBookDisable} onClick={nextButtonClick}>
+                  {rightButtonText}
+                </S.ModalButton>
+              </>
+            )) ||
+              (!rightButtonText && (
+                <S.ModalButton
+                  left
+                  onClick={closing}
+                  disable={statusDisable}
+                  rightButtonExits={false}
+                ></S.ModalButton>
+              ))}
           </>
         )}
       </S.ModalButtonContainer>

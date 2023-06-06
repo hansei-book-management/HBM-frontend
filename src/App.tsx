@@ -11,6 +11,7 @@ import {
   ManageClubPage,
   LoginPage,
   ClubApplyPage,
+  BookPage,
 } from './pages';
 import { DefaultLayout } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS, CLUB_LIST, USER_CLUB_LIST } from './constant';
@@ -28,7 +29,7 @@ export const App: React.FC = () => {
         <Route path="/" element={<MainPage />} />
         <Route path="/book">
           <Route index element={<Navigate to={`/book/${CLUB_LIST[0].id}`} />} />
-          <Route path=":clubId" element={<MainPage />} />
+          <Route path=":clubId" element={<BookPage />} />
         </Route>
         <Route path="/club">
           <Route index element={<Navigate to={`/club/${USER_CLUB_LIST[0].id}`} />} />
