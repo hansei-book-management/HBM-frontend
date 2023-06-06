@@ -33,10 +33,11 @@ export const App: React.FC = () => {
         </Route>
         <Route path="/club">
           <Route index element={<Navigate to={`/club/${USER_CLUB_LIST[0].id}`} />} />
-          <Route path=":clubId" element={<RentPage />} />
-          <Route path=":clubId/book/:bookId/book-rent" element={<RentPage />} />
-          <Route path=":clubId/book/:bookId" element={<RentPage />} />
-          <Route path=":clubId/club-add" element={<RentPage />} />
+          <Route path=":clubId" element={<RentPage />}>
+            <Route path="book/:bookId/book-rent" element={<RentPage />} />
+            <Route path="book/:bookId" element={<RentPage />} />
+            <Route path="club-add" element={<RentPage />} />
+          </Route>
         </Route>
         <Route path="/manage">
           <Route path="user-book">
@@ -51,7 +52,15 @@ export const App: React.FC = () => {
             <Route path=":option" element={<ManageUserBookPage />} />
           </Route>
         </Route>
-        <Route path="/manage-club" element={<ManageClubPage />} />
+        <Route path="/manage-club" element={<ManageClubPage />}>
+          <Route path="generate-code" element={<ManageClubPage />} />
+          <Route path="member/:userId" element={<ManageClubPage />}>
+            <Route path="detail" element={<ManageClubPage />} />
+            <Route path="expel" element={<ManageClubPage />} />
+          </Route>
+          <Route path="delete" element={<ManageClubPage />} />
+          <Route path="change-director" element={<ManageClubPage />} />
+        </Route>
         <Route path="/auth">
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
