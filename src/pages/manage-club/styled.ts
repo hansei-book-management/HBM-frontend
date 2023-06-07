@@ -1,6 +1,18 @@
 import { FaUserCircle } from 'react-icons/fa';
 
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import styled, { keyframes } from 'styled-components';
+
+export const popupCloseKeyframe = keyframes`
+   0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+`;
 
 export const ManageClubWrapper = styled.div`
   display: flex;
@@ -24,6 +36,7 @@ export const ManageClubUserMenuBar = styled.div`
   display: grid;
   grid-template-columns: 2.96fr 1fr 2fr 0.15fr;
   padding: 0.6rem 1rem;
+  width: 100%;
 `;
 
 export const ManageClubUserMenuBarItem = styled.span`
@@ -44,18 +57,29 @@ export const ManageClubAddCodeButton = styled.button`
   }
 `;
 
+export const DummyContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+  position: relative;
+`;
+
 export const ManageClubUserContainer = styled.div`
   display: grid;
-  grid-template-columns: 3fr 0.15fr;
+  grid-template-columns: 3fr 0fr;
   padding: 1rem 1.4rem;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: #f7f7f7;
   border-radius: 1rem;
+  z-index: 10;
+  width: 100%;
 `;
 
 export const ManageClubUserInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 3.3fr 1.14fr 2.03fr;
+  grid-template-columns: 3.1fr 1.06fr 2.04fr;
   align-items: center;
 `;
 
@@ -86,4 +110,47 @@ export const ManageClubUserStatus = styled.span<{ isOk: boolean }>`
   font-weight: 600;
   line-height: 1.45em;
   color: ${({ isOk, theme }) => (isOk ? theme.primary.green : theme.primary.red)};
+`;
+
+export const ManageClubMemberPopupIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: background-color 200ms ease-in-out;
+  &:hover {
+    background-color: #eaeaea;
+  }
+  z-index: 9999;
+`;
+
+export const ManageClubMemberPopupContainer = styled(motion.div)`
+  margin-right: 0.6rem;
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  position: absolute;
+  top: 3rem;
+  margin-right: 2rem;
+`;
+
+export const ManageClubMemberPopupDiv = styled.div<{ isOut: boolean }>`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0.8rem 1rem;
+  column-gap: 0.4rem;
+  color: ${({ isOut }) => (isOut ? 'black' : 'red')};
+  border-radius: ${({ isOut }) => (isOut ? '0 0 1rem 1rem' : '1rem 1rem 0 0')};
+  transition: background-color 200ms ease-in-out;
+  &:hover {
+    background-color: #eaeaea;
+  }
 `;

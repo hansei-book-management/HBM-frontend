@@ -100,9 +100,6 @@ export const ClubCodeCopyButtonWrapper = styled.div`
   &:active {
     background-color: #b3b3b3;
   }
-  &:focus {
-    background-color: #b3b3b3;
-  }
 `;
 
 export const StatusModalText = styled.h3`

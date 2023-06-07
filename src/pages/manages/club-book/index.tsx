@@ -151,7 +151,7 @@ export const ManageClubBookPage: React.FC = () => {
               </S.AddBookModalContainer>
             }
             modalSize="large"
-            nextButtonClick={onAddBookModalClose}
+            rightButtonClick={onAddBookModalClose}
             {...(selectNumber !== 0
               ? {
                   leftButtonText: '닫기',

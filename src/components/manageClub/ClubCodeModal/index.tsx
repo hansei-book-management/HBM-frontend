@@ -3,7 +3,7 @@ import Lottie from 'react-lottie';
 import { Link } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 
-import { Modal, StatusModal } from '@/components/modal';
+import { Modal, StatusModal } from '@/components';
 import { MANAGE_CLUB, GENERATE_CODE_OPTION_LIST, loadingLottieOptions } from '@/constant';
 
 import * as S from './styled';
