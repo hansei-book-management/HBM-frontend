@@ -44,13 +44,19 @@ export const ManageClubAddCodeButton = styled.button`
   }
 `;
 
-export const ManageClubUserInfoContainer = styled.div`
+export const ManageClubUserContainer = styled.div`
   display: grid;
-  grid-template-columns: 3fr 1fr 2fr 0.15fr;
+  grid-template-columns: 3fr 0.15fr;
   padding: 1rem 1.4rem;
   align-items: center;
   background-color: #f5f5f5;
   border-radius: 1rem;
+`;
+
+export const ManageClubUserInfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3.3fr 1.14fr 2.03fr;
+  align-items: center;
 `;
 
 export const ManageClubUserIconContainer = styled.div`

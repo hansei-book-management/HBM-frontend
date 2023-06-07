@@ -71,7 +71,7 @@ export const ManageClubPage: React.FC = () => {
 
   return (
     <S.ManageClubWrapper>
-      <Button onClick={onInviteCodeClick} to="?generate-code-step=1" description="초대 코드 생성" />
+      <Button onClick={onInviteCodeClick} to="?generate-code-step=1" description="동아리 코드" />
       <S.ManageClubUserMenuContainer>
         <S.ManageClubUserMenuBar>
           <S.ManageClubUserMenuBarItem>부원</S.ManageClubUserMenuBarItem>
@@ -79,19 +79,23 @@ export const ManageClubPage: React.FC = () => {
           <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
         </S.ManageClubUserMenuBar>
         {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
-          <S.ManageClubUserInfoContainer onClick={onUserBoxClick}>
-            <S.ManageClubUserIconContainer>
-              <S.ManageClubUserIcon />
-              <S.ManageClubUserName>{name}</S.ManageClubUserName>
-            </S.ManageClubUserIconContainer>
-            <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
-            <S.ManageClubUserStatus isOk={status}>
-              {status ? '정상' : '대출정지'}
-              <br />
-              {errorMessage && `(${errorMessage})`}
-            </S.ManageClubUserStatus>
-            <FaEllipsisV size={'0.9rem'} />
-          </S.ManageClubUserInfoContainer>
+          <S.ManageClubUserContainer>
+            <S.ManageClubUserInfoContainer onClick={onUserBoxClick}>
+              <S.ManageClubUserIconContainer>
+                <S.ManageClubUserIcon />
+                <S.ManageClubUserName>{name}</S.ManageClubUserName>
+              </S.ManageClubUserIconContainer>
+              <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
+              <S.ManageClubUserStatus isOk={status}>
+                {status ? '정상' : '대출정지'}
+                <br />
+                {errorMessage && `(${errorMessage})`}
+              </S.ManageClubUserStatus>
+            </S.ManageClubUserInfoContainer>
+            <div>
+              <FaEllipsisV size={'0.9rem'} />
+            </div>
+          </S.ManageClubUserContainer>
         ))}
       </S.ManageClubUserMenuContainer>
 
