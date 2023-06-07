@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
-import { BOOK_LIST, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
+import { BOOK_LIST, MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section, DetailModal, HeaderSection, Modal, StatusModal } from '@/components';
 import { useModal } from '@/hooks';
 import { Book1PNG } from '@/assets';
@@ -19,8 +19,6 @@ export interface AddBookModalStateProps {
   status: boolean;
   isOk: null | boolean;
 }
-
-const BASE_URL = '/manage/club-book';
 
 export const ManageClubBookPage: React.FC = () => {
   const navigate = useNavigate();
@@ -70,7 +68,7 @@ export const ManageClubBookPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!activeOption) {
-      navigate(`${BASE_URL}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
+      navigate(`${MANAGE_CLUB_BOOK}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
     }
   }, [activeOption]);
 
@@ -80,7 +78,7 @@ export const ManageClubBookPage: React.FC = () => {
         <HeaderSection
           name={activeOption.text}
           activeId={option}
-          href={`${BASE_URL}`}
+          href={`${MANAGE_CLUB_BOOK}`}
           list={MANAGE_CLUB_BOOK_OPTIONS}
           onClick={onAddBookModalOpen}
         />
@@ -167,7 +165,7 @@ export const ManageClubBookPage: React.FC = () => {
       )}
       {modalActive && addBookModalActive.status && addBookModalActive.isOk === false && (
         <StatusModal
-          url={`${BASE_URL}`}
+          url={`${MANAGE_CLUB_BOOK}`}
           isOk={false}
           title="책 추가 실패"
           message={

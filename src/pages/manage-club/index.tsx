@@ -4,15 +4,15 @@ import { FaRegCopy, FaEllipsisV } from 'react-icons/fa';
 import Lottie from 'react-lottie';
 
 import { useModal } from '@/hooks';
-import { USER_LIST, generateCodeOptionList, loadingLottieOptions } from '@/constant';
-import { Button, Modal } from '@/components';
+import { MANAGE_CLUB, USER_LIST, generateCodeOptionList, loadingLottieOptions } from '@/constant';
+import { Button, ClubMemberInfoModal, Modal } from '@/components';
 
 import * as S from './styled';
 
 export const ManageClubPage: React.FC = () => {
   const { open, modalActive } = useModal();
   const [inviteCodeClick, setInviteCodeClick] = useState<boolean>(false);
-  const [userBoxClick, setUserBoxClick] = useState<boolean>(false);
+  const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [ok, setOk] = useState<boolean>(false);
   const [inviteCode, setInviteCode] = useState<string>('');
@@ -21,7 +21,7 @@ export const ManageClubPage: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    navigate(`/manage-club?generate-code-step=2`);
+    navigate(`${MANAGE_CLUB}?generate-code-step=2`);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -33,21 +33,26 @@ export const ManageClubPage: React.FC = () => {
   };
 
   const onCloseNavigate = () => {
-    navigate(`/manage-club`);
+    navigate(`${MANAGE_CLUB}`);
   };
 
   const onInviteCodeClick = () => {
     setInviteCodeClick(true);
-    setUserBoxClick(false);
+    setClubMemberInfoModal(false);
     setPage(1);
     setOk(false);
     open();
   };
 
-  const onUserBoxClick = () => {
-    setUserBoxClick(true);
-    setInviteCodeClick(false);
-    open();
+  // user info Modal FN
+  const onClubMemberInfoModalOpen = (username: string) => {
+    setClubMemberInfoModal(true);
+    navigate(`${MANAGE_CLUB}?username=${username}`);
+  };
+
+  const onClubMemberInfoModalClose = () => {
+    setClubMemberInfoModal(false);
+    navigate(`${MANAGE_CLUB}`);
   };
 
   const onCopyText = () => {
@@ -57,7 +62,7 @@ export const ManageClubPage: React.FC = () => {
   const onCheckClick = () => {
     setOk(false);
     setInviteCodeClick(false);
-    navigate(`/manage-club`);
+    navigate(`${MANAGE_CLUB}`);
   };
 
   const onEditClick = () => {
@@ -66,7 +71,7 @@ export const ManageClubPage: React.FC = () => {
   };
 
   useEffect(() => {
-    navigate(`/manage-club`);
+    navigate(`${MANAGE_CLUB}`);
   }, []);
 
   return (
@@ -80,7 +85,7 @@ export const ManageClubPage: React.FC = () => {
         </S.ManageClubUserMenuBar>
         {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
           <S.ManageClubUserContainer>
-            <S.ManageClubUserInfoContainer onClick={onUserBoxClick}>
+            <S.ManageClubUserInfoContainer onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
               <S.ManageClubUserIconContainer>
                 <S.ManageClubUserIcon />
                 <S.ManageClubUserName>{name}</S.ManageClubUserName>
@@ -99,32 +104,7 @@ export const ManageClubPage: React.FC = () => {
         ))}
       </S.ManageClubUserMenuContainer>
 
-      {modalActive && userBoxClick && (
-        <Modal.OverLay>
-          <Modal
-            textProps={
-              <S.ModalUserContainer>
-                <S.ModalTitle>부원 박찬영</S.ModalTitle>
-                <S.ModalUserBookInfoText>현재 대출중인 책: 3권</S.ModalUserBookInfoText>
-                <S.ModalUserBookInfo>
-                  <S.ModalUserBookInfoTitle>너의 이름은:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={false}>3일 연체됨</S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-                <S.ModalUserBookInfo>
-                  <S.ModalUserBookInfoTitle>키미노 나마에와:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={true}> 4일 남음</S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-                <S.ModalUserBookInfo>
-                  <S.ModalUserBookInfoTitle>what is your fucking name:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={true}>1주일 남음</S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-              </S.ModalUserContainer>
-            }
-            leftButtonText="확인"
-            modalSize="large"
-          />
-        </Modal.OverLay>
-      )}
+      {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
       {modalActive && inviteCodeClick && !ok && page === 1 && (
         <Modal.OverLay>
           <Modal
@@ -154,8 +134,8 @@ export const ManageClubPage: React.FC = () => {
             statusDisable={loading}
             modalSize="medium"
             {...(!loading && {
-              nextButtonClick: () => onSubmit(),
-              doneButtonClick: () => onCloseNavigate(),
+              rightButtonClick: () => onSubmit(),
+              leftButtonClick: () => onCloseNavigate(),
             })}
           />
         </Modal.OverLay>
@@ -185,7 +165,7 @@ export const ManageClubPage: React.FC = () => {
             onlyRightButton={true}
             leftButtonText="확인했어요"
             modalSize="small"
-            doneButtonClick={() => onCheckClick()}
+            rightButtonClick={() => onCheckClick()}
           />
         </Modal.OverLay>
       )}
