@@ -57,6 +57,7 @@ export const App: React.FC = () => {
           <Route path="member/:userId" element={<ManageClubPage />}>
             <Route path="detail" element={<ManageClubPage />} />
             <Route path="expel" element={<ManageClubPage />} />
+            <Route path="status" element={<ManageClubPage />} />
           </Route>
           <Route path="delete" element={<ManageClubPage />} />
           <Route path="change-director" element={<ManageClubPage />} />

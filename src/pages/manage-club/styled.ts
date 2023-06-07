@@ -147,10 +147,10 @@ export const ManageClubMemberPopupDiv = styled.div<{ isOut: boolean }>`
   justify-content: flex-start;
   padding: 0.8rem 1rem;
   column-gap: 0.4rem;
-  color: ${({ isOut }) => (isOut ? 'black' : 'red')};
+  color: ${({ isOut }) => (isOut ? 'black' : '#D83333')};
   border-radius: ${({ isOut }) => (isOut ? '0 0 1rem 1rem' : '1rem 1rem 0 0')};
   transition: background-color 200ms ease-in-out;
   &:hover {
-    background-color: #eaeaea;
+    background-color: #f5f5f5;
   }
 `;

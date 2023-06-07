@@ -5,6 +5,7 @@ import { FaRegCopy } from 'react-icons/fa';
 
 import { Modal, StatusModal } from '@/components';
 import { MANAGE_CLUB, GENERATE_CODE_OPTION_LIST, loadingLottieOptions } from '@/constant';
+import { clubModalProps } from '@/pages';
 
 import * as S from './styled';
 
@@ -13,12 +14,7 @@ export interface clubCodeModalProps {
   onClubCodeModalClose: () => void;
   onClubCodeModalPrevPage: () => void;
   onClubCodeCopyText: () => void;
-  loading: boolean;
-  clubCodeModal: {
-    state: boolean;
-    isOk: boolean;
-    page: number;
-  };
+  clubCodeModal: clubModalProps;
 }
 
 export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
@@ -26,7 +22,6 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
   onClubCodeModalClose,
   onClubCodeModalPrevPage,
   onClubCodeCopyText,
-  loading,
   clubCodeModal,
 }) => {
   if (clubCodeModal.state && clubCodeModal.page === 1) {
@@ -50,15 +45,15 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
           }
           leftButtonText="닫기"
           rightButtonText={
-            loading ? (
+            clubCodeModal.isLoading ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               '생성하기'
             )
           }
-          statusDisable={loading}
+          statusDisable={clubCodeModal.isLoading}
           modalSize="medium"
-          {...(!loading && {
+          {...(!clubCodeModal.isLoading && {
             rightButtonClick: () => onClubCodeModalNextPage(),
             leftButtonClick: () => onClubCodeModalClose(),
           })}

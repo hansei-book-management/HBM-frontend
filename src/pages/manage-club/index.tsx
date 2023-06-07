@@ -7,23 +7,40 @@ import { Button, ClubCodeModal, ClubMemberInfoModal } from '@/components';
 
 import * as S from './styled';
 
+export interface clubModalProps {
+  state: boolean;
+  isOk: boolean;
+  page?: number;
+  isLoading: boolean;
+}
+
 export const ManageClubPage: React.FC = () => {
-  const [clubCodeModal, setClubCodeModal] = useState({
+  const [clubCodeModal, setClubCodeModal] = useState<clubModalProps>({
     state: false,
     isOk: false,
     page: 1,
+    isLoading: true,
   });
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [clubCode, setClubCode] = useState<string>('');
-  const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map((v) => false)); // 이 코드를 해석하면 USER_LIST의 길이만큼 false로 채워진 배열이 생성된다.
+  const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
+  const [clubMemberStatusModal, setClubMemberStatusModal] = useState<clubModalProps>({
+    state: false,
+    isOk: false,
+    isLoading: false,
+  });
+  const [clubMemberExpelModal, setClubMemberExpelModal] = useState<clubModalProps>({
+    state: false,
+    isOk: false,
+    isLoading: false,
+  });
 
   const navigate = useNavigate();
 
   // club member info modal FN
-  const onClubMemberInfoModalOpen = (username: string) => {
+  const onClubMemberInfoModalOpen = (userId: string) => {
     setClubMemberInfoModal(true);
-    navigate(`${MANAGE_CLUB}?username=${username}`);
+    navigate(`${MANAGE_CLUB}/member/${userId}/detail`);
   };
 
   const onClubMemberInfoModalClose = () => {
@@ -33,32 +50,73 @@ export const ManageClubPage: React.FC = () => {
 
   // club code modal FN
   const onClubCodeModalOpen = () => {
-    setClubCodeModal({ state: true, isOk: false, page: 1 });
+    setClubCodeModal({ state: true, isOk: false, page: 1, isLoading: false });
   };
 
   const onClubCodeModalClose = () => {
-    setClubCodeModal({ state: false, isOk: false, page: 3 });
+    setClubCodeModal({ state: false, isOk: false, page: 3, isLoading: false });
     navigate(`${MANAGE_CLUB}`);
   };
 
   const onClubCodeModalNextPage = () => {
-    navigate(`${MANAGE_CLUB}?generate-code-step=2`);
-    setLoading(true);
+    setClubCodeModal({ state: true, isOk: false, page: 1, isLoading: true });
     setTimeout(() => {
-      setLoading(false);
-      setClubCodeModal({ state: true, isOk: true, page: 2 });
+      setClubCodeModal({ state: true, isOk: true, page: 2, isLoading: false });
+      navigate(`${MANAGE_CLUB}/generate-code?step=2`);
       // fail test
       // setClubCodeModal({ state: true, isOk: false, page: 2 });
-    }, 1000);
+    }, 1600);
     setClubCode('앙앙기모링');
   };
 
   const onClubCodeModalPrevPage = () => {
-    setClubCodeModal({ state: true, isOk: false, page: 1 });
+    setClubCodeModal({ state: true, isOk: false, page: 1, isLoading: false });
   };
 
   const onClubCodeCopyText = () => {
     navigator.clipboard.writeText(clubCode);
+  };
+
+  // club member status modal FN
+  const onClubMemberStatusModalOpen = (userId: string) => {
+    setClubMemberStatusModal({ state: true, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=1`);
+  };
+
+  const onClubMemberStatusModalClose = () => {
+    setClubMemberStatusModal({ state: false, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onClubMemberStatusModalNextPage = (userId: string) => {
+    setClubMemberStatusModal({ state: true, isOk: false, isLoading: true });
+    setTimeout(() => {
+      setClubMemberStatusModal({ state: true, isOk: true, isLoading: false });
+      navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=2`);
+      // fail test
+      // setClubMemberStatusModal({ state: true, isOk: false, isLoading: false });
+    }, 1000);
+  };
+
+  // club member expel modal FN
+  const onClubMemberExpelModalOpen = (userId: string) => {
+    setClubMemberExpelModal({ state: true, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}/member/${userId}/expel?step=1`);
+  };
+
+  const onClubMemberExpelModalClose = () => {
+    setClubMemberExpelModal({ state: false, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onClubMemberExpelModalNextPage = (userId: string) => {
+    setClubMemberExpelModal({ state: true, isOk: false, isLoading: true });
+    setTimeout(() => {
+      setClubMemberExpelModal({ state: true, isOk: true, isLoading: false });
+      navigate(`${MANAGE_CLUB}/member/${userId}/expel?step=2`);
+      // fail test
+      // setClubMemberExpelModal({ state: true, isOk: false, isLoading: false });
+    }, 1000);
   };
 
   useEffect(() => {
@@ -67,7 +125,11 @@ export const ManageClubPage: React.FC = () => {
 
   return (
     <S.ManageClubWrapper>
-      <Button onClick={onClubCodeModalOpen} to="?generate-code-step=1" description="동아리 코드" />
+      <Button
+        onClick={onClubCodeModalOpen}
+        to={`${MANAGE_CLUB}/generate-code?step=1`}
+        description="동아리 코드"
+      />
       <S.ManageClubUserMenuContainer>
         <S.ManageClubUserMenuBar>
           <S.ManageClubUserMenuBarItem>부원</S.ManageClubUserMenuBarItem>
@@ -122,7 +184,6 @@ export const ManageClubPage: React.FC = () => {
         onClubCodeModalClose={onClubCodeModalClose}
         onClubCodeModalPrevPage={onClubCodeModalPrevPage}
         onClubCodeCopyText={onClubCodeCopyText}
-        loading={loading}
         clubCodeModal={clubCodeModal}
       />
     </S.ManageClubWrapper>
