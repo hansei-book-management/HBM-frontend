@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaRegCopy } from 'react-icons/fa';
+import { FaRegCopy, FaEllipsisV } from 'react-icons/fa';
 import Lottie from 'react-lottie';
 
 import { useModal } from '@/hooks';
@@ -90,6 +90,7 @@ export const ManageClubPage: React.FC = () => {
               <br />
               {errorMessage && `(${errorMessage})`}
             </S.ManageClubUserStatus>
+            <FaEllipsisV size={'0.9rem'} />
           </S.ManageClubUserInfoContainer>
         ))}
       </S.ManageClubUserMenuContainer>

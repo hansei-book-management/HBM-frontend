@@ -22,7 +22,7 @@ export const ManageClubUserMenuContainer = styled.div`
 
 export const ManageClubUserMenuBar = styled.div`
   display: grid;
-  grid-template-columns: 2.96fr 1fr 2fr;
+  grid-template-columns: 2.96fr 1fr 2fr 0.15fr;
   padding: 0.6rem 1rem;
 `;
 
@@ -46,7 +46,7 @@ export const ManageClubAddCodeButton = styled.button`
 
 export const ManageClubUserInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 3fr 1fr 2fr;
+  grid-template-columns: 3fr 1fr 2fr 0.15fr;
   padding: 1rem 1.4rem;
   align-items: center;
   background-color: #f5f5f5;
