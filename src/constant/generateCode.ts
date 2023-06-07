@@ -7,7 +7,7 @@ export interface GenerateCodeOptionProps {
   optionList: GenerateCodeOptionListProps[];
 }
 
-export const generateCodeOptionList: GenerateCodeOptionProps[] = [
+export const GENERATE_CODE_OPTION_LIST: GenerateCodeOptionProps[] = [
   {
     title: '유효기간',
     optionList: [

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 
 import { Modal, StatusModal } from '@/components/modal';
-import { MANAGE_CLUB, generateCodeOptionList, loadingLottieOptions } from '@/constant';
+import { MANAGE_CLUB, GENERATE_CODE_OPTION_LIST, loadingLottieOptions } from '@/constant';
 
 import * as S from './styled';
 
@@ -36,7 +36,7 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
           textProps={
             <S.GenerateCodeContainer>
               <S.ModalTitle>코드 생성하기</S.ModalTitle>
-              {generateCodeOptionList.map(({ title, optionList }) => (
+              {GENERATE_CODE_OPTION_LIST.map(({ title, optionList }) => (
                 <S.GenerateCodeSelectContainer>
                   <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
                   <S.GenerateCodeSelect>
@@ -71,23 +71,23 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
       <Modal.OverLay>
         <Modal
           textProps={
-            <S.InviteCodeContainer>
+            <S.ClubCodeContainer>
               <div>
                 <S.ModalTitle>초대 코드 발급</S.ModalTitle>
-                <S.InviteCodeSubTitleContainer>
+                <S.ClubCodeSubTitleContainer>
                   최대 사용 횟수는 7회이고, 30일 동안 유효해요.
                   <Link to="?generate-code-step=1" onClick={onClubCodeModalPrevPage}>
                     수정하기
                   </Link>
-                </S.InviteCodeSubTitleContainer>
+                </S.ClubCodeSubTitleContainer>
               </div>
-              <S.InviteCodeValueContainer>
-                <S.InviteCodeText>앙기모링</S.InviteCodeText>
-                <S.InviteCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
+              <S.ClubCodeValueContainer>
+                <S.ClubCodeText>앙기모링</S.ClubCodeText>
+                <S.ClubCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
                   <FaRegCopy size={'0.9rem'} />
-                </S.InviteCodeCopyButtonWrapper>
-              </S.InviteCodeValueContainer>
-            </S.InviteCodeContainer>
+                </S.ClubCodeCopyButtonWrapper>
+              </S.ClubCodeValueContainer>
+            </S.ClubCodeContainer>
           }
           onlyRightButton={true}
           isOk={true}

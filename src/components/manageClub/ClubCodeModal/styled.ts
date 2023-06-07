@@ -40,7 +40,7 @@ export const GenerateCodeSelect = styled.select`
   color: ${({ theme }) => theme.black};
 `;
 
-export const InviteCodeContainer = styled.div`
+export const ClubCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -48,7 +48,7 @@ export const InviteCodeContainer = styled.div`
   row-gap: 2rem;
 `;
 
-export const InviteCodeSubTitleContainer = styled.div`
+export const ClubCodeSubTitleContainer = styled.div`
   margin-top: 0.4rem;
   display: flex;
   align-items: center;
@@ -69,7 +69,7 @@ export const InviteCodeSubTitleContainer = styled.div`
   }
 `;
 
-export const InviteCodeValueContainer = styled.div`
+export const ClubCodeValueContainer = styled.div`
   align-self: center;
   display: flex;
   align-items: center;
@@ -82,13 +82,13 @@ export const InviteCodeValueContainer = styled.div`
   border-radius: 2rem;
 `;
 
-export const InviteCodeText = styled.span`
+export const ClubCodeText = styled.span`
   font-size: 1rem;
   font-weight: 400;
   color: #6f6f6f;
 `;
 
-export const InviteCodeCopyButtonWrapper = styled.div`
+export const ClubCodeCopyButtonWrapper = styled.div`
   border-radius: 50%;
   width: 3rem;
   height: inherit;
