@@ -22,4 +22,9 @@ export const USER_LIST: UserItem[] = [
     bookInfo: 0,
     status: true,
   },
+  {
+    name: '박찬영',
+    bookInfo: 2,
+    status: true,
+  },
 ];

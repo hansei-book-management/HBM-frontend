@@ -5,14 +5,14 @@ import { useModal } from '@/hooks/useModal';
 import * as S from './styled';
 
 export interface ModalProps {
-  nextButtonClick?: () => void;
-  doneButtonClick?: () => void;
+  rightButtonClick?: () => void;
+  leftButtonClick?: () => void;
   modalSize: 'small' | 'medium' | 'large';
   textProps: React.ReactNode;
   statusModal?: boolean;
   statusDisable?: boolean;
   returnBookDisable?: boolean;
-  leftButtonText: string;
+  leftButtonText?: string;
   rightButtonText?: React.ReactNode;
   onlyRightButton?: boolean;
   isOk?: boolean;
@@ -31,8 +31,8 @@ export const ModalElement: React.FC<ModalProps> = ({
   rightButtonText,
   modalSize,
   onlyRightButton,
-  nextButtonClick,
-  doneButtonClick,
+  rightButtonClick,
+  leftButtonClick,
   isOk = false,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
@@ -43,7 +43,7 @@ export const ModalElement: React.FC<ModalProps> = ({
       setIsClosed(true);
       setTimeout(() => {
         close();
-        doneButtonClick && doneButtonClick();
+        leftButtonClick && leftButtonClick();
       }, 200);
     }
   };
@@ -68,7 +68,7 @@ export const ModalElement: React.FC<ModalProps> = ({
                 >
                   {leftButtonText}
                 </S.ModalButton>
-                <S.ModalButton disable={returnBookDisable} onClick={nextButtonClick}>
+                <S.ModalButton disable={returnBookDisable} onClick={rightButtonClick}>
                   {rightButtonText}
                 </S.ModalButton>
               </>

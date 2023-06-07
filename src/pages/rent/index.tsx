@@ -44,7 +44,7 @@ export const RentPage: React.FC = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setStatus(true);
+      setStatus(false);
     }, 2000);
   };
 
@@ -133,8 +133,8 @@ export const RentPage: React.FC = () => {
               }
               modalSize="large"
               {...(!loading && {
-                nextButtonClick: () => onRentNavigate(1, 2),
-                doneButtonClick: () => onCloseNavigate(),
+                rightButtonClick: () => onRentNavigate(1, 2),
+                leftButtonClick: () => onCloseNavigate(),
               })}
             />
           </Modal.OverLay>

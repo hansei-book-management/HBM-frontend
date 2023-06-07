@@ -1,6 +1,18 @@
 import { FaUserCircle } from 'react-icons/fa';
 
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import styled, { keyframes } from 'styled-components';
+
+export const popupCloseKeyframe = keyframes`
+   0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+`;
 
 export const ManageClubWrapper = styled.div`
   display: flex;
@@ -22,8 +34,9 @@ export const ManageClubUserMenuContainer = styled.div`
 
 export const ManageClubUserMenuBar = styled.div`
   display: grid;
-  grid-template-columns: 2.96fr 1fr 2fr;
+  grid-template-columns: 2.96fr 1fr 2fr 0.15fr;
   padding: 0.6rem 1rem;
+  width: 100%;
 `;
 
 export const ManageClubUserMenuBarItem = styled.span`
@@ -44,13 +57,30 @@ export const ManageClubAddCodeButton = styled.button`
   }
 `;
 
-export const ManageClubUserInfoContainer = styled.div`
+export const DummyContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+  position: relative;
+`;
+
+export const ManageClubUserContainer = styled.div`
   display: grid;
-  grid-template-columns: 3fr 1fr 2fr;
+  grid-template-columns: 3fr 0fr;
   padding: 1rem 1.4rem;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: #f7f7f7;
   border-radius: 1rem;
+  z-index: 10;
+  width: 100%;
+`;
+
+export const ManageClubUserInfoContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3.1fr 1.06fr 2.04fr;
+  align-items: center;
 `;
 
 export const ManageClubUserIconContainer = styled.div`
@@ -82,131 +112,45 @@ export const ManageClubUserStatus = styled.span<{ isOk: boolean }>`
   color: ${({ isOk, theme }) => (isOk ? theme.primary.green : theme.primary.red)};
 `;
 
-export const ModalUserContainer = styled.div`
+export const ManageClubMemberPopupIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: background-color 200ms ease-in-out;
+  &:hover {
+    background-color: #eaeaea;
+  }
+  z-index: 9999;
+`;
+
+export const ManageClubMemberPopupContainer = styled(motion.div)`
+  margin-right: 0.6rem;
+  width: 16rem;
   display: flex;
   flex-direction: column;
-  padding-bottom: 1rem;
-  gap: 0.8rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  position: absolute;
+  top: 3rem;
+  margin-right: 2rem;
 `;
 
-export const ModalTitle = styled.h1`
-  font-size: 1.8rem;
-  font-weight: 700;
-`;
-
-export const ModalUserBookInfoText = styled.span`
-  font-size: 1rem;
-  font-weight: 400;
-  margin-bottom: 2rem;
-`;
-
-export const ModalUserBookInfo = styled.div`
+export const ManageClubMemberPopupDiv = styled.div<{ isOut: boolean }>`
+  width: 100%;
   display: flex;
-`;
-
-export const ModalUserBookInfoTitle = styled.span`
-  font-size: 1.1rem;
-  font-weight: 600;
-`;
-
-export const ModalUserBookInfoStatus = styled(ModalUserBookInfoTitle)<{ isOk: boolean }>`
-  margin-left: 0.8rem;
-  color: ${({ isOk, theme }) => (isOk ? theme.primary.green : theme.primary.red)};
-`;
-
-export const GenerateCodeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  row-gap: 1.6rem;
-`;
-
-export const GenerateCodeSelectContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  row-gap: 0.6rem;
-`;
-
-export const GenerateCodeTitle = styled.h3`
-  font-size: 1rem;
-  font-weight: 500;
-`;
-
-export const GenerateCodeSelect = styled.select`
-  background-color: ${({ theme }) => theme.white};
-  border: 1px solid ${({ theme }) => theme.imageBorder};
-  padding: 14px;
-  align-self: center;
-  border-radius: 0.8rem;
-  height: 3rem;
-  width: 100%;
-  caret-color: auto;
-  appearance: none;
-  font-size: 1rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.black};
-`;
-
-export const InviteCodeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  row-gap: 2rem;
-`;
-
-export const InviteCodeSubTitleContainer = styled.div`
-  margin-top: 0.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  font-size: 0.8rem;
-  font-weight: 400;
-
-  a {
-    color: ${({ theme }) => theme.primary.darkBlue};
-    font-size: 0.82rem;
-    font-weight: 450;
-    text-decoration: none;
-    transition: opacity 200ms ease-in-out;
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-`;
-
-export const InviteCodeValueContainer = styled.div`
-  align-self: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.46rem 1rem;
-  padding-right: 0;
-  width: 100%;
-  background-color: ${({ theme }) => theme.imageBorder};
-  height: 2.6rem;
-  border-radius: 2rem;
-`;
-
-export const InviteCodeText = styled.span`
-  font-size: 1rem;
-  font-weight: 400;
-  color: #6f6f6f;
-`;
-
-export const InviteCodeCopyButtonWrapper = styled.div`
-  border-radius: 50%;
-  width: 3rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 100ms ease-in-out;
-  cursor: pointer;
-  &:active {
-    background-color: #b3b3b3;
+  padding: 0.8rem 1rem;
+  column-gap: 0.4rem;
+  color: ${({ isOut }) => (isOut ? 'black' : '#D83333')};
+  border-radius: ${({ isOut }) => (isOut ? '0 0 1rem 1rem' : '1rem 1rem 0 0')};
+  transition: background-color 200ms ease-in-out;
+  &:hover {
+    background-color: #f5f5f5;
   }
 `;

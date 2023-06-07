@@ -1,189 +1,205 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaRegCopy } from 'react-icons/fa';
-import Lottie from 'react-lottie';
+import { useNavigate } from 'react-router-dom';
+import { FaEllipsisV, FaLock, FaUserSlash } from 'react-icons/fa';
 
-import { useModal } from '@/hooks';
-import { USER_LIST, generateCodeOptionList, loadingLottieOptions } from '@/constant';
-import { Button, Modal } from '@/components';
+import { MANAGE_CLUB, USER_LIST } from '@/constant';
+import {
+  Button,
+  ClubCodeModal,
+  ClubMemberChangeStatusModal,
+  ClubMemberInfoModal,
+} from '@/components';
 
 import * as S from './styled';
 
+export interface clubModalProps {
+  state: boolean;
+  isOk: boolean;
+  page?: number;
+  isLoading: boolean;
+}
+
 export const ManageClubPage: React.FC = () => {
-  const { open, modalActive } = useModal();
-  const [inviteCodeClick, setInviteCodeClick] = useState<boolean>(false);
-  const [userBoxClick, setUserBoxClick] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [ok, setOk] = useState<boolean>(false);
-  const [inviteCode, setInviteCode] = useState<string>('');
-  const [page, setPage] = useState<number>(1);
+  const [clubCodeModal, setClubCodeModal] = useState<clubModalProps>({
+    state: false,
+    isOk: false,
+    page: 1,
+    isLoading: true,
+  });
+  const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
+  const [clubCode, setClubCode] = useState<string>('');
+  const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
+  const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<clubModalProps>({
+    state: false,
+    isOk: false,
+    isLoading: false,
+  });
+  const [clubMemberExpelModal, setClubMemberExpelModal] = useState<clubModalProps>({
+    state: false,
+    isOk: false,
+    isLoading: false,
+  });
 
   const navigate = useNavigate();
 
-  const onSubmit = () => {
-    navigate(`/manage-club?generate-code-step=2`);
-    setLoading(true);
+  // club member info modal FN
+  const onClubMemberInfoModalOpen = (userId: string) => {
+    setClubMemberInfoModal(true);
+    navigate(`${MANAGE_CLUB}/member/${userId}/detail`);
+  };
+
+  const onClubMemberInfoModalClose = () => {
+    setClubMemberInfoModal(false);
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  // club code modal FN
+  const onClubCodeModalOpen = () => {
+    setClubCodeModal({ state: true, isOk: false, page: 1, isLoading: false });
+  };
+
+  const onClubCodeModalClose = () => {
+    setClubCodeModal({ state: false, isOk: false, page: 3, isLoading: false });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onClubCodeModalNextPage = () => {
+    setClubCodeModal({ state: true, isOk: false, page: 1, isLoading: true });
     setTimeout(() => {
-      setLoading(false);
-      setOk(true);
-      setPage(2);
+      setClubCodeModal({ state: true, isOk: true, page: 2, isLoading: false });
+      navigate(`${MANAGE_CLUB}/generate-code?step=2`);
+      // fail test
+      // setClubCodeModal({ state: true, isOk: false, page: 2 });
+    }, 1600);
+    setClubCode('앙앙기모링');
+  };
+
+  const onClubCodeModalPrevPage = () => {
+    setClubCodeModal({ state: true, isOk: false, page: 1, isLoading: false });
+  };
+
+  const onClubCodeCopyText = () => {
+    navigator.clipboard.writeText(clubCode);
+  };
+
+  // club member status modal FN
+  const onClubMemberChangeStatusModalOpen = (userId: string) => {
+    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=1`);
+  };
+
+  const onClubMemberChangeStatusModalClose = () => {
+    setClubMemberChangeStatusModal({ state: false, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onClubMemberChangeStatusModalNextPage = (userId: string) => {
+    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: true });
+    setTimeout(() => {
+      setClubMemberChangeStatusModal({ state: true, isOk: true, isLoading: false });
+      navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=2`);
+      console.log(clubMemberChangeStatusModal);
+      // fail test
+      // setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
     }, 1000);
-    setOk(false);
-    setInviteCode('앙앙기모링');
   };
 
-  const onCloseNavigate = () => {
-    navigate(`/manage-club`);
+  // club member expel modal FN
+  const onClubMemberExpelModalOpen = (userId: string) => {
+    setClubMemberExpelModal({ state: true, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}/member/${userId}/expel?step=1`);
   };
 
-  const onInviteCodeClick = () => {
-    setInviteCodeClick(true);
-    setUserBoxClick(false);
-    setPage(1);
-    setOk(false);
-    open();
+  const onClubMemberExpelModalClose = () => {
+    setClubMemberExpelModal({ state: false, isOk: false, isLoading: false });
+    navigate(`${MANAGE_CLUB}`);
   };
 
-  const onUserBoxClick = () => {
-    setUserBoxClick(true);
-    setInviteCodeClick(false);
-    open();
-  };
-
-  const onCopyText = () => {
-    navigator.clipboard.writeText(inviteCode);
-  };
-
-  const onCheckClick = () => {
-    setOk(false);
-    setInviteCodeClick(false);
-    navigate(`/manage-club`);
-  };
-
-  const onEditClick = () => {
-    setOk(false);
-    setPage(1);
+  const onClubMemberExpelModalNextPage = (userId: string) => {
+    setClubMemberExpelModal({ state: true, isOk: false, isLoading: true });
+    setTimeout(() => {
+      setClubMemberExpelModal({ state: true, isOk: true, isLoading: false });
+      navigate(`${MANAGE_CLUB}/member/${userId}/expel?step=2`);
+      // fail test
+      // setClubMemberExpelModal({ state: true, isOk: false, isLoading: false });
+    }, 1000);
   };
 
   useEffect(() => {
-    navigate(`/manage-club`);
+    navigate(`${MANAGE_CLUB}`);
   }, []);
 
   return (
     <S.ManageClubWrapper>
-      <Button onClick={onInviteCodeClick} to="?generate-code-step=1" description="초대 코드 생성" />
+      <Button
+        onClick={onClubCodeModalOpen}
+        to={`${MANAGE_CLUB}/generate-code?step=1`}
+        description="동아리 코드"
+      />
       <S.ManageClubUserMenuContainer>
         <S.ManageClubUserMenuBar>
           <S.ManageClubUserMenuBarItem>부원</S.ManageClubUserMenuBarItem>
           <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
           <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
         </S.ManageClubUserMenuBar>
-        {USER_LIST.map(({ name, bookInfo, status, errorMessage }) => (
-          <S.ManageClubUserInfoContainer onClick={onUserBoxClick}>
-            <S.ManageClubUserIconContainer>
-              <S.ManageClubUserIcon />
-              <S.ManageClubUserName>{name}</S.ManageClubUserName>
-            </S.ManageClubUserIconContainer>
-            <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
-            <S.ManageClubUserStatus isOk={status}>
-              {status ? '정상' : '대출정지'}
-              <br />
-              {errorMessage && `(${errorMessage})`}
-            </S.ManageClubUserStatus>
-          </S.ManageClubUserInfoContainer>
+        {USER_LIST.map(({ name, bookInfo, status, errorMessage }, i) => (
+          <S.DummyContainer>
+            <S.ManageClubUserContainer>
+              <S.ManageClubUserInfoContainer onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
+                <S.ManageClubUserIconContainer>
+                  <S.ManageClubUserIcon />
+                  <S.ManageClubUserName>{name}</S.ManageClubUserName>
+                </S.ManageClubUserIconContainer>
+                <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
+                <S.ManageClubUserStatus isOk={status}>
+                  {status ? '정상' : '대출정지'}
+                  <br />
+                  {errorMessage && `(${errorMessage})`}
+                </S.ManageClubUserStatus>
+              </S.ManageClubUserInfoContainer>
+              <S.ManageClubMemberPopupIconWrapper
+                onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
+              >
+                <FaEllipsisV size={'0.9rem'} />
+              </S.ManageClubMemberPopupIconWrapper>
+            </S.ManageClubUserContainer>
+            <S.ManageClubMemberPopupContainer
+              initial="closed"
+              animate={clubMemberPopupList[i] ? 'open' : 'closed'}
+              variants={{
+                open: { opacity: 1, zIndex: 12 },
+                closed: { opacity: 0, zIndex: -1 },
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <S.ManageClubMemberPopupDiv
+                isOut={false}
+                onClick={() => onClubMemberChangeStatusModalOpen('asdf')}
+              >
+                <FaLock size={'0.9rem'} />
+                <span>대여정지 해제</span>
+              </S.ManageClubMemberPopupDiv>
+              <S.ManageClubMemberPopupDiv isOut={true}>
+                <FaUserSlash size={'0.9rem'} />
+                <span>추방</span>
+              </S.ManageClubMemberPopupDiv>
+            </S.ManageClubMemberPopupContainer>
+          </S.DummyContainer>
         ))}
       </S.ManageClubUserMenuContainer>
-
-      {modalActive && userBoxClick && (
-        <Modal.OverLay>
-          <Modal
-            textProps={
-              <S.ModalUserContainer>
-                <S.ModalTitle>부원 박찬영</S.ModalTitle>
-                <S.ModalUserBookInfoText>현재 대출중인 책: 3권</S.ModalUserBookInfoText>
-                <S.ModalUserBookInfo>
-                  <S.ModalUserBookInfoTitle>너의 이름은:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={false}>3일 연체됨</S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-                <S.ModalUserBookInfo>
-                  <S.ModalUserBookInfoTitle>키미노 나마에와:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={true}> 4일 남음</S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-                <S.ModalUserBookInfo>
-                  <S.ModalUserBookInfoTitle>what is your fucking name:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={true}>1주일 남음</S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-              </S.ModalUserContainer>
-            }
-            leftButtonText="확인"
-            modalSize="large"
-          />
-        </Modal.OverLay>
-      )}
-      {modalActive && inviteCodeClick && !ok && page === 1 && (
-        <Modal.OverLay>
-          <Modal
-            textProps={
-              <S.GenerateCodeContainer>
-                <S.ModalTitle>코드 생성하기</S.ModalTitle>
-                {generateCodeOptionList.map(({ title, optionList }) => (
-                  <S.GenerateCodeSelectContainer>
-                    <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
-                    <S.GenerateCodeSelect>
-                      {optionList.map(({ value }) => (
-                        <option key={value}>{value}</option>
-                      ))}
-                    </S.GenerateCodeSelect>
-                  </S.GenerateCodeSelectContainer>
-                ))}
-              </S.GenerateCodeContainer>
-            }
-            leftButtonText="닫기"
-            rightButtonText={
-              loading ? (
-                <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
-              ) : (
-                '생성하기'
-              )
-            }
-            statusDisable={loading}
-            modalSize="medium"
-            {...(!loading && {
-              nextButtonClick: () => onSubmit(),
-              doneButtonClick: () => onCloseNavigate(),
-            })}
-          />
-        </Modal.OverLay>
-      )}
-      {modalActive && inviteCodeClick && ok && page === 2 && (
-        <Modal.OverLay>
-          <Modal
-            textProps={
-              <S.InviteCodeContainer>
-                <div>
-                  <S.ModalTitle>초대 코드 발급</S.ModalTitle>
-                  <S.InviteCodeSubTitleContainer>
-                    최대 사용 횟수는 7회이고, 30일 동안 유효해요.
-                    <Link to="?generate-code-step=1" onClick={onEditClick}>
-                      수정하기
-                    </Link>
-                  </S.InviteCodeSubTitleContainer>
-                </div>
-                <S.InviteCodeValueContainer>
-                  <S.InviteCodeText>앙기모링</S.InviteCodeText>
-                  <S.InviteCodeCopyButtonWrapper onClick={onCopyText}>
-                    <FaRegCopy size={'0.9rem'} />
-                  </S.InviteCodeCopyButtonWrapper>
-                </S.InviteCodeValueContainer>
-              </S.InviteCodeContainer>
-            }
-            onlyRightButton={true}
-            leftButtonText="확인했어요"
-            modalSize="small"
-            doneButtonClick={() => onCheckClick()}
-          />
-        </Modal.OverLay>
-      )}
+      {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
+      <ClubCodeModal
+        onClubCodeModalNextPage={onClubCodeModalNextPage}
+        onClubCodeModalClose={onClubCodeModalClose}
+        onClubCodeModalPrevPage={onClubCodeModalPrevPage}
+        onClubCodeCopyText={onClubCodeCopyText}
+        clubCodeModal={clubCodeModal}
+      />
+      <ClubMemberChangeStatusModal
+        onClubMemberChangeStatusModalClose={onClubMemberChangeStatusModalClose}
+        onClubMemberChangeStatusModalNextPage={() => onClubMemberChangeStatusModalNextPage('asdf')}
+        clubMemberChangeStatusModal={clubMemberChangeStatusModal}
+      />
     </S.ManageClubWrapper>
   );
 };
