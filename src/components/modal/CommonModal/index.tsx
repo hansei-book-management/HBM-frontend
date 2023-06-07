@@ -12,7 +12,7 @@ export interface ModalProps {
   statusModal?: boolean;
   statusDisable?: boolean;
   returnBookDisable?: boolean;
-  leftButtonText: string;
+  leftButtonText?: string;
   rightButtonText?: React.ReactNode;
   onlyRightButton?: boolean;
   isOk?: boolean;

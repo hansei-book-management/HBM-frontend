@@ -15,10 +15,17 @@ export interface StatusModalProps {
   url: string;
   title: string;
   isOk: boolean;
+  onCloseModal?: () => void;
   message: React.ReactNode;
 }
 
-export const StatusModal: React.FC<StatusModalProps> = ({ url, message, title, isOk }) => {
+export const StatusModal: React.FC<StatusModalProps> = ({
+  url,
+  message,
+  title,
+  isOk,
+  onCloseModal,
+}) => {
   const setAddClubClick = useSetRecoilState(AddClubState);
   const navigate = useNavigate();
 
@@ -42,10 +49,12 @@ export const StatusModal: React.FC<StatusModalProps> = ({ url, message, title, i
           </S.StatusModalContainer>
         }
         rightButtonText="확인했어요"
-        doneButtonClick={() => onCloseNavigate()}
         modalSize="medium"
         statusModal={true}
         isOk={isOk}
+        {...(onCloseModal
+          ? { leftButtonClick: () => onCloseModal() }
+          : { leftButtonClick: () => onCloseNavigate() })}
       />
     </Modal.OverLay>
   );
