@@ -102,10 +102,11 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
         message={
           <>
             <S.StatusModalText>
-              보안관제 동아리 도서가 추가되었어요.
+              동아리 코드 생성에 실패 했어요.
               <br />
-              앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-              <br />내 도서에서 확인해보세요.
+              시스템 상의 문제로 동아리 코드 생성에 실패하여 동아리 생성 할 수 없어요.
+              <br />
+              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
             </S.StatusModalText>
           </>
         }

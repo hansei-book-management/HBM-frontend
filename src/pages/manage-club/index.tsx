@@ -3,7 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { FaEllipsisV, FaLock, FaUserSlash } from 'react-icons/fa';
 
 import { MANAGE_CLUB, USER_LIST } from '@/constant';
-import { Button, ClubCodeModal, ClubMemberInfoModal } from '@/components';
+import {
+  Button,
+  ClubCodeModal,
+  ClubMemberChangeStatusModal,
+  ClubMemberInfoModal,
+} from '@/components';
 
 import * as S from './styled';
 
@@ -24,7 +29,7 @@ export const ManageClubPage: React.FC = () => {
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubCode, setClubCode] = useState<string>('');
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
-  const [clubMemberStatusModal, setClubMemberStatusModal] = useState<clubModalProps>({
+  const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<clubModalProps>({
     state: false,
     isOk: false,
     isLoading: false,
@@ -78,23 +83,24 @@ export const ManageClubPage: React.FC = () => {
   };
 
   // club member status modal FN
-  const onClubMemberStatusModalOpen = (userId: string) => {
-    setClubMemberStatusModal({ state: true, isOk: false, isLoading: false });
+  const onClubMemberChangeStatusModalOpen = (userId: string) => {
+    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
     navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=1`);
   };
 
-  const onClubMemberStatusModalClose = () => {
-    setClubMemberStatusModal({ state: false, isOk: false, isLoading: false });
+  const onClubMemberChangeStatusModalClose = () => {
+    setClubMemberChangeStatusModal({ state: false, isOk: false, isLoading: false });
     navigate(`${MANAGE_CLUB}`);
   };
 
-  const onClubMemberStatusModalNextPage = (userId: string) => {
-    setClubMemberStatusModal({ state: true, isOk: false, isLoading: true });
+  const onClubMemberChangeStatusModalNextPage = (userId: string) => {
+    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: true });
     setTimeout(() => {
-      setClubMemberStatusModal({ state: true, isOk: true, isLoading: false });
+      setClubMemberChangeStatusModal({ state: true, isOk: true, isLoading: false });
       navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=2`);
+      console.log(clubMemberChangeStatusModal);
       // fail test
-      // setClubMemberStatusModal({ state: true, isOk: false, isLoading: false });
+      // setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
     }, 1000);
   };
 
@@ -166,7 +172,10 @@ export const ManageClubPage: React.FC = () => {
               }}
               transition={{ duration: 0.2 }}
             >
-              <S.ManageClubMemberPopupDiv isOut={false}>
+              <S.ManageClubMemberPopupDiv
+                isOut={false}
+                onClick={() => onClubMemberChangeStatusModalOpen('asdf')}
+              >
                 <FaLock size={'0.9rem'} />
                 <span>대여정지 해제</span>
               </S.ManageClubMemberPopupDiv>
@@ -185,6 +194,11 @@ export const ManageClubPage: React.FC = () => {
         onClubCodeModalPrevPage={onClubCodeModalPrevPage}
         onClubCodeCopyText={onClubCodeCopyText}
         clubCodeModal={clubCodeModal}
+      />
+      <ClubMemberChangeStatusModal
+        onClubMemberChangeStatusModalClose={onClubMemberChangeStatusModalClose}
+        onClubMemberChangeStatusModalNextPage={() => onClubMemberChangeStatusModalNextPage('asdf')}
+        clubMemberChangeStatusModal={clubMemberChangeStatusModal}
       />
     </S.ManageClubWrapper>
   );

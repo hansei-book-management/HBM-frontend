@@ -68,7 +68,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
         }
         leftButtonText={leftButtonText}
         rightButtonText={rightButtonText}
-        nextButtonClick={nextButtonClick}
+        rightButtonClick={nextButtonClick}
         modalSize="large"
       />
     </Modal.OverLay>
