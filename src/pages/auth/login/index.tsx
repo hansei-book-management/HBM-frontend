@@ -16,14 +16,9 @@ export const LoginPage: React.FC = () => {
   } = useForm<LoginFormValues>();
 
   const { mutate } = useLogin();
-  const { data: user, isFetching } = useFetchUser();
 
   const onSubmit = ({ username, password }: LoginFormValues) => {
     mutate({ username, password });
-  };
-
-  const onClick = () => {
-    console.log(user, 'user');
   };
 
   return (
@@ -60,7 +55,6 @@ export const LoginPage: React.FC = () => {
           아직 계정이 없으신가요? <Link to="/auth/register">회원가입</Link>
         </Form.LinkContainer>
       </div>
-      <h1 onClick={onClick}>Fetach User</h1>
     </Form>
   );
 };

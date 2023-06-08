@@ -14,4 +14,7 @@ export const LoginInput = styled.input`
     font-weight: 500;
     color: '#9E9E9E';
   }
+  @media screen and (min-width: 300px) and (max-width: 500px) {
+    height: 3.4rem;
+  }
 `;

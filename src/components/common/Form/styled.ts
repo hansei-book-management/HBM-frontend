@@ -48,6 +48,9 @@ export const FormButton = styled.button<{ phoneToken?: boolean }>`
       : css`
           opacity: 0.5;
         `}
+  @media screen and (min-width: 300px) and (max-width: 500px) {
+    height: 3.4rem;
+  }
 `;
 
 export const FormInputContainer = styled.div`
