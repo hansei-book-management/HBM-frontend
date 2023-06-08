@@ -14,7 +14,7 @@ import * as S from './styled';
 
 export interface clubModalProps {
   state: boolean;
-  isOk: boolean;
+  isOk: boolean | null;
   page?: number;
   isLoading: boolean;
 }
@@ -31,7 +31,7 @@ export const ManageClubPage: React.FC = () => {
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
   const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<clubModalProps>({
     state: false,
-    isOk: false,
+    isOk: null,
     isLoading: false,
   });
   const [clubMemberExpelModal, setClubMemberExpelModal] = useState<clubModalProps>({
@@ -83,22 +83,22 @@ export const ManageClubPage: React.FC = () => {
   };
 
   // club member status modal FN
-  const onClubMemberChangeStatusModalOpen = (userId: string) => {
-    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
+  const onClubMemberChangeStatusModalOpen = (userId: string, i: number) => {
+    setClubMemberChangeStatusModal({ state: true, isOk: null, isLoading: false });
     navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=1`);
+    setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }));
   };
 
   const onClubMemberChangeStatusModalClose = () => {
-    setClubMemberChangeStatusModal({ state: false, isOk: false, isLoading: false });
+    setClubMemberChangeStatusModal({ state: false, isOk: null, isLoading: false });
     navigate(`${MANAGE_CLUB}`);
   };
 
   const onClubMemberChangeStatusModalNextPage = (userId: string) => {
-    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: true });
+    setClubMemberChangeStatusModal({ state: true, isOk: null, isLoading: true });
     setTimeout(() => {
       setClubMemberChangeStatusModal({ state: true, isOk: true, isLoading: false });
       navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=2`);
-      console.log(clubMemberChangeStatusModal);
       // fail test
       // setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
     }, 1000);
@@ -174,7 +174,7 @@ export const ManageClubPage: React.FC = () => {
             >
               <S.ManageClubMemberPopupDiv
                 isOut={false}
-                onClick={() => onClubMemberChangeStatusModalOpen('asdf')}
+                onClick={() => onClubMemberChangeStatusModalOpen('asdf', i)}
               >
                 <FaLock size={'0.9rem'} />
                 <span>대여정지 해제</span>

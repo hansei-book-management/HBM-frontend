@@ -18,7 +18,7 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
   onClubMemberChangeStatusModalNextPage,
   clubMemberChangeStatusModal,
 }) => {
-  if (clubMemberChangeStatusModal.state) {
+  if (clubMemberChangeStatusModal.state && clubMemberChangeStatusModal.isOk === null) {
     return (
       <Modal.OverLay>
         <Modal
@@ -50,7 +50,7 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
       </Modal.OverLay>
     );
   }
-  if (clubMemberChangeStatusModal.state && clubMemberChangeStatusModal.isOk) {
+  if (clubMemberChangeStatusModal.state && clubMemberChangeStatusModal.isOk === true) {
     return (
       <StatusModal
         url={`${MANAGE_CLUB}`}
@@ -59,10 +59,11 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
         message={
           <>
             <S.StatusModalText>
-              보안관제 동아리 도서가 추가되었어요.
+              대여 정지 해제가 완료 되었어요.
               <br />
-              앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-              <br />내 도서에서 확인해보세요.
+              앞으로 자유롭게 동아리 도서를 대여할 수 있어요.
+              <br />
+              동아리 관리에서 상태를 확인해보세요.
             </S.StatusModalText>
           </>
         }
@@ -70,7 +71,7 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
       />
     );
   }
-  if (clubMemberChangeStatusModal.state && !clubMemberChangeStatusModal.isOk) {
+  if (clubMemberChangeStatusModal.state && clubMemberChangeStatusModal.isOk === false) {
     return (
       <StatusModal
         url={`${MANAGE_CLUB}`}
@@ -81,7 +82,7 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
             <S.StatusModalText>
               부원 '최근원'님의 대여 실패 했어요.
               <br />
-              시스템 상의 문제로 대여 정지 해제에 실패하여 보안관제 동아리 도서를 대여할 수 없어요.
+              시스템 상의 문제로 대여 정지 해제에 실패하였어요.
               <br />
               빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
             </S.StatusModalText>

@@ -63,7 +63,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           leftButtonText="닫기"
           rightButtonText="반납하기"
           modalSize="medium"
-          doneButtonClick={doneButtonClick}
+          leftButtonClick={doneButtonClick}
           returnBookDisable={true}
         />
       </Modal.OverLay>
@@ -96,7 +96,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           leftButtonText="닫기"
           rightButtonText="반납하기"
           modalSize="medium"
-          doneButtonClick={doneButtonClick}
+          leftButtonClick={doneButtonClick}
           returnBookDisable={true}
         />
       </Modal.OverLay>
@@ -160,8 +160,8 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           leftButtonText="닫기"
           rightButtonText="반납하기"
           modalSize="medium"
-          doneButtonClick={doneButtonClick}
-          nextButtonClick={nextButtonClick}
+          leftButtonClick={doneButtonClick}
+          rightButtonClick={nextButtonClick}
           {...(!selectedImage && { returnBookDisable: true })}
         />
       </Modal.OverLay>
