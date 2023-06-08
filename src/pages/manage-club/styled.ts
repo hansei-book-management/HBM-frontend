@@ -34,7 +34,7 @@ export const ManageClubUserMenuContainer = styled.div`
 
 export const ManageClubUserMenuBar = styled.div`
   display: grid;
-  grid-template-columns: 2.96fr 1fr 2fr 0.15fr;
+  grid-template-columns: 3.1fr 1.06fr 2.04fr 0.2fr;
   padding: 0.6rem 1rem;
   width: 100%;
 `;
@@ -68,19 +68,13 @@ export const DummyContainer = styled.div`
 
 export const ManageClubUserContainer = styled.div`
   display: grid;
-  grid-template-columns: 3fr 0fr;
+  grid-template-columns: 3.1fr 1.06fr 2.04fr 0.2fr;
   padding: 1rem 1.4rem;
   align-items: center;
   background-color: #f7f7f7;
   border-radius: 1rem;
   z-index: 10;
   width: 100%;
-`;
-
-export const ManageClubUserInfoContainer = styled.div`
-  display: grid;
-  grid-template-columns: 3.1fr 1.06fr 2.04fr;
-  align-items: center;
 `;
 
 export const ManageClubUserIconContainer = styled.div`
@@ -110,13 +104,15 @@ export const ManageClubUserStatus = styled.span<{ isOk: boolean }>`
   font-weight: 600;
   line-height: 1.45em;
   color: ${({ isOk, theme }) => (isOk ? theme.primary.green : theme.primary.red)};
+  margin-right: 1rem;
 `;
 
 export const ManageClubMemberPopupIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem;
+  height: 2rem;
+  width: 2.1rem;
   border-radius: 50%;
   transition: background-color 200ms ease-in-out;
   &:hover {

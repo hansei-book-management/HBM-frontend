@@ -147,18 +147,21 @@ export const ManageClubPage: React.FC = () => {
         {USER_LIST.map(({ name, bookInfo, status, errorMessage }, i) => (
           <S.DummyContainer>
             <S.ManageClubUserContainer>
-              <S.ManageClubUserInfoContainer onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
-                <S.ManageClubUserIconContainer>
-                  <S.ManageClubUserIcon />
-                  <S.ManageClubUserName>{name}</S.ManageClubUserName>
-                </S.ManageClubUserIconContainer>
-                <S.ManageClubUserBookInfo>{bookInfo}</S.ManageClubUserBookInfo>
-                <S.ManageClubUserStatus isOk={status}>
-                  {status ? '정상' : '대출정지'}
-                  <br />
-                  {errorMessage && `(${errorMessage})`}
-                </S.ManageClubUserStatus>
-              </S.ManageClubUserInfoContainer>
+              <S.ManageClubUserIconContainer onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
+                <S.ManageClubUserIcon />
+                <S.ManageClubUserName>{name}</S.ManageClubUserName>
+              </S.ManageClubUserIconContainer>
+              <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
+                {bookInfo}
+              </S.ManageClubUserBookInfo>
+              <S.ManageClubUserStatus
+                isOk={status}
+                onClick={() => onClubMemberInfoModalOpen('앙기모링')}
+              >
+                {status ? '정상' : '대출정지'}
+                <br />
+                {errorMessage && `(${errorMessage})`}
+              </S.ManageClubUserStatus>
               <S.ManageClubMemberPopupIconWrapper
                 onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
               >
