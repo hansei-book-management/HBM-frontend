@@ -29,7 +29,14 @@ export const DetailModal: React.FC<DetailModalProps> = ({
           <>
             <S.DetailModalContainer>
               {getWidth <= 580 && (
-                <div style={{ justifySelf: 'center', alignSelf: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifySelf: 'center',
+                    alignSelf: 'center',
+                  }}
+                >
                   {message}
                   <S.DetailModalMobileTitle>세노이의 가르침</S.DetailModalMobileTitle>
                   <S.DetailModalImage src={Book1PNG} />

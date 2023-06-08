@@ -7,6 +7,7 @@ export const DetailModalContainer = styled.div`
   gap: 1.4rem;
   flex-direction: row;
   @media screen and (min-width: 300px) and (max-width: 580px) {
+    gap: 0.4rem;
     flex-direction: column;
   }
 `;
@@ -25,7 +26,8 @@ export const DetailModalMobileTitle = styled.h1`
     display: block;
     font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-top: 0.4rem;
+    margin-right: 0.4rem;
   }
 `;
 
@@ -37,6 +39,7 @@ export const DetailModalImage = styled.img`
   }
   @media screen and (min-width: 300px) and (max-width: 580px) {
     justify-self: center;
+    margin-top: 2rem;
     align-self: center;
   }
 `;
@@ -49,7 +52,7 @@ export const DetailModalInfoContainer = styled.div`
   row-gap: 0.5rem;
   margin-left: 2.4rem;
   @media screen and (min-width: 300px) and (max-width: 580px) {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     margin-left: 0;
   }
 `;
