@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEllipsisV, FaLock, FaUserSlash } from 'react-icons/fa';
+import { FaEllipsisV, FaLock, FaUserSlash, FaEllipsisH } from 'react-icons/fa';
 
 import { MANAGE_CLUB, USER_LIST } from '@/constant';
 import {
@@ -40,6 +40,7 @@ export const ManageClubPage: React.FC = () => {
     isOk: null,
     isLoading: false,
   });
+  const [clubSettingPopupOpen, setClubSettingPopupOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -213,6 +214,33 @@ export const ManageClubPage: React.FC = () => {
         onClubMemberExpelModalNextPage={onClubMemberExpelModalNextPage}
         clubMemberExpelModal={clubMemberExpelModal}
       />
+      <div style={{ position: 'relative', width: '100%' }}>
+        <S.ManageClubMemberPopupIconWrapper
+          onClick={() => {
+            setClubSettingPopupOpen((prev) => !prev);
+          }}
+        >
+          <FaEllipsisH size={'0.9rem'} />
+        </S.ManageClubMemberPopupIconWrapper>
+        <S.ManageClubMemberPopupContainer
+          initial="closed"
+          animate={clubSettingPopupOpen ? 'open' : 'closed'}
+          variants={{
+            open: { opacity: 1, zIndex: 12 },
+            closed: { opacity: 0, zIndex: -1 },
+          }}
+          transition={{ duration: 0.2 }}
+        >
+          <S.ManageClubMemberPopupDiv isOut={false}>
+            <FaLock size={'0.9rem'} />
+            <span>대여정지 해제</span>
+          </S.ManageClubMemberPopupDiv>
+          <S.ManageClubMemberPopupDiv isOut={true}>
+            <FaUserSlash size={'0.9rem'} />
+            <span>추방</span>
+          </S.ManageClubMemberPopupDiv>
+        </S.ManageClubMemberPopupContainer>
+      </div>
     </S.ManageClubWrapper>
   );
 };

@@ -132,7 +132,7 @@ export const ManageClubMemberPopupContainer = styled(motion.div)`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   position: absolute;
-  top: 3rem;
+  top: 3.5rem;
   margin-right: 2rem;
 `;
 
