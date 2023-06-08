@@ -23,14 +23,14 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
       <Modal.OverLay>
         <Modal
           textProps={
-            <S.ModalQuestionContainer>
+            <S.ModalContainer>
               <S.ModalTitle>대여 정지 해제 진행</S.ModalTitle>
-              <S.ModalSubTitle>
-                정말로 부원‘최근원’의 대여 정지 해제를 할까요?
+              <S.ModalDescription>
+                정말로 부원 ‘최근원’님의 대여 정지 해제를 할까요?
                 <br />
                 대여 정지 해제가 완료된 부원은 자유롭게 동아리의 책을 대여할 수 있어요.
-              </S.ModalSubTitle>
-            </S.ModalQuestionContainer>
+              </S.ModalDescription>
+            </S.ModalContainer>
           }
           modalSize="large"
           leftButtonText="아니요"
@@ -61,7 +61,7 @@ export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalPr
             <S.StatusModalText>
               대여 정지 해제가 완료 되었어요.
               <br />
-              앞으로 자유롭게 동아리 도서를 대여할 수 있어요.
+              부원 '최근원'은 앞으로 자유롭게 동아리 도서를 대여할 수 있어요.
               <br />
               동아리 관리에서 상태를 확인해보세요.
             </S.StatusModalText>
