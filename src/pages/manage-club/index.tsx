@@ -7,6 +7,7 @@ import {
   Button,
   ClubCodeModal,
   ClubMemberChangeStatusModal,
+  ClubMemberExpelModal,
   ClubMemberInfoModal,
 } from '@/components';
 
@@ -14,7 +15,7 @@ import * as S from './styled';
 
 export interface clubModalProps {
   state: boolean;
-  isOk: boolean;
+  isOk: boolean | null;
   page?: number;
   isLoading: boolean;
 }
@@ -31,12 +32,12 @@ export const ManageClubPage: React.FC = () => {
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
   const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<clubModalProps>({
     state: false,
-    isOk: false,
+    isOk: null,
     isLoading: false,
   });
   const [clubMemberExpelModal, setClubMemberExpelModal] = useState<clubModalProps>({
     state: false,
-    isOk: false,
+    isOk: null,
     isLoading: false,
   });
 
@@ -83,40 +84,41 @@ export const ManageClubPage: React.FC = () => {
   };
 
   // club member status modal FN
-  const onClubMemberChangeStatusModalOpen = (userId: string) => {
-    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
+  const onClubMemberChangeStatusModalOpen = (userId: string, i: number) => {
+    setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }));
+    setClubMemberChangeStatusModal({ state: true, isOk: null, isLoading: false });
     navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=1`);
   };
 
   const onClubMemberChangeStatusModalClose = () => {
-    setClubMemberChangeStatusModal({ state: false, isOk: false, isLoading: false });
+    setClubMemberChangeStatusModal({ state: false, isOk: null, isLoading: false });
     navigate(`${MANAGE_CLUB}`);
   };
 
   const onClubMemberChangeStatusModalNextPage = (userId: string) => {
-    setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: true });
+    setClubMemberChangeStatusModal({ state: true, isOk: null, isLoading: true });
     setTimeout(() => {
       setClubMemberChangeStatusModal({ state: true, isOk: true, isLoading: false });
       navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=2`);
-      console.log(clubMemberChangeStatusModal);
       // fail test
       // setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
     }, 1000);
   };
 
   // club member expel modal FN
-  const onClubMemberExpelModalOpen = (userId: string) => {
-    setClubMemberExpelModal({ state: true, isOk: false, isLoading: false });
+  const onClubMemberExpelModalOpen = (userId: string, i: number) => {
+    setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }));
+    setClubMemberExpelModal({ state: true, isOk: null, isLoading: false });
     navigate(`${MANAGE_CLUB}/member/${userId}/expel?step=1`);
   };
 
   const onClubMemberExpelModalClose = () => {
-    setClubMemberExpelModal({ state: false, isOk: false, isLoading: false });
+    setClubMemberExpelModal({ state: false, isOk: null, isLoading: false });
     navigate(`${MANAGE_CLUB}`);
   };
 
   const onClubMemberExpelModalNextPage = (userId: string) => {
-    setClubMemberExpelModal({ state: true, isOk: false, isLoading: true });
+    setClubMemberExpelModal({ state: true, isOk: null, isLoading: true });
     setTimeout(() => {
       setClubMemberExpelModal({ state: true, isOk: true, isLoading: false });
       navigate(`${MANAGE_CLUB}/member/${userId}/expel?step=2`);
@@ -174,12 +176,15 @@ export const ManageClubPage: React.FC = () => {
             >
               <S.ManageClubMemberPopupDiv
                 isOut={false}
-                onClick={() => onClubMemberChangeStatusModalOpen('asdf')}
+                onClick={() => onClubMemberChangeStatusModalOpen('asdf', i)}
               >
                 <FaLock size={'0.9rem'} />
                 <span>대여정지 해제</span>
               </S.ManageClubMemberPopupDiv>
-              <S.ManageClubMemberPopupDiv isOut={true}>
+              <S.ManageClubMemberPopupDiv
+                isOut={true}
+                onClick={() => onClubMemberExpelModalOpen('asdf', i)}
+              >
                 <FaUserSlash size={'0.9rem'} />
                 <span>추방</span>
               </S.ManageClubMemberPopupDiv>
@@ -199,6 +204,11 @@ export const ManageClubPage: React.FC = () => {
         onClubMemberChangeStatusModalClose={onClubMemberChangeStatusModalClose}
         onClubMemberChangeStatusModalNextPage={() => onClubMemberChangeStatusModalNextPage('asdf')}
         clubMemberChangeStatusModal={clubMemberChangeStatusModal}
+      />
+      <ClubMemberExpelModal
+        onClubMemberExpelModalClose={onClubMemberExpelModalClose}
+        onClubMemberExpelModalNextPage={onClubMemberExpelModalNextPage}
+        clubMemberExpelModal={clubMemberExpelModal}
       />
     </S.ManageClubWrapper>
   );
