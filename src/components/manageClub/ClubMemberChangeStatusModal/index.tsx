@@ -1,7 +1,7 @@
 import React from 'react';
 import Lottie from 'react-lottie';
 
-import { clubModalProps } from '@/pages';
+import { ClubModalProps } from '@/pages';
 import { Modal, StatusModal } from '@/components';
 import { MANAGE_CLUB, loadingLottieOptions } from '@/constant';
 
@@ -10,7 +10,7 @@ import * as S from './styled';
 export interface clubMemberChangeStatusModalProps {
   onClubMemberChangeStatusModalClose: () => void;
   onClubMemberChangeStatusModalNextPage: (userId: string) => void;
-  clubMemberChangeStatusModal: clubModalProps;
+  clubMemberChangeStatusModal: ClubModalProps;
 }
 
 export const ClubMemberChangeStatusModal: React.FC<clubMemberChangeStatusModalProps> = ({

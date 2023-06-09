@@ -107,7 +107,7 @@ export const ManageClubUserStatus = styled.span<{ isOk: boolean }>`
   margin-right: 1rem;
 `;
 
-export const ManageClubMemberPopupIconWrapper = styled.div`
+export const ManageClubPopupIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,7 +121,7 @@ export const ManageClubMemberPopupIconWrapper = styled.div`
   z-index: 9999;
 `;
 
-export const ManageClubMemberPopupContainer = styled(motion.div)`
+export const ManageClubPopupContainer = styled(motion.div)<{ isSetting?: boolean }>`
   margin-right: 0.6rem;
   width: 16rem;
   display: flex;
@@ -132,18 +132,18 @@ export const ManageClubMemberPopupContainer = styled(motion.div)`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   position: absolute;
-  top: 3.5rem;
+  top: ${({ isSetting }) => (isSetting ? '2.4rem' : '3.8rem')};
   margin-right: 2rem;
 `;
 
-export const ManageClubMemberPopupDiv = styled.div<{ isOut: boolean }>`
+export const ManageClubPopupDiv = styled.div<{ isOut: boolean }>`
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0.8rem 1rem;
   column-gap: 0.4rem;
-  color: ${({ isOut }) => (isOut ? 'black' : '#D83333')};
+  color: ${({ isOut }) => (isOut ? '#D83333' : 'black')};
   border-radius: ${({ isOut }) => (isOut ? '0 0 1rem 1rem' : '1rem 1rem 0 0')};
   transition: background-color 200ms ease-in-out;
   &:hover {
