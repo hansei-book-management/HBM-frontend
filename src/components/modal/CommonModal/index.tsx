@@ -1,0 +1,117 @@
+import React from 'react';
+import Lottie from 'react-lottie';
+
+import { ClubModalProps } from '@/pages';
+import { Modal, StatusModal } from '@/components';
+import { MANAGE_CLUB, loadingLottieOptions } from '@/constant';
+
+import * as S from './styled';
+
+export interface CommonModalProps {
+  leftButtonClick: () => void;
+  rightButtonClick: (userId?: string | null) => void;
+  modal: ClubModalProps;
+  title: string;
+  QuestionModalDescriptionFirst: string;
+  QuestionModalDescriptionSecond: string;
+  StatusModalDescriptionIsOkFirst: string;
+  StatusModalDescriptionIsOkSecond: string;
+  StatusModalDescriptionIsOkThird: string;
+  StatusModalDescriptionIsNotOkFirst: string;
+  StatusModalDescriptionIsNotOkSecond: string;
+  rightButtonText?: string;
+  isRed?: boolean;
+}
+
+export const CommonModal: React.FC<CommonModalProps> = ({
+  leftButtonClick,
+  rightButtonClick,
+  modal,
+  title,
+  QuestionModalDescriptionFirst,
+  QuestionModalDescriptionSecond,
+  StatusModalDescriptionIsOkFirst,
+  StatusModalDescriptionIsOkSecond,
+  StatusModalDescriptionIsOkThird,
+  StatusModalDescriptionIsNotOkFirst,
+  StatusModalDescriptionIsNotOkSecond,
+  rightButtonText = '네!',
+  isRed,
+}) => {
+  if (modal.state && modal.isOk === null) {
+    return (
+      <Modal.OverLay>
+        <Modal
+          textProps={
+            <S.ModalContainer>
+              <S.ModalTitle>{title} 진행</S.ModalTitle>
+              <S.ModalDescription>
+                {QuestionModalDescriptionFirst}
+                <br />
+                {QuestionModalDescriptionSecond}
+              </S.ModalDescription>
+            </S.ModalContainer>
+          }
+          modalSize="medium"
+          leftButtonText="아니요"
+          statusDisable={modal.isLoading}
+          isRed={isRed}
+          rightButtonText={
+            modal.isLoading ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              rightButtonText
+            )
+          }
+          {...(!modal.isLoading && {
+            leftButtonClick: () => leftButtonClick(),
+            rightButtonClick: () => rightButtonClick(),
+          })}
+        />
+      </Modal.OverLay>
+    );
+  }
+  if (modal.state && modal.isOk === true) {
+    return (
+      <StatusModal
+        url={`${MANAGE_CLUB}`}
+        title={`${title} 완료`}
+        isOk={true}
+        message={
+          <>
+            <S.StatusModalText>
+              {StatusModalDescriptionIsOkFirst}
+              <br />
+              {StatusModalDescriptionIsOkSecond}
+              <br />
+              {StatusModalDescriptionIsOkThird}
+            </S.StatusModalText>
+          </>
+        }
+        onCloseModal={leftButtonClick}
+      />
+    );
+  }
+  if (modal.state && modal.isOk === false) {
+    return (
+      <StatusModal
+        url={`${MANAGE_CLUB}`}
+        title={`${title} 실패`}
+        isOk={false}
+        message={
+          <>
+            <S.StatusModalText>
+              {StatusModalDescriptionIsNotOkFirst}
+              <br />
+              {StatusModalDescriptionIsNotOkSecond}
+              <br />
+              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
+            </S.StatusModalText>
+          </>
+        }
+        onCloseModal={leftButtonClick}
+      />
+    );
+  }
+  return null;
+};
