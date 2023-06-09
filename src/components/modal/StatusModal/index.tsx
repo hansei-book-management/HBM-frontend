@@ -7,7 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { checkLottieOptions, failLottieOptions } from '@/constant';
 import { AddClubState } from '@/atoms';
 
-import { Modal } from '../CommonModal';
+import { Modal } from '../Modal';
 
 import * as S from './styled';
 

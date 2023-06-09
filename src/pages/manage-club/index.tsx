@@ -17,6 +17,7 @@ import {
   ClubMemberChangeStatusModal,
   ClubMemberExpelModal,
   ClubMemberInfoModal,
+  DeleteClubModal,
 } from '@/components';
 
 import * as S from './styled';
@@ -53,6 +54,11 @@ export const ManageClubPage: React.FC = () => {
     isOk: null,
     isLoading: false,
     page: 1,
+  });
+  const [deleteClubModal, setDeleteClubModal] = useState<ClubModalProps>({
+    state: false,
+    isOk: null,
+    isLoading: false,
   });
 
   const navigate = useNavigate();
@@ -163,7 +169,26 @@ export const ManageClubPage: React.FC = () => {
       setClubChangeDirectorModal({ state: true, isOk: true, isLoading: false, page: 3 });
       navigate(`${MANAGE_CLUB}/change-director?step=3`);
       // fail test
-      // setClubMemberExpelModal({ state: true, isOk: false, isLoading: false });
+      // setClubChangeDirectorModal({ state: true, isOk: false, isLoading: false, page: 3 });
+    }, 1000);
+  };
+
+  // club delete modal FN
+  const onClubDeleteModalOpen = () => {
+    setDeleteClubModal({ state: true, isOk: null, isLoading: false });
+    navigate(`${MANAGE_CLUB}/delete?step=1`);
+  };
+
+  const onDeleteClubModalClose = () => {
+    setDeleteClubModal({ state: false, isOk: null, isLoading: false });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onDeleteClubStatusModalOpen = () => {
+    setDeleteClubModal({ state: true, isOk: null, isLoading: true });
+    setTimeout(() => {
+      setDeleteClubModal({ state: true, isOk: true, isLoading: true });
+      navigate(`${MANAGE_CLUB}/delete?step=2`);
     }, 1000);
   };
 
@@ -260,7 +285,7 @@ export const ManageClubPage: React.FC = () => {
               <FaPeopleArrows size={'0.9rem'} />
               <span>부장 변경</span>
             </S.ManageClubPopupDiv>
-            <S.ManageClubPopupDiv isOut={true}>
+            <S.ManageClubPopupDiv isOut={true} onClick={onClubDeleteModalOpen}>
               <FaTrash size={'0.9rem'} />
               <span>동아리 삭제</span>
             </S.ManageClubPopupDiv>
@@ -290,6 +315,11 @@ export const ManageClubPage: React.FC = () => {
         onClubChangeDirectorQuestionModalOpen={onClubChangeDirectorQuestionModalOpen}
         onClubChangeDirectorStatusModalOpen={onClubChangeDirectorStatusModalOpen}
         clubChangeDirectorModal={clubChangeDirectorModal}
+      />
+      <DeleteClubModal
+        onDeleteClubModalClose={onDeleteClubModalClose}
+        onDeleteClubStatusModalOpen={onDeleteClubStatusModalOpen}
+        deleteClubModal={deleteClubModal}
       />
     </>
   );

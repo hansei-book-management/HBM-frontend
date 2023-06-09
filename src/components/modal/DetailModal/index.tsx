@@ -3,7 +3,7 @@ import React from 'react';
 import { useGetWindowSize } from '@/hooks';
 import { Book1PNG } from '@/assets';
 
-import { Modal } from '../CommonModal';
+import { Modal } from '../Modal';
 
 import * as S from './styled';
 

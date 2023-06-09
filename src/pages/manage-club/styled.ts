@@ -146,6 +146,7 @@ export const ManageClubPopupDiv = styled.div<{ isOut: boolean }>`
   color: ${({ isOut }) => (isOut ? '#D83333' : 'black')};
   border-radius: ${({ isOut }) => (isOut ? '0 0 1rem 1rem' : '1rem 1rem 0 0')};
   transition: background-color 200ms ease-in-out;
+  cursor: default;
   &:hover {
     background-color: #f5f5f5;
   }

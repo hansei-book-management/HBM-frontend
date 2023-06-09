@@ -122,11 +122,11 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
       <StatusModal
         url={`${MANAGE_CLUB}`}
         title={'부장 변경 실패'}
-        isOk={true}
+        isOk={false}
         message={
           <>
             <S.StatusModalText>
-              보안관제 부장 변경에 실패 했어요.
+              보안관제 부장 변경에 실패 하였어요.
               <br />
               시스템 상의 문제로 보안관제 부장 변경에 실패하였어요.
               <br />
