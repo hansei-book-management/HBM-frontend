@@ -2,8 +2,8 @@ import React from 'react';
 import Lottie from 'react-lottie';
 
 import { ClubModalProps } from '@/pages';
-import { Modal, StatusModal } from '@/components/modal';
-import { MANAGE_CLUB, loadingLottieOptions } from '@/constant';
+import { Modal, StatusModal } from '@/components';
+import { CLUB_MEMBER_LIST, MANAGE_CLUB, loadingLottieOptions } from '@/constant';
 
 import * as S from './styled';
 
@@ -22,9 +22,37 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
 }) => {
   if (clubChangeDirectorModal.state && clubChangeDirectorModal.page === 1) {
     return (
-      <div>
-        <h1>asf</h1>
-      </div>
+      <Modal.OverLay>
+        <Modal
+          textProps={
+            <S.ModalContainer>
+              <S.ModalTitle>부장 변경</S.ModalTitle>
+              {CLUB_MEMBER_LIST.map(({ title, memberList }, i) => (
+                <S.GenerateCodeSelectContainer key={i}>
+                  <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
+                  <S.GenerateCodeSelect>
+                    {memberList.map(({ member }) => (
+                      <option key={member}>{member}</option>
+                    ))}
+                  </S.GenerateCodeSelect>
+                </S.GenerateCodeSelectContainer>
+              ))}
+            </S.ModalContainer>
+          }
+          modalSize="medium"
+          leftButtonText="아니요"
+          statusDisable={clubChangeDirectorModal.isLoading}
+          rightButtonText={
+            clubChangeDirectorModal.isLoading ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              '네!'
+            )
+          }
+          leftButtonClick={onClubChangeDirectorModalClose}
+          rightButtonClick={onClubChangeDirectorQuestionModalOpen}
+        />
+      </Modal.OverLay>
     );
   }
   if (clubChangeDirectorModal.state && clubChangeDirectorModal.page === 2) {
@@ -41,16 +69,17 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
               </S.ModalDescription>
             </S.ModalContainer>
           }
-          modalSize="large"
+          modalSize="medium"
           leftButtonText="아니요"
           statusDisable={clubChangeDirectorModal.isLoading}
           rightButtonText={
             clubChangeDirectorModal.isLoading ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
-              '네!'
+              '변경할게요'
             )
           }
+          isRed={true}
           {...(!clubChangeDirectorModal.isLoading && {
             leftButtonClick: () => onClubChangeDirectorModalClose(),
             rightButtonClick: () => onClubChangeDirectorStatusModalOpen(),

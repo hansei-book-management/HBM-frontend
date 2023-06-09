@@ -16,6 +16,7 @@ export interface ModalProps {
   rightButtonText?: React.ReactNode;
   onlyRightButton?: boolean;
   isOk?: boolean;
+  isRed?: boolean;
 }
 
 export interface ModalOverlayProps {
@@ -33,6 +34,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   onlyRightButton,
   rightButtonClick,
   leftButtonClick,
+  isRed = false,
   isOk = false,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
@@ -68,7 +70,7 @@ export const ModalElement: React.FC<ModalProps> = ({
                 >
                   {leftButtonText}
                 </S.ModalButton>
-                <S.ModalButton disable={returnBookDisable} onClick={rightButtonClick}>
+                <S.ModalButton isRed={isRed} disable={returnBookDisable} onClick={rightButtonClick}>
                   {rightButtonText}
                 </S.ModalButton>
               </>

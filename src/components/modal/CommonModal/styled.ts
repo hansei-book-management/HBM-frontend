@@ -110,6 +110,7 @@ export const ModalButton = styled.button<{
   left?: boolean;
   disable: boolean;
   rightButtonExits?: boolean;
+  isRed?: boolean;
 }>`
   cursor: pointer;
   width: 8.5rem;
@@ -119,7 +120,7 @@ export const ModalButton = styled.button<{
   font-weight: 700;
   border: none;
   transition: background-color 150ms ease-in-out;
-  ${({ left, theme, disable, rightButtonExits }) =>
+  ${({ left, theme, disable, rightButtonExits, isRed }) =>
     left
       ? css`
           background-color: ${rightButtonExits ? theme.primary.black : theme.primary.blue};
@@ -130,9 +131,9 @@ export const ModalButton = styled.button<{
         `
       : css`
           color: ${theme.white};
-          background-color: ${disable ? '#AAAAAA' : theme.primary.blue};
+          background-color: ${disable ? '#AAAAAA' : isRed ? theme.primary.red : theme.primary.blue};
           &:hover {
-            background-color: ${disable ? '#AAAAAA' : '#3988FF'};
+            background-color: ${disable ? '#AAAAAA' : isRed ? '#EA3939' : '#3988FF'};
           }
         `}
 `;

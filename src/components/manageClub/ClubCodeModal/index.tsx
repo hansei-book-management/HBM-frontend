@@ -31,8 +31,8 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
           textProps={
             <S.GenerateCodeContainer>
               <S.ModalTitle>코드 생성하기</S.ModalTitle>
-              {GENERATE_CODE_OPTION_LIST.map(({ title, optionList }) => (
-                <S.GenerateCodeSelectContainer>
+              {GENERATE_CODE_OPTION_LIST.map(({ title, optionList }, i) => (
+                <S.GenerateCodeSelectContainer key={i}>
                   <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
                   <S.GenerateCodeSelect>
                     {optionList.map(({ value }) => (
