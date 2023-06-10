@@ -1,23 +1,17 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
 
-import { useRecoilState } from 'recoil';
-
-import { CLUB, USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
+import { CLUB, USER_CLUB_LIST } from '@/constant';
 import {
-  Modal,
   RentMessage,
   Section,
-  StatusModal,
   DetailModal,
   HeaderSection,
   AddClubModal,
   ModalStateProps,
   CommonModal,
 } from '@/components';
-import { StatusState } from '@/atoms';
-import { useGetLocation, useModal } from '@/hooks';
+import { useModal } from '@/hooks';
 
 import * as S from './styled';
 
@@ -28,11 +22,6 @@ export const RentPage: React.FC = () => {
   const activeClub = USER_CLUB_LIST.find(({ id }) => id === clubId);
 
   const { modalActive } = useModal();
-
-  const { clubBookRentPage, clubBookDetailPage } = useGetLocation({ clubId: clubId, bookId: 1 });
-
-  const [status, setStatus] = useRecoilState(StatusState);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const [addClubModal, setAddClubModal] = useState<ModalStateProps>({
     state: false,
@@ -48,7 +37,7 @@ export const RentPage: React.FC = () => {
 
   // rent modal FN
   const onRentClubBookModalOpen = (bookId: number) => {
-    setRentClubBookModal({ state: true, isLoading: true, isOk: null });
+    setRentClubBookModal({ state: true, isLoading: false, isOk: null });
     navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=1`);
   };
 
@@ -90,13 +79,12 @@ export const RentPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    status && setStatus(false);
     if (!activeClub) {
       navigate(`${CLUB}/${USER_CLUB_LIST[0].id}`);
     } else if (!modalActive) {
       navigate(`${CLUB}/${clubId}`);
     }
-  }, [activeClub, modalActive, clubBookDetailPage]);
+  }, [activeClub, modalActive]);
 
   return (
     <>
@@ -111,21 +99,23 @@ export const RentPage: React.FC = () => {
           />
         )}
         <Section activeClub={activeClub} />
-        <AddClubModal
-          addClubModal={addClubModal}
-          onAddClubStateModal={() => onAddClubStateModal()}
-          onAddClubModalClose={() => onAddClubModalClose()}
-          url={`${CLUB}/${clubId}`}
-        />
-        {modalActive && !rentClubBookModal.state && (
-          <DetailModal
-            nextButtonClick={() => onRentClubBookModalOpen(1)}
-            leftButtonText="닫기"
-            rightButtonText="대여하기"
-            message={<RentMessage canRent={true} />}
-          />
-        )}
       </S.RentPageContainer>
+      {/** book detail modal */}
+      {modalActive && !rentClubBookModal.state && (
+        <DetailModal
+          nextButtonClick={() => onRentClubBookModalOpen(1)}
+          leftButtonText="닫기"
+          rightButtonText="대여하기"
+          message={<RentMessage canRent={true} />}
+        />
+      )}
+      <AddClubModal
+        addClubModal={addClubModal}
+        onAddClubStateModal={() => onAddClubStateModal()}
+        onAddClubModalClose={() => onAddClubModalClose()}
+        url={`${CLUB}/${clubId}`}
+      />
+      {/** rent modal */}
       <CommonModal
         leftButtonClick={onRentClubBookModalClose}
         rightButtonClick={() => onRentClubBookStateModal(1)}
