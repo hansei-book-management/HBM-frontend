@@ -1,7 +1,9 @@
 import React from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
+import Lottie from 'react-lottie';
 
 import { ReturnBookModalStateProps } from '@/pages';
+import { loadingLottieOptions } from '@/constant';
 
 import { Modal } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
@@ -136,10 +138,19 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
             </S.ModalContainer>
           }
           leftButtonText="닫기"
-          rightButtonText="반납하기"
+          statusDisable={returnBookModal.isLoading}
+          rightButtonText={
+            returnBookModal.isLoading ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              '반납하기'
+            )
+          }
           modalSize="medium"
-          leftButtonClick={onReturnBookModalClose}
-          rightButtonClick={onReturnBookStatusModal}
+          {...(!returnBookModal.isLoading && {
+            leftButtonClick: () => onReturnBookModalClose(),
+            rightButtonClick: () => onReturnBookStatusModal(),
+          })}
           {...(!selectedImage && { returnBookDisable: true })}
         />
       </Modal.OverLay>

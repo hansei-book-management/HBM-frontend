@@ -84,8 +84,12 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onReturnBookStatusModal = () => {
-    setReturnBookModal({ state: true, isOk: true });
-    console.log('success');
+    setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
+    setTimeout(() => {
+      setReturnBookModal({ state: true, isOk: true, isLoading: false });
+      // fail test
+      // setReturnBookModal({ state: true,  isOk: false, isLoading: false, });
+    }, 1000);
   };
 
   useEffect(() => {
