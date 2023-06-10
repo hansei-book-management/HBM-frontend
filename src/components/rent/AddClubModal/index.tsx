@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { loadingLottieOptions } from '@/constant';
 
-import { Modal } from '../../modal/CommonModal';
+import { Modal } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
 
 import * as S from './styled';
@@ -75,9 +75,9 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
           statusDisable={loading}
           {...(!loading &&
             !errors.clubCode?.message && {
-              nextButtonClick: () => nextButtonClick(),
-              doneButtonClick: () => doneButtonClick(),
-            })}
+            nextButtonClick: () => nextButtonClick(),
+            doneButtonClick: () => doneButtonClick(),
+          })}
         />
       </Modal.OverLay>
     );
@@ -88,33 +88,33 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
         url={`${url}`}
         {...(isOk
           ? {
-              title: '추가 성공',
-              isOk: true,
-              message: (
-                <>
-                  <S.StatusModalText>
-                    보안관제 동아리 도서가 추가되었어요.
-                    <br />
-                    앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-                    <br />내 도서에서 확인해보세요.
-                  </S.StatusModalText>
-                </>
-              ),
-            }
+            title: '추가 성공',
+            isOk: true,
+            message: (
+              <>
+                <S.StatusModalText>
+                  보안관제 동아리 도서가 추가되었어요.
+                  <br />
+                  앞으로 보안관제 동아리 도서를 대여할 수 있어요.
+                  <br />내 도서에서 확인해보세요.
+                </S.StatusModalText>
+              </>
+            ),
+          }
           : {
-              title: '추가 실패',
-              isOk: false,
-              message: (
-                <>
-                  <S.StatusModalText>
-                    보안관제 동아리 도서가 추가되었어요.
-                    <br />
-                    앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-                    <br />내 도서에서 확인해보세요.
-                  </S.StatusModalText>
-                </>
-              ),
-            })}
+            title: '추가 실패',
+            isOk: false,
+            message: (
+              <>
+                <S.StatusModalText>
+                  보안관제 동아리 도서가 추가되었어요.
+                  <br />
+                  앞으로 보안관제 동아리 도서를 대여할 수 있어요.
+                  <br />내 도서에서 확인해보세요.
+                </S.StatusModalText>
+              </>
+            ),
+          })}
       />
     );
   }

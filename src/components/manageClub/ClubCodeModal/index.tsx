@@ -5,7 +5,7 @@ import { FaRegCopy } from 'react-icons/fa';
 
 import { Modal, StatusModal } from '@/components';
 import { MANAGE_CLUB, GENERATE_CODE_OPTION_LIST, loadingLottieOptions } from '@/constant';
-import { clubModalProps } from '@/pages';
+import { ClubModalProps } from '@/pages';
 
 import * as S from './styled';
 
@@ -14,7 +14,7 @@ export interface clubCodeModalProps {
   onClubCodeModalClose: () => void;
   onClubCodeModalPrevPage: () => void;
   onClubCodeCopyText: () => void;
-  clubCodeModal: clubModalProps;
+  clubCodeModal: ClubModalProps;
 }
 
 export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
@@ -24,15 +24,15 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
   onClubCodeCopyText,
   clubCodeModal,
 }) => {
-  if (clubCodeModal.state && clubCodeModal.page === 1) {
+  if (clubCodeModal.state && clubCodeModal.isOk === null) {
     return (
       <Modal.OverLay>
         <Modal
           textProps={
             <S.GenerateCodeContainer>
               <S.ModalTitle>코드 생성하기</S.ModalTitle>
-              {GENERATE_CODE_OPTION_LIST.map(({ title, optionList }) => (
-                <S.GenerateCodeSelectContainer>
+              {GENERATE_CODE_OPTION_LIST.map(({ title, optionList }, i) => (
+                <S.GenerateCodeSelectContainer key={i}>
                   <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
                   <S.GenerateCodeSelect>
                     {optionList.map(({ value }) => (
@@ -61,7 +61,7 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (clubCodeModal.state === true && clubCodeModal.isOk === true && clubCodeModal.page === 2) {
+  if (clubCodeModal.state === true && clubCodeModal.isOk === true) {
     return (
       <Modal.OverLay>
         <Modal

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
 
-import { Modal } from '../../modal/CommonModal';
+import { Modal } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
 
 import * as S from './styled';

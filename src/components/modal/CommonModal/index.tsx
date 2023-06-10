@@ -1,99 +1,126 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Lottie from 'react-lottie';
 
-import { useModal } from '@/hooks/useModal';
+import { ClubModalProps } from '@/pages';
+import { Modal, StatusModal } from '@/components';
+import { MANAGE_CLUB, loadingLottieOptions } from '@/constant';
 
 import * as S from './styled';
 
-export interface ModalProps {
-  rightButtonClick?: () => void;
-  leftButtonClick?: () => void;
-  modalSize: 'small' | 'medium' | 'large';
-  textProps: React.ReactNode;
-  statusModal?: boolean;
-  statusDisable?: boolean;
-  returnBookDisable?: boolean;
-  leftButtonText?: string;
-  rightButtonText?: React.ReactNode;
-  onlyRightButton?: boolean;
-  isOk?: boolean;
+export interface CommonModalProps {
+  leftButtonClick: () => void;
+  rightButtonClick: (userId?: string) => void;
+  modal: ClubModalProps;
+  title: string;
+  QuestionModalDescriptionFirst: string;
+  QuestionModalDescriptionSecond: string;
+  StatusModalDescriptionIsOkFirst: string;
+  StatusModalDescriptionIsOkSecond: string;
+  StatusModalDescriptionIsOkThird: string;
+  StatusModalDescriptionIsNotOkFirst: string;
+  StatusModalDescriptionIsNotOkSecond: string;
+  rightButtonText?: string;
+  isRed?: boolean;
 }
 
-export interface ModalOverlayProps {
-  children: React.ReactNode;
-}
-
-export const ModalElement: React.FC<ModalProps> = ({
-  textProps,
-  statusModal = false,
-  statusDisable = false,
-  returnBookDisable = false,
-  leftButtonText,
-  rightButtonText,
-  modalSize,
-  onlyRightButton,
-  rightButtonClick,
+export const CommonModal: React.FC<CommonModalProps> = ({
   leftButtonClick,
-  isOk = false,
+  rightButtonClick,
+  modal,
+  title,
+  QuestionModalDescriptionFirst,
+  QuestionModalDescriptionSecond,
+  StatusModalDescriptionIsOkFirst,
+  StatusModalDescriptionIsOkSecond,
+  StatusModalDescriptionIsOkThird,
+  StatusModalDescriptionIsNotOkFirst,
+  StatusModalDescriptionIsNotOkSecond,
+  rightButtonText = '네!',
+  isRed,
 }) => {
-  const [isClosed, setIsClosed] = useState(false);
-  const { close } = useModal();
-
-  const closing = () => {
-    if (!statusDisable) {
-      setIsClosed(true);
-      setTimeout(() => {
-        close();
-        leftButtonClick && leftButtonClick();
-      }, 200);
-    }
-  };
-
-  return (
-    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} modalSize={modalSize}>
-      <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
-      <S.ModalButtonContainer statusModal={statusModal}>
-        {statusModal || onlyRightButton ? (
-          <S.StatusModalButton onClick={closing} isOk={isOk}>
-            {rightButtonText}
-          </S.StatusModalButton>
-        ) : (
+  if (
+    (modal.state && modal.isOk === null) ||
+    (modal.state && modal.isOk === null && modal.page === 2)
+  ) {
+    return (
+      <Modal.OverLay>
+        <Modal
+          textProps={
+            <S.ModalContainer>
+              <S.ModalTitle>{title} 진행</S.ModalTitle>
+              <S.ModalDescription>
+                {QuestionModalDescriptionFirst}
+                <br />
+                {QuestionModalDescriptionSecond}
+              </S.ModalDescription>
+            </S.ModalContainer>
+          }
+          modalSize="medium"
+          leftButtonText="아니요"
+          statusDisable={modal.isLoading}
+          isRed={isRed}
+          rightButtonText={
+            modal.isLoading ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              rightButtonText
+            )
+          }
+          {...(!modal.isLoading && {
+            leftButtonClick: () => leftButtonClick(),
+            rightButtonClick: () => rightButtonClick(),
+          })}
+        />
+      </Modal.OverLay>
+    );
+  }
+  if (
+    (modal.state && modal.isOk === true) ||
+    (modal.state && modal.isOk === true && modal.page === 3)
+  ) {
+    return (
+      <StatusModal
+        url={`${MANAGE_CLUB}`}
+        title={`${title} 완료`}
+        isOk={true}
+        message={
           <>
-            {(rightButtonText && (
-              <>
-                <S.ModalButton
-                  left
-                  onClick={closing}
-                  disable={statusDisable}
-                  rightButtonExits={true}
-                >
-                  {leftButtonText}
-                </S.ModalButton>
-                <S.ModalButton disable={returnBookDisable} onClick={rightButtonClick}>
-                  {rightButtonText}
-                </S.ModalButton>
-              </>
-            )) ||
-              (!rightButtonText && (
-                <S.ModalButton
-                  left
-                  onClick={closing}
-                  disable={statusDisable}
-                  rightButtonExits={false}
-                >
-                  {leftButtonText}
-                </S.ModalButton>
-              ))}
+            <S.StatusModalText>
+              {StatusModalDescriptionIsOkFirst}
+              <br />
+              {StatusModalDescriptionIsOkSecond}
+              <br />
+              {StatusModalDescriptionIsOkThird}
+            </S.StatusModalText>
           </>
-        )}
-      </S.ModalButtonContainer>
-    </S.ModalContainer>
-  );
+        }
+        onCloseModal={leftButtonClick}
+      />
+    );
+  }
+  if (
+    (modal.state && modal.isOk === false) ||
+    (modal.state && modal.isOk === false && modal.page === 3)
+  ) {
+    return (
+      <StatusModal
+        url={`${MANAGE_CLUB}`}
+        title={`${title} 실패`}
+        isOk={false}
+        message={
+          <>
+            <S.StatusModalText>
+              {StatusModalDescriptionIsNotOkFirst}
+              <br />
+              {StatusModalDescriptionIsNotOkSecond}
+              <br />
+              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
+            </S.StatusModalText>
+          </>
+        }
+        onCloseModal={leftButtonClick}
+      />
+    );
+  }
+  return null;
 };
-
-export const ModalOverlay: React.FC<ModalOverlayProps> = ({ children }) => {
-  return <S.ModalOverlay>{children}</S.ModalOverlay>;
-};
-
-export const Modal = Object.assign(ModalElement, {
-  OverLay: ModalOverlay,
-});

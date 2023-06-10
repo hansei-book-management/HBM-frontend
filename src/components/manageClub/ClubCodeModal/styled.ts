@@ -28,7 +28,7 @@ export const GenerateCodeTitle = styled.h3`
 export const GenerateCodeSelect = styled.select`
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.imageBorder};
-  padding: 14px;
+  padding: 0 14px;
   align-self: center;
   border-radius: 0.8rem;
   height: 3rem;
