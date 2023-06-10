@@ -4,6 +4,13 @@ import { useModal } from '@/hooks/useModal';
 
 import * as S from './styled';
 
+export interface ModalStateProps {
+  state: boolean;
+  isOk?: boolean | null;
+  page?: number;
+  isLoading?: boolean;
+}
+
 export interface ModalProps {
   rightButtonClick?: () => void;
   leftButtonClick?: () => void;

@@ -2,10 +2,7 @@ import React from 'react';
 import Lottie from 'react-lottie';
 import { useNavigate } from 'react-router-dom';
 
-import { useSetRecoilState } from 'recoil';
-
 import { checkLottieOptions, failLottieOptions } from '@/constant';
-import { AddClubState } from '@/atoms';
 
 import { Modal } from '../Modal';
 
@@ -26,12 +23,10 @@ export const StatusModal: React.FC<StatusModalProps> = ({
   isOk,
   onCloseModal,
 }) => {
-  const setAddClubClick = useSetRecoilState(AddClubState);
   const navigate = useNavigate();
 
   const onCloseNavigate = () => {
     navigate(`${url}`);
-    setAddClubClick({ state: false, isOk: false });
   };
 
   return (

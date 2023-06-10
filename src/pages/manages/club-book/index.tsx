@@ -17,7 +17,7 @@ export interface SearchFormValues {
 
 export interface AddBookModalStateProps {
   status: boolean;
-  isOk: null | boolean;
+  isOk?: boolean | null;
 }
 
 export const ManageClubBookPage: React.FC = () => {
@@ -30,7 +30,7 @@ export const ManageClubBookPage: React.FC = () => {
 
   const [addBookModalActive, setAddBookModalActive] = useState<AddBookModalStateProps>({
     status: false,
-    isOk: null || false,
+    isOk: null,
   });
 
   const [bookList, setBookList] = useState(BOOK_LIST.map(({ id }) => id));
@@ -39,16 +39,24 @@ export const ManageClubBookPage: React.FC = () => {
   const { option } = useParams<{ option: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
 
-  const { modalActive, open, close } = useModal();
+  const { modalActive } = useModal();
+
   const onAddBookModalOpen = () => {
-    setAddBookModalActive({ status: true, isOk: null });
-    open();
+    setAddBookModalActive({ status: true });
   };
 
   const onAddBookModalClose = () => {
-    setAddBookModalActive({ status: false, isOk: true });
-    close();
-    toast.success('도서가 추가되었습니다.', { position: toast.POSITION.BOTTOM_RIGHT });
+    setAddBookModalActive({ status: false });
+    console.log(addBookModalActive, 'asdf');
+  };
+
+  const onAddBookStateModal = (isOk: boolean) => {
+    if (isOk) {
+      setAddBookModalActive({ status: false });
+      toast.success('도서가 추가되었습니다.', { position: toast.POSITION.BOTTOM_RIGHT });
+    } else {
+      setAddBookModalActive({ status: true, isOk: false });
+    }
   };
 
   const toggleBookSelect = (id: number) => {
@@ -87,7 +95,7 @@ export const ManageClubBookPage: React.FC = () => {
       {modalActive && !addBookModalActive.status && (
         <DetailModal message={<RentMessage canRent={true} />} leftButtonText="닫기" />
       )}
-      {modalActive && addBookModalActive.status && addBookModalActive.isOk === null && (
+      {addBookModalActive.status && (
         <Modal.OverLay>
           <Modal
             textProps={
@@ -151,7 +159,8 @@ export const ManageClubBookPage: React.FC = () => {
               </S.AddBookModalContainer>
             }
             modalSize="large"
-            rightButtonClick={onAddBookModalClose}
+            leftButtonClick={onAddBookModalClose}
+            rightButtonClick={() => onAddBookStateModal(true)}
             {...(selectNumber !== 0
               ? {
                   leftButtonText: '닫기',
@@ -163,7 +172,7 @@ export const ManageClubBookPage: React.FC = () => {
           />
         </Modal.OverLay>
       )}
-      {modalActive && addBookModalActive.status && addBookModalActive.isOk === false && (
+      {addBookModalActive.status && addBookModalActive.isOk === false && (
         <StatusModal
           url={`${MANAGE_CLUB_BOOK}`}
           isOk={false}
@@ -177,6 +186,7 @@ export const ManageClubBookPage: React.FC = () => {
               </S.StatusModalText>
             </>
           }
+          onCloseModal={onAddBookModalClose}
         />
       )}
     </S.ManageClubBookContainer>

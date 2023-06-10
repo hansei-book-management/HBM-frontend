@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { ClubModalProps } from '@/pages';
-import { CommonModal, Modal } from '@/components';
+import { CommonModal, Modal, ModalStateProps } from '@/components';
 import { CLUB_MEMBER_LIST } from '@/constant';
 
 import * as S from './styled';
@@ -10,7 +9,7 @@ export interface ClubChangeDirectorModalProps {
   onClubChangeDirectorModalClose: () => void;
   onClubChangeDirectorQuestionModalOpen: () => void;
   onClubChangeDirectorStatusModalOpen: () => void;
-  clubChangeDirectorModal: ClubModalProps;
+  clubChangeDirectorModal: ModalStateProps;
 }
 
 export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = ({

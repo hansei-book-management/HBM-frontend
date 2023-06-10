@@ -1,5 +1,9 @@
 import React from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
+import Lottie from 'react-lottie';
+
+import { ReturnBookModalStateProps } from '@/pages';
+import { loadingLottieOptions } from '@/constant';
 
 import { Modal } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
@@ -7,30 +11,18 @@ import { StatusModal } from '../../modal/StatusModal';
 import * as S from './styled';
 
 export interface ReturnBookModalProps {
-  modalActive: boolean;
-  returnBookModalActive: {
-    status: boolean;
-    isOk: boolean | null;
-  };
-  allowLocation: {
-    status: boolean;
-    loading: boolean;
-  };
-  doneButtonClick: () => void;
-  nextButtonClick: () => void;
-  correctLocation: boolean;
+  returnBookModal: ReturnBookModalStateProps;
+  onReturnBookModalClose: () => void;
+  onReturnBookStatusModal: () => void;
   setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
   selectedImage: string | null;
   url: string;
 }
 
 export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
-  modalActive,
-  returnBookModalActive: { status: returnBookModalStatus, isOk: returnBookModalIsOk },
-  allowLocation: { status: allowLocationStatus, loading: allowLocationLoading },
-  doneButtonClick,
-  nextButtonClick,
-  correctLocation,
+  returnBookModal,
+  onReturnBookModalClose,
+  onReturnBookStatusModal,
   setSelectedImage,
   selectedImage,
   url,
@@ -43,7 +35,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
     }
   };
 
-  if (modalActive && returnBookModalStatus && !allowLocationStatus && !allowLocationLoading) {
+  if (returnBookModal.state && returnBookModal.allowLocation === false) {
     return (
       <Modal.OverLay>
         <Modal
@@ -63,19 +55,13 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           leftButtonText="닫기"
           rightButtonText="반납하기"
           modalSize="medium"
-          leftButtonClick={doneButtonClick}
+          leftButtonClick={onReturnBookModalClose}
           returnBookDisable={true}
         />
       </Modal.OverLay>
     );
   }
-  if (
-    modalActive &&
-    returnBookModalStatus &&
-    allowLocationStatus &&
-    !allowLocationLoading &&
-    !correctLocation
-  ) {
+  if (returnBookModal.state && returnBookModal.correctLocation === false) {
     return (
       <Modal.OverLay>
         <Modal
@@ -96,19 +82,13 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           leftButtonText="닫기"
           rightButtonText="반납하기"
           modalSize="medium"
-          leftButtonClick={doneButtonClick}
+          leftButtonClick={onReturnBookModalClose}
           returnBookDisable={true}
         />
       </Modal.OverLay>
     );
   }
-  if (
-    modalActive &&
-    returnBookModalStatus &&
-    allowLocationStatus &&
-    !allowLocationLoading &&
-    correctLocation
-  ) {
+  if (returnBookModal.state && returnBookModal.correctLocation === true) {
     return (
       <Modal.OverLay>
         <Modal
@@ -158,23 +138,25 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
             </S.ModalContainer>
           }
           leftButtonText="닫기"
-          rightButtonText="반납하기"
+          statusDisable={returnBookModal.isLoading}
+          rightButtonText={
+            returnBookModal.isLoading ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              '반납하기'
+            )
+          }
           modalSize="medium"
-          leftButtonClick={doneButtonClick}
-          rightButtonClick={nextButtonClick}
+          {...(!returnBookModal.isLoading && {
+            leftButtonClick: () => onReturnBookModalClose(),
+            rightButtonClick: () => onReturnBookStatusModal(),
+          })}
           {...(!selectedImage && { returnBookDisable: true })}
         />
       </Modal.OverLay>
     );
   }
-  if (
-    modalActive &&
-    returnBookModalStatus &&
-    returnBookModalIsOk === false &&
-    allowLocationStatus &&
-    !allowLocationLoading &&
-    correctLocation
-  ) {
+  if (returnBookModal.state && returnBookModal.isOk === false) {
     return (
       <StatusModal
         url={url}
@@ -193,6 +175,28 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
             </S.StatusModalText>
           </>
         }
+        onCloseModal={onReturnBookModalClose}
+      />
+    );
+  }
+  if (returnBookModal.state && returnBookModal.isOk === true) {
+    return (
+      <StatusModal
+        url={url}
+        title="반납 성공"
+        isOk={true}
+        message={
+          <>
+            <S.StatusModalText>
+              '책 이름' 도서가 반납되었어요.
+              <br />
+              반납 알람은 '보안관제' 동아리 부장에게 전해졌어요.
+              <br />
+              앞으로도 자유롭게 한북을 이용해주세요.
+            </S.StatusModalText>
+          </>
+        }
+        onCloseModal={onReturnBookModalClose}
       />
     );
   }

@@ -3,9 +3,8 @@ import Lottie from 'react-lottie';
 import { Link } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 
-import { Modal, StatusModal } from '@/components';
+import { Modal, ModalStateProps, StatusModal } from '@/components';
 import { MANAGE_CLUB, GENERATE_CODE_OPTION_LIST, loadingLottieOptions } from '@/constant';
-import { ClubModalProps } from '@/pages';
 
 import * as S from './styled';
 
@@ -14,7 +13,7 @@ export interface clubCodeModalProps {
   onClubCodeModalClose: () => void;
   onClubCodeModalPrevPage: () => void;
   onClubCodeCopyText: () => void;
-  clubCodeModal: ClubModalProps;
+  clubCodeModal: ModalStateProps;
 }
 
 export const ClubCodeModal: React.FC<clubCodeModalProps> = ({

@@ -16,19 +16,13 @@ import {
   ClubCodeModal,
   ClubMemberInfoModal,
   CommonModal,
+  ModalStateProps,
 } from '@/components';
 
 import * as S from './styled';
 
-export interface ClubModalProps {
-  state: boolean;
-  isOk: boolean | null;
-  page?: number;
-  isLoading: boolean;
-}
-
 export const ManageClubPage: React.FC = () => {
-  const [clubCodeModal, setClubCodeModal] = useState<ClubModalProps>({
+  const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
     state: false,
     isOk: false,
     isLoading: true,
@@ -36,24 +30,24 @@ export const ManageClubPage: React.FC = () => {
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubCode, setClubCode] = useState<string>('');
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
-  const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<ClubModalProps>({
+  const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<ModalStateProps>({
     state: false,
     isOk: null,
     isLoading: false,
   });
-  const [clubMemberExpelModal, setClubMemberExpelModal] = useState<ClubModalProps>({
+  const [clubMemberExpelModal, setClubMemberExpelModal] = useState<ModalStateProps>({
     state: false,
     isOk: null,
     isLoading: false,
   });
   const [clubSettingPopupOpen, setClubSettingPopupOpen] = useState<boolean>(false);
-  const [clubChangeDirectorModal, setClubChangeDirectorModal] = useState<ClubModalProps>({
+  const [clubChangeDirectorModal, setClubChangeDirectorModal] = useState<ModalStateProps>({
     state: false,
     isOk: null,
     isLoading: false,
     page: 1,
   });
-  const [deleteClubModal, setDeleteClubModal] = useState<ClubModalProps>({
+  const [deleteClubModal, setDeleteClubModal] = useState<ModalStateProps>({
     state: false,
     isOk: null,
     isLoading: false,
@@ -309,7 +303,7 @@ export const ManageClubPage: React.FC = () => {
         StatusModalDescriptionIsOkFirst={`대여 정지 해제가 완료 되었어요.`}
         StatusModalDescriptionIsOkSecond={`부원 '최근원'은 앞으로 자유롭게 동아리 도서를 대여할 수 있어요.`}
         StatusModalDescriptionIsOkThird={`동아리 관리에서 상태를 확인해보세요.`}
-        StatusModalDescriptionIsNotOkFirst={`부원 '최근원'님의 대여 실패 했어요.`}
+        StatusModalDescriptionIsNotOkFirst={`부원 '최근원'님의 상태 변경에 실패 했어요.`}
         StatusModalDescriptionIsNotOkSecond={`시스템 상의 문제로 대여 정지 해제에 실패하였어요.`}
       />
       {/** club member expel modal */}
