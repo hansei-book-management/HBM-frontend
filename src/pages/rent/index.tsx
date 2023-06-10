@@ -47,7 +47,7 @@ export const RentPage: React.FC = () => {
       setRentClubBookModal({ state: true, isLoading: false, isOk: true });
       navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=2`);
       // fail test
-      // setRentClubBookModal({state: true, isLoading: false, isOk: false})
+      // setRentClubBookModal({ state: true, isLoading: false, isOk: false });
     }, 1000);
   };
 
@@ -68,7 +68,7 @@ export const RentPage: React.FC = () => {
       setAddClubModal({ state: true, isLoading: false, isOk: true });
       navigate(`${CLUB}/${clubId}/club-add?step=2`);
       // fail test
-      // setAddClubModal({ state: true,  isLoading: false, isOk: false });
+      // setAddClubModal({ state: true, isLoading: false, isOk: false });
     }, 1000);
   };
 
@@ -103,7 +103,7 @@ export const RentPage: React.FC = () => {
       {/** book detail modal */}
       {modalActive && !rentClubBookModal.state && (
         <DetailModal
-          nextButtonClick={() => onRentClubBookModalOpen(1)}
+          rightButtonClick={() => onRentClubBookModalOpen(1)}
           leftButtonText="닫기"
           rightButtonText="대여하기"
           message={<RentMessage canRent={true} />}

@@ -6,9 +6,9 @@ import * as S from './styled';
 
 export interface ModalStateProps {
   state: boolean;
-  isOk: boolean | null;
+  isOk?: boolean | null;
   page?: number;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export interface ModalProps {

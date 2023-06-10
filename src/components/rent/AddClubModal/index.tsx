@@ -106,10 +106,11 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
         message={
           <>
             <S.StatusModalText>
-              보안관제 동아리 도서가 추가되었어요.
+              보안관제 동아리 도서가 추가에 실패했어요.
               <br />
-              앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-              <br />내 도서에서 확인해보세요.
+              시스템 상의 문제로 인하여 동아리 도서 추가에 실패하였어요.
+              <br />
+              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
             </S.StatusModalText>
           </>
         }

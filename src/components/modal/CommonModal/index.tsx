@@ -35,7 +35,7 @@ export const CommonModal: React.FC<CommonModalProps> = ({
   StatusModalDescriptionIsOkThird,
   StatusModalDescriptionIsNotOkFirst,
   StatusModalDescriptionIsNotOkSecond,
-  StatusModalDescriptionIsNotOkThird = ' 빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.',
+  StatusModalDescriptionIsNotOkThird = '빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.',
   rightButtonText = '네!',
   isRed,
 }) => {

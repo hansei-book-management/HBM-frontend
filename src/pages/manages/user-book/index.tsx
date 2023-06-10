@@ -2,15 +2,21 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
 
-import { DetailModal, HeaderSection, ReturnBookModal, Section } from '@/components';
+import {
+  DetailModal,
+  HeaderSection,
+  ModalStateProps,
+  ReturnBookModal,
+  Section,
+} from '@/components';
 import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
 import { useModal } from '@/hooks';
 
 import * as S from './styled';
 
-export interface ReturnBookModalStateProps {
-  status: boolean;
-  isOk: null | boolean;
+export interface ReturnBookModalStateProps extends ModalStateProps {
+  allowLocation?: null | boolean;
+  correctLocation?: null | boolean;
 }
 
 export interface AllowLocationStateProps {
@@ -21,45 +27,41 @@ export interface AllowLocationStateProps {
 const BASE_URL = '/manage/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [returnBookModalActive, setReturnBookModalActive] = useState<ReturnBookModalStateProps>({
-    status: false,
-    isOk: null || false,
-  });
-  const [allowLocation, setAllowLocation] = useState<AllowLocationStateProps>({
-    status: false,
-    loading: false,
-  });
-  const [correctLocation, setCorrectLocation] = useState<boolean>(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const { modalActive, close } = useModal();
-
   const { userClubId } = useParams<{ userClubId: string }>();
   const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
 
   const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
 
+  const navigate = useNavigate();
+
+  const [returnBookModal, setReturnBookModal] = useState<ReturnBookModalStateProps>({
+    state: false,
+    isOk: null,
+    isLoading: false,
+    allowLocation: null,
+    correctLocation: null,
+  });
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { modalActive } = useModal();
+
   // return book modal FN
   const getLocationSuccess = (position: GeolocationPosition) => {
-    setAllowLocation({ status: true, loading: false });
-    setReturnBookModalActive({ status: true, isOk: false });
+    setReturnBookModal({ state: true, allowLocation: true });
     const coords = position.coords;
     const latitude = coords.latitude;
     const longitude = coords.longitude;
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
-      setCorrectLocation(false);
-      console.log(latitude, longitude);
+      setReturnBookModal({ state: true, correctLocation: false });
     }
-    setCorrectLocation(true);
+    setReturnBookModal({ state: true, correctLocation: true });
   };
 
   const getLocationFail = () => {
-    setAllowLocation({ status: false, loading: false });
-    setReturnBookModalActive({ status: true, isOk: false });
+    setReturnBookModal({ state: true, allowLocation: false });
   };
 
   const onReturnBookModalOpen = () => {
-    setAllowLocation({ status: false, loading: true });
+    setReturnBookModal({ state: false, isLoading: true });
     const { geolocation } = navigator;
 
     if (!geolocation) {
@@ -77,9 +79,13 @@ export const ManageUserBookPage: React.FC = () => {
   };
 
   const onReturnBookModalClose = () => {
-    setReturnBookModalActive({ status: false, isOk: false });
-    close();
     setSelectedImage(null);
+    setReturnBookModal({ state: false });
+  };
+
+  const onReturnBookStatusModal = () => {
+    setReturnBookModal({ state: true, isOk: true });
+    console.log('success');
   };
 
   useEffect(() => {
@@ -106,27 +112,24 @@ export const ManageUserBookPage: React.FC = () => {
         />
       )}
       <Section activeClub={activeUserClub} />
-      {modalActive && !returnBookModalActive.status && (
+      {modalActive && !returnBookModal.state && (
         <DetailModal
           leftButtonText="닫기"
           rightButtonText={
-            allowLocation.loading ? (
+            returnBookModal.isLoading ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               '반납하기'
             )
           }
           message={<S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>}
-          nextButtonClick={onReturnBookModalOpen}
+          rightButtonClick={onReturnBookModalOpen}
         />
       )}
       <ReturnBookModal
-        modalActive={modalActive}
-        returnBookModalActive={returnBookModalActive}
-        allowLocation={allowLocation}
-        doneButtonClick={onReturnBookModalClose}
-        nextButtonClick={onReturnBookModalClose}
-        correctLocation={correctLocation}
+        returnBookModal={returnBookModal}
+        onReturnBookModalClose={onReturnBookModalClose}
+        onReturnBookStatusModal={onReturnBookStatusModal}
         setSelectedImage={setSelectedImage}
         selectedImage={selectedImage}
         url={USER_CLUB_BASE_URL}

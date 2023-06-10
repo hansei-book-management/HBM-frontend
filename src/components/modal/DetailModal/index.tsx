@@ -11,14 +11,14 @@ export interface DetailModalProps {
   message?: React.ReactNode;
   leftButtonText: string;
   rightButtonText?: React.ReactNode;
-  nextButtonClick?: () => void;
+  rightButtonClick?: () => void;
 }
 
 export const DetailModal: React.FC<DetailModalProps> = ({
   message,
   leftButtonText,
   rightButtonText,
-  nextButtonClick,
+  rightButtonClick,
 }) => {
   const { getWidth } = useGetWindowSize();
 
@@ -75,7 +75,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
         }
         leftButtonText={leftButtonText}
         rightButtonText={rightButtonText}
-        rightButtonClick={nextButtonClick}
+        rightButtonClick={rightButtonClick}
         modalSize="large"
       />
     </Modal.OverLay>
