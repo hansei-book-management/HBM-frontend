@@ -1,16 +1,15 @@
 import React from 'react';
 import Lottie from 'react-lottie';
 
-import { ClubModalProps } from '@/pages';
-import { Modal, StatusModal } from '@/components';
+import { Modal, ModalStateProps, StatusModal } from '@/components';
 import { MANAGE_CLUB, loadingLottieOptions } from '@/constant';
 
 import * as S from './styled';
 
 export interface CommonModalProps {
   leftButtonClick: () => void;
-  rightButtonClick: (userId?: string) => void;
-  modal: ClubModalProps;
+  rightButtonClick: (userId?: string, bookId?: number) => void;
+  modal: ModalStateProps;
   title: string;
   QuestionModalDescriptionFirst: string;
   QuestionModalDescriptionSecond: string;
@@ -19,6 +18,7 @@ export interface CommonModalProps {
   StatusModalDescriptionIsOkThird: string;
   StatusModalDescriptionIsNotOkFirst: string;
   StatusModalDescriptionIsNotOkSecond: string;
+  StatusModalDescriptionIsNotOkThird?: string;
   rightButtonText?: string;
   isRed?: boolean;
 }
@@ -35,6 +35,7 @@ export const CommonModal: React.FC<CommonModalProps> = ({
   StatusModalDescriptionIsOkThird,
   StatusModalDescriptionIsNotOkFirst,
   StatusModalDescriptionIsNotOkSecond,
+  StatusModalDescriptionIsNotOkThird = ' 빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.',
   rightButtonText = '네!',
   isRed,
 }) => {
@@ -114,7 +115,7 @@ export const CommonModal: React.FC<CommonModalProps> = ({
               <br />
               {StatusModalDescriptionIsNotOkSecond}
               <br />
-              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
+              {StatusModalDescriptionIsNotOkThird}
             </S.StatusModalText>
           </>
         }

@@ -13,8 +13,10 @@ import {
   DetailModal,
   HeaderSection,
   AddClubModal,
+  ModalStateProps,
+  CommonModal,
 } from '@/components';
-import { AddClubState, StatusState } from '@/atoms';
+import { StatusState } from '@/atoms';
 import { useGetLocation, useModal } from '@/hooks';
 
 import * as S from './styled';
@@ -25,8 +27,6 @@ export const RentPage: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const activeClub = USER_CLUB_LIST.find(({ id }) => id === clubId);
 
-  const [addClubModalActive, setAddClubModalActive] = useRecoilState(AddClubState);
-
   const { modalActive } = useModal();
 
   const { clubBookRentPage, clubBookDetailPage } = useGetLocation({ clubId: clubId, bookId: 1 });
@@ -34,42 +34,58 @@ export const RentPage: React.FC = () => {
   const [status, setStatus] = useRecoilState(StatusState);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [addClubModal, setAddClubModal] = useState<ModalStateProps>({
+    state: false,
+    isLoading: false,
+    isOk: null,
+  });
+
+  const [rentClubBookModal, setRentClubBookModal] = useState<ModalStateProps>({
+    state: false,
+    isLoading: false,
+    isOk: null,
+  });
+
   // rent modal FN
-  const onNextPageNavigate = (bookId: number, stepNum: number) => {
-    navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=${stepNum}`);
+  const onRentClubBookModalOpen = (bookId: number) => {
+    setRentClubBookModal({ state: true, isLoading: true, isOk: null });
+    navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=1`);
   };
 
-  const onRentNavigate = (bookId: number, stepNum: number) => {
-    navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=${stepNum}`);
-    setLoading(true);
+  const onRentClubBookStateModal = (bookId: number) => {
+    setRentClubBookModal({ state: true, isLoading: true, isOk: null });
     setTimeout(() => {
-      setLoading(false);
-      setStatus(false);
-    }, 2000);
+      setRentClubBookModal({ state: true, isLoading: false, isOk: true });
+      navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=2`);
+      // fail test
+      // setRentClubBookModal({state: true, isLoading: false, isOk: false})
+    }, 1000);
   };
 
-  const onCloseNavigate = () => {
+  const onRentClubBookModalClose = () => {
+    setRentClubBookModal({ state: false, isLoading: false, isOk: null });
     navigate(`${CLUB}/${clubId}`);
   };
 
   // add club modal FN
   const onAddClubModalOpen = () => {
-    setAddClubModalActive({ state: true, isOk: false });
+    setAddClubModal({ state: true, isLoading: false, isOk: null });
     navigate(`${CLUB}/${clubId}/club-add?step=1`);
   };
 
-  const onAddClubModalSubmit = (stepNum: number) => {
-    navigate(`${CLUB}/${clubId}/club-add?step=${stepNum}`);
-    setLoading(true);
+  const onAddClubStateModal = () => {
+    setAddClubModal({ state: true, isLoading: true, isOk: null });
     setTimeout(() => {
-      setLoading(false);
-      setAddClubModalActive({ state: true, isOk: true });
+      setAddClubModal({ state: true, isLoading: false, isOk: true });
+      navigate(`${CLUB}/${clubId}/club-add?step=2`);
+      // fail test
+      // setAddClubModal({ state: true,  isLoading: false, isOk: false });
     }, 1000);
   };
 
   const onAddClubModalClose = () => {
-    setAddClubModalActive({ state: false, isOk: false });
-    onCloseNavigate();
+    setAddClubModal({ state: false, isLoading: false, isOk: null });
+    navigate(`${CLUB}/${clubId}`);
   };
 
   useEffect(() => {
@@ -83,96 +99,47 @@ export const RentPage: React.FC = () => {
   }, [activeClub, modalActive, clubBookDetailPage]);
 
   return (
-    <S.RentPageContainer>
-      {activeClub && (
-        <HeaderSection
-          name={activeClub.name}
-          activeId={clubId}
-          href="/club"
-          list={USER_CLUB_LIST}
-          onClick={onAddClubModalOpen}
-        />
-      )}
-      <Section activeClub={activeClub} />
-      <AddClubModal
-        addClubModalActive={addClubModalActive}
-        nextButtonClick={() => onAddClubModalSubmit(2)}
-        doneButtonClick={() => onAddClubModalClose()}
-        loading={loading}
-        url={`${CLUB}/${clubId}`}
-      />
-      {(modalActive && clubBookDetailPage && !addClubModalActive.state && (
-        <DetailModal
-          nextButtonClick={() => onNextPageNavigate(1, 1)}
-          leftButtonText="닫기"
-          rightButtonText="대여하기"
-          message={<RentMessage canRent={true} />}
-        />
-      )) ||
-        (modalActive && clubBookRentPage && !status && (
-          <Modal.OverLay>
-            <Modal
-              textProps={
-                <S.ModalQuestionContainer>
-                  <S.ModalTitle>대여 진행</S.ModalTitle>
-                  <S.ModalSubTitle>
-                    정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?
-                    <br />
-                    대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.
-                  </S.ModalSubTitle>
-                </S.ModalQuestionContainer>
-              }
-              statusDisable={loading}
-              leftButtonText="아니요"
-              rightButtonText={
-                loading ? (
-                  <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
-                ) : (
-                  '네!'
-                )
-              }
-              modalSize="large"
-              {...(!loading && {
-                rightButtonClick: () => onRentNavigate(1, 2),
-                leftButtonClick: () => onCloseNavigate(),
-              })}
-            />
-          </Modal.OverLay>
-        )) ||
-        (modalActive && clubBookRentPage && status && (
-          <StatusModal
-            url={`/club/${clubId}`}
-            {...(status
-              ? {
-                  title: '대여 성공',
-                  isOk: true,
-                  message: (
-                    <>
-                      <S.StatusModalText>
-                        ‘당신이 모르는 민주주의’ 책을 대여했어요.
-                        <br />
-                        대출 기한은 10일이며, 연장 신청을 할 수 있어요.
-                        <br />
-                        1차 반납 기간은 2023년 X월 X일까지에요.
-                      </S.StatusModalText>
-                    </>
-                  ),
-                }
-              : {
-                  title: '대여 성공',
-                  isOk: true,
-                  message: (
-                    <>
-                      <S.StatusModalText>
-                        대출한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.
-                        <br />
-                        대출 정지는 10일 5시간 후 자동으로 해제돼요.
-                      </S.StatusModalText>
-                    </>
-                  ),
-                })}
+    <>
+      <S.RentPageContainer>
+        {activeClub && (
+          <HeaderSection
+            name={activeClub.name}
+            activeId={clubId}
+            href="/club"
+            list={USER_CLUB_LIST}
+            onClick={onAddClubModalOpen}
           />
-        ))}
-    </S.RentPageContainer>
+        )}
+        <Section activeClub={activeClub} />
+        <AddClubModal
+          addClubModal={addClubModal}
+          onAddClubStateModal={() => onAddClubStateModal()}
+          onAddClubModalClose={() => onAddClubModalClose()}
+          url={`${CLUB}/${clubId}`}
+        />
+        {modalActive && !rentClubBookModal.state && (
+          <DetailModal
+            nextButtonClick={() => onRentClubBookModalOpen(1)}
+            leftButtonText="닫기"
+            rightButtonText="대여하기"
+            message={<RentMessage canRent={true} />}
+          />
+        )}
+      </S.RentPageContainer>
+      <CommonModal
+        leftButtonClick={onRentClubBookModalClose}
+        rightButtonClick={() => onRentClubBookStateModal(1)}
+        modal={rentClubBookModal}
+        title={`대여`}
+        QuestionModalDescriptionFirst={`정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?`}
+        QuestionModalDescriptionSecond={`대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.`}
+        StatusModalDescriptionIsOkFirst={`‘당신이 모르는 민주주의’ 책을 대여했어요.`}
+        StatusModalDescriptionIsOkSecond={`대여 기한은 10일이며, 연장 신청을 할 수 있어요.`}
+        StatusModalDescriptionIsOkThird={`1차 반납 기간은 2023년 X월 X일까지에요.`}
+        StatusModalDescriptionIsNotOkFirst={`'앙기모링'님의 대여 실패 했어요.`}
+        StatusModalDescriptionIsNotOkSecond={`대여한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.`}
+        StatusModalDescriptionIsNotOkThird={`대여 정지는 도서 반납을 하면 자동으로 해제돼요.`}
+      />
+    </>
   );
 };

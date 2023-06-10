@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { loadingLottieOptions } from '@/constant';
 
-import { Modal } from '../../modal/Modal';
+import { Modal, ModalStateProps } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
 
 import * as S from './styled';
@@ -14,21 +14,16 @@ export interface AddClubFormValues {
 }
 
 export interface AddClubModalProps {
-  addClubModalActive: {
-    isOk: boolean;
-    state: boolean;
-  };
-  nextButtonClick: () => void;
-  doneButtonClick: () => void;
-  loading: boolean;
+  addClubModal: ModalStateProps;
+  onAddClubStateModal: () => void;
+  onAddClubModalClose: () => void;
   url: string;
 }
 
 export const AddClubModal: React.FC<AddClubModalProps> = ({
-  addClubModalActive: { isOk, state },
-  nextButtonClick,
-  doneButtonClick,
-  loading,
+  addClubModal,
+  onAddClubStateModal,
+  onAddClubModalClose,
   url,
 }) => {
   const {
@@ -40,7 +35,7 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
   const onValid = ({ clubCode }: AddClubFormValues) => {
     console.log(clubCode, '동아리 코드');
   };
-  if (!isOk && state) {
+  if (addClubModal.state && addClubModal.isOk === null) {
     return (
       <Modal.OverLay>
         <Modal
@@ -65,56 +60,60 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
           }
           leftButtonText="취소"
           rightButtonText={
-            loading ? (
+            addClubModal.isLoading ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               '등록'
             )
           }
           modalSize="medium"
-          statusDisable={loading}
-          {...(!loading &&
+          statusDisable={addClubModal.isLoading}
+          {...(!addClubModal.isLoading &&
             !errors.clubCode?.message && {
-            nextButtonClick: () => nextButtonClick(),
-            doneButtonClick: () => doneButtonClick(),
-          })}
+              leftButtonClick: () => onAddClubModalClose(),
+              rightButtonClick: () => onAddClubStateModal(),
+            })}
         />
       </Modal.OverLay>
     );
   }
-  if (isOk && state) {
+  if (addClubModal.state && addClubModal.isOk === true) {
     return (
       <StatusModal
         url={`${url}`}
-        {...(isOk
-          ? {
-            title: '추가 성공',
-            isOk: true,
-            message: (
-              <>
-                <S.StatusModalText>
-                  보안관제 동아리 도서가 추가되었어요.
-                  <br />
-                  앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-                  <br />내 도서에서 확인해보세요.
-                </S.StatusModalText>
-              </>
-            ),
-          }
-          : {
-            title: '추가 실패',
-            isOk: false,
-            message: (
-              <>
-                <S.StatusModalText>
-                  보안관제 동아리 도서가 추가되었어요.
-                  <br />
-                  앞으로 보안관제 동아리 도서를 대여할 수 있어요.
-                  <br />내 도서에서 확인해보세요.
-                </S.StatusModalText>
-              </>
-            ),
-          })}
+        title={'추가 성공'}
+        isOk={true}
+        message={
+          <>
+            <S.StatusModalText>
+              보안관제 동아리 도서가 추가되었어요.
+              <br />
+              앞으로 보안관제 동아리 도서를 대여할 수 있어요.
+              <br />내 도서에서 확인해보세요.
+            </S.StatusModalText>
+          </>
+        }
+        onCloseModal={onAddClubModalClose}
+      />
+    );
+  }
+  if (addClubModal.state && addClubModal.isOk === false) {
+    return (
+      <StatusModal
+        url={`${url}`}
+        title={'추가 실패'}
+        isOk={false}
+        message={
+          <>
+            <S.StatusModalText>
+              보안관제 동아리 도서가 추가되었어요.
+              <br />
+              앞으로 보안관제 동아리 도서를 대여할 수 있어요.
+              <br />내 도서에서 확인해보세요.
+            </S.StatusModalText>
+          </>
+        }
+        onCloseModal={onAddClubModalClose}
       />
     );
   }
