@@ -14,8 +14,6 @@ import {
   Button,
   ClubChangeDirectorModal,
   ClubCodeModal,
-  ClubMemberChangeStatusModal,
-  ClubMemberExpelModal,
   ClubMemberInfoModal,
   CommonModal,
 } from '@/components';
@@ -300,15 +298,35 @@ export const ManageClubPage: React.FC = () => {
         onClubCodeCopyText={onClubCodeCopyText}
         clubCodeModal={clubCodeModal}
       />
-      <ClubMemberChangeStatusModal
-        onClubMemberChangeStatusModalClose={onClubMemberChangeStatusModalClose}
-        onClubMemberChangeStatusModalNextPage={() => onClubMemberChangeStatusModalNextPage('asdf')}
-        clubMemberChangeStatusModal={clubMemberChangeStatusModal}
+      {/** club member change status modal */}
+      <CommonModal
+        leftButtonClick={onClubMemberChangeStatusModalClose}
+        rightButtonClick={() => onClubMemberChangeStatusModalNextPage('asdf')}
+        modal={clubMemberChangeStatusModal}
+        title={`대여 정지 해제`}
+        QuestionModalDescriptionFirst={`정말로 부원 ‘최근원’님의 대여 정지 해제를 할까요?`}
+        QuestionModalDescriptionSecond={`대여 정지 해제된 부원은 자유롭게 동아리의 책을 대여할 수 있어요.`}
+        StatusModalDescriptionIsOkFirst={`대여 정지 해제가 완료 되었어요.`}
+        StatusModalDescriptionIsOkSecond={`부원 '최근원'은 앞으로 자유롭게 동아리 도서를 대여할 수 있어요.`}
+        StatusModalDescriptionIsOkThird={`동아리 관리에서 상태를 확인해보세요.`}
+        StatusModalDescriptionIsNotOkFirst={`부원 '최근원'님의 대여 실패 했어요.`}
+        StatusModalDescriptionIsNotOkSecond={`시스템 상의 문제로 대여 정지 해제에 실패하였어요.`}
       />
-      <ClubMemberExpelModal
-        onClubMemberExpelModalClose={onClubMemberExpelModalClose}
-        onClubMemberExpelModalNextPage={onClubMemberExpelModalNextPage}
-        clubMemberExpelModal={clubMemberExpelModal}
+      {/** club member expel modal */}
+      <CommonModal
+        leftButtonClick={onClubMemberExpelModalClose}
+        rightButtonClick={() => onClubMemberExpelModalNextPage('asdf')}
+        modal={clubMemberExpelModal}
+        title={`추방`}
+        QuestionModalDescriptionFirst={`정말로 부원 ‘박찬영'님을 추방할까요?`}
+        QuestionModalDescriptionSecond={`추방된 부원은 보안관제 동아리의 책을 대여할 수 없어요.`}
+        StatusModalDescriptionIsOkFirst={`부원 ‘박찬영'님이 추방 되었어요.`}
+        StatusModalDescriptionIsOkSecond={`부원 ‘박찬영'님은 앞으로 이 동아리 도서를 대여할 수 없어요.`}
+        StatusModalDescriptionIsOkThird={`동아리 관리에서 이 부원의 상태를 확인할 수 없어요.`}
+        StatusModalDescriptionIsNotOkFirst={`부원 ‘박찬영'님 추방에 실패하였어요.`}
+        StatusModalDescriptionIsNotOkSecond={`시스템 상의 문제로 부원 추방에 실패하였어요.`}
+        rightButtonText={'추방'}
+        isRed={true}
       />
       <ClubChangeDirectorModal
         onClubChangeDirectorModalClose={onClubChangeDirectorModalClose}

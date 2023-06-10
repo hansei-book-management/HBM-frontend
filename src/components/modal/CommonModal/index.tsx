@@ -9,7 +9,7 @@ import * as S from './styled';
 
 export interface CommonModalProps {
   leftButtonClick: () => void;
-  rightButtonClick: (userId?: string | null) => void;
+  rightButtonClick: (userId?: string) => void;
   modal: ClubModalProps;
   title: string;
   QuestionModalDescriptionFirst: string;

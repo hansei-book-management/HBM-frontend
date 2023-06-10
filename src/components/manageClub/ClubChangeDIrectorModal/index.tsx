@@ -27,14 +27,14 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
             <S.ModalContainer>
               <S.ModalTitle>부장 변경</S.ModalTitle>
               {CLUB_MEMBER_LIST.map(({ title, memberList }, i) => (
-                <S.GenerateCodeSelectContainer key={i}>
-                  <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
-                  <S.GenerateCodeSelect>
+                <S.ModalSelectContainer key={i}>
+                  <S.ModalSelectTitle>{title}</S.ModalSelectTitle>
+                  <S.ModalSelect>
                     {memberList.map(({ member }) => (
                       <option key={member}>{member}</option>
                     ))}
-                  </S.GenerateCodeSelect>
-                </S.GenerateCodeSelectContainer>
+                  </S.ModalSelect>
+                </S.ModalSelectContainer>
               ))}
             </S.ModalContainer>
           }
