@@ -38,7 +38,10 @@ export const CommonModal: React.FC<CommonModalProps> = ({
   rightButtonText = '네!',
   isRed,
 }) => {
-  if (modal.state && modal.isOk === null) {
+  if (
+    (modal.state && modal.isOk === null) ||
+    (modal.state && modal.isOk === null && modal.page === 2)
+  ) {
     return (
       <Modal.OverLay>
         <Modal
@@ -71,7 +74,10 @@ export const CommonModal: React.FC<CommonModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (modal.state && modal.isOk === true) {
+  if (
+    (modal.state && modal.isOk === true) ||
+    (modal.state && modal.isOk === true && modal.page === 3)
+  ) {
     return (
       <StatusModal
         url={`${MANAGE_CLUB}`}
@@ -92,7 +98,10 @@ export const CommonModal: React.FC<CommonModalProps> = ({
       />
     );
   }
-  if (modal.state && modal.isOk === false) {
+  if (
+    (modal.state && modal.isOk === false) ||
+    (modal.state && modal.isOk === false && modal.page === 3)
+  ) {
     return (
       <StatusModal
         url={`${MANAGE_CLUB}`}
