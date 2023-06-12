@@ -25,7 +25,7 @@ export const FormTitle = styled.h1`
   text-align: center;
 `;
 
-export const FormButton = styled.button<{ phoneToken?: boolean }>`
+export const FormButton = styled.button`
   background-color: ${({ theme }) => theme.primary.darkBlue};
   border: none;
   padding: 14px 0;
@@ -36,18 +36,11 @@ export const FormButton = styled.button<{ phoneToken?: boolean }>`
   color: ${({ theme }) => theme.white};
   font-size: 1.2rem;
   font-weight: 600;
-  ${({ phoneToken }) =>
-    phoneToken
-      ? css`
-          opacity: 1;
-          transition: opacity 150ms ease-in-out;
-          &:hover {
-            opacity: 0.8;
-          }
-        `
-      : css`
-          opacity: 0.5;
-        `}
+  opacity: 1;
+  transition: opacity 150ms ease-in-out;
+  &:hover {
+    opacity: 0.8;
+  }
   @media screen and (min-width: 300px) and (max-width: 500px) {
     height: 3.4rem;
   }

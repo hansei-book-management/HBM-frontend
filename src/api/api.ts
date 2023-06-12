@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const API_SUFFIX = {
-  BASEURL: 'http://127.0.0.1:4000',
-  REGISTER: '/auth/register/',
+  BASEURL: 'http://127.0.0.1:8000',
+  REGISTER: '/api/user/',
   REGISTER_PHONE: '/auth/register/phone',
   LOGIN: '/auth/login',
   PROFILE: '/user/profile',
@@ -28,7 +28,6 @@ export interface APIResponse<T = unknown> {
 export interface APIErrorResponse {
   status: 'FAILED';
   message: string;
-  at?: string;
   result?: null;
 }
 

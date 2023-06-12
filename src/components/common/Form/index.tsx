@@ -31,12 +31,10 @@ export const FormInputContainer: React.FC<FormInputContainerProps> = ({
   );
 };
 
-interface FormButtonProps extends FormCommonProps {
-  phoneToken: boolean;
-}
+type FormButtonProps = FormCommonProps;
 
-export const FormButton: React.FC<FormButtonProps> = ({ children, phoneToken }) => {
-  return <S.FormButton phoneToken={phoneToken}>{children}</S.FormButton>;
+export const FormButton: React.FC<FormButtonProps> = ({ children }) => {
+  return <S.FormButton>{children}</S.FormButton>;
 };
 
 interface FormComponentProps extends FormCommonProps {

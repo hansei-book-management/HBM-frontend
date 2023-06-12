@@ -1,5 +1,3 @@
-import { RegisterFormValues } from '@/pages';
-
 import {
   APIResponse,
   API_SUFFIX,
@@ -9,6 +7,31 @@ import {
   setAccessToken,
 } from './api';
 
+export interface RegisterFormValues {
+  uid: string;
+  passwd: string;
+  name: string;
+  num: string;
+  phone: string;
+}
+
+export const register = async ({
+  uid,
+  passwd,
+  name,
+  num,
+  phone,
+}: RegisterFormValues): Promise<APIResponse<{ auth: string; refresh: string }>> => {
+  const { data } = await instance.post(API_SUFFIX.REGISTER, {
+    uid,
+    passwd,
+    name,
+    num,
+    phone,
+  });
+  return data;
+};
+
 export const login = async ({
   username,
   password,
@@ -17,32 +40,6 @@ export const login = async ({
     username,
     password,
   });
-  return data;
-};
-
-export const register = async ({
-  username,
-  password,
-  name,
-  studentId,
-  phoneToken,
-  verificationCode,
-}: RegisterFormValues): Promise<APIResponse<{ message: string; token: string }>> => {
-  const { data } = await instance.post(API_SUFFIX.REGISTER, {
-    username,
-    password,
-    name,
-    studentId,
-    phoneToken,
-    verificationCode,
-  });
-  return data;
-};
-
-export const registerPhone = async (
-  phone: string,
-): Promise<APIResponse<{ message: string; token: string }>> => {
-  const { data } = await instance.post(API_SUFFIX.REGISTER_PHONE, { phone });
   return data;
 };
 
