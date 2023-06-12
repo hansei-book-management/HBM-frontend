@@ -43,7 +43,6 @@ export const RegisterPage: React.FC = () => {
       num,
       phone,
     });
-    console.log('asdf');
   };
 
   const REGISTER_INPUT_LIST: RegisterInputListProps[] = [

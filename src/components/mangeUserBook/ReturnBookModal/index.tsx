@@ -30,7 +30,6 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const image = event.target.files[0];
-      console.log(image);
       setSelectedImage(URL.createObjectURL(image));
     }
   };

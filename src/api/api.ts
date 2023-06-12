@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const API_SUFFIX = {
   BASEURL: 'http://127.0.0.1:8000',
-  REGISTER: '/api/user/',
+  REGISTER: '/api/user',
   REGISTER_PHONE: '/auth/register/phone',
   LOGIN: '/auth/login',
   PROFILE: '/user/profile',

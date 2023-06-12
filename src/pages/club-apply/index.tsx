@@ -100,7 +100,7 @@ export const ClubApplyPage: React.FC = () => {
           <S.ClubApplyInput {...inputProps} placeholder={placeHolder} />
         </Form.InputContainer>
       ))}
-      <Form.Button phoneToken>신청하기</Form.Button>
+      <Form.Button>신청하기</Form.Button>
     </Form>
   );
 };

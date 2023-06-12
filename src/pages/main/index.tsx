@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Main1PNG, Main2PNG, Main3PNG } from '@/assets';
 import { FooterSection, MainSection } from '@/components';
@@ -6,6 +6,10 @@ import { useGetWindowSize } from '@/hooks';
 
 export const MainPage: React.FC = () => {
   const { getWidth } = useGetWindowSize();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   return (
     <>
