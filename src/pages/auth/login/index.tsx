@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { Form } from '@/components';
-import { LoginFormValues, getUserProfile } from '@/api';
-import { useFetchUser, useLogin } from '@/hooks';
+import { LoginFormValues } from '@/api';
+import { useLogin } from '@/hooks';
 
 import * as S from './styled';
 
@@ -17,16 +17,16 @@ export const LoginPage: React.FC = () => {
 
   const { mutate } = useLogin();
 
-  const onSubmit = ({ username, password }: LoginFormValues) => {
-    mutate({ username, password });
+  const onSubmit = ({ uid, passwd }: LoginFormValues) => {
+    mutate({ uid, passwd });
   };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Form.InputContainer inputTitle="아이디" errorMessage={errors.username?.message}>
+      <Form.InputContainer inputTitle="아이디" errorMessage={errors.uid?.message}>
         <S.LoginInput
           type="text"
-          {...register('username', {
+          {...register('uid', {
             required: '아이디는 필수입니다.',
             pattern: {
               value: /^[a-zA-Z0-9가-힣]{5,20}$/,
@@ -36,10 +36,10 @@ export const LoginPage: React.FC = () => {
           placeholder="아이디를 입력해주세요..."
         />
       </Form.InputContainer>
-      <Form.InputContainer inputTitle="비밀번호" errorMessage={errors.password?.message}>
+      <Form.InputContainer inputTitle="비밀번호" errorMessage={errors.passwd?.message}>
         <S.LoginInput
           type="password"
-          {...register('password', {
+          {...register('passwd', {
             required: '비밀번호는 필수입니다.',
             pattern: {
               value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/,
@@ -49,7 +49,7 @@ export const LoginPage: React.FC = () => {
           placeholder="비밀번호를 입력해주세요..."
         />
       </Form.InputContainer>
-      <Form.Button phoneToken>로그인</Form.Button>
+      <Form.Button>로그인</Form.Button>
       <div>
         <Form.LinkContainer>
           아직 계정이 없으신가요? <Link to="/auth/register">회원가입</Link>

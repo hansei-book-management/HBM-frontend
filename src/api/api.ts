@@ -4,7 +4,7 @@ export const API_SUFFIX = {
   BASEURL: 'http://127.0.0.1:8000',
   REGISTER: '/api/user',
   REGISTER_PHONE: '/auth/register/phone',
-  LOGIN: '/auth/login',
+  LOGIN: '/api/auth',
   PROFILE: '/user/profile',
   REFRESH: '/auth/refresh',
 };
@@ -37,11 +37,6 @@ export interface UserProfileResponse {
   name: string;
   studentId: string;
   phone: string;
-}
-
-export interface LoginFormValues {
-  username: string;
-  password: string;
 }
 
 export const setAccessToken = (token: string | null) => {

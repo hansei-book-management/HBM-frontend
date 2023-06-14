@@ -34,7 +34,7 @@ export const useRegister = (): UseMutationResult<
       message: string;
       result: { auth: string; refresh: string };
     }) => {
-      localStorage.setItem('token', data.result.refresh);
+      localStorage.setItem('refreshToken', data.result.refresh);
       setToken({ accessToken: data.result.auth, state: true });
       setAccessToken(token.accessToken);
       toast.success('자동 로그인 되었어요.', {
@@ -54,25 +54,27 @@ export const useRegister = (): UseMutationResult<
 };
 
 export const useLogin = (): UseMutationResult<
-  APIResponse<{ accessToken: string; refreshToken: string }>,
+  APIResponse<{ auth: string; refresh: string }>,
   AxiosError<APIErrorResponse>,
   LoginFormValues
 > => {
+  const navigate = useNavigate();
   const [token, setToken] = useRecoilState(globalAccessToken);
   return useMutation('useLogin', login, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
-      result: { accessToken: string; refreshToken: string };
+      result: { auth: string; refresh: string };
     }) => {
-      console.log(data);
-      localStorage.setItem('refreshToken', data.result.refreshToken);
-      setToken({ accessToken: data.result.accessToken, state: true });
+      localStorage.setItem('refreshToken', data.result.refresh);
+      setToken({ accessToken: data.result.auth, state: true });
       setAccessToken(token.accessToken);
-      toast.success('자동 로그인 되었어요.', {
+      toast.success('로그인에 성공하셨습니다.', {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      navigate('/');
+      console.log(token);
     },
     onError: (data) => {
       toast.error(data.response?.data.message, {
