@@ -1,4 +1,4 @@
-import { UseMutationResult, useMutation } from 'react-query';
+import { UseMutationResult, UseQueryResult, useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -10,6 +10,8 @@ import {
   createClub,
   ClubApplyFormValue,
   APIResponseStatusType,
+  GetClubResponse,
+  getClub,
 } from '@/api';
 
 export const useCreateClub = (): UseMutationResult<
@@ -42,3 +44,12 @@ export const useCreateClub = (): UseMutationResult<
     retry: 0,
   });
 };
+
+export const GetClub = (): UseQueryResult<
+  APIResponse<GetClubResponse>,
+  AxiosError<APIErrorResponse>
+> =>
+  useQuery('GetClub', () => getClub(), {
+    retry: 0,
+    staleTime: 36000,
+  });
