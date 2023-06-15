@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { UseMutationResult, UseQueryResult, useMutation, useQuery } from 'react-query';
+import {
+  UseMutationResult,
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { AxiosError } from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
   APIErrorResponse,
@@ -60,6 +66,7 @@ export const useLogin = (): UseMutationResult<
 > => {
   const navigate = useNavigate();
   const [token, setToken] = useRecoilState(globalAccessToken);
+  const fetchUser = useFetchUser();
   return useMutation('useLogin', login, {
     onSuccess: (data: {
       status: APIResponseStatusType;
@@ -69,11 +76,11 @@ export const useLogin = (): UseMutationResult<
       localStorage.setItem('refreshToken', data.result.refresh);
       setToken({ accessToken: data.result.auth, state: true });
       setAccessToken(token.accessToken);
-      console.log(token);
       toast.success('로그인에 성공하셨습니다.', {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      fetchUser.refetch();
       navigate('/');
     },
     onError: (data) => {
@@ -86,6 +93,24 @@ export const useLogin = (): UseMutationResult<
   });
 };
 
+export const UseLogout = () => {
+  const queryClient = useQueryClient();
+  const setToken = useSetRecoilState(globalAccessToken);
+  const navigate = useNavigate();
+
+  const deleteUserInformation = () => {
+    setToken({ accessToken: '', state: false });
+    localStorage.removeItem('refreshToken');
+    queryClient.removeQueries('useFetchUser');
+    navigate('/');
+    toast.success('로그아웃에 성공하셨어요!', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  };
+  return { deleteUserInformation };
+};
+
 export const useFetchUser = (): UseQueryResult<
   APIResponse<UserProfileResponse>,
   AxiosError<APIErrorResponse>
@@ -95,11 +120,9 @@ export const useFetchUser = (): UseQueryResult<
     'useFetchUser',
     () => {
       if (token.state) {
-        console.log('token state true');
         setAccessToken(token.accessToken);
         return getUserProfile();
       }
-      console.log('token state false');
       return getRefreshTokenAuth().then((data) => {
         setAccessToken(data.result);
         return getUserProfile();

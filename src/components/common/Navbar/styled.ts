@@ -110,7 +110,7 @@ export const NavbarUserName = styled.span`
   color: ${({ theme }) => theme.black};
 `;
 
-export const NavbarAuthButton = styled(Link)`
+export const NavbarAuthButton = styled.button`
   color: ${({ theme }) => theme.primary.gray};
   background-color: ${({ theme }) => theme.primary.white};
   border-radius: 1.4rem;
@@ -120,7 +120,6 @@ export const NavbarAuthButton = styled(Link)`
   font-weight: 600;
   align-self: center;
   text-decoration: none;
-  margin-top: 10px;
 `;
 
 export const NavbarTogIcon = styled(MdDehaze)`
