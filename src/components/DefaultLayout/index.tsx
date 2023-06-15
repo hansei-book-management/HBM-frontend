@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Navbar, Footer } from '@/components';
-import { useFetchUser, useLogin } from '@/hooks';
+import { useFetchUser } from '@/hooks';
 
 import * as S from './styled';
 
