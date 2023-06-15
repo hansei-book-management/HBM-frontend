@@ -4,7 +4,7 @@ export const API_SUFFIX = {
   BASEURL: 'http://127.0.0.1:8000',
   REGISTER: '/api/user',
   REGISTER_PHONE: '/auth/register/phone',
-  LOGIN: '/auth/login',
+  LOGIN: '/api/auth',
   PROFILE: '/user/profile',
   REFRESH: '/auth/refresh',
 };
@@ -32,22 +32,16 @@ export interface APIErrorResponse {
 }
 
 export interface UserProfileResponse {
-  id: number;
-  username: string;
+  uid: string;
+  role: string;
   name: string;
-  studentId: string;
+  num: string;
   phone: string;
-}
-
-export interface LoginFormValues {
-  username: string;
-  password: string;
 }
 
 export const setAccessToken = (token: string | null) => {
   if (token) {
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-    // 이렇게 보냈는데 401 error가 나는거면 백엔드에서 토큰을 못받아서 그런거임
   } else {
     delete instance.defaults.headers.common.Authorization;
   }

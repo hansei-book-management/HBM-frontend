@@ -1,14 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
 
 import { ADMIN_NAVBAR_MENU_LIST } from '@/constant';
-import { useGetWindowSize } from '@/hooks';
+import { UseLogout, useGetWindowSize } from '@/hooks';
+import { APIResponse, UserProfileResponse } from '@/api';
 
 import * as S from './styled';
 
-export const Navbar: React.FC = () => {
+export interface NavbarProps {
+  userInfo?: APIResponse<UserProfileResponse>;
+  fetch?: boolean;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
   const [hidden, setHidden] = useState<boolean>(false);
   const location = useLocation();
   const { scrollY } = useScroll();
@@ -16,6 +22,14 @@ export const Navbar: React.FC = () => {
   const [navbarClose, setNavbarClose] = useState<boolean>(false);
   const navbar = useRef<HTMLDivElement>(null);
   const { getWidth } = useGetWindowSize();
+  const navigate = useNavigate();
+
+  const { deleteUserInformation } = UseLogout();
+
+  const handleLogoutButtonClick = useCallback(
+    () => deleteUserInformation(),
+    [deleteUserInformation],
+  );
 
   const onClick = () => {
     setNavbarClose(!navbarClose);
@@ -96,8 +110,16 @@ export const Navbar: React.FC = () => {
             ))}
           </S.NavbarMenuWrapper>
           <S.NavbarUserContainer>
-            {/* <S.NavbarUserName>앙기모링님</S.NavbarUserName> */}
-            <S.NavbarAuthButton to="/auth/login">로그인</S.NavbarAuthButton>
+            {fetch ? null : userInfo ? (
+              <>
+                <S.NavbarUserName>{userInfo?.result.name}님</S.NavbarUserName>
+                <S.NavbarAuthButton onClick={handleLogoutButtonClick}>로그아웃</S.NavbarAuthButton>
+              </>
+            ) : (
+              <S.NavbarAuthButton onClick={() => navigate('/auth/login')}>
+                로그인
+              </S.NavbarAuthButton>
+            )}
           </S.NavbarUserContainer>
         </S.NavbarMenuContainer>
       </S.NavBarWrapper>
