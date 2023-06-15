@@ -3,10 +3,10 @@ import axios from 'axios';
 export const API_SUFFIX = {
   BASEURL: 'http://127.0.0.1:8000',
   REGISTER: '/api/user',
-  REGISTER_PHONE: '/auth/register/phone',
   LOGIN: '/api/auth',
   PROFILE: '/user/profile',
   REFRESH: '/auth/refresh',
+  CR_CLUB: '/api/club',
 };
 
 export const instance = axios.create({

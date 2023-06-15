@@ -34,6 +34,7 @@ export const useRegister = (): UseMutationResult<
 > => {
   const navigate = useNavigate();
   const [token, setToken] = useRecoilState(globalAccessToken);
+  const fetchUser = useFetchUser();
   return useMutation('useRegister', register, {
     onSuccess: (data: {
       status: APIResponseStatusType;
@@ -47,6 +48,7 @@ export const useRegister = (): UseMutationResult<
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
+      fetchUser.refetch();
       navigate('/');
     },
     onError: (data) => {
@@ -84,7 +86,7 @@ export const useLogin = (): UseMutationResult<
       navigate('/');
     },
     onError: (data) => {
-      toast.error(data.response?.data.message, {
+      toast.error(data.message, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });

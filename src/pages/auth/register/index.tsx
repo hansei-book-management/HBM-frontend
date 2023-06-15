@@ -34,8 +34,8 @@ export const RegisterPage: React.FC = () => {
   const password = useRef({});
   password.current = watch('passwd');
   const { mutate: registerMutate } = useRegister();
-  const navigate = useNavigate();
   const { data: user, isFetching } = useFetchUser();
+  const navigate = useNavigate();
 
   const onSubmitHandler = ({ uid, passwd, name, num, phone }: RegisterFormValues) => {
     registerMutate({
