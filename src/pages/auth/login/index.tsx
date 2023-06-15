@@ -25,7 +25,6 @@ export const LoginPage: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(user?.result);
     if (user?.result) {
       navigate('/');
     }

@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Form } from '@/components';
 import { RegisterFormValues } from '@/api';
-import { useRegister } from '@/hooks';
+import { useFetchUser, useRegister } from '@/hooks';
 
 import * as S from './styled';
 
@@ -34,6 +34,8 @@ export const RegisterPage: React.FC = () => {
   const password = useRef({});
   password.current = watch('passwd');
   const { mutate: registerMutate } = useRegister();
+  const navigate = useNavigate();
+  const { data: user, isFetching } = useFetchUser();
 
   const onSubmitHandler = ({ uid, passwd, name, num, phone }: RegisterFormValues) => {
     registerMutate({
@@ -44,6 +46,12 @@ export const RegisterPage: React.FC = () => {
       phone,
     });
   };
+
+  useEffect(() => {
+    if (user?.result) {
+      navigate('/');
+    }
+  }, [user]);
 
   const REGISTER_INPUT_LIST: RegisterInputListProps[] = [
     {
@@ -140,18 +148,26 @@ export const RegisterPage: React.FC = () => {
   ];
 
   return (
-    <Form onSubmit={handleSubmit(onSubmitHandler)}>
-      {REGISTER_INPUT_LIST.map(({ inputTitle, errorMessage, inputProps, placeHolder }) => (
-        <Form.InputContainer inputTitle={inputTitle} errorMessage={errorMessage} key={inputTitle}>
-          <S.RegisterInput {...inputProps} placeholder={placeHolder} />
-        </Form.InputContainer>
-      ))}
-      <Form.Button>회원가입</Form.Button>
-      <div>
-        <Form.LinkContainer>
-          이미 계정이 있으신가요? <Link to="/auth/login">로그인</Link>
-        </Form.LinkContainer>
-      </div>
-    </Form>
+    <>
+      {!isFetching && !user?.result && (
+        <Form onSubmit={handleSubmit(onSubmitHandler)}>
+          {REGISTER_INPUT_LIST.map(({ inputTitle, errorMessage, inputProps, placeHolder }) => (
+            <Form.InputContainer
+              inputTitle={inputTitle}
+              errorMessage={errorMessage}
+              key={inputTitle}
+            >
+              <S.RegisterInput {...inputProps} placeholder={placeHolder} />
+            </Form.InputContainer>
+          ))}
+          <Form.Button>회원가입</Form.Button>
+          <div>
+            <Form.LinkContainer>
+              이미 계정이 있으신가요? <Link to="/auth/login">로그인</Link>
+            </Form.LinkContainer>
+          </div>
+        </Form>
+      )}
+    </>
   );
 };
