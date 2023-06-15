@@ -101,7 +101,7 @@ export const useFetchUser = (): UseQueryResult<
       }
       console.log('token state false');
       return getRefreshTokenAuth().then((data) => {
-        setAccessToken(data.data.result);
+        setAccessToken(data.result);
         return getUserProfile();
       });
     },
