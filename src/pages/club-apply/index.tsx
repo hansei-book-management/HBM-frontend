@@ -2,16 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Form } from '@/components';
+import { ClubApplyFormValue } from '@/api/';
+import { useCreateClub } from '@/hooks';
 
 import * as S from './styled';
-
-export interface ClubApplyFormValues {
-  clubName: string;
-  clubDescription: string;
-  clubRepresentative: string;
-  clubMemberNumber: string;
-  clubRepresentativePhone: string;
-}
 
 export interface ClubApplyInputProps {
   type: string;
@@ -24,6 +18,13 @@ export interface ClubApplyListProps {
   placeHolder: string;
 }
 
+export interface ClubApplyFormValues extends ClubApplyFormValue {
+  clubDescription: string;
+  clubRepresentative: string;
+  clubMemberNumber: string;
+  clubRepresentativePhone: string;
+}
+
 export const ClubApplyPage: React.FC = () => {
   const {
     register,
@@ -31,17 +32,19 @@ export const ClubApplyPage: React.FC = () => {
     formState: { errors },
   } = useForm<ClubApplyFormValues>();
 
-  const onSubmit = (data: ClubApplyFormValues) => {
-    console.log(data);
+  const { mutate: addClubMutate } = useCreateClub();
+
+  const onSubmit = ({ name }: ClubApplyFormValue) => {
+    addClubMutate({ name });
   };
 
   const CLUB_INPUT_LIST: ClubApplyListProps[] = [
     {
       inputTitle: '동아리 이름',
-      errorMessage: errors.clubName?.message,
+      errorMessage: errors.name?.message,
       inputProps: {
         type: 'text',
-        ...register('clubName', {
+        ...register('name', {
           required: '동아리 이름은 필수입니다.',
         }),
       },
