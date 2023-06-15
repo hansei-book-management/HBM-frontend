@@ -43,15 +43,15 @@ export const login = async ({
 
 export const getUserProfile = async (): Promise<APIResponse<UserProfileResponse>> => {
   const { data } = await instance.get(API_SUFFIX.PROFILE);
-  console.log(data, 'data');
+  console.log(data, 'user data');
   return data;
 };
 
-export const getRefreshTokenAuth = async (): Promise<APIResponse<{ accessToken: string }>> => {
+export const getRefreshTokenAuth = async () => {
   const token = localStorage.getItem('refreshToken');
-  console.log(token, 'refresh-token');
   if (token) setAccessToken(token);
-  const { data } = await instance.post(API_SUFFIX.REFRESH);
-  console.log(data, 'data');
+  console.log(token, 'refresh token');
+  const data = await instance.post(API_SUFFIX.REFRESH);
+  console.log(data, 'refresh token data');
   return data;
 };

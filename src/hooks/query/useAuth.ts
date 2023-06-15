@@ -69,12 +69,12 @@ export const useLogin = (): UseMutationResult<
       localStorage.setItem('refreshToken', data.result.refresh);
       setToken({ accessToken: data.result.auth, state: true });
       setAccessToken(token.accessToken);
+      console.log(token);
       toast.success('로그인에 성공하셨습니다.', {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       navigate('/');
-      console.log(token);
     },
     onError: (data) => {
       toast.error(data.response?.data.message, {
@@ -95,20 +95,19 @@ export const useFetchUser = (): UseQueryResult<
     'useFetchUser',
     () => {
       if (token.state) {
-        console.log(token.state, 'token.state');
+        console.log('token state true');
         setAccessToken(token.accessToken);
         return getUserProfile();
       }
+      console.log('token state false');
       return getRefreshTokenAuth().then((data) => {
-        console.log('getRefreshTokenAuth');
-        setAccessToken(data.result.accessToken);
+        setAccessToken(data.data.result);
         return getUserProfile();
       });
     },
     {
       onError: () => {
         setToken({ accessToken: '', state: false });
-        console.log('error');
         setAccessToken(null);
       },
       retry: 0,
