@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Lottie from 'react-lottie';
 import { Link } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 
 import { Modal, ModalStateProps, StatusModal } from '@/components';
-import { MANAGE_CLUB, GENERATE_CODE_OPTION_LIST, loadingLottieOptions } from '@/constant';
+import {
+  MANAGE_CLUB,
+  loadingLottieOptions,
+  GENERATE_CODE_DAY_OPTION_LIST,
+  GENERATE_CODE_USE_COUNT_OPTION_LIST,
+} from '@/constant';
 
 import * as S from './styled';
 
@@ -16,6 +21,11 @@ export interface clubCodeModalProps {
   clubCodeModal: ModalStateProps;
 }
 
+export interface selectValueProps {
+  dayValue: null | number;
+  useCountValue: null | number;
+}
+
 export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
   onClubCodeModalNextPage,
   onClubCodeModalClose,
@@ -23,6 +33,19 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
   onClubCodeCopyText,
   clubCodeModal,
 }) => {
+  const [select, setSelected] = useState<selectValueProps>({
+    dayValue: null,
+    useCountValue: null,
+  });
+
+  const onDayValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelected({ dayValue: parseInt(e.target.value), useCountValue: select.useCountValue });
+  };
+
+  const onUseCountValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelected({ dayValue: select.dayValue, useCountValue: parseInt(e.target.value) });
+  };
+
   if (clubCodeModal.state && clubCodeModal.isOk === null) {
     return (
       <Modal.OverLay>
@@ -30,16 +53,24 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
           textProps={
             <S.GenerateCodeContainer>
               <S.ModalTitle>코드 생성하기</S.ModalTitle>
-              {GENERATE_CODE_OPTION_LIST.map(({ title, optionList }, i) => (
-                <S.GenerateCodeSelectContainer key={i}>
-                  <S.GenerateCodeTitle>{title}</S.GenerateCodeTitle>
-                  <S.GenerateCodeSelect>
-                    {optionList.map(({ value }) => (
-                      <option key={value}>{value}</option>
-                    ))}
-                  </S.GenerateCodeSelect>
-                </S.GenerateCodeSelectContainer>
-              ))}
+              <S.GenerateCodeSelectContainer>
+                <S.GenerateCodeTitle>유효기간</S.GenerateCodeTitle>
+                <S.GenerateCodeSelect onChange={onDayValueChange}>
+                  {GENERATE_CODE_DAY_OPTION_LIST.map(({ value }) => (
+                    <option key={value}>{value}</option>
+                  ))}
+                </S.GenerateCodeSelect>
+              </S.GenerateCodeSelectContainer>
+              <S.GenerateCodeSelectContainer>
+                <S.GenerateCodeTitle>사용횟수</S.GenerateCodeTitle>
+                <S.GenerateCodeSelect onChange={onUseCountValueChange}>
+                  {GENERATE_CODE_USE_COUNT_OPTION_LIST.map(({ value }) => (
+                    <option key={value}>{value}</option>
+                  ))}
+                </S.GenerateCodeSelect>
+              </S.GenerateCodeSelectContainer>
+              <S.ModalTitle>유효기간: {select.dayValue}</S.ModalTitle>
+              <S.ModalTitle>사용횟수: {select.useCountValue}</S.ModalTitle>
             </S.GenerateCodeContainer>
           }
           leftButtonText="닫기"
