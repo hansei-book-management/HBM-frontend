@@ -13,7 +13,9 @@ import {
   GetClubResponse,
   getClub,
   generateClubCode,
+  GenerateClubCodeValues,
 } from '@/api';
+import { ClubApplyFormValues } from '@/pages';
 
 export const useCreateClub = (): UseMutationResult<
   APIResponse<{ name: string; director: string }>,
@@ -58,16 +60,15 @@ export const useGetClub = (): UseQueryResult<
 export const useGenerateClubCode = (): UseMutationResult<
   APIResponse<{ token: string }>,
   AxiosError<APIErrorResponse>,
-  ClubApplyFormValue
+  GenerateClubCodeValues
 > => {
-  const navigate = useNavigate();
   return useMutation('useGenerateClubCode', generateClubCode, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
       result: { token: string };
     }) => {
-      toast.success('코드가 생성되었어요.', {
+      toast.success(`코드가 생성되었어요. \n 코드는 ${data.result.token}`, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });

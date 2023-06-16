@@ -4,7 +4,7 @@ export interface ClubApplyFormValue {
   name: string;
 }
 
-export interface GenerateClubCodeFormValue {
+export interface GenerateClubCodeValues {
   cid: string;
   end: number;
   use: number;
@@ -28,7 +28,7 @@ export const generateClubCode = async ({
   cid,
   end,
   use,
-}: GenerateClubCodeFormValue): Promise<APIResponse<{ token: string }>> => {
+}: GenerateClubCodeValues): Promise<APIResponse<{ token: string }>> => {
   const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member`, {
     end,
     use,

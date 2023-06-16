@@ -13,7 +13,7 @@ import {
 
 import * as S from './styled';
 
-export interface clubCodeModalProps {
+export interface ClubCodeModalProps {
   onClubCodeModalNextPage: () => void;
   onClubCodeModalClose: () => void;
   onClubCodeModalPrevPage: () => void;
@@ -21,19 +21,19 @@ export interface clubCodeModalProps {
   clubCodeModal: ModalStateProps;
 }
 
-export interface selectValueProps {
+export interface SelectValueProps {
   dayValue: null | number;
   useCountValue: null | number;
 }
 
-export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
+export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
   onClubCodeModalNextPage,
   onClubCodeModalClose,
   onClubCodeModalPrevPage,
   onClubCodeCopyText,
   clubCodeModal,
 }) => {
-  const [select, setSelected] = useState<selectValueProps>({
+  const [select, setSelected] = useState<SelectValueProps>({
     dayValue: null,
     useCountValue: null,
   });
@@ -45,6 +45,8 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
   const onUseCountValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected({ dayValue: select.dayValue, useCountValue: parseInt(e.target.value) });
   };
+
+  // const onSubmit = ({}) => {};
 
   if (clubCodeModal.state && clubCodeModal.isOk === null) {
     return (

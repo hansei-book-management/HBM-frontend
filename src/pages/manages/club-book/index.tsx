@@ -47,7 +47,6 @@ export const ManageClubBookPage: React.FC = () => {
 
   const onAddBookModalClose = () => {
     setAddBookModalActive({ status: false });
-    console.log(addBookModalActive, 'asdf');
   };
 
   const onAddBookStateModal = (isOk: boolean) => {

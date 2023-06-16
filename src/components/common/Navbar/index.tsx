@@ -39,6 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
       navbar.current?.classList.add('hidden');
     }
   };
+  console.log(userInfo?.result);
 
   // const handleScroll = () => {
   //   if (scrollY.get() < scrollY.getPrevious()) {
