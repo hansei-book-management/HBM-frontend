@@ -12,11 +12,12 @@ import {
   APIResponseStatusType,
   GetClubResponse,
   getClub,
+  generateClubCode,
 } from '@/api';
 
 export const useCreateClub = (): UseMutationResult<
   APIResponse<{ name: string; director: string }>,
-  AxiosError<APIErrorResponse, { message: string }>,
+  AxiosError<APIErrorResponse>,
   ClubApplyFormValue
 > => {
   const navigate = useNavigate();
@@ -45,11 +46,38 @@ export const useCreateClub = (): UseMutationResult<
   });
 };
 
-export const GetClub = (): UseQueryResult<
+export const useGetClub = (): UseQueryResult<
   APIResponse<GetClubResponse>,
   AxiosError<APIErrorResponse>
 > =>
-  useQuery('GetClub', () => getClub(), {
+  useQuery('useGetClub', () => getClub(), {
     retry: 0,
     staleTime: 36000,
   });
+
+export const useGenerateClubCode = (): UseMutationResult<
+  APIResponse<{ token: string }>,
+  AxiosError<APIErrorResponse>,
+  ClubApplyFormValue
+> => {
+  const navigate = useNavigate();
+  return useMutation('useGenerateClubCode', generateClubCode, {
+    onSuccess: (data: {
+      status: APIResponseStatusType;
+      message: string;
+      result: { token: string };
+    }) => {
+      toast.success('코드가 생성되었어요.', {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    },
+    onError: (data) => {
+      toast.error(data.response?.data.message, {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    },
+    retry: 0,
+  });
+};
