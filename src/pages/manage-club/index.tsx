@@ -113,7 +113,7 @@ export const ManageClubPage: React.FC = () => {
   const onClubMemberChangeStatusModalNextPage = (userId: string) => {
     setClubMemberChangeStatusModal({ state: true, isOk: null, isLoading: true });
     setTimeout(() => {
-      setClubMemberChangeStatusModal({ state: true, isOk: true, isLoading: false });
+      setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
       navigate(`${MANAGE_CLUB}/member/${userId}/status?change-step=2`);
       // fail test
       // setClubMemberChangeStatusModal({ state: true, isOk: false, isLoading: false });
@@ -301,13 +301,20 @@ export const ManageClubPage: React.FC = () => {
         rightButtonClick={() => onClubMemberChangeStatusModalNextPage('asdf')}
         modal={clubMemberChangeStatusModal}
         title={`대여 정지 해제`}
-        QuestionModalDescriptionFirst={`정말로 부원 ‘최근원’님의 대여 정지 해제를 할까요?`}
-        QuestionModalDescriptionSecond={`대여 정지 해제된 부원은 자유롭게 동아리의 책을 대여할 수 있어요.`}
-        StatusModalDescriptionIsOkFirst={`대여 정지 해제가 완료 되었어요.`}
-        StatusModalDescriptionIsOkSecond={`부원 '최근원'은 앞으로 자유롭게 동아리 도서를 대여할 수 있어요.`}
-        StatusModalDescriptionIsOkThird={`동아리 관리에서 상태를 확인해보세요.`}
-        StatusModalDescriptionIsNotOkFirst={`부원 '최근원'님의 상태 변경에 실패 했어요.`}
-        StatusModalDescriptionIsNotOkSecond={`시스템 상의 문제로 대여 정지 해제에 실패하였어요.`}
+        message={
+          `정말로 부원 ‘최근원’님의 대여 정지 해제를 할까요?\n` +
+          `대여 정지 해제된 부원은 자유롭게 동아리의 책을 대여할 수 있어요.`
+        }
+        successMessage={
+          `대여 정지 해제가 완료 되었어요.\n` +
+          `부원 '최근원'은 앞으로 자유롭게 동아리 도서를 대여할 수 있어요.\n` +
+          `동아리 관리에서 상태를 확인해보세요.`
+        }
+        failMessage={
+          `부원 '최근원'님의 상태 변경에 실패 했어요.\n` +
+          `시스템 상의 문제로 대여 정지 해제에 실패하였어요.\n` +
+          `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+        }
       />
       {/** club member expel modal */}
       <CommonModal
@@ -315,15 +322,22 @@ export const ManageClubPage: React.FC = () => {
         rightButtonClick={() => onClubMemberExpelModalNextPage('asdf')}
         modal={clubMemberExpelModal}
         title={`추방`}
-        QuestionModalDescriptionFirst={`정말로 부원 ‘박찬영'님을 추방할까요?`}
-        QuestionModalDescriptionSecond={`추방된 부원은 보안관제 동아리의 책을 대여할 수 없어요.`}
-        StatusModalDescriptionIsOkFirst={`부원 ‘박찬영'님이 추방 되었어요.`}
-        StatusModalDescriptionIsOkSecond={`부원 ‘박찬영'님은 앞으로 이 동아리 도서를 대여할 수 없어요.`}
-        StatusModalDescriptionIsOkThird={`동아리 관리에서 이 부원의 상태를 확인할 수 없어요.`}
-        StatusModalDescriptionIsNotOkFirst={`부원 ‘박찬영'님 추방에 실패하였어요.`}
-        StatusModalDescriptionIsNotOkSecond={`시스템 상의 문제로 부원 추방에 실패하였어요.`}
+        message={
+          `정말로 부원 ‘최근원’님을 추방할까요?\n` +
+          `추방된 부원은 보안관제 동아리의 책을 대여할 수 없어요.`
+        }
+        successMessage={
+          `부원 ‘최근원’님이 추방 되었어요.\n` +
+          `부원 ‘최근원’님은 앞으로 이 동아리 도서를 대여할 수 없어요.\n` +
+          `동아리 관리에서 이 부원의 상태를 확인할 수 없어요.`
+        }
+        failMessage={
+          `부원 ‘최근원’님 추방에 실패하였어요.\n` +
+          `시스템 상의 문제로 부원 추방에 실패하였어요.\n` +
+          `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+        }
         rightButtonText={'추방'}
-        isRed={true}
+        isDanger={true}
       />
       <ClubChangeDirectorModal
         onClubChangeDirectorModalClose={onClubChangeDirectorModalClose}
@@ -337,14 +351,21 @@ export const ManageClubPage: React.FC = () => {
         rightButtonClick={onDeleteClubStatusModalOpen}
         modal={deleteClubModal}
         title={'삭제'}
-        isRed={true}
-        QuestionModalDescriptionFirst={`정말로 '보안관제' 동아리를 삭제할까요?`}
-        QuestionModalDescriptionSecond={'삭제된 동아리의 도서는 더 이상 대여할 수 없어요.'}
-        StatusModalDescriptionIsOkFirst={`'보안관제' 동아리가 삭제 되었어요.`}
-        StatusModalDescriptionIsOkSecond={`앞으로 '보안관제' 동아리의 도서를 대여할 수 없어요.`}
-        StatusModalDescriptionIsOkThird={`그리고 부장이었던 '최근원'님은 이제 일반 회원이 되었어요.`}
-        StatusModalDescriptionIsNotOkFirst={`'보안관제' 동아리가 삭제에 실패했어요.`}
-        StatusModalDescriptionIsNotOkSecond={'시스템 상의 문제로 동아리 삭제에 실패하였어요.'}
+        isDanger={true}
+        message={
+          `정말로 '보안관제' 동아리를 삭제할까요?\n` +
+          `삭제된 동아리의 도서는 더 이상 대여할 수 없어요.`
+        }
+        successMessage={
+          `'보안관제' 동아리가 삭제 되었어요.\n` +
+          `앞으로 '보안관제' 동아리의 도서를 대여할 수 없어요.\n` +
+          `그리고 부장이었던 '최근원'님은 이제 일반 회원이 되었어요.`
+        }
+        failMessage={
+          `'보안관제' 동아리가 삭제에 실패했어요.\n` +
+          `시스템 상의 문제로 동아리 삭제에 실패하였어요.\n` +
+          `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+        }
         rightButtonText={'삭제할게요'}
       />
     </>

@@ -22,7 +22,6 @@ export interface ClubApplyFormValues extends ClubApplyFormValue {
   clubDescription: string;
   clubRepresentative: string;
   clubMemberNumber: string;
-  clubRepresentativePhone: string;
 }
 
 export const ClubApplyPage: React.FC = () => {
@@ -82,17 +81,6 @@ export const ClubApplyPage: React.FC = () => {
         }),
       },
       placeHolder: '동아리에 몇명의 부원이 있는지 입력해주세요...',
-    },
-    {
-      inputTitle: '부장 전화번호',
-      errorMessage: errors.clubRepresentativePhone?.message,
-      inputProps: {
-        type: 'text',
-        ...register('clubRepresentativePhone', {
-          required: '부장 전화번호은 필수입니다.',
-        }),
-      },
-      placeHolder: '동아리 부장의 전화번호를 입력해주세요...',
     },
   ];
 

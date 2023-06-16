@@ -52,15 +52,22 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
       rightButtonClick={onClubChangeDirectorStatusModalOpen}
       modal={clubChangeDirectorModal}
       title={`부장 변경`}
-      QuestionModalDescriptionFirst={`정말로 보안관제 부장 변경을 진행 할까요?`}
-      QuestionModalDescriptionSecond={`부장이 변경되면 앞으로 보안관제 동아리에 대한 권한을 가질 수 없어요.`}
-      StatusModalDescriptionIsOkFirst={`보안관제 부장 변경에 완료 했어요.`}
-      StatusModalDescriptionIsOkSecond={`앞으로 보안관제는 '최근원'님만 관리 할 수 있어요.`}
-      StatusModalDescriptionIsOkThird={`자유롭게 한북을 이용해 보세요.`}
-      StatusModalDescriptionIsNotOkFirst={`보안관제 부장 변경에 실패 하였어요.`}
-      StatusModalDescriptionIsNotOkSecond={`시스템 상의 문제로 보안관제 부장 변경에 실패하였어요.`}
+      message={
+        `정말로 보안관제 부장 변경을 진행 할까요?\n` +
+        `부장이 변경되면 앞으로 보안관제 동아리에 대한 권한을 가질 수 없어요.`
+      }
+      successMessage={
+        `보안관제 부장 변경에 완료 했어요.\n` +
+        `앞으로 보안관제는 '최근원'님만 관리 할 수 있어요.\n` +
+        `자유롭게 한북을 이용해 보세요.`
+      }
+      failMessage={
+        `보안관제 부장 변경에 실패 하였어요.\n` +
+        `시스템 상의 문제로 보안관제 부장 변경에 실패하였어요. \n` +
+        `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+      }
       rightButtonText={`변경할게요`}
-      isRed={true}
+      isDanger={true}
     />
   );
 };

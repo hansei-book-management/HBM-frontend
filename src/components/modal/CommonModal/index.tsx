@@ -11,16 +11,11 @@ export interface CommonModalProps {
   rightButtonClick: (userId?: string, bookId?: number) => void;
   modal: ModalStateProps;
   title: string;
-  QuestionModalDescriptionFirst: string;
-  QuestionModalDescriptionSecond: string;
-  StatusModalDescriptionIsOkFirst: string;
-  StatusModalDescriptionIsOkSecond: string;
-  StatusModalDescriptionIsOkThird: string;
-  StatusModalDescriptionIsNotOkFirst: string;
-  StatusModalDescriptionIsNotOkSecond: string;
-  StatusModalDescriptionIsNotOkThird?: string;
+  message: string;
+  isDanger?: boolean;
+  successMessage: string;
+  failMessage: string;
   rightButtonText?: string;
-  isRed?: boolean;
 }
 
 export const CommonModal: React.FC<CommonModalProps> = ({
@@ -28,16 +23,11 @@ export const CommonModal: React.FC<CommonModalProps> = ({
   rightButtonClick,
   modal,
   title,
-  QuestionModalDescriptionFirst,
-  QuestionModalDescriptionSecond,
-  StatusModalDescriptionIsOkFirst,
-  StatusModalDescriptionIsOkSecond,
-  StatusModalDescriptionIsOkThird,
-  StatusModalDescriptionIsNotOkFirst,
-  StatusModalDescriptionIsNotOkSecond,
-  StatusModalDescriptionIsNotOkThird = '빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.',
+  isDanger = false,
+  message,
+  successMessage,
+  failMessage,
   rightButtonText = '네!',
-  isRed,
 }) => {
   if (
     (modal.state && modal.isOk === null) ||
@@ -50,16 +40,21 @@ export const CommonModal: React.FC<CommonModalProps> = ({
             <S.ModalContainer>
               <S.ModalTitle>{title} 진행</S.ModalTitle>
               <S.ModalDescription>
-                {QuestionModalDescriptionFirst}
-                <br />
-                {QuestionModalDescriptionSecond}
+                {message.split('\n').map((line) => {
+                  return (
+                    <>
+                      {line}
+                      <br />
+                    </>
+                  );
+                })}
               </S.ModalDescription>
             </S.ModalContainer>
           }
           modalSize="medium"
           leftButtonText="아니요"
           statusDisable={modal.isLoading}
-          isRed={isRed}
+          isRed={isDanger}
           rightButtonText={
             modal.isLoading ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
@@ -87,11 +82,14 @@ export const CommonModal: React.FC<CommonModalProps> = ({
         message={
           <>
             <S.StatusModalText>
-              {StatusModalDescriptionIsOkFirst}
-              <br />
-              {StatusModalDescriptionIsOkSecond}
-              <br />
-              {StatusModalDescriptionIsOkThird}
+              {successMessage.split('\n').map((line) => {
+                return (
+                  <>
+                    {line}
+                    <br />
+                  </>
+                );
+              })}
             </S.StatusModalText>
           </>
         }
@@ -111,11 +109,14 @@ export const CommonModal: React.FC<CommonModalProps> = ({
         message={
           <>
             <S.StatusModalText>
-              {StatusModalDescriptionIsNotOkFirst}
-              <br />
-              {StatusModalDescriptionIsNotOkSecond}
-              <br />
-              {StatusModalDescriptionIsNotOkThird}
+              {failMessage.split('\n').map((line) => {
+                return (
+                  <>
+                    {line}
+                    <br />
+                  </>
+                );
+              })}
             </S.StatusModalText>
           </>
         }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { useModal } from '@/hooks/useModal';
 
@@ -24,6 +25,7 @@ export interface ModalProps {
   onlyRightButton?: boolean;
   isOk?: boolean;
   isRed?: boolean;
+  onValid?: () => void;
 }
 
 export interface ModalOverlayProps {
@@ -43,8 +45,10 @@ export const ModalElement: React.FC<ModalProps> = ({
   leftButtonClick,
   isRed = false,
   isOk = false,
+  onValid,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
+  const { handleSubmit } = useForm();
   const { close } = useModal();
 
   const closing = () => {
@@ -58,7 +62,17 @@ export const ModalElement: React.FC<ModalProps> = ({
   };
 
   return (
-    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} modalSize={modalSize}>
+    <S.ModalContainer
+      isClosed={isClosed}
+      statusModal={statusModal}
+      modalSize={modalSize}
+      onSubmit={handleSubmit(
+        onValid ||
+          (() => {
+            return;
+          }),
+      )}
+    >
       <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer statusModal={statusModal}>
         {statusModal || onlyRightButton ? (

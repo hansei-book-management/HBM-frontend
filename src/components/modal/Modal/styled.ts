@@ -37,14 +37,7 @@ export const ModalOverlay = styled.div`
   z-index: 9901;
 `;
 
-export const ModalFuck = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-`;
-export const ModalContainer = styled.div<{
+export const ModalContainer = styled.form<{
   isClosed: boolean;
   statusModal: boolean;
   modalSize: string;

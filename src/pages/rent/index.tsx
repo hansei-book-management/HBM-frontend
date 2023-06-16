@@ -121,14 +121,20 @@ export const RentPage: React.FC = () => {
         rightButtonClick={() => onRentClubBookStateModal(1)}
         modal={rentClubBookModal}
         title={`대여`}
-        QuestionModalDescriptionFirst={`정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?`}
-        QuestionModalDescriptionSecond={`대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.`}
-        StatusModalDescriptionIsOkFirst={`‘당신이 모르는 민주주의’ 책을 대여했어요.`}
-        StatusModalDescriptionIsOkSecond={`대여 기한은 10일이며, 연장 신청을 할 수 있어요.`}
-        StatusModalDescriptionIsOkThird={`1차 반납 기간은 2023년 X월 X일까지에요.`}
-        StatusModalDescriptionIsNotOkFirst={`'앙기모링'님의 대여 실패 했어요.`}
-        StatusModalDescriptionIsNotOkSecond={`대여한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.`}
-        StatusModalDescriptionIsNotOkThird={`대여 정지는 도서 반납을 하면 자동으로 해제돼요.`}
+        message={
+          `정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?\n` +
+          `대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.`
+        }
+        successMessage={
+          `‘당신이 모르는 민주주의’ 책을 대여했어요.\n` +
+          `대여 기한은 10일이며, 연장 신청을 할 수 있어요.\n` +
+          `1차 반납 기간은 2023년 X월 X일까지에요.`
+        }
+        failMessage={
+          `'앙기모링'님의 대여 실패 했어요.\n` +
+          `대여한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.\n` +
+          `대여 정지는 도서 반납을 하면 자동으로 해제돼요.`
+        }
       />
     </>
   );

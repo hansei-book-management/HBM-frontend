@@ -139,11 +139,11 @@ export const RegisterPage: React.FC = () => {
           required: '전화번호는 필수입니다.',
           pattern: {
             value: /01[0-1, 7][0-9]{7,8}$/,
-            message: '학번 형식이 올바르지 않습니다.',
+            message: '전화번호 형식이 올바르지 않습니다.',
           },
         }),
       },
-      placeHolder: '학번을 입력해주세요...',
+      placeHolder: '전화번호를 입력해주세요...',
     },
   ];
 
