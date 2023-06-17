@@ -1,4 +1,4 @@
-import { APIResponse, API_SUFFIX, instance, setAccessToken } from './api';
+import { APIResponse, API_SUFFIX, UserProfileResponse, instance, setAccessToken } from './api';
 
 export interface RegisterFormValues {
   uid: string;
@@ -41,10 +41,9 @@ export const login = async ({
   return data;
 };
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (): Promise<APIResponse<UserProfileResponse>> => {
   const { data: userInfo } = await instance.get(API_SUFFIX.PROFILE);
-  const { data: userClubInfo } = await instance.get(API_SUFFIX.CLUB);
-  return { userInfo, userClubInfo };
+  return userInfo;
 };
 
 export const getRefreshTokenAuth = async () => {

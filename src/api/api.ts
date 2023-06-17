@@ -23,8 +23,6 @@ export interface APIResponse<T = unknown> {
   status: APIResponseStatusType;
   message: string;
   result: T;
-  userInfo?: { result: UserProfileResponse };
-  userClubInfo?: { result: GetClubResponse[] };
 }
 
 export interface APIErrorResponse {
@@ -46,6 +44,16 @@ export interface GetClubResponse {
   name: string;
   director: string;
   freeze?: number;
+}
+
+export interface GetClubMembers {
+  freeze: number;
+  name: string;
+  num: string;
+  phone: string;
+  role: string;
+  uid: string;
+  borrowBook: number;
 }
 
 export const setAccessToken = (token: string | null) => {

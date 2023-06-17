@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { useFetchUser } from '@/hooks';
+import { useFetchUser, useGetUserClub } from '@/hooks';
 
 export interface PrivateRouteProps {
   isUserPage?: boolean;
@@ -15,14 +15,15 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isDirectorPage = false,
 }) => {
   const { data: user } = useFetchUser();
+  const { data: club } = useGetUserClub();
 
-  const userInfo = user?.userInfo?.result;
+  const userInfo = user?.result;
 
   const isAuthenticatedUser = userInfo !== undefined;
   const isAdmin = userInfo?.role === 'admin';
   const isDirector =
-    Array.isArray(user?.userClubInfo?.result) &&
-    user?.userClubInfo?.result.some((club) => {
+    Array.isArray(club?.result) &&
+    club?.result.some((club) => {
       return club.director === userInfo?.uid;
     });
 

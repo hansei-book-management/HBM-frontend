@@ -14,6 +14,8 @@ import {
   getUserClub,
   generateClubCode,
   GenerateClubCodeValues,
+  getClubMembers,
+  GetClubMembers,
 } from '@/api';
 
 import { useFetchUser } from './useAuth';
@@ -56,6 +58,14 @@ export const useGetUserClub = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > =>
   useQuery('useGetUserClub', () => getUserClub(), {
+    retry: 0,
+    staleTime: 36000,
+  });
+
+export const useGetClubMembers = (
+  cid?: number,
+): UseQueryResult<APIResponse<GetClubMembers>, AxiosError<APIErrorResponse>> =>
+  useQuery('useGetClubMember', () => getClubMembers(cid), {
     retry: 0,
     staleTime: 36000,
   });

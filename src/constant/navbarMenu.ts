@@ -60,7 +60,7 @@ export const USER_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '도서 대여',
-    href: '/rent',
+    href: '/club/',
   },
   {
     text: '내 도서',

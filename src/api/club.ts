@@ -1,11 +1,11 @@
-import { APIResponse, API_SUFFIX, GetClubResponse, instance } from './api';
+import { APIResponse, API_SUFFIX, GetClubMembers, GetClubResponse, instance } from './api';
 
 export interface ClubApplyFormValue {
   name: string;
 }
 
 export interface GenerateClubCodeValues {
-  cid: string;
+  cid: number;
   end: number;
   use: number;
 }
@@ -21,7 +21,11 @@ export const createClub = async ({
 
 export const getUserClub = async (): Promise<APIResponse<GetClubResponse>> => {
   const { data } = await instance.get(API_SUFFIX.CLUB);
-  console.log(data);
+  return data;
+};
+
+export const getClubMembers = async (cid?: number): Promise<APIResponse<GetClubMembers>> => {
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member`);
   return data;
 };
 

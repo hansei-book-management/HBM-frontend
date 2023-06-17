@@ -126,11 +126,13 @@ export const useFetchUser = (): UseQueryResult<
     () => {
       if (token.state) {
         setAccessToken(token.accessToken);
+        getClub.refetch();
         return getUserProfile();
       }
-      getClub.refetch();
+
       return getRefreshTokenAuth().then((data) => {
         setAccessToken(data.result);
+        getClub.refetch();
         return getUserProfile();
       });
     },
