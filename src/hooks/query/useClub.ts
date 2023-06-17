@@ -11,11 +11,12 @@ import {
   ClubApplyFormValue,
   APIResponseStatusType,
   GetClubResponse,
-  getClub,
+  getUserClub,
   generateClubCode,
   GenerateClubCodeValues,
 } from '@/api';
-import { ClubApplyFormValues } from '@/pages';
+
+import { useFetchUser } from './useAuth';
 
 export const useCreateClub = (): UseMutationResult<
   APIResponse<{ name: string; director: string }>,
@@ -23,12 +24,14 @@ export const useCreateClub = (): UseMutationResult<
   ClubApplyFormValue
 > => {
   const navigate = useNavigate();
+  const fetchUser = useFetchUser();
   return useMutation('useCreateClub', createClub, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
       result: { name: string; director: string };
     }) => {
+      fetchUser.refetch();
       toast.success(
         `${data.result.name} 동아리가 생성되었어요. \n 부장은 ${data.result.director}에요.`,
         {
@@ -48,11 +51,11 @@ export const useCreateClub = (): UseMutationResult<
   });
 };
 
-export const useGetClub = (): UseQueryResult<
+export const useGetUserClub = (): UseQueryResult<
   APIResponse<GetClubResponse>,
   AxiosError<APIErrorResponse>
 > =>
-  useQuery('useGetClub', () => getClub(), {
+  useQuery('useGetUserClub', () => getUserClub(), {
     retry: 0,
     staleTime: 36000,
   });

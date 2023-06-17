@@ -18,7 +18,7 @@ import {
   CommonModal,
   ModalStateProps,
 } from '@/components';
-import { useGetClub } from '@/hooks';
+import { useGetUserClub } from '@/hooks';
 
 import * as S from './styled';
 
@@ -55,7 +55,7 @@ export const ManageClubPage: React.FC = () => {
   });
 
   const navigate = useNavigate();
-  const { data } = useGetClub();
+  const { data } = useGetUserClub();
   console.log(data, 'data');
 
   // club member info modal FN

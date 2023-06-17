@@ -8,8 +8,7 @@ import {
   DIRECTOR_NAVBAR_MENU_LIST,
   USER_NAVBAR_MENU_LIST,
 } from '@/constant';
-import { UseLogout, useFetchUser, useGetClub, useGetWindowSize } from '@/hooks';
-import { APIResponse, UserProfileResponse } from '@/api';
+import { UseLogout, useFetchUser, useGetWindowSize } from '@/hooks';
 
 import * as S from './styled';
 
@@ -25,8 +24,6 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const { deleteUserInformation } = UseLogout();
-  const { data: club } = useGetClub();
-  console.log(club?.result.director, 'director', user?.result, 'user');
 
   const userInfo = user?.result;
 
@@ -69,7 +66,7 @@ export const Navbar: React.FC = () => {
   let navbarMenuList = [];
   if (userInfo?.role === 'admin') {
     navbarMenuList = ADMIN_NAVBAR_MENU_LIST;
-  } else if (userInfo && club?.result.director === userInfo?.uid) {
+  } else if (userInfo?.role === 'director') {
     navbarMenuList = DIRECTOR_NAVBAR_MENU_LIST;
   } else {
     navbarMenuList = USER_NAVBAR_MENU_LIST;

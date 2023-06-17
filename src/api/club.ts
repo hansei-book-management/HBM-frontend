@@ -19,7 +19,7 @@ export const createClub = async ({
   return data;
 };
 
-export const getClub = async (): Promise<APIResponse<GetClubResponse>> => {
+export const getUserClub = async (): Promise<APIResponse<GetClubResponse>> => {
   const { data } = await instance.get(API_SUFFIX.CLUB);
   return data;
 };

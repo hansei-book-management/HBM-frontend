@@ -23,6 +23,8 @@ export interface APIResponse<T = unknown> {
   status: APIResponseStatusType;
   message: string;
   result: T;
+  userInfo?: { result: UserProfileResponse };
+  userClubInfo?: { result: GetClubResponse };
 }
 
 export interface APIErrorResponse {

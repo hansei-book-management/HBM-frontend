@@ -27,7 +27,7 @@ import {
 } from '@/api';
 import { globalAccessToken } from '@/atoms';
 
-import { useGetClub } from './useClub';
+import { useGetUserClub } from './useClub';
 
 export const useRegister = (): UseMutationResult<
   APIResponse<{ auth: string; refresh: string }>,
@@ -120,7 +120,7 @@ export const useFetchUser = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > => {
   const [token, setToken] = useRecoilState(globalAccessToken);
-  const getClub = useGetClub();
+  const getClub = useGetUserClub();
   return useQuery(
     'useFetchUser',
     () => {
