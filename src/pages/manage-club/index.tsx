@@ -18,11 +18,21 @@ import {
   CommonModal,
   ModalStateProps,
 } from '@/components';
-import { useGetUserClub } from '@/hooks';
+import { useFetchUser } from '@/hooks';
 
 import * as S from './styled';
 
 export const ManageClubPage: React.FC = () => {
+  // get director club id from userClubInfo
+  const { data } = useFetchUser();
+  const clubInfo = data?.userClubInfo?.result;
+  const directorClubId =
+    Array.isArray(clubInfo) &&
+    clubInfo.filter((club) => club.director === data?.userInfo?.result.uid);
+  if (Array.isArray(directorClubId)) {
+    console.log(directorClubId[0].cid);
+  }
+
   const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
     state: false,
     isOk: false,
@@ -55,8 +65,6 @@ export const ManageClubPage: React.FC = () => {
   });
 
   const navigate = useNavigate();
-  const { data } = useGetUserClub();
-  console.log(data, 'data');
 
   // club member info modal FN
   const onClubMemberInfoModalOpen = (userId: string) => {

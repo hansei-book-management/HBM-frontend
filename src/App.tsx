@@ -31,7 +31,7 @@ export const App: React.FC = () => {
           <Route index element={<Navigate to={`/book/${CLUB_LIST[0].id}`} />} />
           <Route path=":clubId" element={<BookPage />} />
         </Route>
-        <Route element={<PrivateRoute needAuth={true} />}>
+        <Route element={<PrivateRoute isUserPage={true} />}>
           <Route path="/club">
             <Route index element={<Navigate to={`/club/${USER_CLUB_LIST[0].id}`} />} />
             <Route path=":clubId" element={<RentPage />}>
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
             </Route>
           </Route>
         </Route>
-        <Route element={<PrivateRoute needAuth={true} />}>
+        <Route element={<PrivateRoute isUserPage={true} />}>
           <Route path="/manage">
             <Route path="user-book">
               <Route
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
             </Route>
           </Route>
         </Route>
-        <Route element={<PrivateRoute needAuth={true} />}>
+        <Route element={<PrivateRoute isDirectorPage={true} />}>
           <Route path="/manage-club" element={<ManageClubPage />}>
             <Route path="generate-code" element={<ManageClubPage />} />
             <Route path="member/:userId" element={<ManageClubPage />}>
@@ -71,7 +71,7 @@ export const App: React.FC = () => {
             <Route path="change-director" element={<ManageClubPage />} />
           </Route>
         </Route>
-        <Route element={<PrivateRoute needAuth={false} />}>
+        <Route element={<PrivateRoute isUserPage={false} />}>
           <Route path="auth">
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LoginPage />} />

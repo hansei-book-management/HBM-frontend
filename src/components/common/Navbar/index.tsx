@@ -25,7 +25,9 @@ export const Navbar: React.FC = () => {
 
   const { deleteUserInformation } = UseLogout();
 
-  const userInfo = user?.result;
+  // console.log(user);
+
+  const userInfo = user?.userInfo?.result;
 
   const handleLogoutButtonClick = useCallback(
     () => deleteUserInformation(),

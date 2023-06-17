@@ -24,7 +24,7 @@ export interface APIResponse<T = unknown> {
   message: string;
   result: T;
   userInfo?: { result: UserProfileResponse };
-  userClubInfo?: { result: GetClubResponse };
+  userClubInfo?: { result: GetClubResponse[] };
 }
 
 export interface APIErrorResponse {
@@ -44,8 +44,8 @@ export interface UserProfileResponse {
 export interface GetClubResponse {
   cid: number;
   name: string;
+  director: string;
   freeze?: number;
-  director?: string;
 }
 
 export const setAccessToken = (token: string | null) => {

@@ -4,25 +4,35 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useFetchUser } from '@/hooks';
 
 export interface PrivateRouteProps {
-  needAuth?: boolean;
-  adminPage?: boolean;
+  isUserPage?: boolean;
+  isAdminPage?: boolean;
+  isDirectorPage?: boolean;
 }
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  adminPage = false,
-  needAuth = false,
+  isUserPage = false,
+  isAdminPage = false,
+  isDirectorPage = false,
 }) => {
   const { data: user } = useFetchUser();
 
-  const isAuthenticatedUser = user?.userInfo?.result.role === 'user';
-  const isAdmin = user?.userInfo?.result.role === 'admin';
-  const isDirector = user?.userInfo?.result.role === 'director';
+  const userInfo = user?.userInfo?.result;
 
-  if (needAuth) {
+  const isAuthenticatedUser = userInfo !== undefined;
+  const isAdmin = userInfo?.role === 'admin';
+  const isDirector =
+    Array.isArray(user?.userClubInfo?.result) &&
+    user?.userClubInfo?.result.some((club) => {
+      return club.director === userInfo?.uid;
+    });
+
+  if (isUserPage) {
+    return isAuthenticatedUser ? <Outlet /> : <Navigate to="/auth/login" />;
+  } else if (isDirectorPage) {
     return isDirector ? <Outlet /> : <Navigate to="/auth/login" />;
-  } else if (needAuth && adminPage) {
+  } else if (isAdminPage) {
     return isAdmin ? <Outlet /> : <Navigate to="/auth/login" />;
   } else {
-    return isAuthenticatedUser ? <Navigate to="/" /> : <Outlet />;
+    return isAuthenticatedUser ? <Outlet /> : <Outlet />;
   }
 };

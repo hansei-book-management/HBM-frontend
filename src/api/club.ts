@@ -21,6 +21,7 @@ export const createClub = async ({
 
 export const getUserClub = async (): Promise<APIResponse<GetClubResponse>> => {
   const { data } = await instance.get(API_SUFFIX.CLUB);
+  console.log(data);
   return data;
 };
 
