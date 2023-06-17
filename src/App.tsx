@@ -31,25 +31,32 @@ export const App: React.FC = () => {
           <Route index element={<Navigate to={`/book/${CLUB_LIST[0].id}`} />} />
           <Route path=":clubId" element={<BookPage />} />
         </Route>
-        <Route path="/club">
-          <Route index element={<Navigate to={`/club/${USER_CLUB_LIST[0].id}`} />} />
-          <Route path=":clubId" element={<RentPage />}>
-            <Route path="book/:bookId/book-rent" element={<RentPage />} />
-            <Route path="book/:bookId" element={<RentPage />} />
-            <Route path="club-add" element={<RentPage />} />
+        <Route element={<PrivateRoute needAuth={true} />}>
+          <Route path="/club">
+            <Route index element={<Navigate to={`/club/${USER_CLUB_LIST[0].id}`} />} />
+            <Route path=":clubId" element={<RentPage />}>
+              <Route path="book/:bookId/book-rent" element={<RentPage />} />
+              <Route path="book/:bookId" element={<RentPage />} />
+              <Route path="club-add" element={<RentPage />} />
+            </Route>
           </Route>
         </Route>
-        <Route path="/manage">
-          <Route path="user-book">
-            <Route index element={<Navigate to={`/manage/user-book/${USER_CLUB_LIST[0].id}`} />} />
-            <Route path=":userClubId" element={<ManageUserBookPage />} />
-          </Route>
-          <Route path="club-book" element={<ManageClubBookPage />}>
-            <Route
-              index
-              element={<Navigate to={`/manage/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
-            />
-            <Route path=":option" element={<ManageUserBookPage />} />
+        <Route element={<PrivateRoute needAuth={true} />}>
+          <Route path="/manage">
+            <Route path="user-book">
+              <Route
+                index
+                element={<Navigate to={`/manage/user-book/${USER_CLUB_LIST[0].id}`} />}
+              />
+              <Route path=":userClubId" element={<ManageUserBookPage />} />
+            </Route>
+            <Route path="club-book" element={<ManageClubBookPage />}>
+              <Route
+                index
+                element={<Navigate to={`/manage/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
+              />
+              <Route path=":option" element={<ManageUserBookPage />} />
+            </Route>
           </Route>
         </Route>
         <Route element={<PrivateRoute needAuth={true} />}>
@@ -65,14 +72,7 @@ export const App: React.FC = () => {
           </Route>
         </Route>
         <Route element={<PrivateRoute needAuth={false} />}>
-          <Route
-            path="auth"
-            element={
-              <DefaultLayout>
-                <Outlet />
-              </DefaultLayout>
-            }
-          >
+          <Route path="auth">
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LoginPage />} />
           </Route>

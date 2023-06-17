@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Navbar, Footer } from '@/components';
-import { useFetchUser } from '@/hooks';
 
 import * as S from './styled';
 
@@ -10,11 +9,9 @@ export interface DefaultLayoutProps {
 }
 
 export const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
-  const { data: user, isFetching } = useFetchUser();
-
   return (
     <S.DefaultLayoutContainer>
-      <Navbar userInfo={user} fetch={isFetching} />
+      <Navbar />
       <S.DefaultLayoutWrapper>{children}</S.DefaultLayoutWrapper>
       <Footer />
     </S.DefaultLayoutContainer>

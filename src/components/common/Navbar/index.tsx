@@ -3,19 +3,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useMotionValue, useMotionValueEvent, useScroll } from 'framer-motion';
 
-import { ADMIN_NAVBAR_MENU_LIST } from '@/constant';
-import { UseLogout, useGetWindowSize } from '@/hooks';
+import {
+  ADMIN_NAVBAR_MENU_LIST,
+  DIRECTOR_NAVBAR_MENU_LIST,
+  USER_NAVBAR_MENU_LIST,
+} from '@/constant';
+import { UseLogout, useFetchUser, useGetClub, useGetWindowSize } from '@/hooks';
 import { APIResponse, UserProfileResponse } from '@/api';
 
 import * as S from './styled';
 
-export interface NavbarProps {
-  userInfo?: APIResponse<UserProfileResponse>;
-  fetch?: boolean;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
+export const Navbar: React.FC = () => {
   const [hidden, setHidden] = useState<boolean>(false);
+  const { data: user, isFetching } = useFetchUser();
   const location = useLocation();
   const { scrollY } = useScroll();
   const prevScrollY = useMotionValue(0);
@@ -25,6 +25,10 @@ export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
   const navigate = useNavigate();
 
   const { deleteUserInformation } = UseLogout();
+  const { data: club } = useGetClub();
+  console.log(club?.result.director, 'director', user?.result, 'user');
+
+  const userInfo = user?.result;
 
   const handleLogoutButtonClick = useCallback(
     () => deleteUserInformation(),
@@ -39,7 +43,6 @@ export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
       navbar.current?.classList.add('hidden');
     }
   };
-  console.log(userInfo?.result);
 
   // const handleScroll = () => {
   //   if (scrollY.get() < scrollY.getPrevious()) {
@@ -62,6 +65,15 @@ export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
   useMotionValueEvent(scrollY, 'change', () => {
     handleScroll();
   });
+
+  let navbarMenuList = [];
+  if (userInfo?.role === 'admin') {
+    navbarMenuList = ADMIN_NAVBAR_MENU_LIST;
+  } else if (userInfo && club?.result.director === userInfo?.uid) {
+    navbarMenuList = DIRECTOR_NAVBAR_MENU_LIST;
+  } else {
+    navbarMenuList = USER_NAVBAR_MENU_LIST;
+  }
 
   useEffect(() => {
     if (getWidth > 630) {
@@ -99,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
           className="hidden"
         >
           <S.NavbarMenuWrapper>
-            {ADMIN_NAVBAR_MENU_LIST.map(({ text, href }, i) => (
+            {navbarMenuList.map(({ text, href }, i) => (
               <S.NavbarMenuItem
                 {...(getWidth <= 630 && { onClick })}
                 to={href}
@@ -111,9 +123,9 @@ export const Navbar: React.FC<NavbarProps> = ({ userInfo, fetch }) => {
             ))}
           </S.NavbarMenuWrapper>
           <S.NavbarUserContainer>
-            {fetch ? null : userInfo ? (
+            {isFetching ? null : userInfo ? (
               <>
-                <S.NavbarUserName>{userInfo?.result.name}님</S.NavbarUserName>
+                <S.NavbarUserName>{userInfo?.name}님</S.NavbarUserName>
                 <S.NavbarAuthButton onClick={handleLogoutButtonClick}>로그아웃</S.NavbarAuthButton>
               </>
             ) : (
