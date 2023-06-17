@@ -1,15 +1,30 @@
 import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-import { useFetchUser } from '@/hooks';
+import { useFetchUser, useGetClub } from '@/hooks';
 
 export interface PrivateRouteProps {
   needAuth?: boolean;
-  roles?: string;
+  adminPage?: boolean;
 }
 
-export const PrivateRoute: React.FC<PrivateRouteProps> = ({ needAuth, roles = 'user' }) => {
-  const { data: user, isFetching } = useFetchUser();
+export const PrivateRoute: React.FC<PrivateRouteProps> = ({
+  adminPage = false,
+  needAuth = false,
+}) => {
+  const { data: club } = useGetClub();
+  const { data: user } = useFetchUser();
 
-  const isAuthenticatedUser = user?.result !== null;
+  const isAuthenticatedUser = user?.result.role === 'user';
   const isAdmin = user?.result?.role === 'admin';
+  const isDirector = club?.result.director === user?.result.uid;
+
+  if (needAuth) {
+    return isAuthenticatedUser && isDirector ? <Outlet /> : <Navigate to="/not-found" />;
+  } else if (needAuth && adminPage) {
+    return isAuthenticatedUser && isAdmin ? <Outlet /> : <Navigate to="/not-found" />;
+  } else {
+    console.log(isAuthenticatedUser, 'user');
+    return isAuthenticatedUser ? <Navigate to="/" /> : <Outlet />;
+  }
 };

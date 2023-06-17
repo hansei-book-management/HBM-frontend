@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import {
@@ -13,7 +13,7 @@ import {
   ClubApplyPage,
   BookPage,
 } from './pages';
-import { DefaultLayout } from './components';
+import { DefaultLayout, PrivateRoute } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS, CLUB_LIST, USER_CLUB_LIST } from './constant';
 
 export const App: React.FC = () => {
@@ -52,19 +52,30 @@ export const App: React.FC = () => {
             <Route path=":option" element={<ManageUserBookPage />} />
           </Route>
         </Route>
-        <Route path="/manage-club" element={<ManageClubPage />}>
-          <Route path="generate-code" element={<ManageClubPage />} />
-          <Route path="member/:userId" element={<ManageClubPage />}>
-            <Route path="detail" element={<ManageClubPage />} />
-            <Route path="expel" element={<ManageClubPage />} />
-            <Route path="status" element={<ManageClubPage />} />
+        <Route element={<PrivateRoute needAuth={true} />}>
+          <Route path="/manage-club" element={<ManageClubPage />}>
+            <Route path="generate-code" element={<ManageClubPage />} />
+            <Route path="member/:userId" element={<ManageClubPage />}>
+              <Route path="detail" element={<ManageClubPage />} />
+              <Route path="expel" element={<ManageClubPage />} />
+              <Route path="status" element={<ManageClubPage />} />
+            </Route>
+            <Route path="delete" element={<ManageClubPage />} />
+            <Route path="change-director" element={<ManageClubPage />} />
           </Route>
-          <Route path="delete" element={<ManageClubPage />} />
-          <Route path="change-director" element={<ManageClubPage />} />
         </Route>
-        <Route path="/auth">
-          <Route path="register" element={<RegisterPage />} />
-          <Route path="login" element={<LoginPage />} />
+        <Route element={<PrivateRoute needAuth={false} />}>
+          <Route
+            path="auth"
+            element={
+              <DefaultLayout>
+                <Outlet />
+              </DefaultLayout>
+            }
+          >
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="login" element={<LoginPage />} />
+          </Route>
         </Route>
         <Route path="club-apply" element={<ClubApplyPage />} />
         <Route path="*" element={<NotFoundPage />} />

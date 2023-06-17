@@ -42,7 +42,8 @@ export interface UserProfileResponse {
 export interface GetClubResponse {
   cid: number;
   name: string;
-  freeze: number;
+  freeze?: number;
+  director?: string;
 }
 
 export const setAccessToken = (token: string | null) => {
