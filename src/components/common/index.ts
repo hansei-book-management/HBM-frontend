@@ -6,3 +6,4 @@ export * from './Button';
 export * from './Skeleton';
 export * from './Form';
 export * from './StatusMessage';
+export * from './PrivateRoute';

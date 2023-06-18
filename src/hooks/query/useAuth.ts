@@ -24,11 +24,14 @@ import {
   getUserProfile,
   getRefreshTokenAuth,
   RegisterFormValues,
+  AuthResponse,
 } from '@/api';
 import { globalAccessToken } from '@/atoms';
 
+import { useGetUserClub } from './useClub';
+
 export const useRegister = (): UseMutationResult<
-  APIResponse<{ auth: string; refresh: string }>,
+  APIResponse<AuthResponse>,
   AxiosError<APIErrorResponse>,
   RegisterFormValues
 > => {
@@ -36,11 +39,7 @@ export const useRegister = (): UseMutationResult<
   const [token, setToken] = useRecoilState(globalAccessToken);
   const fetchUser = useFetchUser();
   return useMutation('useRegister', register, {
-    onSuccess: (data: {
-      status: APIResponseStatusType;
-      message: string;
-      result: { auth: string; refresh: string };
-    }) => {
+    onSuccess: (data: { status: APIResponseStatusType; message: string; result: AuthResponse }) => {
       localStorage.setItem('refreshToken', data.result.refresh);
       setToken({ accessToken: data.result.auth, state: true });
       setAccessToken(token.accessToken);
@@ -62,7 +61,7 @@ export const useRegister = (): UseMutationResult<
 };
 
 export const useLogin = (): UseMutationResult<
-  APIResponse<{ auth: string; refresh: string }>,
+  APIResponse<AuthResponse>,
   AxiosError<APIErrorResponse>,
   LoginFormValues
 > => {
@@ -70,11 +69,7 @@ export const useLogin = (): UseMutationResult<
   const [token, setToken] = useRecoilState(globalAccessToken);
   const fetchUser = useFetchUser();
   return useMutation('useLogin', login, {
-    onSuccess: (data: {
-      status: APIResponseStatusType;
-      message: string;
-      result: { auth: string; refresh: string };
-    }) => {
+    onSuccess: (data: { status: APIResponseStatusType; message: string; result: AuthResponse }) => {
       localStorage.setItem('refreshToken', data.result.refresh);
       setToken({ accessToken: data.result.auth, state: true });
       setAccessToken(token.accessToken);
@@ -118,15 +113,19 @@ export const useFetchUser = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > => {
   const [token, setToken] = useRecoilState(globalAccessToken);
+  const getClub = useGetUserClub();
   return useQuery(
     'useFetchUser',
     () => {
       if (token.state) {
         setAccessToken(token.accessToken);
+        getClub.refetch();
         return getUserProfile();
       }
+
       return getRefreshTokenAuth().then((data) => {
         setAccessToken(data.result);
+        getClub.refetch();
         return getUserProfile();
       });
     },

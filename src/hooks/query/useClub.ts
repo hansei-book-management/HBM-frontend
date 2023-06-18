@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { AxiosError } from 'axios';
+import { useSetRecoilState } from 'recoil';
 
 import {
   APIErrorResponse,
@@ -11,22 +12,34 @@ import {
   ClubApplyFormValue,
   APIResponseStatusType,
   GetClubResponse,
-  getClub,
+  getUserClub,
   generateClubCode,
+  GenerateClubCodeValues,
+  getClubMembers,
+  GetClubMembers,
+  addUserClub,
+  AddClubResponse,
+  CreateClubResponse,
+  AddClubFormValues,
 } from '@/api';
+import { addUserClubModal, generateClubCodeModal } from '@/atoms';
+
+import { useFetchUser } from './useAuth';
 
 export const useCreateClub = (): UseMutationResult<
-  APIResponse<{ name: string; director: string }>,
+  APIResponse<CreateClubResponse>,
   AxiosError<APIErrorResponse>,
   ClubApplyFormValue
 > => {
   const navigate = useNavigate();
+  const fetchUser = useFetchUser();
   return useMutation('useCreateClub', createClub, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
-      result: { name: string; director: string };
+      result: CreateClubResponse;
     }) => {
+      fetchUser.refetch();
       toast.success(
         `${data.result.name} 동아리가 생성되었어요. \n 부장은 ${data.result.director}에요.`,
         {
@@ -46,11 +59,19 @@ export const useCreateClub = (): UseMutationResult<
   });
 };
 
-export const useGetClub = (): UseQueryResult<
+export const useGetUserClub = (): UseQueryResult<
   APIResponse<GetClubResponse>,
   AxiosError<APIErrorResponse>
 > =>
-  useQuery('useGetClub', () => getClub(), {
+  useQuery('useGetUserClub', () => getUserClub(), {
+    retry: 0,
+    staleTime: 36000,
+  });
+
+export const useGetClubMembers = (
+  cid?: number,
+): UseQueryResult<APIResponse<GetClubMembers>, AxiosError<APIErrorResponse>> =>
+  useQuery('useGetClubMember', () => getClubMembers(cid), {
     retry: 0,
     staleTime: 36000,
   });
@@ -58,25 +79,47 @@ export const useGetClub = (): UseQueryResult<
 export const useGenerateClubCode = (): UseMutationResult<
   APIResponse<{ token: string }>,
   AxiosError<APIErrorResponse>,
-  ClubApplyFormValue
+  GenerateClubCodeValues
 > => {
-  const navigate = useNavigate();
+  const setClubCodeModal = useSetRecoilState(generateClubCodeModal);
   return useMutation('useGenerateClubCode', generateClubCode, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
       result: { token: string };
     }) => {
-      toast.success('코드가 생성되었어요.', {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setClubCodeModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setClubCodeModal({ state: true, isOk: true, data: data.result.token, page: 2 });
+      }, 1000);
+      localStorage.setItem('club-code', data.result.token);
     },
     onError: (data) => {
-      toast.error(data.response?.data.message, {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setClubCodeModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
+  });
+};
+
+export const useAddUserClub = (): UseMutationResult<
+  APIResponse<AddClubResponse>,
+  AxiosError<APIErrorResponse>,
+  AddClubFormValues
+> => {
+  const setAddUserClubModal = useSetRecoilState(addUserClubModal);
+  return useMutation('useAddUserClub', addUserClub, {
+    onSuccess: (data: {
+      status: APIResponseStatusType;
+      message: string;
+      result: AddClubResponse;
+    }) => {
+      setAddUserClubModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setAddUserClubModal({ state: true, isOk: true, data: data.result.name });
+      }, 1000);
+    },
+    onError: (data) => {
+      setAddUserClubModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });

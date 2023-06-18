@@ -97,8 +97,11 @@ export const ClubCodeCopyButtonWrapper = styled.div`
   justify-content: center;
   transition: all 150ms ease-in;
   cursor: pointer;
-  &:active {
+  &:hover {
     background-color: #b3b3b3;
+  }
+  &:active {
+    background-color: #fafafa;
   }
 `;
 

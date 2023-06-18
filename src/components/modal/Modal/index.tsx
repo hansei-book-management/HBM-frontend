@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { useModal } from '@/hooks/useModal';
 
@@ -8,8 +7,9 @@ import * as S from './styled';
 export interface ModalStateProps {
   state: boolean;
   isOk?: boolean | null;
-  page?: number;
-  isLoading?: boolean;
+  page?: number | null;
+  isLoading?: boolean | null;
+  data?: string | null;
 }
 
 export interface ModalProps {
@@ -25,7 +25,8 @@ export interface ModalProps {
   onlyRightButton?: boolean;
   isOk?: boolean;
   isRed?: boolean;
-  onValid?: () => void;
+  handleSubmit?: any;
+  onValid?: any;
 }
 
 export interface ModalOverlayProps {
@@ -45,10 +46,10 @@ export const ModalElement: React.FC<ModalProps> = ({
   leftButtonClick,
   isRed = false,
   isOk = false,
+  handleSubmit,
   onValid,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
-  const { handleSubmit } = useForm();
   const { close } = useModal();
 
   const closing = () => {
@@ -62,17 +63,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   };
 
   return (
-    <S.ModalContainer
-      isClosed={isClosed}
-      statusModal={statusModal}
-      modalSize={modalSize}
-      onSubmit={handleSubmit(
-        onValid ||
-          (() => {
-            return;
-          }),
-      )}
-    >
+    <S.ModalContainer isClosed={isClosed} statusModal={statusModal} modalSize={modalSize}>
       <S.ModalContentContainer statusModal={statusModal}>{textProps}</S.ModalContentContainer>
       <S.ModalButtonContainer statusModal={statusModal}>
         {statusModal || onlyRightButton ? (
@@ -81,7 +72,7 @@ export const ModalElement: React.FC<ModalProps> = ({
           </S.StatusModalButton>
         ) : (
           <>
-            {(rightButtonText && (
+            {rightButtonText ? (
               <>
                 <S.ModalButton
                   left
@@ -91,21 +82,24 @@ export const ModalElement: React.FC<ModalProps> = ({
                 >
                   {leftButtonText}
                 </S.ModalButton>
-                <S.ModalButton isRed={isRed} disable={returnBookDisable} onClick={rightButtonClick}>
+                <S.ModalButton
+                  isRed={isRed}
+                  disable={returnBookDisable}
+                  onClick={handleSubmit(onValid)}
+                >
                   {rightButtonText}
                 </S.ModalButton>
               </>
-            )) ||
-              (!rightButtonText && (
-                <S.ModalButton
-                  left
-                  onClick={closing}
-                  disable={statusDisable}
-                  rightButtonExits={false}
-                >
-                  {leftButtonText}
-                </S.ModalButton>
-              ))}
+            ) : (
+              <S.ModalButton
+                left
+                onClick={closing}
+                disable={statusDisable}
+                rightButtonExits={false}
+              >
+                {leftButtonText}
+              </S.ModalButton>
+            )}
           </>
         )}
       </S.ModalButtonContainer>

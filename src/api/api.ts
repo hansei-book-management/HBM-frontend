@@ -31,20 +31,6 @@ export interface APIErrorResponse {
   result?: null;
 }
 
-export interface UserProfileResponse {
-  uid: string;
-  role: string;
-  name: string;
-  num: string;
-  phone: string;
-}
-
-export interface GetClubResponse {
-  cid: number;
-  name: string;
-  freeze: number;
-}
-
 export const setAccessToken = (token: string | null) => {
   if (token) {
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;

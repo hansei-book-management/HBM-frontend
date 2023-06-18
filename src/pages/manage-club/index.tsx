@@ -9,6 +9,8 @@ import {
   FaTrash,
 } from 'react-icons/fa';
 
+import { useRecoilState } from 'recoil';
+
 import { MANAGE_CLUB, USER_LIST } from '@/constant';
 import {
   Button,
@@ -18,18 +20,22 @@ import {
   CommonModal,
   ModalStateProps,
 } from '@/components';
-import { GetClub } from '@/hooks';
+import { useFetchUser, useGetClubMembers, useGetUserClub } from '@/hooks';
+import { GetClubMembers } from '@/api';
+import { generateClubCodeModal } from '@/atoms';
 
 import * as S from './styled';
 
 export const ManageClubPage: React.FC = () => {
-  const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
-    state: false,
-    isOk: false,
-    isLoading: true,
-  });
+  const { data: userData } = useFetchUser();
+  const { data: clubData } = useGetUserClub();
+  const clubInfo = clubData?.result;
+  const directorClubId =
+    Array.isArray(clubInfo) && clubInfo?.filter((club) => club.director === userData?.result.uid);
+  const cid = directorClubId && directorClubId[0].cid;
+  const { data: clubMembers } = useGetClubMembers(cid);
+
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
-  const [clubCode, setClubCode] = useState<string>('');
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
   const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<ModalStateProps>({
     state: false,
@@ -53,10 +59,10 @@ export const ManageClubPage: React.FC = () => {
     isOk: null,
     isLoading: false,
   });
+  const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
+  const [clubCode, setClubCode] = useState<string | null>('');
 
   const navigate = useNavigate();
-  const { data } = GetClub();
-  console.log(data, 'data');
 
   // club member info modal FN
   const onClubMemberInfoModalOpen = (userId: string) => {
@@ -71,31 +77,11 @@ export const ManageClubPage: React.FC = () => {
 
   // club code modal FN
   const onClubCodeModalOpen = () => {
-    setClubCodeModal({ state: true, isOk: null, isLoading: false });
-  };
-
-  const onClubCodeModalClose = () => {
-    setClubCodeModal({ state: false, isOk: null, isLoading: false });
-    navigate(`${MANAGE_CLUB}`);
-  };
-
-  const onClubCodeModalNextPage = () => {
-    setClubCodeModal({ state: true, isOk: null, isLoading: true });
-    setTimeout(() => {
-      setClubCodeModal({ state: true, isOk: true, isLoading: false });
-      navigate(`${MANAGE_CLUB}/generate-code?step=2`);
-      // fail test
-      // setClubCodeModal({ state: true, isOk: false});
-    }, 1600);
-    setClubCode('앙앙기모링');
-  };
-
-  const onClubCodeModalPrevPage = () => {
-    setClubCodeModal({ state: true, isOk: null, isLoading: false });
-  };
-
-  const onClubCodeCopyText = () => {
-    navigator.clipboard.writeText(clubCode);
+    if (clubCode) {
+      console.log(clubCodeModal.page, 'page');
+      return setClubCodeModal({ state: true, page: null });
+    }
+    setClubCodeModal({ state: true, page: 1 });
   };
 
   // club member status modal FN
@@ -189,7 +175,9 @@ export const ManageClubPage: React.FC = () => {
 
   useEffect(() => {
     navigate(`${MANAGE_CLUB}`);
-  }, []);
+    const clubCode = localStorage.getItem('club-code');
+    setClubCode(clubCode);
+  }, [clubCodeModal]);
 
   return (
     <>
@@ -205,58 +193,59 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
-          {USER_LIST.map(({ name, bookInfo, status, errorMessage }, i) => (
-            <S.DummyContainer>
-              <S.ManageClubUserContainer>
-                <S.ManageClubUserIconContainer
-                  onClick={() => onClubMemberInfoModalOpen('앙기모링')}
+          {Array.isArray(clubMembers?.result) &&
+            clubMembers?.result?.map(({ name, freeze, borrowBook }: GetClubMembers, i) => (
+              <S.DummyContainer>
+                <S.ManageClubUserContainer>
+                  <S.ManageClubUserIconContainer
+                    onClick={() => onClubMemberInfoModalOpen('앙기모링')}
+                  >
+                    <S.ManageClubUserIcon />
+                    <S.ManageClubUserName>{name}</S.ManageClubUserName>
+                  </S.ManageClubUserIconContainer>
+                  <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
+                    {borrowBook}
+                  </S.ManageClubUserBookInfo>
+                  <S.ManageClubUserStatus
+                    isOk={freeze === 0}
+                    onClick={() => onClubMemberInfoModalOpen('앙기모링')}
+                  >
+                    {freeze === 0 ? '정상' : '대출정지'}
+                    <br />
+                    {freeze === 1 && '대여가 정지된 부원입니다.'}
+                  </S.ManageClubUserStatus>
+                  <S.ManageClubPopupIconWrapper
+                    onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
+                  >
+                    <FaEllipsisV size={'0.9rem'} />
+                  </S.ManageClubPopupIconWrapper>
+                </S.ManageClubUserContainer>
+                <S.ManageClubPopupContainer
+                  initial="closed"
+                  animate={clubMemberPopupList[i] ? 'open' : 'closed'}
+                  variants={{
+                    open: { opacity: 1, zIndex: 12 },
+                    closed: { opacity: 0, zIndex: -1 },
+                  }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <S.ManageClubUserIcon />
-                  <S.ManageClubUserName>{name}</S.ManageClubUserName>
-                </S.ManageClubUserIconContainer>
-                <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
-                  {bookInfo}
-                </S.ManageClubUserBookInfo>
-                <S.ManageClubUserStatus
-                  isOk={status}
-                  onClick={() => onClubMemberInfoModalOpen('앙기모링')}
-                >
-                  {status ? '정상' : '대출정지'}
-                  <br />
-                  {errorMessage && `(${errorMessage})`}
-                </S.ManageClubUserStatus>
-                <S.ManageClubPopupIconWrapper
-                  onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
-                >
-                  <FaEllipsisV size={'0.9rem'} />
-                </S.ManageClubPopupIconWrapper>
-              </S.ManageClubUserContainer>
-              <S.ManageClubPopupContainer
-                initial="closed"
-                animate={clubMemberPopupList[i] ? 'open' : 'closed'}
-                variants={{
-                  open: { opacity: 1, zIndex: 12 },
-                  closed: { opacity: 0, zIndex: -1 },
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                <S.ManageClubPopupDiv
-                  isOut={false}
-                  onClick={() => onClubMemberChangeStatusModalOpen('asdf', i)}
-                >
-                  <FaLock size={'0.9rem'} />
-                  <span>대여정지 해제</span>
-                </S.ManageClubPopupDiv>
-                <S.ManageClubPopupDiv
-                  isOut={true}
-                  onClick={() => onClubMemberExpelModalOpen('asdf', i)}
-                >
-                  <FaUserSlash size={'0.9rem'} />
-                  <span>추방</span>
-                </S.ManageClubPopupDiv>
-              </S.ManageClubPopupContainer>
-            </S.DummyContainer>
-          ))}
+                  <S.ManageClubPopupDiv
+                    isOut={false}
+                    onClick={() => onClubMemberChangeStatusModalOpen('asdf', i)}
+                  >
+                    <FaLock size={'0.9rem'} />
+                    <span>대여정지 해제</span>
+                  </S.ManageClubPopupDiv>
+                  <S.ManageClubPopupDiv
+                    isOut={true}
+                    onClick={() => onClubMemberExpelModalOpen('asdf', i)}
+                  >
+                    <FaUserSlash size={'0.9rem'} />
+                    <span>추방</span>
+                  </S.ManageClubPopupDiv>
+                </S.ManageClubPopupContainer>
+              </S.DummyContainer>
+            ))}
         </S.ManageClubUserMenuContainer>
         <div style={{ position: 'relative', width: '100%' }}>
           <S.ManageClubPopupIconWrapper
@@ -288,13 +277,7 @@ export const ManageClubPage: React.FC = () => {
         </div>
       </S.ManageClubWrapper>
       {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
-      <ClubCodeModal
-        onClubCodeModalNextPage={onClubCodeModalNextPage}
-        onClubCodeModalClose={onClubCodeModalClose}
-        onClubCodeModalPrevPage={onClubCodeModalPrevPage}
-        onClubCodeCopyText={onClubCodeCopyText}
-        clubCodeModal={clubCodeModal}
-      />
+      <ClubCodeModal clubId={cid} />
       {/** club member change status modal */}
       <CommonModal
         leftButtonClick={onClubMemberChangeStatusModalClose}

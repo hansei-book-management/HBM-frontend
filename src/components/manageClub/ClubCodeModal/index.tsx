@@ -1,97 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
 
-import { Modal, ModalStateProps, StatusModal } from '@/components';
+import { useRecoilState } from 'recoil';
+
+import { Modal, StatusModal } from '@/components';
 import {
   MANAGE_CLUB,
   loadingLottieOptions,
   GENERATE_CODE_DAY_OPTION_LIST,
   GENERATE_CODE_USE_COUNT_OPTION_LIST,
 } from '@/constant';
+import { useGenerateClubCode } from '@/hooks';
+import { GenerateClubCodeValues } from '@/api';
+import { generateClubCodeModal } from '@/atoms';
 
 import * as S from './styled';
 
-export interface clubCodeModalProps {
-  onClubCodeModalNextPage: () => void;
-  onClubCodeModalClose: () => void;
-  onClubCodeModalPrevPage: () => void;
-  onClubCodeCopyText: () => void;
-  clubCodeModal: ModalStateProps;
+export interface ClubCodeModalProps {
+  clubId: number;
 }
 
-export interface selectValueProps {
-  dayValue: null | number;
-  useCountValue: null | number;
+export interface SelectValueProps {
+  end: null | number;
+  use: null | number;
 }
 
-export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
-  onClubCodeModalNextPage,
-  onClubCodeModalClose,
-  onClubCodeModalPrevPage,
-  onClubCodeCopyText,
-  clubCodeModal,
-}) => {
-  const [select, setSelected] = useState<selectValueProps>({
-    dayValue: null,
-    useCountValue: null,
+export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
+  const { handleSubmit, register } = useForm<GenerateClubCodeValues>();
+  const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
+  const [clubCode, setClubCode] = useState<string | null>('');
+
+  const { mutate } = useGenerateClubCode();
+
+  const [selectValue, setSelectValue] = useState({
+    end: 1,
+    use: 1,
   });
 
-  const onDayValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected({ dayValue: parseInt(e.target.value), useCountValue: select.useCountValue });
+  const onSubmit = ({ end, use }: GenerateClubCodeValues) => {
+    const parsedEnd = parseInt(end.toString(), 10);
+    const parsedUse = parseInt(use.toString(), 10);
+    if (end && use) {
+      mutate({ end: parsedEnd, use: parsedUse, cid: clubId });
+    }
+    setSelectValue({ end: end, use: use });
   };
 
-  const onUseCountValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected({ dayValue: select.dayValue, useCountValue: parseInt(e.target.value) });
+  const navigate = useNavigate();
+
+  const onClubCodeModalReOpen = () => {
+    setClubCodeModal({ state: true, page: 1 });
   };
 
-  if (clubCodeModal.state && clubCodeModal.isOk === null) {
-    return (
-      <Modal.OverLay>
-        <Modal
-          textProps={
-            <S.GenerateCodeContainer>
-              <S.ModalTitle>코드 생성하기</S.ModalTitle>
-              <S.GenerateCodeSelectContainer>
-                <S.GenerateCodeTitle>유효기간</S.GenerateCodeTitle>
-                <S.GenerateCodeSelect onChange={onDayValueChange}>
-                  {GENERATE_CODE_DAY_OPTION_LIST.map(({ value }) => (
-                    <option key={value}>{value}</option>
-                  ))}
-                </S.GenerateCodeSelect>
-              </S.GenerateCodeSelectContainer>
-              <S.GenerateCodeSelectContainer>
-                <S.GenerateCodeTitle>사용횟수</S.GenerateCodeTitle>
-                <S.GenerateCodeSelect onChange={onUseCountValueChange}>
-                  {GENERATE_CODE_USE_COUNT_OPTION_LIST.map(({ value }) => (
-                    <option key={value}>{value}</option>
-                  ))}
-                </S.GenerateCodeSelect>
-              </S.GenerateCodeSelectContainer>
-              <S.ModalTitle>유효기간: {select.dayValue}</S.ModalTitle>
-              <S.ModalTitle>사용횟수: {select.useCountValue}</S.ModalTitle>
-            </S.GenerateCodeContainer>
-          }
-          leftButtonText="닫기"
-          rightButtonText={
-            clubCodeModal.isLoading ? (
-              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
-            ) : (
-              '생성하기'
-            )
-          }
-          statusDisable={clubCodeModal.isLoading}
-          modalSize="medium"
-          {...(!clubCodeModal.isLoading && {
-            rightButtonClick: () => onClubCodeModalNextPage(),
-            leftButtonClick: () => onClubCodeModalClose(),
-          })}
-        />
-      </Modal.OverLay>
-    );
-  }
-  if (clubCodeModal.state === true && clubCodeModal.isOk === true) {
+  const onClubCodeModalClose = () => {
+    setClubCodeModal({ state: false, page: 3 });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onClubCodeCopyText = () => {
+    navigator.clipboard.writeText(clubCodeModal.data || clubCode || '');
+  };
+
+  useEffect(() => {
+    const clubCode = localStorage.getItem('club-code');
+    setClubCode(clubCode);
+  }, [clubCodeModal]);
+
+  if (clubCodeModal.state && clubCode && clubCodeModal.page === null) {
     return (
       <Modal.OverLay>
         <Modal
@@ -100,14 +78,14 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
               <div>
                 <S.ModalTitle>초대 코드 발급</S.ModalTitle>
                 <S.ClubCodeSubTitleContainer>
-                  최대 사용 횟수는 7회이고, 30일 동안 유효해요.
-                  <Link to="?generate-code-step=1" onClick={onClubCodeModalPrevPage}>
-                    수정하기
+                  최대 사용 횟수는 {selectValue.end}이고, {selectValue.use} 동안 유효해요.
+                  <Link to="?generate-code-step=1" onClick={onClubCodeModalReOpen}>
+                    재발급
                   </Link>
                 </S.ClubCodeSubTitleContainer>
               </div>
               <S.ClubCodeValueContainer>
-                <S.ClubCodeText>앙기모링</S.ClubCodeText>
+                <S.ClubCodeText>{clubCode}</S.ClubCodeText>
                 <S.ClubCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
                   <FaRegCopy size={'0.9rem'} />
                 </S.ClubCodeCopyButtonWrapper>
@@ -123,7 +101,83 @@ export const ClubCodeModal: React.FC<clubCodeModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (clubCodeModal.state === true && clubCodeModal.isOk === false) {
+  if (clubCodeModal.state && clubCodeModal.page === 1) {
+    return (
+      <Modal.OverLay>
+        <Modal
+          textProps={
+            <S.GenerateCodeContainer>
+              <S.ModalTitle>코드 생성하기</S.ModalTitle>
+              <S.GenerateCodeSelectContainer>
+                <S.GenerateCodeTitle>유효기간</S.GenerateCodeTitle>
+                <S.GenerateCodeSelect {...register('end')}>
+                  {GENERATE_CODE_DAY_OPTION_LIST.map(({ value }) => (
+                    <option key={value}>{value}</option>
+                  ))}
+                </S.GenerateCodeSelect>
+              </S.GenerateCodeSelectContainer>
+              <S.GenerateCodeSelectContainer>
+                <S.GenerateCodeTitle>사용횟수</S.GenerateCodeTitle>
+                <S.GenerateCodeSelect {...register('use')}>
+                  {GENERATE_CODE_USE_COUNT_OPTION_LIST.map(({ value }) => (
+                    <option key={value}>{value}</option>
+                  ))}
+                </S.GenerateCodeSelect>
+              </S.GenerateCodeSelectContainer>
+            </S.GenerateCodeContainer>
+          }
+          leftButtonText="닫기"
+          rightButtonText={
+            clubCodeModal.isLoading === true ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              '생성하기'
+            )
+          }
+          statusDisable={clubCodeModal.isLoading === true}
+          modalSize="medium"
+          {...(!clubCodeModal.isLoading && {
+            leftButtonClick: () => onClubCodeModalClose(),
+          })}
+          handleSubmit={handleSubmit}
+          onValid={onSubmit}
+        />
+      </Modal.OverLay>
+    );
+  }
+  if (clubCodeModal.state && clubCodeModal.isOk === true) {
+    return (
+      <Modal.OverLay>
+        <Modal
+          textProps={
+            <S.ClubCodeContainer>
+              <div>
+                <S.ModalTitle>초대 코드 발급</S.ModalTitle>
+                <S.ClubCodeSubTitleContainer>
+                  최대 사용 횟수는 {selectValue.end}이고, {selectValue.use} 동안 유효해요.
+                  <Link to="?generate-code-step=1" onClick={onClubCodeModalReOpen}>
+                    수정하기
+                  </Link>
+                </S.ClubCodeSubTitleContainer>
+              </div>
+              <S.ClubCodeValueContainer>
+                <S.ClubCodeText>{clubCodeModal.data}</S.ClubCodeText>
+                <S.ClubCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
+                  <FaRegCopy size={'0.9rem'} />
+                </S.ClubCodeCopyButtonWrapper>
+              </S.ClubCodeValueContainer>
+            </S.ClubCodeContainer>
+          }
+          onlyRightButton={true}
+          isOk={true}
+          rightButtonText="확인했어요"
+          modalSize="small"
+          leftButtonClick={onClubCodeModalClose}
+        />
+      </Modal.OverLay>
+    );
+  }
+  if (clubCodeModal.state && clubCodeModal.isOk === false) {
     return (
       <StatusModal
         url={`${MANAGE_CLUB}`}
