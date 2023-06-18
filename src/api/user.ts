@@ -1,4 +1,4 @@
-import { APIResponse, API_SUFFIX, UserProfileResponse, instance, setAccessToken } from './api';
+import { APIResponse, API_SUFFIX, instance, setAccessToken } from './api';
 
 export interface RegisterFormValues {
   uid: string;
@@ -13,13 +13,26 @@ export interface LoginFormValues {
   passwd: string;
 }
 
+export interface UserProfileResponse {
+  uid: string;
+  role: string;
+  name: string;
+  num: string;
+  phone: string;
+}
+
+export interface AuthResponse {
+  auth: string;
+  refresh: string;
+}
+
 export const register = async ({
   uid,
   passwd,
   name,
   num,
   phone,
-}: RegisterFormValues): Promise<APIResponse<{ auth: string; refresh: string }>> => {
+}: RegisterFormValues): Promise<APIResponse<AuthResponse>> => {
   const { data } = await instance.post(API_SUFFIX.REGISTER, {
     uid,
     passwd,
@@ -33,7 +46,7 @@ export const register = async ({
 export const login = async ({
   uid,
   passwd,
-}: LoginFormValues): Promise<APIResponse<{ auth: string; refresh: string }>> => {
+}: LoginFormValues): Promise<APIResponse<AuthResponse>> => {
   const { data } = await instance.post(API_SUFFIX.LOGIN, {
     uid,
     passwd,

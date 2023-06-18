@@ -61,7 +61,7 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
   };
 
   const onClubCodeCopyText = () => {
-    navigator.clipboard.writeText(clubCodeModal.data || '');
+    navigator.clipboard.writeText(clubCodeModal.data || clubCode || '');
   };
 
   useEffect(() => {

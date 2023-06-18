@@ -17,14 +17,17 @@ import {
   GenerateClubCodeValues,
   getClubMembers,
   GetClubMembers,
+  addUserClub,
+  AddClubResponse,
+  CreateClubResponse,
+  AddClubFormValues,
 } from '@/api';
-import { generateClubCodeModal } from '@/atoms';
-import { MANAGE_CLUB } from '@/constant';
+import { addUserClubModal, generateClubCodeModal } from '@/atoms';
 
 import { useFetchUser } from './useAuth';
 
 export const useCreateClub = (): UseMutationResult<
-  APIResponse<{ name: string; director: string }>,
+  APIResponse<CreateClubResponse>,
   AxiosError<APIErrorResponse>,
   ClubApplyFormValue
 > => {
@@ -34,7 +37,7 @@ export const useCreateClub = (): UseMutationResult<
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
-      result: { name: string; director: string };
+      result: CreateClubResponse;
     }) => {
       fetchUser.refetch();
       toast.success(
@@ -79,7 +82,6 @@ export const useGenerateClubCode = (): UseMutationResult<
   GenerateClubCodeValues
 > => {
   const setClubCodeModal = useSetRecoilState(generateClubCodeModal);
-  const navigate = useNavigate();
   return useMutation('useGenerateClubCode', generateClubCode, {
     onSuccess: (data: {
       status: APIResponseStatusType;
@@ -89,12 +91,35 @@ export const useGenerateClubCode = (): UseMutationResult<
       setClubCodeModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
         setClubCodeModal({ state: true, isOk: true, data: data.result.token, page: 2 });
-        navigate(`${MANAGE_CLUB}/generate-code?step=2`);
       }, 1000);
       localStorage.setItem('club-code', data.result.token);
     },
     onError: (data) => {
       setClubCodeModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
+  });
+};
+
+export const useAddUserClub = (): UseMutationResult<
+  APIResponse<AddClubResponse>,
+  AxiosError<APIErrorResponse>,
+  AddClubFormValues
+> => {
+  const setAddUserClubModal = useSetRecoilState(addUserClubModal);
+  return useMutation('useAddUserClub', addUserClub, {
+    onSuccess: (data: {
+      status: APIResponseStatusType;
+      message: string;
+      result: AddClubResponse;
+    }) => {
+      setAddUserClubModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setAddUserClubModal({ state: true, isOk: true, data: data.result.name });
+      }, 1000);
+    },
+    onError: (data) => {
+      setAddUserClubModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });

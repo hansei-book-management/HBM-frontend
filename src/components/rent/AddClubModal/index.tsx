@@ -1,46 +1,49 @@
 import React from 'react';
 import Lottie from 'react-lottie';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { useRecoilState } from 'recoil';
 
 import { loadingLottieOptions } from '@/constant';
-
-import { Modal, ModalStateProps } from '../../modal/Modal';
-import { StatusModal } from '../../modal/StatusModal';
+import { useAddUserClub } from '@/hooks';
+import { AddClubFormValues } from '@/api';
+import { addUserClubModal } from '@/atoms';
+import { Modal, StatusModal } from '@/components/modal';
 
 import * as S from './styled';
 
-export interface AddClubFormValues {
-  clubCode: string;
-}
-
 export interface AddClubModalProps {
-  addClubModal: ModalStateProps;
-  onAddClubStateModal: () => void;
-  onAddClubModalClose: () => void;
   url: string;
 }
 
-export const AddClubModal: React.FC<AddClubModalProps> = ({
-  addClubModal,
-  onAddClubStateModal,
-  onAddClubModalClose,
-  url,
-}) => {
+export const AddClubModal: React.FC<AddClubModalProps> = ({ url }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AddClubFormValues>();
+  const [addClubModal, setAddClubModal] = useRecoilState(addUserClubModal);
 
-  const onValid = ({ clubCode }: AddClubFormValues) => {
-    console.log(clubCode, '동아리 코드');
+  const { mutate } = useAddUserClub();
+
+  const onSubmit = ({ clubCode }: AddClubFormValues) => {
+    mutate({ clubCode });
   };
+
+  const navigate = useNavigate();
+
+  const onAddClubModalClose = () => {
+    setAddClubModal({ state: false });
+    navigate(`${url}`);
+  };
+
   if (addClubModal.state && addClubModal.isOk === null) {
     return (
       <Modal.OverLay>
         <Modal
           textProps={
-            <S.ModalContainer onSubmit={handleSubmit(onValid)}>
+            <S.ModalContainer>
               <S.ModalTitle>동아리 회원 등록</S.ModalTitle>
               <S.ModalAddClubInputContainer>
                 <S.AddClubModalInputText>인증키 입력</S.AddClubModalInputText>
@@ -60,19 +63,20 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
           }
           leftButtonText="취소"
           rightButtonText={
-            addClubModal.isLoading ? (
+            addClubModal.isLoading === true ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               '등록'
             )
           }
           modalSize="medium"
-          statusDisable={addClubModal.isLoading}
+          statusDisable={addClubModal.isLoading === true}
           {...(!addClubModal.isLoading &&
             !errors.clubCode?.message && {
               leftButtonClick: () => onAddClubModalClose(),
-              rightButtonClick: () => onAddClubStateModal(),
             })}
+          handleSubmit={handleSubmit}
+          onValid={onSubmit}
         />
       </Modal.OverLay>
     );
@@ -86,9 +90,9 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
         message={
           <>
             <S.StatusModalText>
-              보안관제 동아리 도서가 추가되었어요.
+              {addClubModal.data} 동아리 도서가 추가되었어요.
               <br />
-              앞으로 보안관제 동아리 도서를 대여할 수 있어요.
+              앞으로 {addClubModal.data} 동아리 도서를 대여할 수 있어요.
               <br />내 도서에서 확인해보세요.
             </S.StatusModalText>
           </>
@@ -106,7 +110,7 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({
         message={
           <>
             <S.StatusModalText>
-              보안관제 동아리 도서가 추가에 실패했어요.
+              {addClubModal.data}
               <br />
               시스템 상의 문제로 인하여 동아리 도서 추가에 실패하였어요.
               <br />

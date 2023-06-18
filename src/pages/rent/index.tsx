@@ -1,6 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import { useRecoilState, useSetRecoilState } from 'recoil';
+
 import { CLUB, USER_CLUB_LIST } from '@/constant';
 import {
   RentMessage,
@@ -12,6 +14,7 @@ import {
   CommonModal,
 } from '@/components';
 import { useModal } from '@/hooks';
+import { addUserClubModal } from '@/atoms';
 
 import * as S from './styled';
 
@@ -23,17 +26,19 @@ export const RentPage: React.FC = () => {
 
   const { modalActive } = useModal();
 
-  const [addClubModal, setAddClubModal] = useState<ModalStateProps>({
-    state: false,
-    isLoading: false,
-    isOk: null,
-  });
+  // const [addClubModal, setAddClubModal] = useState<ModalStateProps>({
+  //   state: false,
+  //   isLoading: false,
+  //   isOk: null,
+  // });
 
   const [rentClubBookModal, setRentClubBookModal] = useState<ModalStateProps>({
     state: false,
     isLoading: false,
     isOk: null,
   });
+
+  const setAddClubModal = useSetRecoilState(addUserClubModal);
 
   // rent modal FN
   const onRentClubBookModalOpen = (bookId: number) => {
@@ -58,23 +63,7 @@ export const RentPage: React.FC = () => {
 
   // add club modal FN
   const onAddClubModalOpen = () => {
-    setAddClubModal({ state: true, isLoading: false, isOk: null });
-    navigate(`${CLUB}/${clubId}/club-add?step=1`);
-  };
-
-  const onAddClubStateModal = () => {
-    setAddClubModal({ state: true, isLoading: true, isOk: null });
-    setTimeout(() => {
-      setAddClubModal({ state: true, isLoading: false, isOk: true });
-      navigate(`${CLUB}/${clubId}/club-add?step=2`);
-      // fail test
-      // setAddClubModal({ state: true, isLoading: false, isOk: false });
-    }, 1000);
-  };
-
-  const onAddClubModalClose = () => {
-    setAddClubModal({ state: false, isLoading: false, isOk: null });
-    navigate(`${CLUB}/${clubId}`);
+    setAddClubModal({ state: true, isOk: null });
   };
 
   useEffect(() => {
@@ -109,12 +98,7 @@ export const RentPage: React.FC = () => {
           message={<RentMessage canRent={true} />}
         />
       )}
-      <AddClubModal
-        addClubModal={addClubModal}
-        onAddClubStateModal={() => onAddClubStateModal()}
-        onAddClubModalClose={() => onAddClubModalClose()}
-        url={`${CLUB}/${clubId}`}
-      />
+      <AddClubModal url={`${CLUB}/${clubId}`} />
       {/** rent modal */}
       <CommonModal
         leftButtonClick={onRentClubBookModalClose}

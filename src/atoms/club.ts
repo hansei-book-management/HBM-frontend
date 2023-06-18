@@ -12,3 +12,13 @@ export const generateClubCodeModal = atom<ModalStateProps>({
     page: null,
   },
 });
+
+export const addUserClubModal = atom<ModalStateProps>({
+  key: 'addUserClubModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    data: null,
+  },
+});
