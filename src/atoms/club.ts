@@ -22,3 +22,13 @@ export const addUserClubModal = atom<ModalStateProps>({
     data: null,
   },
 });
+
+export const updateClubMemberModal = atom<ModalStateProps>({
+  key: 'updateUserModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    data: null,
+  },
+});

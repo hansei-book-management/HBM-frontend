@@ -8,7 +8,7 @@ import * as S from './styled';
 
 export interface CommonModalProps {
   leftButtonClick: () => void;
-  rightButtonClick: (userId?: string, bookId?: number) => void;
+  rightButtonClick?: (bookId?: number) => void;
   modal: ModalStateProps;
   title: string;
   message: string;
@@ -16,11 +16,12 @@ export interface CommonModalProps {
   successMessage: string;
   failMessage: string;
   rightButtonText?: string;
+  handleSubmit?: any;
+  onValid?: any;
 }
 
 export const CommonModal: React.FC<CommonModalProps> = ({
   leftButtonClick,
-  rightButtonClick,
   modal,
   title,
   isDanger = false,
@@ -28,6 +29,8 @@ export const CommonModal: React.FC<CommonModalProps> = ({
   successMessage,
   failMessage,
   rightButtonText = '네!',
+  handleSubmit,
+  onValid,
 }) => {
   if (
     (modal.state && modal.isOk === null) ||
@@ -53,10 +56,10 @@ export const CommonModal: React.FC<CommonModalProps> = ({
           }
           modalSize="medium"
           leftButtonText="아니요"
-          statusDisable={modal.isLoading}
+          statusDisable={modal.isLoading === true}
           isRed={isDanger}
           rightButtonText={
-            modal.isLoading ? (
+            modal.isLoading === true ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               rightButtonText
@@ -64,8 +67,9 @@ export const CommonModal: React.FC<CommonModalProps> = ({
           }
           {...(!modal.isLoading && {
             leftButtonClick: () => leftButtonClick(),
-            rightButtonClick: () => rightButtonClick(),
           })}
+          handleSubmit={handleSubmit}
+          onValid={onValid}
         />
       </Modal.OverLay>
     );

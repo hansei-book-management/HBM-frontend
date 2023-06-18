@@ -4,6 +4,12 @@ export interface ClubApplyFormValue {
   name: string;
 }
 
+export interface ClubMemberValues {
+  cid: number;
+  user_id: string;
+  freeze?: number;
+}
+
 export interface GenerateClubCodeValues {
   end: number;
   use: number;
@@ -50,6 +56,12 @@ export interface AddClubResponse {
   cid: number;
 }
 
+export interface UpdateClubMemberValues {
+  cid: number;
+  user_id: string;
+  freeze: number;
+}
+
 export const createClub = async ({
   name,
 }: ClubApplyFormValue): Promise<APIResponse<CreateClubResponse>> => {
@@ -90,12 +102,23 @@ export const addUserClub = async ({
   return data;
 };
 
-export const getClubMember = async (
-  cid: number,
-  user_id: string,
-): Promise<APIResponse<GetClubMemberResponse>> => {
-  console.log(user_id, 'user id');
+export const getClubMember = async ({
+  cid,
+  user_id,
+}: ClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
   const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+  return data;
+};
+
+export const updateClubMember = async ({
+  cid,
+  user_id,
+  freeze,
+}: UpdateClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
+  console.log(user_id, 'user id');
+  const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`, {
+    freeze,
+  });
   console.log(data);
   return data;
 };

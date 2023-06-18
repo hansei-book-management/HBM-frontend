@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Modal } from '@/components';
-import { useGetMember } from '@/hooks';
+import { useGetClubMember } from '@/hooks';
 
 import * as S from './styled';
 
@@ -13,8 +13,7 @@ export interface userBookModalProps {
 
 export const ClubMemberInfoModal: React.FC<userBookModalProps> = ({ cid, leftButtonClick }) => {
   const { userId } = useParams<{ userId: string }>();
-  const getMember = useGetMember(cid, userId || '');
-  console.log(userId);
+  const getMember = useGetClubMember({ cid, user_id: userId || '' });
 
   const member = getMember.data?.result;
   return (

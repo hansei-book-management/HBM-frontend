@@ -55,7 +55,7 @@ export const ClubCodeModal: React.FC = () => {
   };
 
   const onClubCodeCopyText = () => {
-    navigator.clipboard.writeText(clubCodeModal.data || clubCode || '');
+    navigator.clipboard.writeText(clubCodeModal.code || clubCode || '');
   };
 
   useEffect(() => {
@@ -151,7 +151,7 @@ export const ClubCodeModal: React.FC = () => {
                 </S.ClubCodeSubTitleContainer>
               </div>
               <S.ClubCodeValueContainer>
-                <S.ClubCodeText>{clubCodeModal.data}</S.ClubCodeText>
+                <S.ClubCodeText>{clubCodeModal.code}</S.ClubCodeText>
                 <S.ClubCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
                   <FaRegCopy size={'0.9rem'} />
                 </S.ClubCodeCopyButtonWrapper>

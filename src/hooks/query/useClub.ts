@@ -22,9 +22,13 @@ import {
   CreateClubResponse,
   GetClubMemberResponse,
   AddClubFormValues,
+  ClubMemberValues,
+  updateClubMember,
+  UpdateClubMemberValues,
 } from '@/api';
-import { addUserClubModal, generateClubCodeModal } from '@/atoms';
+import { addUserClubModal, generateClubCodeModal, updateClubMemberModal } from '@/atoms';
 import { getClubMember } from '@/api';
+import { MANAGE_CLUB } from '@/constant';
 
 import { useFetchUser } from './useAuth';
 
@@ -92,7 +96,7 @@ export const useGenerateClubCode = (): UseMutationResult<
     }) => {
       setClubCodeModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
-        setClubCodeModal({ state: true, isOk: true, data: data.result.token, page: 2 });
+        setClubCodeModal({ state: true, isOk: true, code: data.result.token });
       }, 1000);
       localStorage.setItem('club-code', data.result.token);
     },
@@ -127,10 +131,40 @@ export const useAddUserClub = (): UseMutationResult<
   });
 };
 
-export const useGetMember = (
-  cid: number,
-  uid: string,
-): UseQueryResult<APIResponse<GetClubMemberResponse>, AxiosError<APIErrorResponse>> =>
-  useQuery('useGetMember', () => getClubMember(cid, uid), {
+export const useGetClubMember = ({
+  cid,
+  user_id,
+}: ClubMemberValues): UseQueryResult<
+  APIResponse<GetClubMemberResponse>,
+  AxiosError<APIErrorResponse>
+> =>
+  useQuery('useGetMember', () => getClubMember({ cid, user_id }), {
     retry: 0,
   });
+
+export const useUpdateClubMember = ({
+  cid,
+  user_id,
+  freeze,
+}: UpdateClubMemberValues): UseMutationResult<
+  APIResponse<{ freeze?: number }>,
+  AxiosError<APIErrorResponse>
+> => {
+  const setUpdateUserModal = useSetRecoilState(updateClubMemberModal);
+  return useMutation('useUpdateClubMember', () => updateClubMember({ cid, user_id, freeze }), {
+    onSuccess: (data: {
+      status: APIResponseStatusType;
+      message: string;
+      result: { freeze?: number };
+    }) => {
+      setUpdateUserModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze, page: 2 });
+      }, 1000);
+    },
+    onError: (data) => {
+      setUpdateUserModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
+  });
+};
