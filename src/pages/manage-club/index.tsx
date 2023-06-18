@@ -20,7 +20,7 @@ import {
   CommonModal,
   ModalStateProps,
 } from '@/components';
-import { useFetchUser, useGetClubMembers, useGetUserClub } from '@/hooks';
+import { useFetchUser, useGetClubMembers } from '@/hooks';
 import { GetClubMembers } from '@/api';
 import { generateClubCodeModal } from '@/atoms';
 
@@ -28,11 +28,7 @@ import * as S from './styled';
 
 export const ManageClubPage: React.FC = () => {
   const { data: userData } = useFetchUser();
-  const { data: clubData } = useGetUserClub();
-  const clubInfo = clubData?.result;
-  const directorClubId =
-    Array.isArray(clubInfo) && clubInfo?.filter((club) => club.director === userData?.result.uid);
-  const cid = directorClubId && directorClubId[0].cid;
+  const cid = userData?.result?.director?.cid;
   const { data: clubMembers } = useGetClubMembers(cid);
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
@@ -277,7 +273,7 @@ export const ManageClubPage: React.FC = () => {
         </div>
       </S.ManageClubWrapper>
       {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
-      <ClubCodeModal clubId={cid} />
+      {cid && <ClubCodeModal clubId={cid} />}
       {/** club member change status modal */}
       <CommonModal
         leftButtonClick={onClubMemberChangeStatusModalClose}

@@ -19,6 +19,11 @@ export interface UserProfileResponse {
   name: string;
   num: string;
   phone: string;
+  director?: {
+    name: string;
+    director: string;
+    cid: number;
+  };
 }
 
 export interface AuthResponse {

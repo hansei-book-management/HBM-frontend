@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import {
   UseMutationResult,
   UseQueryResult,
@@ -27,8 +26,6 @@ import {
   AuthResponse,
 } from '@/api';
 import { globalAccessToken } from '@/atoms';
-
-import { useGetUserClub } from './useClub';
 
 export const useRegister = (): UseMutationResult<
   APIResponse<AuthResponse>,
@@ -113,19 +110,16 @@ export const useFetchUser = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > => {
   const [token, setToken] = useRecoilState(globalAccessToken);
-  const getClub = useGetUserClub();
   return useQuery(
     'useFetchUser',
     () => {
       if (token.state) {
         setAccessToken(token.accessToken);
-        getClub.refetch();
         return getUserProfile();
       }
 
       return getRefreshTokenAuth().then((data) => {
         setAccessToken(data.result);
-        getClub.refetch();
         return getUserProfile();
       });
     },
