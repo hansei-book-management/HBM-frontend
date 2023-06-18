@@ -79,7 +79,7 @@ export const ManageClubPage: React.FC = () => {
   // club member status modal FN
   const onClubMemberChangeStatusModalOpen = (userId: string, i: number) => {
     setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }));
-    setUpdateUserModal({ state: true });
+    setUpdateUserModal({ state: true, isOk: null });
     navigate(`${MANAGE_CLUB}/member/${userId}/status`);
   };
 
@@ -254,7 +254,7 @@ export const ManageClubPage: React.FC = () => {
       )}
       {cid && <ClubCodeModal />}
       {/** club member change status modal */}
-      <UpdateClubMemberModal />
+      <UpdateClubMemberModal cid={cid || 0} />
       {/** club member expel modal */}
       <CommonModal
         leftButtonClick={onClubMemberExpelModalClose}

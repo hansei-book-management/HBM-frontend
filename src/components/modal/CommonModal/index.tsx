@@ -65,7 +65,7 @@ export const CommonModal: React.FC<CommonModalProps> = ({
               rightButtonText
             )
           }
-          {...(!modal.isLoading && {
+          {...(modal.isLoading === false && {
             leftButtonClick: () => leftButtonClick(),
           })}
           handleSubmit={handleSubmit}

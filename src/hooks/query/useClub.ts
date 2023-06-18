@@ -28,7 +28,6 @@ import {
 } from '@/api';
 import { addUserClubModal, generateClubCodeModal, updateClubMemberModal } from '@/atoms';
 import { getClubMember } from '@/api';
-import { MANAGE_CLUB } from '@/constant';
 
 import { useFetchUser } from './useAuth';
 
@@ -158,8 +157,9 @@ export const useUpdateClubMember = ({
       result: { freeze?: number };
     }) => {
       setUpdateUserModal((prev) => ({ ...prev, isLoading: true }));
+      console.log(data.result);
       setTimeout(() => {
-        setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze, page: 2 });
+        setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze });
       }, 1000);
     },
     onError: (data) => {

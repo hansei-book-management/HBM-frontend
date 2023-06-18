@@ -6,7 +6,7 @@ export interface ClubApplyFormValue {
 
 export interface ClubMemberValues {
   cid: number;
-  user_id: string;
+  user_id?: string;
   freeze?: number;
 }
 
