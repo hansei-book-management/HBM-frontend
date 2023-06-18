@@ -52,8 +52,6 @@ export const ModalElement: React.FC<ModalProps> = ({
   const [isClosed, setIsClosed] = useState(false);
   const { close } = useModal();
 
-  console.log(typeof handleSubmit, typeof onValid);
-
   const closing = () => {
     if (!statusDisable) {
       setIsClosed(true);

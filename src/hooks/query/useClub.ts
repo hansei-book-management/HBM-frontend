@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { AxiosError } from 'axios';
+import { useSetRecoilState } from 'recoil';
 
 import {
   APIErrorResponse,
@@ -17,6 +18,8 @@ import {
   getClubMembers,
   GetClubMembers,
 } from '@/api';
+import { generateClubCodeModal } from '@/atoms';
+import { MANAGE_CLUB } from '@/constant';
 
 import { useFetchUser } from './useAuth';
 
@@ -75,22 +78,30 @@ export const useGenerateClubCode = (): UseMutationResult<
   AxiosError<APIErrorResponse>,
   GenerateClubCodeValues
 > => {
+  const setClubCodeModal = useSetRecoilState(generateClubCodeModal);
+  const navigate = useNavigate();
   return useMutation('useGenerateClubCode', generateClubCode, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
       result: { token: string };
     }) => {
-      toast.success(`코드가 생성되었어요.\n` + `코드는 ${data.result.token}`, {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setClubCodeModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setClubCodeModal({ state: true, isOk: true, data: data.result.token, page: 2 });
+        navigate(`${MANAGE_CLUB}/generate-code?step=2`);
+      }, 1000);
+      // toast.success(`코드가 생성되었어요.\n` + `코드는 ${data.result.token}`, {
+      //   autoClose: 3000,
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      // });
     },
     onError: (data) => {
-      toast.error(data.response?.data.message, {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setClubCodeModal({ state: true, isOk: false, data: data.response?.data.message });
+      // toast.error(data.response?.data.message, {
+      //   autoClose: 3000,
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      // });
     },
     retry: 0,
   });

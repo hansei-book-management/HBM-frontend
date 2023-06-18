@@ -9,6 +9,8 @@ import {
   FaTrash,
 } from 'react-icons/fa';
 
+import { useRecoilState } from 'recoil';
+
 import { MANAGE_CLUB, USER_LIST } from '@/constant';
 import {
   Button,
@@ -20,6 +22,7 @@ import {
 } from '@/components';
 import { useFetchUser, useGetClubMembers, useGetUserClub } from '@/hooks';
 import { GetClubMembers } from '@/api';
+import { generateClubCodeModal } from '@/atoms';
 
 import * as S from './styled';
 
@@ -32,11 +35,11 @@ export const ManageClubPage: React.FC = () => {
   const cid = directorClubId && directorClubId[0].cid;
   const { data: clubMembers } = useGetClubMembers(cid);
 
-  const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
-    state: false,
-    isOk: false,
-    isLoading: true,
-  });
+  // const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
+  //   state: false,
+  //   isOk: false,
+  //   isLoading: true,
+  // });
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubCode, setClubCode] = useState<string>('');
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
@@ -62,6 +65,7 @@ export const ManageClubPage: React.FC = () => {
     isOk: null,
     isLoading: false,
   });
+  const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
 
   const navigate = useNavigate();
 
@@ -78,31 +82,7 @@ export const ManageClubPage: React.FC = () => {
 
   // club code modal FN
   const onClubCodeModalOpen = () => {
-    setClubCodeModal({ state: true, isOk: null, isLoading: false });
-  };
-
-  const onClubCodeModalClose = () => {
-    setClubCodeModal({ state: false, isOk: null, isLoading: false });
-    navigate(`${MANAGE_CLUB}`);
-  };
-
-  const onClubCodeModalNextPage = () => {
-    setClubCodeModal({ state: true, isOk: null, isLoading: true });
-    setTimeout(() => {
-      setClubCodeModal({ state: true, isOk: true, isLoading: false });
-      navigate(`${MANAGE_CLUB}/generate-code?step=2`);
-      // fail test
-      // setClubCodeModal({ state: true, isOk: false});
-    }, 1600);
-    setClubCode('앙앙기모링');
-  };
-
-  const onClubCodeModalPrevPage = () => {
-    setClubCodeModal({ state: true, isOk: null, isLoading: false });
-  };
-
-  const onClubCodeCopyText = () => {
-    navigator.clipboard.writeText(clubCode);
+    setClubCodeModal({ state: true, page: 1 });
   };
 
   // club member status modal FN
@@ -296,14 +276,7 @@ export const ManageClubPage: React.FC = () => {
         </div>
       </S.ManageClubWrapper>
       {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
-      <ClubCodeModal
-        clubId={cid}
-        onClubCodeModalNextPage={onClubCodeModalNextPage}
-        onClubCodeModalClose={onClubCodeModalClose}
-        onClubCodeModalPrevPage={onClubCodeModalPrevPage}
-        onClubCodeCopyText={onClubCodeCopyText}
-        clubCodeModal={clubCodeModal}
-      />
+      <ClubCodeModal clubId={cid} />
       {/** club member change status modal */}
       <CommonModal
         leftButtonClick={onClubMemberChangeStatusModalClose}

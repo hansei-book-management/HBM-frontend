@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Lottie from 'react-lottie';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 
-import { Modal, ModalStateProps, StatusModal } from '@/components';
+import { useRecoilState } from 'recoil';
+
+import { Modal, StatusModal } from '@/components';
 import {
   MANAGE_CLUB,
   loadingLottieOptions,
@@ -13,15 +15,11 @@ import {
 } from '@/constant';
 import { useGenerateClubCode } from '@/hooks';
 import { GenerateClubCodeValues } from '@/api';
+import { generateClubCodeModal } from '@/atoms';
 
 import * as S from './styled';
 
 export interface ClubCodeModalProps {
-  onClubCodeModalNextPage: () => void;
-  onClubCodeModalClose: () => void;
-  onClubCodeModalPrevPage: () => void;
-  onClubCodeCopyText: () => void;
-  clubCodeModal: ModalStateProps;
   clubId: number;
 }
 
@@ -30,17 +28,16 @@ export interface SelectValueProps {
   use: null | number;
 }
 
-export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
-  onClubCodeModalNextPage,
-  onClubCodeModalClose,
-  onClubCodeModalPrevPage,
-  onClubCodeCopyText,
-  clubCodeModal,
-  clubId,
-}) => {
+export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
   const { handleSubmit, register } = useForm<GenerateClubCodeValues>();
+  const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
 
   const { mutate } = useGenerateClubCode();
+
+  const [selectValue, setSelectValue] = useState({
+    end: 1,
+    use: 1,
+  });
 
   const onSubmit = ({ end, use }: GenerateClubCodeValues) => {
     const parsedEnd = parseInt(end.toString(), 10);
@@ -48,9 +45,25 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
     if (end && use) {
       mutate({ end: parsedEnd, use: parsedUse, cid: clubId });
     }
+    setSelectValue({ end: end, use: use });
   };
 
-  if (clubCodeModal.state && clubCodeModal.isOk === null) {
+  const navigate = useNavigate();
+
+  const onClubCodeModalClose = () => {
+    setClubCodeModal({ state: false });
+    navigate(`${MANAGE_CLUB}`);
+  };
+
+  const onClubCodeModalPrevPage = () => {
+    setClubCodeModal({ state: true, page: 1 });
+  };
+
+  const onClubCodeCopyText = () => {
+    navigator.clipboard.writeText(clubCodeModal.data || '');
+  };
+
+  if (clubCodeModal.state && clubCodeModal.page === 1) {
     return (
       <Modal.OverLay>
         <Modal
@@ -86,7 +99,6 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
           statusDisable={clubCodeModal.isLoading === true}
           modalSize="medium"
           {...(!clubCodeModal.isLoading && {
-            rightButtonClick: () => onClubCodeModalNextPage(),
             leftButtonClick: () => onClubCodeModalClose(),
           })}
           handleSubmit={handleSubmit}
@@ -95,7 +107,7 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (clubCodeModal.state === true && clubCodeModal.isOk === true) {
+  if (clubCodeModal.state && clubCodeModal.isOk === true) {
     return (
       <Modal.OverLay>
         <Modal
@@ -104,14 +116,14 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
               <div>
                 <S.ModalTitle>초대 코드 발급</S.ModalTitle>
                 <S.ClubCodeSubTitleContainer>
-                  최대 사용 횟수는 7회이고, 30일 동안 유효해요.
+                  최대 사용 횟수는 {selectValue.end}이고, {selectValue.use} 동안 유효해요.
                   <Link to="?generate-code-step=1" onClick={onClubCodeModalPrevPage}>
                     수정하기
                   </Link>
                 </S.ClubCodeSubTitleContainer>
               </div>
               <S.ClubCodeValueContainer>
-                <S.ClubCodeText>앙기모링</S.ClubCodeText>
+                <S.ClubCodeText>{clubCodeModal.data}</S.ClubCodeText>
                 <S.ClubCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
                   <FaRegCopy size={'0.9rem'} />
                 </S.ClubCodeCopyButtonWrapper>
@@ -127,7 +139,7 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
       </Modal.OverLay>
     );
   }
-  if (clubCodeModal.state === true && clubCodeModal.isOk === false) {
+  if (clubCodeModal.state && clubCodeModal.isOk === false) {
     return (
       <StatusModal
         url={`${MANAGE_CLUB}`}
