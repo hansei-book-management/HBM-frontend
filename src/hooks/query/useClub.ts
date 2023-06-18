@@ -157,7 +157,7 @@ export const useUpdateClubMember = ({
       result: { freeze?: number };
     }) => {
       setUpdateUserModal((prev) => ({ ...prev, isLoading: true }));
-      console.log(data.result);
+      console.log(data.result, 'result');
       setTimeout(() => {
         setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze });
       }, 1000);

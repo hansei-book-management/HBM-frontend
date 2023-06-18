@@ -13,8 +13,7 @@ export interface userBookModalProps {
 
 export const ClubMemberInfoModal: React.FC<userBookModalProps> = ({ cid, leftButtonClick }) => {
   const { userId } = useParams<{ userId: string }>();
-  const getMember = useGetClubMember({ cid, user_id: userId || '' });
-
+  const getMember = useGetClubMember({ cid, user_id: userId });
   const member = getMember.data?.result;
   return (
     <Modal.OverLay>
