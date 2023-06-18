@@ -29,7 +29,8 @@ export const ManageClubPage: React.FC = () => {
   const clubInfo = clubData?.result;
   const directorClubId =
     Array.isArray(clubInfo) && clubInfo?.filter((club) => club.director === userData?.result.uid);
-  const { data: clubMembers } = useGetClubMembers(directorClubId && directorClubId[0].cid);
+  const cid = directorClubId && directorClubId[0].cid;
+  const { data: clubMembers } = useGetClubMembers(cid);
 
   const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
     state: false,
@@ -296,6 +297,7 @@ export const ManageClubPage: React.FC = () => {
       </S.ManageClubWrapper>
       {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
       <ClubCodeModal
+        clubId={cid}
         onClubCodeModalNextPage={onClubCodeModalNextPage}
         onClubCodeModalClose={onClubCodeModalClose}
         onClubCodeModalPrevPage={onClubCodeModalPrevPage}

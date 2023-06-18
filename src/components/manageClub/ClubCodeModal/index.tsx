@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Lottie from 'react-lottie';
 import { Link } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
 
 import { Modal, ModalStateProps, StatusModal } from '@/components';
 import {
@@ -10,6 +11,8 @@ import {
   GENERATE_CODE_DAY_OPTION_LIST,
   GENERATE_CODE_USE_COUNT_OPTION_LIST,
 } from '@/constant';
+import { useGenerateClubCode } from '@/hooks';
+import { GenerateClubCodeValues } from '@/api';
 
 import * as S from './styled';
 
@@ -19,11 +22,12 @@ export interface ClubCodeModalProps {
   onClubCodeModalPrevPage: () => void;
   onClubCodeCopyText: () => void;
   clubCodeModal: ModalStateProps;
+  clubId: number;
 }
 
 export interface SelectValueProps {
-  dayValue: null | number;
-  useCountValue: null | number;
+  end: null | number;
+  use: null | number;
 }
 
 export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
@@ -32,21 +36,19 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
   onClubCodeModalPrevPage,
   onClubCodeCopyText,
   clubCodeModal,
+  clubId,
 }) => {
-  const [select, setSelected] = useState<SelectValueProps>({
-    dayValue: null,
-    useCountValue: null,
-  });
+  const { handleSubmit, register } = useForm<GenerateClubCodeValues>();
 
-  const onDayValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected({ dayValue: parseInt(e.target.value), useCountValue: select.useCountValue });
+  const { mutate } = useGenerateClubCode();
+
+  const onSubmit = ({ end, use }: GenerateClubCodeValues) => {
+    const parsedEnd = parseInt(end.toString(), 10);
+    const parsedUse = parseInt(use.toString(), 10);
+    if (end && use) {
+      mutate({ end: parsedEnd, use: parsedUse, cid: clubId });
+    }
   };
-
-  const onUseCountValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected({ dayValue: select.dayValue, useCountValue: parseInt(e.target.value) });
-  };
-
-  // const onSubmit = ({}) => {};
 
   if (clubCodeModal.state && clubCodeModal.isOk === null) {
     return (
@@ -57,7 +59,7 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
               <S.ModalTitle>코드 생성하기</S.ModalTitle>
               <S.GenerateCodeSelectContainer>
                 <S.GenerateCodeTitle>유효기간</S.GenerateCodeTitle>
-                <S.GenerateCodeSelect onChange={onDayValueChange}>
+                <S.GenerateCodeSelect {...register('end')}>
                   {GENERATE_CODE_DAY_OPTION_LIST.map(({ value }) => (
                     <option key={value}>{value}</option>
                   ))}
@@ -65,30 +67,30 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({
               </S.GenerateCodeSelectContainer>
               <S.GenerateCodeSelectContainer>
                 <S.GenerateCodeTitle>사용횟수</S.GenerateCodeTitle>
-                <S.GenerateCodeSelect onChange={onUseCountValueChange}>
+                <S.GenerateCodeSelect {...register('use')}>
                   {GENERATE_CODE_USE_COUNT_OPTION_LIST.map(({ value }) => (
                     <option key={value}>{value}</option>
                   ))}
                 </S.GenerateCodeSelect>
               </S.GenerateCodeSelectContainer>
-              <S.ModalTitle>유효기간: {select.dayValue}</S.ModalTitle>
-              <S.ModalTitle>사용횟수: {select.useCountValue}</S.ModalTitle>
             </S.GenerateCodeContainer>
           }
           leftButtonText="닫기"
           rightButtonText={
-            clubCodeModal.isLoading ? (
+            clubCodeModal.isLoading === true ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               '생성하기'
             )
           }
-          statusDisable={clubCodeModal.isLoading}
+          statusDisable={clubCodeModal.isLoading === true}
           modalSize="medium"
           {...(!clubCodeModal.isLoading && {
             rightButtonClick: () => onClubCodeModalNextPage(),
             leftButtonClick: () => onClubCodeModalClose(),
           })}
+          handleSubmit={handleSubmit}
+          onValid={onSubmit}
         />
       </Modal.OverLay>
     );
