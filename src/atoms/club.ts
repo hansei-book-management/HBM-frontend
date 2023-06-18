@@ -9,6 +9,6 @@ export const generateClubCodeModal = atom<ModalStateProps>({
     isOk: null,
     isLoading: null,
     data: null,
-    page: 1,
+    page: null,
   },
 });

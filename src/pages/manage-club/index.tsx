@@ -35,13 +35,7 @@ export const ManageClubPage: React.FC = () => {
   const cid = directorClubId && directorClubId[0].cid;
   const { data: clubMembers } = useGetClubMembers(cid);
 
-  // const [clubCodeModal, setClubCodeModal] = useState<ModalStateProps>({
-  //   state: false,
-  //   isOk: false,
-  //   isLoading: true,
-  // });
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
-  const [clubCode, setClubCode] = useState<string>('');
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
   const [clubMemberChangeStatusModal, setClubMemberChangeStatusModal] = useState<ModalStateProps>({
     state: false,
@@ -66,6 +60,7 @@ export const ManageClubPage: React.FC = () => {
     isLoading: false,
   });
   const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
+  const [clubCode, setClubCode] = useState<string | null>('');
 
   const navigate = useNavigate();
 
@@ -82,6 +77,10 @@ export const ManageClubPage: React.FC = () => {
 
   // club code modal FN
   const onClubCodeModalOpen = () => {
+    if (clubCode) {
+      console.log(clubCodeModal.page, 'page');
+      return setClubCodeModal({ state: true, page: null });
+    }
     setClubCodeModal({ state: true, page: 1 });
   };
 
@@ -176,7 +175,9 @@ export const ManageClubPage: React.FC = () => {
 
   useEffect(() => {
     navigate(`${MANAGE_CLUB}`);
-  }, []);
+    const clubCode = localStorage.getItem('club-code');
+    setClubCode(clubCode);
+  }, [clubCodeModal]);
 
   return (
     <>

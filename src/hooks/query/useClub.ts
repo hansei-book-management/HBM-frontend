@@ -91,17 +91,10 @@ export const useGenerateClubCode = (): UseMutationResult<
         setClubCodeModal({ state: true, isOk: true, data: data.result.token, page: 2 });
         navigate(`${MANAGE_CLUB}/generate-code?step=2`);
       }, 1000);
-      // toast.success(`코드가 생성되었어요.\n` + `코드는 ${data.result.token}`, {
-      //   autoClose: 3000,
-      //   position: toast.POSITION.BOTTOM_RIGHT,
-      // });
+      localStorage.setItem('club-code', data.result.token);
     },
     onError: (data) => {
       setClubCodeModal({ state: true, isOk: false, data: data.response?.data.message });
-      // toast.error(data.response?.data.message, {
-      //   autoClose: 3000,
-      //   position: toast.POSITION.BOTTOM_RIGHT,
-      // });
     },
     retry: 0,
   });

@@ -7,7 +7,7 @@ import * as S from './styled';
 export interface ModalStateProps {
   state: boolean;
   isOk?: boolean | null;
-  page?: number;
+  page?: number | null;
   isLoading?: boolean | null;
   data?: string | null;
 }
