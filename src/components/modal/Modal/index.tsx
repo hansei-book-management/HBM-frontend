@@ -42,7 +42,6 @@ export const ModalElement: React.FC<ModalProps> = ({
   rightButtonText,
   modalSize,
   onlyRightButton,
-  rightButtonClick,
   leftButtonClick,
   isRed = false,
   isOk = false,
@@ -55,10 +54,8 @@ export const ModalElement: React.FC<ModalProps> = ({
   const closing = () => {
     if (!statusDisable) {
       setIsClosed(true);
-      setTimeout(() => {
-        close();
-        leftButtonClick && leftButtonClick();
-      }, 200);
+      close();
+      leftButtonClick && leftButtonClick();
     }
   };
 

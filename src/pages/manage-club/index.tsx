@@ -74,7 +74,6 @@ export const ManageClubPage: React.FC = () => {
   // club code modal FN
   const onClubCodeModalOpen = () => {
     if (clubCode) {
-      console.log(clubCodeModal.page, 'page');
       return setClubCodeModal({ state: true, page: null });
     }
     setClubCodeModal({ state: true, page: 1 });
@@ -178,11 +177,7 @@ export const ManageClubPage: React.FC = () => {
   return (
     <>
       <S.ManageClubWrapper>
-        <Button
-          onClick={onClubCodeModalOpen}
-          to={`${MANAGE_CLUB}/generate-code?step=1`}
-          description="동아리 코드"
-        />
+        <Button onClick={onClubCodeModalOpen} to={`${MANAGE_CLUB}`} description="동아리 코드" />
         <S.ManageClubUserMenuContainer>
           <S.ManageClubUserMenuBar>
             <S.ManageClubUserMenuBarItem>부원</S.ManageClubUserMenuBarItem>
@@ -273,7 +268,7 @@ export const ManageClubPage: React.FC = () => {
         </div>
       </S.ManageClubWrapper>
       {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
-      {cid && <ClubCodeModal clubId={cid} />}
+      {cid && <ClubCodeModal />}
       {/** club member change status modal */}
       <CommonModal
         leftButtonClick={onClubMemberChangeStatusModalClose}

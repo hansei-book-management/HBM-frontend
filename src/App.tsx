@@ -61,7 +61,6 @@ export const App: React.FC = () => {
         </Route>
         <Route element={<PrivateRoute isDirectorPage={true} />}>
           <Route path="/manage-club" element={<ManageClubPage />}>
-            <Route path="generate-code" element={<ManageClubPage />} />
             <Route path="member/:userId" element={<ManageClubPage />}>
               <Route path="detail" element={<ManageClubPage />} />
               <Route path="expel" element={<ManageClubPage />} />

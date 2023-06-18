@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
-import { Link, useNavigate } from 'react-router-dom';
 import { FaRegCopy } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 
@@ -13,22 +12,20 @@ import {
   GENERATE_CODE_DAY_OPTION_LIST,
   GENERATE_CODE_USE_COUNT_OPTION_LIST,
 } from '@/constant';
-import { useGenerateClubCode } from '@/hooks';
+import { useFetchUser, useGenerateClubCode } from '@/hooks';
 import { GenerateClubCodeValues } from '@/api';
 import { generateClubCodeModal } from '@/atoms';
 
 import * as S from './styled';
-
-export interface ClubCodeModalProps {
-  clubId: number;
-}
-
 export interface SelectValueProps {
   end: null | number;
   use: null | number;
 }
 
-export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
+export const ClubCodeModal: React.FC = () => {
+  const { data: userData } = useFetchUser();
+  const cid = userData?.result?.director?.cid;
+
   const { handleSubmit, register } = useForm<GenerateClubCodeValues>();
   const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
   const [clubCode, setClubCode] = useState<string | null>('');
@@ -43,13 +40,11 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
   const onSubmit = ({ end, use }: GenerateClubCodeValues) => {
     const parsedEnd = parseInt(end.toString(), 10);
     const parsedUse = parseInt(use.toString(), 10);
-    if (end && use) {
-      mutate({ end: parsedEnd, use: parsedUse, cid: clubId });
+    if (end && use && cid) {
+      mutate({ end: parsedEnd, use: parsedUse, cid: cid });
     }
     setSelectValue({ end: end, use: use });
   };
-
-  const navigate = useNavigate();
 
   const onClubCodeModalReOpen = () => {
     setClubCodeModal({ state: true, page: 1 });
@@ -57,7 +52,6 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
 
   const onClubCodeModalClose = () => {
     setClubCodeModal({ state: false, page: 3 });
-    navigate(`${MANAGE_CLUB}`);
   };
 
   const onClubCodeCopyText = () => {
@@ -79,9 +73,7 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
                 <S.ModalTitle>초대 코드 발급</S.ModalTitle>
                 <S.ClubCodeSubTitleContainer>
                   최대 사용 횟수는 {selectValue.end}이고, {selectValue.use} 동안 유효해요.
-                  <Link to="?generate-code-step=1" onClick={onClubCodeModalReOpen}>
-                    재발급
-                  </Link>
+                  <span onClick={onClubCodeModalReOpen}>재발급</span>
                 </S.ClubCodeSubTitleContainer>
               </div>
               <S.ClubCodeValueContainer>
@@ -155,9 +147,7 @@ export const ClubCodeModal: React.FC<ClubCodeModalProps> = ({ clubId }) => {
                 <S.ModalTitle>초대 코드 발급</S.ModalTitle>
                 <S.ClubCodeSubTitleContainer>
                   최대 사용 횟수는 {selectValue.end}이고, {selectValue.use} 동안 유효해요.
-                  <Link to="?generate-code-step=1" onClick={onClubCodeModalReOpen}>
-                    수정하기
-                  </Link>
+                  <span onClick={onClubCodeModalReOpen}>수정하기</span>
                 </S.ClubCodeSubTitleContainer>
               </div>
               <S.ClubCodeValueContainer>

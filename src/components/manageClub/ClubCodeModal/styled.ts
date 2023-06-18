@@ -57,7 +57,7 @@ export const ClubCodeSubTitleContainer = styled.div`
   font-size: 0.8rem;
   font-weight: 400;
 
-  a {
+  span {
     color: ${({ theme }) => theme.primary.darkBlue};
     font-size: 0.82rem;
     font-weight: 450;
