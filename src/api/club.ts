@@ -23,13 +23,22 @@ export interface GetClubResponse {
 }
 
 export interface GetClubMembers {
-  freeze: number;
   name: string;
   num: string;
   phone: string;
   role: string;
   uid: string;
+  freeze?: number;
   borrowBook: number;
+}
+
+export interface GetClubMemberResponse extends GetClubMembers {
+  books: [
+    {
+      title?: string;
+      data?: string;
+    },
+  ];
 }
 
 export interface AddClubFormValues {
@@ -63,8 +72,9 @@ export const getClubMembers = async (cid?: number): Promise<APIResponse<GetClubM
 export const generateClubCode = async ({
   end,
   use,
+  cid,
 }: GenerateClubCodeValues): Promise<APIResponse<{ token: string }>> => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/1/member`, {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member`, {
     end,
     use,
   });
@@ -77,5 +87,15 @@ export const addUserClub = async ({
   const { data } = await instance.post(`${API_SUFFIX.CLUB}/member`, {
     token: clubCode,
   });
+  return data;
+};
+
+export const getClubMember = async (
+  cid: number,
+  user_id: string,
+): Promise<APIResponse<GetClubMemberResponse>> => {
+  console.log(user_id, 'user id');
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+  console.log(data);
   return data;
 };

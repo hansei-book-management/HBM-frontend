@@ -20,9 +20,11 @@ import {
   addUserClub,
   AddClubResponse,
   CreateClubResponse,
+  GetClubMemberResponse,
   AddClubFormValues,
 } from '@/api';
 import { addUserClubModal, generateClubCodeModal } from '@/atoms';
+import { getClubMember } from '@/api';
 
 import { useFetchUser } from './useAuth';
 
@@ -124,3 +126,11 @@ export const useAddUserClub = (): UseMutationResult<
     retry: 0,
   });
 };
+
+export const useGetMember = (
+  cid: number,
+  uid: string,
+): UseQueryResult<APIResponse<GetClubMemberResponse>, AxiosError<APIErrorResponse>> =>
+  useQuery('useGetMember', () => getClubMember(cid, uid), {
+    retry: 0,
+  });

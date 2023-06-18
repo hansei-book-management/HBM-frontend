@@ -170,7 +170,7 @@ export const ManageClubPage: React.FC = () => {
 
   useEffect(() => {
     navigate(`${MANAGE_CLUB}`);
-    const clubCode = localStorage.getItem('club-code');
+    const clubCode = localStorage.getItem('clubCode');
     setClubCode(clubCode);
   }, [clubCodeModal]);
 
@@ -185,21 +185,21 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
           {Array.isArray(clubMembers?.result) &&
-            clubMembers?.result?.map(({ name, freeze, borrowBook }: GetClubMembers, i) => (
+            clubMembers?.result?.map(({ name, freeze, borrowBook, uid }: GetClubMembers, i) => (
               <S.DummyContainer>
                 <S.ManageClubUserContainer>
                   <S.ManageClubUserIconContainer
-                    onClick={() => onClubMemberInfoModalOpen('앙기모링')}
+                    onClick={() => onClubMemberInfoModalOpen(`${uid}`)}
                   >
                     <S.ManageClubUserIcon />
                     <S.ManageClubUserName>{name}</S.ManageClubUserName>
                   </S.ManageClubUserIconContainer>
-                  <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen('앙기모링')}>
+                  <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen(`${uid}`)}>
                     {borrowBook}
                   </S.ManageClubUserBookInfo>
                   <S.ManageClubUserStatus
                     isOk={freeze === 0}
-                    onClick={() => onClubMemberInfoModalOpen('앙기모링')}
+                    onClick={() => onClubMemberInfoModalOpen(`${uid}`)}
                   >
                     {freeze === 0 ? '정상' : '대출정지'}
                     <br />
@@ -225,7 +225,7 @@ export const ManageClubPage: React.FC = () => {
                     onClick={() => onClubMemberChangeStatusModalOpen('asdf', i)}
                   >
                     <FaLock size={'0.9rem'} />
-                    <span>대여정지 해제</span>
+                    <span>{freeze === 0 ? '대여정지' : '대여정지 해제'}</span>
                   </S.ManageClubPopupDiv>
                   <S.ManageClubPopupDiv
                     isOut={true}
@@ -267,7 +267,9 @@ export const ManageClubPage: React.FC = () => {
           </S.ManageClubPopupContainer>
         </div>
       </S.ManageClubWrapper>
-      {clubMemberInfoModal && <ClubMemberInfoModal leftButtonClick={onClubMemberInfoModalClose} />}
+      {clubMemberInfoModal && cid && (
+        <ClubMemberInfoModal cid={cid} leftButtonClick={onClubMemberInfoModalClose} />
+      )}
       {cid && <ClubCodeModal />}
       {/** club member change status modal */}
       <CommonModal

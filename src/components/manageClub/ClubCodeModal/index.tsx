@@ -59,7 +59,7 @@ export const ClubCodeModal: React.FC = () => {
   };
 
   useEffect(() => {
-    const clubCode = localStorage.getItem('club-code');
+    const clubCode = localStorage.getItem('clubCode');
     setClubCode(clubCode);
   }, [clubCodeModal]);
 
