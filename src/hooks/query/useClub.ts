@@ -40,13 +40,10 @@ export const useCreateClub = (): UseMutationResult<
       result: CreateClubResponse;
     }) => {
       fetchUser.refetch();
-      toast.success(
-        `${data.result.name} 동아리가 생성되었어요. \n 부장은 ${data.result.director}에요.`,
-        {
-          autoClose: 3000,
-          position: toast.POSITION.BOTTOM_RIGHT,
-        },
-      );
+      toast.success(`${data.result.name} 동아리가 생성되었어요.`, {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       navigate('/');
     },
     onError: (data) => {
