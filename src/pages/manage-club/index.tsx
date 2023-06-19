@@ -17,14 +17,12 @@ import {
   ClubChangeDirectorModal,
   ClubCodeModal,
   ClubMemberInfoModal,
-  CommonModal,
   DeleteClubModal,
   ExpelClubMemberModal,
-  ModalStateProps,
   UpdateClubMemberModal,
 } from '@/components';
 import { useFetchUser, useGetClubInfo } from '@/hooks';
-import { ClubMemberInfo, GetClubMembers } from '@/api';
+import { ClubMemberInfo } from '@/api';
 import {
   changeClubDirectorModal,
   deleteClubModal,

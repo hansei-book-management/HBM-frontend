@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
 
-import { CommonModal, Modal, ModalStateProps } from '@/components';
-import { CLUB_MEMBER_LIST, MANAGE_CLUB } from '@/constant';
+import { CommonModal, Modal } from '@/components';
+import { MANAGE_CLUB } from '@/constant';
 import { changeClubDirectorModal } from '@/atoms';
-import { useChangeClubDirector, useGetClubInfo } from '@/hooks';
+import { useChangeClubDirector, useLogout } from '@/hooks';
 import { ChangeClubDirectorValues, ClubMemberInfo } from '@/api';
 
 import * as S from './styled';
@@ -28,7 +28,12 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
   const { handleSubmit, register } = useForm<ChangeClubDirectorValues>();
   const { mutate } = useChangeClubDirector();
   const [newDirector, setNewDirector] = useState<string | null>('');
-  const club = useGetClubInfo(cid);
+  const { deleteUserInformation } = useLogout();
+
+  const handleLogoutButtonClick = useCallback(() => {
+    deleteUserInformation();
+    onClubChangeDirectorModalClose();
+  }, [deleteUserInformation]);
 
   const onSubmit = ({ director }: ChangeClubDirectorValues) => {
     const uid = director.split(' ')[4].split(':')[0];
@@ -36,12 +41,11 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
     mutate({ cid, name: clubName, director: uid });
     const newDirector = director.split(' ')[1].split(':')[0];
     setNewDirector(newDirector);
-    club.refetch();
   };
 
-  const [changeDirectorModal, setChangeDirectorModal] = useRecoilState(changeClubDirectorModal);
-
   const navigate = useNavigate();
+
+  const [changeDirectorModal, setChangeDirectorModal] = useRecoilState(changeClubDirectorModal);
 
   const onClubChangeDirectorModalClose = () => {
     setChangeDirectorModal({ state: false });
@@ -89,7 +93,7 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
   }
   return (
     <CommonModal
-      leftButtonClick={onClubChangeDirectorModalClose}
+      leftButtonClick={handleLogoutButtonClick}
       modal={changeDirectorModal}
       title={`부장 변경`}
       message={
