@@ -4,6 +4,11 @@ export interface ClubApplyFormValue {
   name: string;
 }
 
+export interface ClubMemberValues {
+  cid?: number;
+  user_id?: string;
+}
+
 export interface GenerateClubCodeValues {
   end: number;
   use: number;
@@ -23,13 +28,22 @@ export interface GetClubResponse {
 }
 
 export interface GetClubMembers {
-  freeze: number;
   name: string;
   num: string;
   phone: string;
   role: string;
   uid: string;
+  freeze?: number;
   borrowBook: number;
+}
+
+export interface GetClubMemberResponse extends GetClubMembers {
+  books: [
+    {
+      title?: string;
+      data?: string;
+    },
+  ];
 }
 
 export interface AddClubFormValues {
@@ -41,16 +55,23 @@ export interface AddClubResponse {
   cid: number;
 }
 
-export const createClub = async ({
-  name,
-}: ClubApplyFormValue): Promise<APIResponse<CreateClubResponse>> => {
+export interface UpdateClubMemberValues extends ClubMemberValues {
+  freeze: number;
+}
+
+export interface ExpelClubMemberValues {
+  cid?: number;
+  user_id?: string;
+}
+
+export const createClub = async ({ name }: ClubApplyFormValue) => {
   const { data } = await instance.post(API_SUFFIX.CLUB, {
     name,
   });
   return data;
 };
 
-export const getUserClub = async (): Promise<APIResponse<GetClubResponse>> => {
+export const getUserClub = async () => {
   const { data } = await instance.get(API_SUFFIX.CLUB);
   return data;
 };
@@ -63,19 +84,54 @@ export const getClubMembers = async (cid?: number): Promise<APIResponse<GetClubM
 export const generateClubCode = async ({
   end,
   use,
+  cid,
 }: GenerateClubCodeValues): Promise<APIResponse<{ token: string }>> => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/1/member`, {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member`, {
     end,
     use,
   });
   return data;
 };
 
-export const addUserClub = async ({
-  clubCode,
-}: AddClubFormValues): Promise<APIResponse<AddClubResponse>> => {
+export const addUserClub = async ({ clubCode }: AddClubFormValues) => {
   const { data } = await instance.post(`${API_SUFFIX.CLUB}/member`, {
     token: clubCode,
   });
   return data;
+};
+
+export const getClubMember = async ({
+  cid,
+  user_id,
+}: ClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
+  if (cid && user_id) {
+    const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+    return data;
+  } else {
+    throw new Error('cid or user_id is undefined');
+  }
+};
+
+export const updateClubMember = async ({
+  cid,
+  user_id,
+  freeze,
+}: UpdateClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
+  if (cid && user_id) {
+    const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`, {
+      freeze,
+    });
+    return data;
+  } else {
+    throw new Error('cid or user_id is undefined');
+  }
+};
+
+export const expelClubMember = async ({ cid, user_id }: ExpelClubMemberValues) => {
+  if (cid && user_id) {
+    const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+    return data;
+  } else {
+    throw new Error('cid or user_id is undefined');
+  }
 };

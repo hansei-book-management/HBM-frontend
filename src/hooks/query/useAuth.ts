@@ -87,7 +87,7 @@ export const useLogin = (): UseMutationResult<
   });
 };
 
-export const UseLogout = () => {
+export const useLogout = () => {
   const queryClient = useQueryClient();
   const setToken = useSetRecoilState(globalAccessToken);
   const navigate = useNavigate();
@@ -119,7 +119,7 @@ export const useFetchUser = (): UseQueryResult<
       }
 
       return getRefreshTokenAuth().then((data) => {
-        setAccessToken(data.result);
+        setAccessToken(data.result.auth);
         return getUserProfile();
       });
     },

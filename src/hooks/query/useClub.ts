@@ -20,9 +20,21 @@ import {
   addUserClub,
   AddClubResponse,
   CreateClubResponse,
+  GetClubMemberResponse,
   AddClubFormValues,
+  ClubMemberValues,
+  updateClubMember,
+  UpdateClubMemberValues,
+  expelClubMember,
+  ExpelClubMemberValues,
 } from '@/api';
-import { addUserClubModal, generateClubCodeModal } from '@/atoms';
+import {
+  addUserClubModal,
+  expelClubMemberModal,
+  generateClubCodeModal,
+  updateClubMemberModal,
+} from '@/atoms';
+import { getClubMember } from '@/api';
 
 import { useFetchUser } from './useAuth';
 
@@ -90,9 +102,9 @@ export const useGenerateClubCode = (): UseMutationResult<
     }) => {
       setClubCodeModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
-        setClubCodeModal({ state: true, isOk: true, data: data.result.token, page: 2 });
+        setClubCodeModal({ state: true, isOk: true, code: data.result.token });
       }, 1000);
-      localStorage.setItem('club-code', data.result.token);
+      localStorage.setItem('clubCode', data.result.token);
     },
     onError: (data) => {
       setClubCodeModal({ state: true, isOk: false, data: data.response?.data.message });
@@ -120,6 +132,63 @@ export const useAddUserClub = (): UseMutationResult<
     },
     onError: (data) => {
       setAddUserClubModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
+  });
+};
+
+export const useGetClubMember = ({
+  cid,
+  user_id,
+}: ClubMemberValues): UseQueryResult<
+  APIResponse<GetClubMemberResponse>,
+  AxiosError<APIErrorResponse>
+> =>
+  useQuery('useGetMember', () => getClubMember({ cid, user_id }), {
+    retry: 0,
+  });
+
+export const useUpdateClubMember = ({
+  cid,
+  user_id,
+  freeze,
+}: UpdateClubMemberValues): UseMutationResult<
+  APIResponse<{ freeze?: number }>,
+  AxiosError<APIErrorResponse>
+> => {
+  const setUpdateUserModal = useSetRecoilState(updateClubMemberModal);
+  return useMutation('useUpdateClubMember', () => updateClubMember({ cid, user_id, freeze }), {
+    onSuccess: (data: {
+      status: APIResponseStatusType;
+      message: string;
+      result: { freeze?: number };
+    }) => {
+      setUpdateUserModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze });
+      }, 1000);
+    },
+    onError: (data) => {
+      setUpdateUserModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
+  });
+};
+
+export const useExpelClubMember = ({
+  cid,
+  user_id,
+}: ExpelClubMemberValues): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
+  const setExpelMemberModal = useSetRecoilState(expelClubMemberModal);
+  return useMutation('useExpelClubMember', () => expelClubMember({ cid, user_id }), {
+    onSuccess: () => {
+      setExpelMemberModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setExpelMemberModal({ state: true, isOk: true });
+      }, 1000);
+    },
+    onError: (data) => {
+      setExpelMemberModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });

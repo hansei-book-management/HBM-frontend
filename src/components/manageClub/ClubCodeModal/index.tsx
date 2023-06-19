@@ -55,11 +55,11 @@ export const ClubCodeModal: React.FC = () => {
   };
 
   const onClubCodeCopyText = () => {
-    navigator.clipboard.writeText(clubCodeModal.data || clubCode || '');
+    navigator.clipboard.writeText(clubCodeModal.code || clubCode || '');
   };
 
   useEffect(() => {
-    const clubCode = localStorage.getItem('club-code');
+    const clubCode = localStorage.getItem('clubCode');
     setClubCode(clubCode);
   }, [clubCodeModal]);
 
@@ -151,7 +151,7 @@ export const ClubCodeModal: React.FC = () => {
                 </S.ClubCodeSubTitleContainer>
               </div>
               <S.ClubCodeValueContainer>
-                <S.ClubCodeText>{clubCodeModal.data}</S.ClubCodeText>
+                <S.ClubCodeText>{clubCodeModal.code}</S.ClubCodeText>
                 <S.ClubCodeCopyButtonWrapper onClick={onClubCodeCopyText}>
                   <FaRegCopy size={'0.9rem'} />
                 </S.ClubCodeCopyButtonWrapper>
@@ -178,9 +178,9 @@ export const ClubCodeModal: React.FC = () => {
             <S.StatusModalText>
               동아리 코드 생성에 실패 했어요.
               <br />
-              시스템 상의 문제로 동아리 코드 생성에 실패하여 동아리 생성 할 수 없어요.
+              {clubCodeModal.data}
               <br />
-              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
+              위의 나타난 문제로 인해 동아리 코드 생성에 실패하였어요.
             </S.StatusModalText>
           </>
         }

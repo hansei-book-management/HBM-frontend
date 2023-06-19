@@ -8,13 +8,13 @@ import {
   DIRECTOR_NAVBAR_MENU_LIST,
   USER_NAVBAR_MENU_LIST,
 } from '@/constant';
-import { UseLogout, useFetchUser, useGetWindowSize } from '@/hooks';
+import { useLogout, useFetchUser, useGetWindowSize } from '@/hooks';
 
 import * as S from './styled';
 
 export const Navbar: React.FC = () => {
   const [hidden, setHidden] = useState<boolean>(false);
-  const { data: user, isFetching } = useFetchUser();
+  const { data: user } = useFetchUser();
   const location = useLocation();
   const { scrollY } = useScroll();
   const prevScrollY = useMotionValue(0);
@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
   const { getWidth } = useGetWindowSize();
   const navigate = useNavigate();
 
-  const { deleteUserInformation } = UseLogout();
+  const { deleteUserInformation } = useLogout();
 
   const userInfo = user?.result;
 
@@ -120,7 +120,7 @@ export const Navbar: React.FC = () => {
             ))}
           </S.NavbarMenuWrapper>
           <S.NavbarUserContainer>
-            {isFetching ? null : userInfo ? (
+            {userInfo ? (
               <>
                 <S.NavbarUserName>{userInfo?.name}님</S.NavbarUserName>
                 <S.NavbarAuthButton onClick={handleLogoutButtonClick}>로그아웃</S.NavbarAuthButton>

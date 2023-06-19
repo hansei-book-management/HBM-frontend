@@ -9,7 +9,8 @@ export interface ModalStateProps {
   isOk?: boolean | null;
   page?: number | null;
   isLoading?: boolean | null;
-  data?: string | null;
+  data?: string | number | null;
+  code?: string;
 }
 
 export interface ModalProps {
