@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { CommonModal } from '@/components/modal';
-import { useExpelClubMember, useGetClubMember, useGetClubMembers } from '@/hooks';
+import { useExpelClubMember, useGetClubMember, useGetClubInfo } from '@/hooks';
 import { expelClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
 
@@ -22,7 +22,10 @@ export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid 
 
   const { handleSubmit } = useForm();
   const { mutate } = useExpelClubMember({ cid, user_id: userId });
-  const club = useGetClubMembers(cid);
+  const onSubmit = () => {
+    mutate({});
+  };
+  const club = useGetClubInfo(cid);
 
   const onClubMemberExpelModalClose = () => {
     setExpelMemberModal({ state: false, isOk: null });
@@ -46,12 +49,12 @@ export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid 
       failMessage={
         `부원 ‘${memberName}’님 추방에 실패하였어요.\n` +
         `${expelMemberModal.data}\n` +
-        `위의 나타난 문제로 인해 부원 추방에 실패하였어요.`
+        `위의 문제로 인해 부원 추방에 실패하였어요.`
       }
       rightButtonText={'추방'}
       isDanger={true}
       handleSubmit={handleSubmit}
-      onValid={mutate}
+      onValid={onSubmit}
     />
   );
 };

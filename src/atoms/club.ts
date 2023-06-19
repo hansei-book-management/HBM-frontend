@@ -41,3 +41,22 @@ export const expelClubMemberModal = atom<ModalStateProps>({
     isLoading: null,
   },
 });
+
+export const deleteClubModal = atom<ModalStateProps>({
+  key: 'deleteClubModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+  },
+});
+
+export const changeClubDirectorModal = atom<ModalStateProps>({
+  key: 'changeClubDirectorModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    page: null,
+  },
+});
