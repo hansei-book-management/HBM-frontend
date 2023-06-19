@@ -26,6 +26,7 @@ import {
 import { useFetchUser, useGetClubInfo } from '@/hooks';
 import { ClubMemberInfo, GetClubMembers } from '@/api';
 import {
+  changeClubDirectorModal,
   deleteClubModal,
   expelClubMemberModal,
   generateClubCodeModal,
@@ -42,17 +43,12 @@ export const ManageClubPage: React.FC = () => {
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
   const [clubSettingPopupOpen, setClubSettingPopupOpen] = useState<boolean>(false);
-  const [clubChangeDirectorModal, setClubChangeDirectorModal] = useState<ModalStateProps>({
-    state: false,
-    isOk: null,
-    isLoading: false,
-    page: 1,
-  });
   const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
   const [clubCode, setClubCode] = useState<string | null>('');
   const setUpdateUserModal = useSetRecoilState(updateClubMemberModal);
   const setExpelMemberModal = useSetRecoilState(expelClubMemberModal);
   const setDeleteClubModal = useSetRecoilState(deleteClubModal);
+  const setChangeClubDirectorModal = useSetRecoilState(changeClubDirectorModal);
 
   const navigate = useNavigate();
 
@@ -91,28 +87,8 @@ export const ManageClubPage: React.FC = () => {
 
   // club change Director modal FN
   const onClubChangeDirectorModalOpen = () => {
-    setClubChangeDirectorModal({ state: true, isOk: null, isLoading: false, page: 1 });
-    navigate(`${MANAGE_CLUB}/change-director?step=1`);
-  };
-
-  const onClubChangeDirectorModalClose = () => {
-    setClubChangeDirectorModal({ state: false, isOk: null, isLoading: false });
-    navigate(`${MANAGE_CLUB}`);
-  };
-
-  const onClubChangeDirectorQuestionModalOpen = () => {
-    setClubChangeDirectorModal({ state: true, isOk: null, isLoading: false, page: 2 });
-    navigate(`${MANAGE_CLUB}/change-director?step=2`);
-  };
-
-  const onClubChangeDirectorStatusModalOpen = () => {
-    setClubChangeDirectorModal({ state: true, isOk: null, isLoading: true, page: 2 });
-    setTimeout(() => {
-      setClubChangeDirectorModal({ state: true, isOk: true, isLoading: false, page: 3 });
-      navigate(`${MANAGE_CLUB}/change-director?step=3`);
-      // fail test
-      // setClubChangeDirectorModal({ state: true, isOk: false, isLoading: false, page: 3 });
-    }, 1000);
+    setChangeClubDirectorModal({ state: true, isOk: null, page: 1 });
+    navigate(`${MANAGE_CLUB}/change-director`);
   };
 
   // club delete modal FN
@@ -220,18 +196,16 @@ export const ManageClubPage: React.FC = () => {
         <ClubMemberInfoModal cid={cid} leftButtonClick={onClubMemberInfoModalClose} />
       )}
       {cid && <ClubCodeModal />}
-      {/** club member change status modal */}
       <UpdateClubMemberModal cid={cid} />
-      {/** club member expel modal */}
       <ExpelClubMemberModal cid={cid} />
-      {/** change director modal */}
-      <ClubChangeDirectorModal
-        onClubChangeDirectorModalClose={onClubChangeDirectorModalClose}
-        onClubChangeDirectorQuestionModalOpen={onClubChangeDirectorQuestionModalOpen}
-        onClubChangeDirectorStatusModalOpen={onClubChangeDirectorStatusModalOpen}
-        clubChangeDirectorModal={clubChangeDirectorModal}
-      />
-      {/** delete modal */}
+      {clubInfo?.result.name && (
+        <ClubChangeDirectorModal
+          clubName={clubInfo?.result.name}
+          cid={cid}
+          clubMembers={clubInfo?.result?.members}
+          directorName={userData?.result.name}
+        />
+      )}
       <DeleteClubModal
         clubName={clubInfo?.result.name}
         directorName={userData?.result.name}

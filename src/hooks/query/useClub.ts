@@ -28,9 +28,12 @@ import {
   expelClubMember,
   ExpelClubMemberValues,
   deleteClub,
+  ChangeClubDirectorValues,
+  changeClubDirector,
 } from '@/api';
 import {
   addUserClubModal,
+  changeClubDirectorModal,
   deleteClubModal,
   expelClubMemberModal,
   generateClubCodeModal,
@@ -211,5 +214,33 @@ export const useDeleteClubMember = (
       setDeleteClubModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
+  });
+};
+
+export const useChangeClubDirector = (): UseMutationResult<
+  APIResponse<ChangeClubDirectorValues>,
+  AxiosError<APIErrorResponse>,
+  ChangeClubDirectorValues
+> => {
+  const setChangeClubDirectorModal = useSetRecoilState(changeClubDirectorModal);
+  return useMutation('useChangeClubDirector', changeClubDirector, {
+    onSuccess: (data: {
+      status: APIResponseStatusType;
+      message: string;
+      result: ChangeClubDirectorValues;
+    }) => {
+      setChangeClubDirectorModal((prev) => ({ ...prev, isLoading: true, page: 2 }));
+      setTimeout(() => {
+        setChangeClubDirectorModal({
+          state: true,
+          isOk: true,
+          data: data.result.director,
+          page: 3,
+        });
+      }, 1000);
+    },
+    onError: (data) => {
+      setChangeClubDirectorModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
   });
 };

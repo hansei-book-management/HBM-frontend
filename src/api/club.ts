@@ -71,6 +71,12 @@ export interface ExpelClubMemberValues {
   user_id?: string;
 }
 
+export interface ChangeClubDirectorValues {
+  cid?: number;
+  name: string;
+  director: string;
+}
+
 export const createClub = async ({ name }: ClubApplyFormValue) => {
   const { data } = await instance.post(API_SUFFIX.CLUB, {
     name,
@@ -126,6 +132,22 @@ export const deleteClub = async (cid?: number) => {
   if (cid) {
     const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}`);
     console.log('delete');
+    return data;
+  } else {
+    throw new Error('cid is undefined');
+  }
+};
+
+export const changeClubDirector = async ({
+  cid,
+  name,
+  director,
+}: ChangeClubDirectorValues): Promise<APIResponse<ChangeClubDirectorValues>> => {
+  if (cid) {
+    const { data } = await instance.put(`${API_SUFFIX.CLUB}/${cid}`, {
+      name,
+      director,
+    });
     return data;
   } else {
     throw new Error('cid is undefined');

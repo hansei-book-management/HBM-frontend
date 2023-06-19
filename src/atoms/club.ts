@@ -50,3 +50,13 @@ export const deleteClubModal = atom<ModalStateProps>({
     isLoading: null,
   },
 });
+
+export const changeClubDirectorModal = atom<ModalStateProps>({
+  key: 'changeClubDirectorModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    page: null,
+  },
+});

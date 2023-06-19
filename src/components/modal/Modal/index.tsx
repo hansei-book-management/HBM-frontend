@@ -44,6 +44,7 @@ export const ModalElement: React.FC<ModalProps> = ({
   modalSize,
   onlyRightButton,
   leftButtonClick,
+  rightButtonClick,
   isRed = false,
   isOk = false,
   handleSubmit,
@@ -83,7 +84,7 @@ export const ModalElement: React.FC<ModalProps> = ({
                 <S.ModalButton
                   isRed={isRed}
                   disable={returnBookDisable}
-                  onClick={handleSubmit(onValid)}
+                  onClick={handleSubmit && onValid ? handleSubmit(onValid) : rightButtonClick}
                 >
                   {rightButtonText}
                 </S.ModalButton>
