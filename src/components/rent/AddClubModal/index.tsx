@@ -110,11 +110,11 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({ url }) => {
         message={
           <>
             <S.StatusModalText>
+              동아리 도서 추가에 실패했어요.
+              <br />
               {addClubModal.data}
               <br />
-              시스템 상의 문제로 인하여 동아리 도서 추가에 실패하였어요.
-              <br />
-              빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.
+              위의 문제로 인해 동아리 도서 추가에 실패하였어요.
             </S.StatusModalText>
           </>
         }

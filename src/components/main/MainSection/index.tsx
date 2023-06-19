@@ -24,7 +24,11 @@ export const MainSection: React.FC<MainSectionProps> = ({
 }) => {
   const animation = useScrollFadeIn<HTMLHeadingElement>('up', 0.7);
   return (
-    <S.MainSectionContainer firstSection={firstSection} isSecondary={isSecondary} {...animation}>
+    <S.MainSectionContainer
+      firstSection={firstSection}
+      isSecondary={isSecondary}
+      {...(!firstSection && animation)}
+    >
       <Text.Column>
         <Text size="small">{smallText}</Text>
         <Text size="large">{largeText}</Text>

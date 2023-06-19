@@ -26,22 +26,23 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
   directorName,
 }) => {
   const { handleSubmit, register } = useForm<ChangeClubDirectorValues>();
-  const { mutate } = useChangeClubDirector();
+  const { mutate, data } = useChangeClubDirector();
   const [newDirector, setNewDirector] = useState<string | null>('');
   const { deleteUserInformation } = useLogout();
 
-  const handleLogoutButtonClick = useCallback(() => {
-    deleteUserInformation();
-    onClubChangeDirectorModalClose();
-  }, [deleteUserInformation]);
-
   const onSubmit = ({ director }: ChangeClubDirectorValues) => {
     const uid = director.split(' ')[4].split(':')[0];
-    console.log(uid);
     mutate({ cid, name: clubName, director: uid });
     const newDirector = director.split(' ')[1].split(':')[0];
     setNewDirector(newDirector);
   };
+
+  const handleLogoutButtonClick = useCallback(() => {
+    if (data?.result) {
+      deleteUserInformation();
+    }
+    onClubChangeDirectorModalClose();
+  }, [deleteUserInformation]);
 
   const navigate = useNavigate();
 
@@ -103,7 +104,7 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
       successMessage={
         `${clubName} 부장 변경에 완료 했어요.\n` +
         `앞으로 ${clubName}는 '${newDirector}'님만 관리 할 수 있어요.\n` +
-        `자유롭게 한북을 이용해 보세요.`
+        `자유롭게 HANBOOK을 이용해 보세요.`
       }
       failMessage={
         `${clubName} 부장 변경에 실패 하였어요.\n` +

@@ -86,7 +86,7 @@ export const deleteClub = async (cid?: number) => {
     console.log('delete');
     return data;
   } else {
-    throw new Error('cid is undefined');
+    throw new Error('delete club error: cid is undefined');
   }
 };
 
@@ -102,6 +102,6 @@ export const changeClubDirector = async ({
     });
     return data;
   } else {
-    throw new Error('cid is undefined');
+    throw new Error('change club director error: cid is undefined');
   }
 };

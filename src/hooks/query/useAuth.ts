@@ -78,7 +78,7 @@ export const useLogin = (): UseMutationResult<
       navigate('/');
     },
     onError: (data) => {
-      toast.error(data.message, {
+      toast.error(data.response?.data.message, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
