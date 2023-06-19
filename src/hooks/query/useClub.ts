@@ -15,7 +15,7 @@ import {
   getUserClub,
   generateClubCode,
   GenerateClubCodeValues,
-  getClubMembers,
+  getClubInfo,
   GetClubMembers,
   addUserClub,
   AddClubResponse,
@@ -27,9 +27,11 @@ import {
   UpdateClubMemberValues,
   expelClubMember,
   ExpelClubMemberValues,
+  deleteClub,
 } from '@/api';
 import {
   addUserClubModal,
+  deleteClubModal,
   expelClubMemberModal,
   generateClubCodeModal,
   updateClubMemberModal,
@@ -80,10 +82,10 @@ export const useGetUserClub = (): UseQueryResult<
     staleTime: 36000,
   });
 
-export const useGetClubMembers = (
+export const useGetClubInfo = (
   cid?: number,
 ): UseQueryResult<APIResponse<GetClubMembers>, AxiosError<APIErrorResponse>> =>
-  useQuery('useGetClubMember', () => getClubMembers(cid), {
+  useQuery('useGetClubMember', () => getClubInfo(cid), {
     retry: 0,
     staleTime: 36000,
   });
@@ -189,6 +191,24 @@ export const useExpelClubMember = ({
     },
     onError: (data) => {
       setExpelMemberModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
+  });
+};
+
+export const useDeleteClubMember = (
+  cid?: number,
+): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
+  const setDeleteClubModal = useSetRecoilState(deleteClubModal);
+  return useMutation('useDeleteClubMember', () => deleteClub(cid), {
+    onSuccess: () => {
+      setDeleteClubModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setDeleteClubModal({ state: true, isOk: true });
+      }, 1000);
+    },
+    onError: (data) => {
+      setDeleteClubModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { CommonModal } from '@/components/modal';
-import { useExpelClubMember, useGetClubMember, useGetClubMembers } from '@/hooks';
+import { useExpelClubMember, useGetClubMember, useGetClubInfo } from '@/hooks';
 import { expelClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
 
@@ -22,7 +22,10 @@ export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid 
 
   const { handleSubmit } = useForm();
   const { mutate } = useExpelClubMember({ cid, user_id: userId });
-  const club = useGetClubMembers(cid);
+  const onSubmit = () => {
+    mutate({});
+  };
+  const club = useGetClubInfo(cid);
 
   const onClubMemberExpelModalClose = () => {
     setExpelMemberModal({ state: false, isOk: null });
@@ -51,7 +54,7 @@ export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid 
       rightButtonText={'추방'}
       isDanger={true}
       handleSubmit={handleSubmit}
-      onValid={mutate}
+      onValid={onSubmit}
     />
   );
 };

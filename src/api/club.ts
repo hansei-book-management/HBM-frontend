@@ -20,14 +20,7 @@ export interface CreateClubResponse {
   director: string;
 }
 
-export interface GetClubResponse {
-  cid: number;
-  name: string;
-  director: string;
-  freeze?: number;
-}
-
-export interface GetClubMembers {
+export interface ClubMemberInfo {
   name: string;
   num: string;
   phone: string;
@@ -37,7 +30,21 @@ export interface GetClubMembers {
   borrowBook: number;
 }
 
-export interface GetClubMemberResponse extends GetClubMembers {
+export interface GetClubResponse {
+  cid: number;
+  name: string;
+  director: string;
+  freeze?: number;
+}
+
+export interface GetClubMembers {
+  name: string;
+  director: string;
+  cid: number;
+  members: [ClubMemberInfo];
+}
+
+export interface GetClubMemberResponse extends ClubMemberInfo {
   books: [
     {
       title?: string;
@@ -76,9 +83,13 @@ export const getUserClub = async () => {
   return data;
 };
 
-export const getClubMembers = async (cid?: number): Promise<APIResponse<GetClubMembers>> => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member`);
-  return data;
+export const getClubInfo = async (cid?: number): Promise<APIResponse<GetClubMembers>> => {
+  if (cid) {
+    const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}`);
+    return data;
+  } else {
+    throw new Error('cid is undefined');
+  }
 };
 
 export const generateClubCode = async ({
@@ -109,6 +120,15 @@ export const getClubMember = async ({
     return data;
   } else {
     throw new Error('cid or user_id is undefined');
+  }
+};
+export const deleteClub = async (cid?: number) => {
+  if (cid) {
+    const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}`);
+    console.log('delete');
+    return data;
+  } else {
+    throw new Error('cid is undefined');
   }
 };
 
