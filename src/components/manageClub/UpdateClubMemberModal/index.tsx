@@ -9,7 +9,7 @@ import { MANAGE_CLUB } from '@/constant';
 import { useGetClubMember, useUpdateClubMember } from '@/hooks';
 
 export interface UpdateClubMemberModalProps {
-  cid: number;
+  cid?: number;
 }
 
 export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ cid }) => {
@@ -17,7 +17,6 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
   const { data } = useGetClubMember({ cid, user_id: userId });
   const freeze = data?.result.freeze;
   const memberName = data?.result.name;
-  console.log(data);
   const { handleSubmit } = useForm();
   const { mutate } = useUpdateClubMember({
     cid: cid,

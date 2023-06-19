@@ -5,7 +5,7 @@ export interface ClubApplyFormValue {
 }
 
 export interface ClubMemberValues {
-  cid: number;
+  cid?: number;
   user_id?: string;
   freeze?: number;
 }
@@ -57,7 +57,7 @@ export interface AddClubResponse {
 }
 
 export interface UpdateClubMemberValues {
-  cid: number;
+  cid?: number;
   user_id: string;
   freeze: number;
 }
@@ -74,8 +74,8 @@ export const getUserClub = async () => {
   return data;
 };
 
-export const getClubMembers = async (cid: number) => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/`);
+export const getClubMembers = async (cid?: number): Promise<APIResponse<GetClubMembers>> => {
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member`);
   return data;
 };
 
@@ -84,7 +84,7 @@ export const generateClubCode = async ({
   use,
   cid,
 }: GenerateClubCodeValues): Promise<APIResponse<{ token: string }>> => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member/`, {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member`, {
     end,
     use,
   });
@@ -92,15 +92,22 @@ export const generateClubCode = async ({
 };
 
 export const addUserClub = async ({ clubCode }: AddClubFormValues) => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/member/`, {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/member`, {
     token: clubCode,
   });
   return data;
 };
 
-export const getClubMember = async ({ cid, user_id }: ClubMemberValues) => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}/`);
-  return data;
+export const xgetClubMember = async ({
+  cid,
+  user_id,
+}: ClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
+  if (cid && user_id) {
+    const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+    return data;
+  } else {
+    throw new Error('cid나 user_id를 찾을 수 없습니다.');
+  }
 };
 
 export const updateClubMember = async ({
@@ -108,10 +115,12 @@ export const updateClubMember = async ({
   user_id,
   freeze,
 }: UpdateClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
-  console.log(user_id, 'user id');
-  const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}/`, {
-    freeze,
-  });
-  console.log(data);
-  return data;
+  if (cid && user_id) {
+    const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`, {
+      freeze,
+    });
+    return data;
+  } else {
+    throw new Error('cid나 user_id를 찾을 수 없습니다.');
+  }
 };

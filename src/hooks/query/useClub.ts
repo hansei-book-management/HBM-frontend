@@ -74,7 +74,7 @@ export const useGetUserClub = (): UseQueryResult<
   });
 
 export const useGetClubMembers = (
-  cid: number,
+  cid?: number,
 ): UseQueryResult<APIResponse<GetClubMembers>, AxiosError<APIErrorResponse>> =>
   useQuery('useGetClubMember', () => getClubMembers(cid), {
     retry: 0,

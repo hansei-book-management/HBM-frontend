@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   FaEllipsisV,
   FaLock,
@@ -21,7 +21,7 @@ import {
   ModalStateProps,
   UpdateClubMemberModal,
 } from '@/components';
-import { useFetchUser, useGetClubMembers, useUpdateClubMember } from '@/hooks';
+import { useFetchUser, useGetClubMembers } from '@/hooks';
 import { GetClubMembers } from '@/api';
 import { generateClubCodeModal, updateClubMemberModal } from '@/atoms';
 
@@ -30,7 +30,7 @@ import * as S from './styled';
 export const ManageClubPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const cid = userData?.result?.director?.cid;
-  const { data: clubMembers } = useGetClubMembers(cid || 0);
+  const { data: clubMembers } = useGetClubMembers(cid);
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
@@ -254,7 +254,7 @@ export const ManageClubPage: React.FC = () => {
       )}
       {cid && <ClubCodeModal />}
       {/** club member change status modal */}
-      <UpdateClubMemberModal cid={cid || 0} />
+      <UpdateClubMemberModal cid={cid} />
       {/** club member expel modal */}
       <CommonModal
         leftButtonClick={onClubMemberExpelModalClose}
