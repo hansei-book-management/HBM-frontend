@@ -180,7 +180,7 @@ export const ClubCodeModal: React.FC = () => {
               <br />
               {clubCodeModal.data}
               <br />
-              위의 나타난 문제로 인해 동아리 코드 생성에 실패하였어요.
+              위의 문제로 인해 동아리 코드 생성에 실패하였어요.
             </S.StatusModalText>
           </>
         }

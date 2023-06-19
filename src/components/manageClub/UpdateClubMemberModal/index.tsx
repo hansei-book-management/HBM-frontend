@@ -75,7 +75,7 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
           failMessage={
             `부원 '${memberName}'님의 상태 변경에 실패 했어요.\n` +
             `${updateUserModal.data}\n` +
-            `위의 나타난 문제로 인해 대여 정지 해제에 실패하였어요.`
+            `위의 문제로 인해 대여 정지 해제에 실패하였어요.`
           }
           handleSubmit={handleSubmit}
           onValid={onSubmit}

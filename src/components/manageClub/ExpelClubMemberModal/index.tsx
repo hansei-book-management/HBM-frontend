@@ -49,7 +49,7 @@ export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid 
       failMessage={
         `부원 ‘${memberName}’님 추방에 실패하였어요.\n` +
         `${expelMemberModal.data}\n` +
-        `위의 나타난 문제로 인해 부원 추방에 실패하였어요.`
+        `위의 문제로 인해 부원 추방에 실패하였어요.`
       }
       rightButtonText={'추방'}
       isDanger={true}

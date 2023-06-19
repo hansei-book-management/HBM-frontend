@@ -48,8 +48,8 @@ export const DeleteClubModal: React.FC<DeleteClubModalProps> = ({
       }
       failMessage={
         `'${clubName}' 동아리가 삭제에 실패했어요.\n` +
-        `시스템 상의 문제로 동아리 삭제에 실패하였어요.\n` +
-        `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+        `${deleteClubModalState.data} \n` +
+        `위의 문제로 인해 ${clubName} 동아리 삭제에 실패하였어요.`
       }
       rightButtonText={'삭제할게요'}
       handleSubmit={handleSubmit}
