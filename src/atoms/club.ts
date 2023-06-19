@@ -32,3 +32,12 @@ export const updateClubMemberModal = atom<ModalStateProps>({
     data: null,
   },
 });
+
+export const expelClubMemberModal = atom<ModalStateProps>({
+  key: 'expelClubMemberModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+  },
+});

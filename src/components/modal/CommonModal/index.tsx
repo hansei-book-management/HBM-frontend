@@ -66,7 +66,7 @@ export const CommonModal: React.FC<CommonModalProps> = ({
             )
           }
           {...(modal.isLoading === false && {
-            leftButtonClick: () => leftButtonClick(),
+            leftButtonClick: leftButtonClick,
           })}
           handleSubmit={handleSubmit}
           onValid={onValid}

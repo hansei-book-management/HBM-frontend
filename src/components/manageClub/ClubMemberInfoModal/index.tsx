@@ -6,12 +6,15 @@ import { useGetClubMember } from '@/hooks';
 
 import * as S from './styled';
 
-export interface userBookModalProps {
-  cid: number;
+export interface ClubMemberInfoModalProps {
+  cid?: number;
   leftButtonClick: () => void;
 }
 
-export const ClubMemberInfoModal: React.FC<userBookModalProps> = ({ cid, leftButtonClick }) => {
+export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
+  cid,
+  leftButtonClick,
+}) => {
   const { userId } = useParams<{ userId: string }>();
   const { data: getMember } = useGetClubMember({ cid, user_id: userId });
   const member = getMember?.result;

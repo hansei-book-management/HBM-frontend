@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { CommonModal } from '@/components/modal';
 import { updateClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
-import { useGetClubMember, useUpdateClubMember } from '@/hooks';
+import { useGetClubMember, useGetClubMembers, useUpdateClubMember } from '@/hooks';
 
 export interface UpdateClubMemberModalProps {
   cid?: number;
@@ -25,9 +25,11 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
   });
   const [updateUserModal, setUpdateUserModal] = useRecoilState(updateClubMemberModal);
   const navigate = useNavigate();
+  const club = useGetClubMembers(cid);
   const onClubMemberChangeStatusModalClose = () => {
     setUpdateUserModal({ state: false });
     navigate(`${MANAGE_CLUB}`);
+    club.refetch();
   };
   return (
     <>
@@ -47,8 +49,8 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
           }
           failMessage={
             `부원 '${memberName}'님의 상태 변경에 실패 했어요.\n` +
-            `시스템 상의 문제로 대여 정지 해제에 실패하였어요.\n` +
-            `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+            `${updateUserModal.data}\n` +
+            `위의 나타난 문제로 인해 대여 정지에 실패하였어요.`
           }
           isDanger={true}
           handleSubmit={handleSubmit}
@@ -70,8 +72,8 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
           }
           failMessage={
             `부원 '${memberName}'님의 상태 변경에 실패 했어요.\n` +
-            `시스템 상의 문제로 대여 정지 해제에 실패하였어요.\n` +
-            `빠른 시일내에 복구될 예정이니 잠시만 기다려주세요.`
+            `${updateUserModal.data}\n` +
+            `위의 나타난 문제로 인해 대여 정지 해제에 실패하였어요.`
           }
           handleSubmit={handleSubmit}
           onValid={mutate}

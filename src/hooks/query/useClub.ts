@@ -28,7 +28,12 @@ import {
   expelClubMember,
   ExpelClubMemberValues,
 } from '@/api';
-import { addUserClubModal, generateClubCodeModal, updateClubMemberModal } from '@/atoms';
+import {
+  addUserClubModal,
+  expelClubMemberModal,
+  generateClubCodeModal,
+  updateClubMemberModal,
+} from '@/atoms';
 import { getClubMember } from '@/api';
 
 import { useFetchUser } from './useAuth';
@@ -159,7 +164,6 @@ export const useUpdateClubMember = ({
       result: { freeze?: number };
     }) => {
       setUpdateUserModal((prev) => ({ ...prev, isLoading: true }));
-      console.log(data.result, 'result');
       setTimeout(() => {
         setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze });
       }, 1000);
@@ -175,18 +179,16 @@ export const useExpelClubMember = ({
   cid,
   user_id,
 }: ExpelClubMemberValues): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
+  const setExpelMemberModal = useSetRecoilState(expelClubMemberModal);
   return useMutation('useExpelClubMember', () => expelClubMember({ cid, user_id }), {
     onSuccess: () => {
-      toast.success('동아리에서 부원이 삭제 되었어요.', {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setExpelMemberModal((prev) => ({ ...prev, isLoading: true }));
+      setTimeout(() => {
+        setExpelMemberModal({ state: true, isOk: true });
+      }, 1000);
     },
     onError: (data) => {
-      toast.error(data.response?.data.message, {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      setExpelMemberModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });
