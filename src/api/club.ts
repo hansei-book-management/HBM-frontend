@@ -98,7 +98,7 @@ export const addUserClub = async ({ clubCode }: AddClubFormValues) => {
   return data;
 };
 
-export const xgetClubMember = async ({
+export const getClubMember = async ({
   cid,
   user_id,
 }: ClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
@@ -106,7 +106,7 @@ export const xgetClubMember = async ({
     const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
     return data;
   } else {
-    throw new Error('cid나 user_id를 찾을 수 없습니다.');
+    throw new Error('cid or user_id is undefined');
   }
 };
 
@@ -121,6 +121,6 @@ export const updateClubMember = async ({
     });
     return data;
   } else {
-    throw new Error('cid나 user_id를 찾을 수 없습니다.');
+    throw new Error('cid or user_id is undefined');
   }
 };
