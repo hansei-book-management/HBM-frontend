@@ -58,7 +58,7 @@ export interface AddClubResponse {
 
 export interface UpdateClubMemberValues {
   cid?: number;
-  user_id: string;
+  user_id?: string;
   freeze: number;
 }
 
