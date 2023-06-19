@@ -30,7 +30,7 @@ import * as S from './styled';
 export const ManageClubPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const cid = userData?.result?.director?.cid;
-  const { data: clubMembers } = useGetClubMembers(cid);
+  const { data: clubMembers } = useGetClubMembers(cid || 0);
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));

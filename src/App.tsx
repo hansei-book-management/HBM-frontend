@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import {
@@ -15,8 +15,14 @@ import {
 } from './pages';
 import { DefaultLayout, PrivateRoute } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS, CLUB_LIST, USER_CLUB_LIST } from './constant';
+import { instance, setAccessToken } from './api';
 
 export const App: React.FC = () => {
+  useEffect(() => {
+    if (instance.defaults.headers.common.Authorization)
+      setAccessToken(instance.defaults.headers.common.Authorization.toString().split(' ')[1]);
+  }, [instance.defaults.headers.common.Authorization]);
+
   return (
     <Routes>
       <Route

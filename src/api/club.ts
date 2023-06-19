@@ -62,22 +62,20 @@ export interface UpdateClubMemberValues {
   freeze: number;
 }
 
-export const createClub = async ({
-  name,
-}: ClubApplyFormValue): Promise<APIResponse<CreateClubResponse>> => {
+export const createClub = async ({ name }: ClubApplyFormValue) => {
   const { data } = await instance.post(API_SUFFIX.CLUB, {
     name,
   });
   return data;
 };
 
-export const getUserClub = async (): Promise<APIResponse<GetClubResponse>> => {
+export const getUserClub = async () => {
   const { data } = await instance.get(API_SUFFIX.CLUB);
   return data;
 };
 
-export const getClubMembers = async (cid?: number): Promise<APIResponse<GetClubMembers>> => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member`);
+export const getClubMembers = async (cid: number) => {
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/`);
   return data;
 };
 
@@ -86,27 +84,22 @@ export const generateClubCode = async ({
   use,
   cid,
 }: GenerateClubCodeValues): Promise<APIResponse<{ token: string }>> => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member`, {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/member/`, {
     end,
     use,
   });
   return data;
 };
 
-export const addUserClub = async ({
-  clubCode,
-}: AddClubFormValues): Promise<APIResponse<AddClubResponse>> => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/member`, {
+export const addUserClub = async ({ clubCode }: AddClubFormValues) => {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/member/`, {
     token: clubCode,
   });
   return data;
 };
 
-export const getClubMember = async ({
-  cid,
-  user_id,
-}: ClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+export const getClubMember = async ({ cid, user_id }: ClubMemberValues) => {
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}/`);
   return data;
 };
 
@@ -116,7 +109,7 @@ export const updateClubMember = async ({
   freeze,
 }: UpdateClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
   console.log(user_id, 'user id');
-  const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`, {
+  const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}/`, {
     freeze,
   });
   console.log(data);

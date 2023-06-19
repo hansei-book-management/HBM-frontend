@@ -66,7 +66,9 @@ export const getUserProfile = async (): Promise<APIResponse<UserProfileResponse>
 
 export const getRefreshTokenAuth = async () => {
   const token = localStorage.getItem('refreshToken');
-  if (token) setAccessToken(token);
-  const { data } = await instance.post(API_SUFFIX.REFRESH);
-  return data;
+  if (token) {
+    setAccessToken(token);
+    const { data } = await instance.post(API_SUFFIX.REFRESH);
+    return data;
+  }
 };

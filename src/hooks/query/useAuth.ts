@@ -119,7 +119,7 @@ export const useFetchUser = (): UseQueryResult<
       }
 
       return getRefreshTokenAuth().then((data) => {
-        setAccessToken(data.result);
+        setAccessToken(data.result.auth);
         return getUserProfile();
       });
     },
