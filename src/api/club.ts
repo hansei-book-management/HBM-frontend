@@ -7,7 +7,6 @@ export interface ClubApplyFormValue {
 export interface ClubMemberValues {
   cid?: number;
   user_id?: string;
-  freeze?: number;
 }
 
 export interface GenerateClubCodeValues {
@@ -56,10 +55,13 @@ export interface AddClubResponse {
   cid: number;
 }
 
-export interface UpdateClubMemberValues {
+export interface UpdateClubMemberValues extends ClubMemberValues {
+  freeze: number;
+}
+
+export interface ExpelClubMemberValues {
   cid?: number;
   user_id?: string;
-  freeze: number;
 }
 
 export const createClub = async ({ name }: ClubApplyFormValue) => {
@@ -119,6 +121,15 @@ export const updateClubMember = async ({
     const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`, {
       freeze,
     });
+    return data;
+  } else {
+    throw new Error('cid or user_id is undefined');
+  }
+};
+
+export const expelClubMember = async ({ cid, user_id }: ExpelClubMemberValues) => {
+  if (cid && user_id) {
+    const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
     return data;
   } else {
     throw new Error('cid or user_id is undefined');

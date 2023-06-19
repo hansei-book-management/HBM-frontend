@@ -15,8 +15,6 @@ export interface UpdateClubMemberModalProps {
 export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ cid }) => {
   const { userId } = useParams<{ userId: string }>();
   const { data } = useGetClubMember({ cid, user_id: userId });
-  console.log(userId, 'user id');
-  console.log(data?.result, 'data');
   const freeze = data?.result.freeze;
   const memberName = data?.result.name;
   const { handleSubmit } = useForm();
