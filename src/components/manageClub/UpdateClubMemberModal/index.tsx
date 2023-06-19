@@ -56,7 +56,8 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
             `위의 나타난 문제로 인해 대여 정지에 실패하였어요.`
           }
           isDanger={true}
-          handleSubmit={handleSubmit(onSubmit)}
+          handleSubmit={handleSubmit}
+          onValid={onSubmit}
         />
       ) : (
         <CommonModal
