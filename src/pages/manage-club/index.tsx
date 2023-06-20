@@ -101,6 +101,7 @@ export const ManageClubPage: React.FC = () => {
     navigate(`${MANAGE_CLUB}/`);
     const clubCode = localStorage.getItem('clubCode');
     setClubCode(clubCode);
+    setClubMemberInfoModal(false);
   }, [clubCodeModal]);
 
   return (

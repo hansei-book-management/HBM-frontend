@@ -46,16 +46,16 @@ export const App: React.FC = () => {
               <Route path="club-add" element={<RentPage />} />
             </Route>
           </Route>
-          <Route path="user-book">
+          <Route path="/user-book">
             <Route index element={<Navigate to={`/user-book/${USER_CLUB_LIST[0].id}`} />} />
             <Route path=":userClubId" element={<ManageUserBookPage />} />
           </Route>
         </Route>
         <Route element={<PrivateRoute isDirectorPage={true} />}>
-          <Route path="club-book" element={<ManageClubBookPage />}>
+          <Route path="/club-book" element={<ManageClubBookPage />}>
             <Route
               index
-              element={<Navigate to={`club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
+              element={<Navigate to={`/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
             />
             <Route path=":option" element={<ManageUserBookPage />} />
           </Route>
