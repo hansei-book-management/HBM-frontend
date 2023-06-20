@@ -33,8 +33,10 @@ export const DeleteClubModal: React.FC<DeleteClubModalProps> = ({
 
   const onDeleteClubModalClose = () => {
     setDeleteClubModalState({ state: false });
-    user.refetch();
-    navigate('/');
+    if (deleteClubModalState.data) {
+      user.refetch();
+      navigate('/');
+    }
   };
 
   return (

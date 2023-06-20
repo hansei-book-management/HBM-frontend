@@ -81,7 +81,7 @@ export const useDeleteClubMember = (
   const setDeleteClubModal = useSetRecoilState(deleteClubModal);
   return useMutation('useDeleteClubMember', () => deleteClub(cid), {
     onSuccess: () => {
-      setDeleteClubModal((prev) => ({ ...prev, isLoading: true }));
+      setDeleteClubModal((prev) => ({ ...prev, isLoading: true, data: 'deleted' }));
       setTimeout(() => {
         setDeleteClubModal({ state: true, isOk: true });
       }, 1000);

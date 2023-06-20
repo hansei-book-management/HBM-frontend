@@ -30,6 +30,7 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
   const navigate = useNavigate();
   const club = useGetClubInfo(cid);
   const onClubMemberChangeStatusModalClose = () => {
+    console.log('onClick');
     setUpdateUserModal({ state: false });
     navigate(`${MANAGE_CLUB}`);
     club.refetch();
