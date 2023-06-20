@@ -8,6 +8,7 @@ export const API_SUFFIX = {
   REFRESH: '/auth/refresh',
   CLUB: '/api/club',
   BOOK: '/api/books',
+  SEARCH_BOOK: '/api/books/search',
 };
 
 export const instance = axios.create({

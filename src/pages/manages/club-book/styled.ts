@@ -145,8 +145,12 @@ export const AddBookModalBookContent = styled(AddBookModalBookAuthor)`
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
+  &::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-radius: 1rem;
+  }
   &::-webkit-scrollbar-thumb {
-    background-color: #878787;
+    background-color: rgba(0, 133, 255, 0.6);
     border-radius: 1rem;
   }
 `;

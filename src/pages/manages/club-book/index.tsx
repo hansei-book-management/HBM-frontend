@@ -6,13 +6,10 @@ import { toast } from 'react-toastify';
 
 import { MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section, DetailModal, HeaderSection, Modal, StatusModal } from '@/components';
-import { useGetBooks, useModal } from '@/hooks';
+import { useGetBooks, useModal, useSearchBook } from '@/hooks';
+import { BookResponse, SearchBookValue } from '@/api';
 
 import * as S from './styled';
-
-export interface SearchFormValues {
-  searchName: string;
-}
 
 export interface AddBookModalStateProps {
   status: boolean;
@@ -25,21 +22,34 @@ export const ManageClubBookPage: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SearchFormValues>();
+  } = useForm<SearchBookValue>();
 
   const { data: books } = useGetBooks();
   const booksData = books?.result.items;
+
+  const { data: searchBook, mutate } = useSearchBook();
+  const searchBookData = searchBook?.result.items;
+  const onValid = ({ bookName }: SearchBookValue) => {
+    bookName ? mutate({ bookName }) : mutate({ bookName: '프로그래밍' });
+  };
+
+  let data: BookResponse[] = [];
+  if (searchBookData) {
+    data = searchBookData;
+  } else {
+    data = booksData || [];
+  }
+
+  const [bookList, setBookList] = useState(data.map(({ isbn }) => isbn));
+  const [selectNumber, setSelectNumber] = useState(0);
+
+  const { option } = useParams<{ option: string }>();
+  const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
 
   const [addBookModalActive, setAddBookModalActive] = useState<AddBookModalStateProps>({
     status: false,
     isOk: null,
   });
-
-  const [bookList, setBookList] = useState(booksData && booksData.map(({ isbn }) => isbn));
-  const [selectNumber, setSelectNumber] = useState(0);
-
-  const { option } = useParams<{ option: string }>();
-  const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
 
   const { modalActive } = useModal();
 
@@ -49,6 +59,7 @@ export const ManageClubBookPage: React.FC = () => {
 
   const onAddBookModalClose = () => {
     setAddBookModalActive({ status: false });
+    setBookList(data.map(({ isbn }) => isbn));
   };
 
   const onAddBookStateModal = (isOk: boolean) => {
@@ -61,27 +72,17 @@ export const ManageClubBookPage: React.FC = () => {
   };
 
   const toggleBookSelect = (isbn: string) => {
-    console.log(bookList, 'book list');
-    console.log(
-      booksData?.map(({ isbn }) => isbn),
-      'book data map',
-    ); //(10) [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     if (bookList?.includes(isbn)) {
-      console.log(booksData);
       if (booksData) {
         setBookList(bookList.filter((bookIsbn) => bookIsbn !== isbn));
         setSelectNumber(booksData.length - bookList.length + 1);
       }
     } else {
-      if (booksData && bookList) {
+      if (booksData) {
         setBookList([...bookList, isbn]);
         setSelectNumber(booksData.length - bookList?.length - 1);
       }
     }
-  };
-
-  const onValid = ({ searchName }: SearchFormValues) => {
-    console.log(searchName, '앙기모링');
   };
 
   useEffect(() => {
@@ -114,23 +115,20 @@ export const ManageClubBookPage: React.FC = () => {
                 <S.AddBookModalTitle>도서 추가하기</S.AddBookModalTitle>
                 <S.AddBookModalInputContainer>
                   <S.AddBookModalInput
-                    {...register('searchName', {
-                      required: '최소 2글자 이상 입력하셔야합니다.',
-                      minLength: { value: 2, message: '최소 2글자 이상 입력하셔야합니다.' },
-                    })}
+                    {...register('bookName')}
                     placeholder="검색어를 입력해주세요..."
                   />
-                  {errors.searchName?.message && (
+                  {errors.bookName?.message && (
                     <S.AddBookModalFormErrorMessage>
-                      {errors.searchName.message}
+                      {errors.bookName.message}
                     </S.AddBookModalFormErrorMessage>
                   )}
                 </S.AddBookModalInputContainer>
                 <span>{books?.result.display}권</span>
                 <S.AddBookModalBookList>
-                  {booksData?.map(({ title, author, isbn, image, description }) => (
+                  {data.map(({ title, author, isbn, image, description }) => (
                     <S.AddBookModalBookContainer
-                      select={bookList?.includes(isbn)} // 해석하면
+                      select={bookList.includes(isbn)}
                       key={isbn}
                       onClick={() => toggleBookSelect(isbn)}
                     >
@@ -155,7 +153,7 @@ export const ManageClubBookPage: React.FC = () => {
                           </S.AddBookModalBookContent>
                         </S.AddBookModalBookInfoContainer>
                       </div>
-                      {bookList?.includes(isbn) ? (
+                      {bookList.includes(isbn) ? (
                         <div>
                           <MdCheckBoxOutlineBlank
                             size={'1.4rem'}

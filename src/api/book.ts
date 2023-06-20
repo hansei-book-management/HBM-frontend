@@ -14,7 +14,21 @@ export interface GetAllBooksResponse {
   items: [BookResponse];
 }
 
+export interface SearchBookValue {
+  bookName: string;
+}
+
 export const getAllBooks = async (): Promise<GetAllBooksResponse> => {
   const { data } = await instance.get(API_SUFFIX.BOOK);
+  return data;
+};
+
+export const searchBook = async ({ bookName }: SearchBookValue) => {
+  const { data } = await instance.post(API_SUFFIX.SEARCH_BOOK, null, {
+    params: {
+      query: bookName,
+    },
+  });
+
   return data;
 };
