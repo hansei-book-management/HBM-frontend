@@ -88,11 +88,11 @@ export const AddBookModalBookList = styled.div`
   }
 `;
 
-export const AddBookModalBookContainer = styled.div<{ select: boolean }>`
+export const AddBookModalBookContainer = styled.div<{ select?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 3rem 1rem 1rem;
+  padding: 1rem;
   width: 100%;
   height: 12rem;
   border-radius: 2rem;
@@ -118,18 +118,37 @@ export const AddBookModalBookInfoContainer = styled.div`
   align-items: flex-start;
   row-gap: 1rem;
   margin-top: 0.4rem;
+  width: 75%;
+`;
+
+export const AddBookModalTitleSection = styled.div`
+  display: grid;
+  grid-template-columns: 4fr 1fr;
 `;
 
 export const AddBookModalBookTitle = styled.h2`
   font-size: 1.1rem;
   font-weight: 650;
   margin-right: 1rem;
+  line-height: 1.4rem;
 `;
 
-export const AddBookModalBookContent = styled.p`
+export const AddBookModalBookAuthor = styled.p`
   font-size: 1rem;
   font-weight: 350;
   line-height: 1.4rem;
+`;
+
+export const AddBookModalBookContent = styled(AddBookModalBookAuthor)`
+  padding-right: 0.5rem;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #878787;
+    border-radius: 1rem;
+  }
 `;
 
 export const StatusModalText = styled.h3`

@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form';
 import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
-import { BOOK_LIST, MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
+import { MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section, DetailModal, HeaderSection, Modal, StatusModal } from '@/components';
-import { useModal } from '@/hooks';
-import { Book1PNG } from '@/assets';
+import { useGetBooks, useModal } from '@/hooks';
 
 import * as S from './styled';
 
@@ -28,12 +27,15 @@ export const ManageClubBookPage: React.FC = () => {
     formState: { errors },
   } = useForm<SearchFormValues>();
 
+  const { data: books } = useGetBooks();
+  const booksData = books?.result.items;
+
   const [addBookModalActive, setAddBookModalActive] = useState<AddBookModalStateProps>({
     status: false,
     isOk: null,
   });
 
-  const [bookList, setBookList] = useState(BOOK_LIST.map(({ id }) => id));
+  const [bookList, setBookList] = useState(booksData && booksData.map(({ isbn }) => isbn));
   const [selectNumber, setSelectNumber] = useState(0);
 
   const { option } = useParams<{ option: string }>();
@@ -58,13 +60,23 @@ export const ManageClubBookPage: React.FC = () => {
     }
   };
 
-  const toggleBookSelect = (id: number) => {
-    if (bookList.includes(id)) {
-      setBookList(bookList.filter((bookId) => bookId !== id));
-      setSelectNumber(BOOK_LIST.length - bookList.length + 1);
+  const toggleBookSelect = (isbn: string) => {
+    console.log(bookList, 'book list');
+    console.log(
+      booksData?.map(({ isbn }) => isbn),
+      'book data map',
+    ); //(10) [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    if (bookList?.includes(isbn)) {
+      console.log(booksData);
+      if (booksData) {
+        setBookList(bookList.filter((bookIsbn) => bookIsbn !== isbn));
+        setSelectNumber(booksData.length - bookList.length + 1);
+      }
     } else {
-      setBookList([...bookList, id]);
-      setSelectNumber(BOOK_LIST.length - bookList.length - 1);
+      if (booksData && bookList) {
+        setBookList([...bookList, isbn]);
+        setSelectNumber(booksData.length - bookList?.length - 1);
+      }
     }
   };
 
@@ -114,43 +126,51 @@ export const ManageClubBookPage: React.FC = () => {
                     </S.AddBookModalFormErrorMessage>
                   )}
                 </S.AddBookModalInputContainer>
+                <span>{books?.result.display}권</span>
                 <S.AddBookModalBookList>
-                  {BOOK_LIST.map(({ id }) => (
+                  {booksData?.map(({ title, author, isbn, image, description }) => (
                     <S.AddBookModalBookContainer
-                      select={bookList.includes(id)}
-                      key={id}
-                      onClick={() => toggleBookSelect(id)}
+                      select={bookList?.includes(isbn)} // 해석하면
+                      key={isbn}
+                      onClick={() => toggleBookSelect(isbn)}
                     >
                       <div style={{ height: '100% ', display: 'flex', columnGap: ' 1.6rem' }}>
-                        <S.AddBookModalBookItem src={Book1PNG} />
+                        <S.AddBookModalBookItem src={image} />
                         <S.AddBookModalBookInfoContainer>
-                          <div style={{ display: 'flex' }}>
-                            <S.AddBookModalBookTitle>세이노의 가르침</S.AddBookModalBookTitle>
-                            <S.AddBookModalBookContent>세이노 저자</S.AddBookModalBookContent>
-                          </div>
+                          <S.AddBookModalTitleSection>
+                            <S.AddBookModalBookTitle>{title}</S.AddBookModalBookTitle>
+                            <S.AddBookModalBookAuthor>
+                              {author.split('^')[0]} 저자
+                            </S.AddBookModalBookAuthor>
+                          </S.AddBookModalTitleSection>
                           <S.AddBookModalBookContent>
-                            재야의 명저 『세이노의 가르침』 2023년판 정식 출간!
-                            <br />
-                            순자산 천억 원대 자산가, 세이노의 ‘요즘 생각’을 만나다
+                            {description.split('\n').map((line) => {
+                              return (
+                                <>
+                                  {line}
+                                  <br />
+                                </>
+                              );
+                            })}
                           </S.AddBookModalBookContent>
                         </S.AddBookModalBookInfoContainer>
                       </div>
-                      {bookList.includes(id) ? (
-                        <>
+                      {bookList?.includes(isbn) ? (
+                        <div>
                           <MdCheckBoxOutlineBlank
                             size={'1.4rem'}
                             style={{ alignSelf: 'center' }}
                             color="#727272"
                           />
-                        </>
+                        </div>
                       ) : (
-                        <>
+                        <div>
                           <MdCheckBox
                             size={'1.4rem'}
                             style={{ alignSelf: 'center' }}
                             color="#00A3FF"
                           />
-                        </>
+                        </div>
                       )}
                     </S.AddBookModalBookContainer>
                   ))}
