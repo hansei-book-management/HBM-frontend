@@ -27,7 +27,7 @@ export interface GetClubMembers {
   name: string;
   director: string;
   cid: number;
-  members: [ClubMemberInfo];
+  members: ClubMemberInfo[];
 }
 
 export interface AddClubFormValues {

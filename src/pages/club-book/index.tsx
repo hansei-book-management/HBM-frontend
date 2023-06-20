@@ -60,6 +60,7 @@ export const ManageClubBookPage: React.FC = () => {
   const onAddBookModalClose = () => {
     setAddBookModalActive({ status: false });
     setBookList(data.map(({ isbn }) => isbn));
+    setSelectNumber(0);
   };
 
   const onAddBookStateModal = (isOk: boolean) => {
