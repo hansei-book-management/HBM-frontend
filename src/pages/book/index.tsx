@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { DetailModal, HeaderSection, Section } from '@/components';
@@ -23,6 +23,13 @@ export const BookPage: React.FC = () => {
   };
 
   const activeClubBooks = activeClub?.book;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!activeClub) {
+      navigate(`/book/${clubId}`);
+    }
+  }, [activeClub]);
 
   return (
     <S.BookPageContainer>

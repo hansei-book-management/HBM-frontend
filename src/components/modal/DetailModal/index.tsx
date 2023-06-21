@@ -61,7 +61,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                           {getWidth > 580 && <>{message}</>}
                           <S.DetailModalTitle>{bookInfo.title}</S.DetailModalTitle>
                           <S.DetailModalInfoText>
-                            작가: {bookInfo.author.split('^')[0]}
+                            저자: {bookInfo.author.split('^')[0]}
                             <br />
                             출판사: {bookInfo.publisher}
                           </S.DetailModalInfoText>

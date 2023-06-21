@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import {
@@ -15,11 +15,11 @@ import {
 } from './pages';
 import { DefaultLayout, PrivateRoute } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS, USER_CLUB_LIST } from './constant';
-import { useGetClubs } from './hooks';
+import { useGetClubs, useGetUserClubs } from './hooks';
 
 export const App: React.FC = () => {
-  const { data } = useGetClubs();
-  const clubsList = data?.result;
+  const { data: clubsData } = useGetClubs();
+  const clubsList = clubsData?.result;
 
   return (
     <Routes>
@@ -37,11 +37,10 @@ export const App: React.FC = () => {
           <Route path=":clubId/:bookId" element={<BookPage />} />
         </Route>
         <Route element={<PrivateRoute isUserPage={true} />}>
-          <Route path="/club">
-            <Route index element={<Navigate to={`/club/${USER_CLUB_LIST[0].id}`} />} />
+          <Route path="/club" element={<RentPage />}>
             <Route path=":clubId" element={<RentPage />}>
               <Route path="book/:bookId/book-rent" element={<RentPage />} />
-              <Route path="book/:bookId" element={<RentPage />} />
+              <Route path=":bookId" element={<RentPage />} />
               <Route path="club-add" element={<RentPage />} />
             </Route>
           </Route>

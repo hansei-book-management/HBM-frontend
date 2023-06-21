@@ -68,3 +68,8 @@ export const getAllClubs = async (): Promise<getAllClubsResponse[]> => {
   const { data } = await instance.get(API_SUFFIX.ALL_CLUBS);
   return data;
 };
+
+export const getUserClubs = async (): Promise<getAllClubsResponse[]> => {
+  const { data } = await instance.get(API_SUFFIX.CLUB);
+  return data;
+};

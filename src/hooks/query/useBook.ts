@@ -1,4 +1,5 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 
 import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
@@ -13,6 +14,7 @@ import {
   getAllBooks,
   getAllClubs,
   getAllClubsResponse,
+  getUserClubs,
   searchBook,
 } from '@/api';
 import { addClubBookModal } from '@/atoms';
@@ -23,6 +25,12 @@ export const useGetBooks = (): UseQueryResult<
 > => {
   return useQuery('useGetBooks', getAllBooks, {
     retry: 0,
+    onError: (data) => {
+      toast.error(data.response?.data.message, {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    },
   });
 };
 
@@ -33,6 +41,12 @@ export const useSearchBook = (): UseMutationResult<
 > => {
   return useMutation('useSearchBook', searchBook, {
     retry: 0,
+    onError: (data) => {
+      toast.error(data.response?.data.message, {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    },
   });
 };
 
@@ -61,6 +75,21 @@ export const useGetClubs = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > => {
   return useQuery('useGetClubs', getAllClubs, {
+    onError: (data) => {
+      toast.error(data.response?.data.message, {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    },
+    retry: 0,
+  });
+};
+
+export const useGetUserClubs = (): UseQueryResult<
+  APIResponse<getAllClubsResponse[]>,
+  AxiosError<APIErrorResponse>
+> => {
+  return useQuery('useGetUserClubs', getUserClubs, {
     retry: 0,
   });
 };

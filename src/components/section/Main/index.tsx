@@ -38,7 +38,7 @@ export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
 
   const navigate = useNavigate();
 
-  const { bookPage } = useGetLocation({});
+  const { bookPage, rentPage } = useGetLocation({});
 
   // const getRentApi = async (clubName: string, page: number) => {
   //   const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
@@ -82,13 +82,13 @@ export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
     open();
     if (bookPage) {
       navigate(`/book/${clubName}/${bookId}`);
+    } else if (rentPage) {
+      navigate(`/club/${clubName}/${bookId}`);
     }
     // if (rentPage) {
     //   navigate(`/club/${clubName}/book/${bookId}`);
     // }
   };
-
-  const id = Math.floor(Math.random() * 10) + 1;
 
   useEffect(() => {
     setPage(1);
@@ -98,7 +98,7 @@ export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
   return (
     <>
       <S.SectionContainer>
-        {data?.map(({ data, bid }, i) => {
+        {data?.map(({ data, bid, end }, i) => {
           const bookInfo = data.items[0];
           return (
             <S.SectionImageContainer key={i}>
@@ -110,7 +110,7 @@ export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
                 <S.SectionImageSubTitle>
                   {bookInfo.author.split('^')[0]} · {bookInfo.publisher}
                 </S.SectionImageSubTitle>
-                <StatusMessage />
+                <StatusMessage canRent={end === 0} />
               </S.SectionImageTitleContainer>
               {/* 
           

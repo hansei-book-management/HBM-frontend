@@ -13,16 +13,20 @@ import {
   ModalStateProps,
   CommonModal,
 } from '@/components';
-import { useModal } from '@/hooks';
+import { useGetUserClubs, useModal } from '@/hooks';
 import { addUserClubModal } from '@/atoms';
 
 import * as S from './styled';
 
 export const RentPage: React.FC = () => {
-  // here have to fetch book api
+  const { data, isFetching } = useGetUserClubs();
+  const userClubs = data?.result;
+
   const navigate = useNavigate();
   const { clubId } = useParams<{ clubId: string }>();
-  const activeClub = USER_CLUB_LIST.find(({ id }) => id === clubId);
+
+  const activeUserClub = userClubs?.find(({ name }) => name === clubId);
+  const activeUserClubBooks = activeUserClub?.book;
 
   const { modalActive } = useModal();
 
@@ -68,58 +72,63 @@ export const RentPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!activeClub) {
-      navigate(`${CLUB}/${USER_CLUB_LIST[0].id}`);
-    } else if (!modalActive) {
-      navigate(`${CLUB}/${clubId}`);
+    if (!activeUserClub && userClubs && !isFetching) {
+      navigate(`${CLUB}/${userClubs[0].name} `);
     }
-  }, [activeClub, modalActive]);
+  }, [activeUserClub]);
 
   return (
     <>
-      <S.RentPageContainer>
-        {activeClub && (
-          <HeaderSection
-            name={activeClub.name}
-            activeId={clubId}
-            href="/club"
-            list={USER_CLUB_LIST}
-            onClick={onAddClubModalOpen}
+      {isFetching ? (
+        <>
+          <h1>Loading</h1>
+        </>
+      ) : (
+        <>
+          <S.RentPageContainer>
+            <HeaderSection
+              name={activeUserClub?.name}
+              activeId={clubId}
+              href="/club"
+              list={userClubs || []}
+              onClick={onAddClubModalOpen}
+            />
+            <Section data={activeUserClubBooks} clubName={activeUserClub?.name} />
+          </S.RentPageContainer>
+          {/** book detail modal */}
+          {modalActive && !rentClubBookModal.state && (
+            <DetailModal
+              rightButtonClick={() => onRentClubBookModalOpen(1)}
+              leftButtonText="닫기"
+              rightButtonText="대여하기"
+              message={<RentMessage canRent={true} />}
+              data={activeUserClubBooks}
+            />
+          )}
+          <AddClubModal url={`${CLUB} /${clubId}`} />
+          {/** rent modal */}
+          <CommonModal
+            leftButtonClick={onRentClubBookModalClose}
+            rightButtonClick={() => onRentClubBookStateModal(1)}
+            modal={rentClubBookModal}
+            title={`대여`}
+            message={
+              `정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?\n` +
+              `대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.`
+            }
+            successMessage={
+              `‘당신이 모르는 민주주의’ 책을 대여했어요.\n` +
+              `대여 기한은 10일이며, 연장 신청을 할 수 있어요.\n` +
+              `1차 반납 기간은 2023년 X월 X일까지에요.`
+            }
+            failMessage={
+              `'앙기모링'님의 대여 실패 했어요.\n` +
+              `대여한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.\n` +
+              `대여 정지는 도서 반납을 하면 자동으로 해제돼요.`
+            }
           />
-        )}
-        <Section activeClub={activeClub} />
-      </S.RentPageContainer>
-      {/** book detail modal */}
-      {modalActive && !rentClubBookModal.state && (
-        <DetailModal
-          rightButtonClick={() => onRentClubBookModalOpen(1)}
-          leftButtonText="닫기"
-          rightButtonText="대여하기"
-          message={<RentMessage canRent={true} />}
-        />
+        </>
       )}
-      <AddClubModal url={`${CLUB}/${clubId}`} />
-      {/** rent modal */}
-      <CommonModal
-        leftButtonClick={onRentClubBookModalClose}
-        rightButtonClick={() => onRentClubBookStateModal(1)}
-        modal={rentClubBookModal}
-        title={`대여`}
-        message={
-          `정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?\n` +
-          `대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.`
-        }
-        successMessage={
-          `‘당신이 모르는 민주주의’ 책을 대여했어요.\n` +
-          `대여 기한은 10일이며, 연장 신청을 할 수 있어요.\n` +
-          `1차 반납 기간은 2023년 X월 X일까지에요.`
-        }
-        failMessage={
-          `'앙기모링'님의 대여 실패 했어요.\n` +
-          `대여한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.\n` +
-          `대여 정지는 도서 반납을 하면 자동으로 해제돼요.`
-        }
-      />
     </>
   );
 };

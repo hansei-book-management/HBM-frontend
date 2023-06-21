@@ -6,7 +6,11 @@ import { RentMessage } from '../RentMessage';
 
 import * as S from './styled';
 
-export const StatusMessage: React.FC = () => {
+export interface StatusMessageProps {
+  canRent: boolean;
+}
+
+export const StatusMessage: React.FC<StatusMessageProps> = ({ canRent }) => {
   const {
     rentPage,
     manageUserBookPage,
@@ -15,7 +19,7 @@ export const StatusMessage: React.FC = () => {
     manageClubBorrowBookPage,
   } = useGetLocation({});
 
-  const canRent = true;
+  // const canRent = true;
   const id = Math.floor(Math.random() * 10) + 1;
 
   if (rentPage) {
