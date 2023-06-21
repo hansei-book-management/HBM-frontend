@@ -1,6 +1,7 @@
 import { FaPlus } from 'react-icons/fa';
 
 import { getAllClubsResponse } from '@/api';
+import { ManageClubBookOptionItem } from '@/constant';
 
 import * as S from './styled';
 
@@ -10,7 +11,7 @@ export interface HeaderSectionProps {
   userBookInfo?: string;
   name: React.ReactNode;
   href: string;
-  list: getAllClubsResponse[];
+  list: getAllClubsResponse[] | ManageClubBookOptionItem[];
   onClick?: () => void;
   activeId?: string;
   userMessage?: string;

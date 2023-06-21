@@ -5,16 +5,24 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 
 import { Book1PNG } from '@/assets';
-import { RentClubItem, noDataLottieOptions, UserClubItem } from '@/constant';
+import { noDataLottieOptions, UserClubItem } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
 import { StatusMessage } from '@/components';
+import { BookResponse, getAllClubsResponse } from '@/api';
 
 import { Skeleton } from '../../common/Skeleton';
 
 import * as S from './styled';
 
 export interface SectionProps {
-  activeClub?: any;
+  data?: [
+    {
+      data: {
+        items: [BookResponse];
+      };
+      end: number;
+    },
+  ];
   mangeClubName?: string;
 }
 
@@ -31,15 +39,13 @@ export interface BookItem {
   totalResults: number;
 }
 
-export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) => {
+export const Section: React.FC<SectionProps> = ({ data, mangeClubName }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 
   const navigate = useNavigate();
 
   const { rentPage } = useGetLocation({});
-
-  const clubName = activeClub?.id;
 
   // const getRentApi = async (clubName: string, page: number) => {
   //   const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
@@ -59,31 +65,31 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   //   }
   // });
 
-  const onNextPageClick = () => {
-    setPage((prev) => prev + 1);
-    if (rentPage) {
-      navigate(`/rent/${clubName}?page=${page + 1}`);
-    } else {
-      navigate(`/manage?page=${page + 1}`);
-    }
-    window.scrollTo(0, 0);
-  };
+  // const onNextPageClick = () => {
+  //   setPage((prev) => prev + 1);
+  //   if (rentPage) {
+  //     navigate(`/rent/${clubName}?page=${page + 1}`);
+  //   } else {
+  //     navigate(`/manage?page=${page + 1}`);
+  //   }
+  //   window.scrollTo(0, 0);
+  // };
 
-  const onPrevPageClick = () => {
-    setPage((prev) => prev - 1);
-    if (rentPage) {
-      navigate(`/rent/${clubName}?page=${page - 1}`);
-    } else {
-      navigate(`/manage?page=${page - 1}`);
-    }
-    window.scrollTo(0, 0);
-  };
+  // const onPrevPageClick = () => {
+  //   setPage((prev) => prev - 1);
+  //   if (rentPage) {
+  //     navigate(`/rent/${clubName}?page=${page - 1}`);
+  //   } else {
+  //     navigate(`/manage?page=${page - 1}`);
+  //   }
+  //   window.scrollTo(0, 0);
+  // };
 
   const openModal = (bookId: number) => {
     open();
-    if (rentPage) {
-      navigate(`/club/${clubName}/book/${bookId}`);
-    }
+    // if (rentPage) {
+    //   navigate(`/club/${clubName}/book/${bookId}`);
+    // }
   };
 
   const id = Math.floor(Math.random() * 10) + 1;
@@ -91,28 +97,35 @@ export const Section: React.FC<SectionProps> = ({ activeClub, mangeClubName }) =
   useEffect(() => {
     setPage(1);
     // refetch();
-  }, [activeClub]);
+  }, [data]);
 
   return (
     <>
       <S.SectionContainer>
-        {/* {data?.books.map(({ id, canRent, club }, i) => ( */}
-        <S.SectionImageContainer>
-          <S.SectionImage src={Book1PNG} onClick={() => openModal(1)} />
-          <S.SectionImageTitleContainer>
-            <S.SectionImageTitle onClick={() => openModal(1)}>세이노의 가르침</S.SectionImageTitle>
-            <S.SectionImageSubTitle>세이노 · 데이원</S.SectionImageSubTitle>
-            <StatusMessage />
-          </S.SectionImageTitleContainer>
-          {/* 
+        {data?.map(({ data }, i) => {
+          const bookInfo = data.items[0];
+          return (
+            <S.SectionImageContainer>
+              <S.SectionImage src={bookInfo.image} onClick={() => openModal(1)} />
+              <S.SectionImageTitleContainer>
+                <S.SectionImageTitle onClick={() => openModal(1)}>
+                  {bookInfo.title}
+                </S.SectionImageTitle>
+                <S.SectionImageSubTitle>
+                  {bookInfo.author} · {bookInfo.publisher}
+                </S.SectionImageSubTitle>
+                <StatusMessage />
+              </S.SectionImageTitleContainer>
+              {/* 
           
           const Rent = () => {
               if (rendPage) return <div/
               if (manageClubCanRend) return <div/
           }
           */}
-        </S.SectionImageContainer>
-        {/* ))} */}
+            </S.SectionImageContainer>
+          );
+        })}
       </S.SectionContainer>
       {/* {!isLoading && data?.totalPages !== 0 && data?.books.length !== 0 && (
         <S.SectionPaginationContainer>

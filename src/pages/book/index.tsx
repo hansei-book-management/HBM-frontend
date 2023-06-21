@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import { CLUB_LIST } from '@/constant';
 import { DetailModal, HeaderSection, Section } from '@/components';
 import { useGetClubs, useModal } from '@/hooks';
 
@@ -15,6 +14,9 @@ export const BookPage: React.FC = () => {
   const activeClub = clubs?.find(({ name }) => name === clubId);
 
   const { modalActive } = useModal();
+
+  const activeClubBooks = activeClub?.book;
+
   return (
     <S.BookPageContainer>
       <HeaderSection
@@ -25,7 +27,7 @@ export const BookPage: React.FC = () => {
         notShowPlusIcon={true}
       />
       <h1>{clubs?.map(({ name }) => name)}</h1>
-      {activeClub && <Section activeClub={activeClub} />}
+      {activeClubBooks && <Section data={activeClubBooks} />}
       {modalActive && <DetailModal leftButtonText="닫기" />}
     </S.BookPageContainer>
   );
