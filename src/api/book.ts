@@ -19,6 +19,7 @@ export interface SearchBookValue {
 }
 
 export interface AddClubBookValues {
+  bookName: string;
   cid: number;
   isbn: string;
 }
