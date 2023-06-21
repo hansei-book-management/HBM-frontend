@@ -9,8 +9,8 @@ import {
   ReturnBookModal,
   Section,
 } from '@/components';
-import { USER_CLUB_LIST, loadingLottieOptions } from '@/constant';
-import { useModal } from '@/hooks';
+import { loadingLottieOptions } from '@/constant';
+import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
 
 import * as S from './styled';
 
@@ -27,9 +27,14 @@ export interface AllowLocationStateProps {
 const BASE_URL = '/manage/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
-  const { userClubId } = useParams<{ userClubId: string }>();
-  const activeUserClub = USER_CLUB_LIST.find(({ id }) => id === userClubId);
+  const { data: userData } = useFetchUser();
+  const { data: userBook, isFetching } = useGetUserBooks(userData?.result?.uid);
+  const userCid = userBook?.result;
 
+  const { clubId } = useParams<{ clubId: string }>();
+  const userClubId = Number(clubId);
+  const activeUserClub = userBook?.result.find(({ cid }) => cid === userClubId);
+  const userBookData = activeUserClub?.data;
   const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
 
   const navigate = useNavigate();
@@ -95,8 +100,8 @@ export const ManageUserBookPage: React.FC = () => {
   useEffect(() => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
-    if (!activeUserClub || clubAddStep) {
-      navigate(`${BASE_URL}/${USER_CLUB_LIST[0].id}`);
+    if ((!activeUserClub && userCid) || (userCid && clubAddStep)) {
+      navigate(`${BASE_URL}/${userCid[0].cid}`);
     }
   }, [activeUserClub]);
 
@@ -106,16 +111,16 @@ export const ManageUserBookPage: React.FC = () => {
     <S.ManageUserBookContainer>
       {activeUserClub && (
         <HeaderSection
-          name={activeUserClub.name}
-          activeId={userClubId}
+          name={activeUserClub?.cid}
+          activeId={clubId}
           href={`${BASE_URL}`}
-          list={USER_CLUB_LIST}
+          list={userCid || []}
           manageUserBookPage={true}
           notShowPlusIcon={true}
           userBookInfo={`앙기모링님은 현재 2권 대출중이에요.`}
         />
       )}
-      <Section activeClub={activeUserClub} />
+      <Section userBorrowBook={userBookData} />
       {modalActive && !returnBookModal.state && (
         <DetailModal
           leftButtonText="닫기"

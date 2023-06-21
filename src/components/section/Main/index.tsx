@@ -5,10 +5,10 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 
 import { Book1PNG } from '@/assets';
-import { noDataLottieOptions, UserClubItem } from '@/constant';
+import { noDataLottieOptions } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
 import { StatusMessage } from '@/components';
-import { BookListProps, BookResponse, getAllClubsResponse } from '@/api';
+import { BookListProps, BookResponse, GetAllBooksResponse, GetUserBooksResponse } from '@/api';
 
 import { Skeleton } from '../../common/Skeleton';
 
@@ -16,6 +16,7 @@ import * as S from './styled';
 
 export interface SectionProps {
   data?: [BookListProps];
+  userBorrowBook?: GetAllBooksResponse;
   clubName?: string;
 }
 
@@ -32,7 +33,7 @@ export interface BookItem {
   totalResults: number;
 }
 
-export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
+export const Section: React.FC<SectionProps> = ({ data, clubName, userBorrowBook }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 

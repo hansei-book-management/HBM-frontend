@@ -13,9 +13,11 @@ import {
   addClubBook,
   getAllBooks,
   getAllClubs,
-  getAllClubsResponse,
+  GetAllClubsResponse,
+  getUserBooks,
   getUserClubs,
   searchBook,
+  GetUserBooksResponse,
 } from '@/api';
 import { addClubBookModal } from '@/atoms';
 
@@ -71,7 +73,7 @@ export const useAddClubBook = (): UseMutationResult<
 };
 
 export const useGetClubs = (): UseQueryResult<
-  APIResponse<getAllClubsResponse[]>,
+  APIResponse<GetAllClubsResponse[]>,
   AxiosError<APIErrorResponse>
 > => {
   return useQuery('useGetClubs', getAllClubs, {
@@ -86,10 +88,18 @@ export const useGetClubs = (): UseQueryResult<
 };
 
 export const useGetUserClubs = (): UseQueryResult<
-  APIResponse<getAllClubsResponse[]>,
+  APIResponse<GetAllClubsResponse[]>,
   AxiosError<APIErrorResponse>
 > => {
   return useQuery('useGetUserClubs', getUserClubs, {
+    retry: 0,
+  });
+};
+
+export const useGetUserBooks = (
+  uid?: string,
+): UseQueryResult<APIResponse<GetUserBooksResponse[]>, AxiosError<APIErrorResponse>> => {
+  return useQuery('useGetUserBook', () => getUserBooks(uid), {
     retry: 0,
   });
 };

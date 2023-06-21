@@ -14,8 +14,8 @@ import {
   BookPage,
 } from './pages';
 import { DefaultLayout, PrivateRoute } from './components';
-import { MANAGE_CLUB_BOOK_OPTIONS, USER_CLUB_LIST } from './constant';
-import { useGetClubs, useGetUserClubs } from './hooks';
+import { MANAGE_CLUB_BOOK_OPTIONS } from './constant';
+import { useGetClubs } from './hooks';
 
 export const App: React.FC = () => {
   const { data: clubsData } = useGetClubs();
@@ -44,9 +44,8 @@ export const App: React.FC = () => {
               <Route path="club-add" element={<RentPage />} />
             </Route>
           </Route>
-          <Route path="/user-book">
-            <Route index element={<Navigate to={`/user-book/${USER_CLUB_LIST[0].id}`} />} />
-            <Route path=":userClubId" element={<ManageUserBookPage />} />
+          <Route path="/user-book" element={<ManageUserBookPage />}>
+            <Route path=":clubId" element={<ManageUserBookPage />} />
           </Route>
           <Route path="club-apply" element={<ClubApplyPage />} />
         </Route>
@@ -68,7 +67,7 @@ export const App: React.FC = () => {
             <Route path="change-director" element={<ManageClubPage />} />
           </Route>
         </Route>
-        <Route element={<PrivateRoute isUserPage={false} />}>
+        <Route element={<PrivateRoute isLoginPage={true} />}>
           <Route path="auth">
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LoginPage />} />
