@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
+import Lottie from 'react-lottie';
 
 import { useRecoilState } from 'recoil';
 
@@ -8,7 +9,7 @@ import { addClubBookModal } from '@/atoms';
 import { Modal, StatusModal } from '@/components/modal';
 import { BookResponse, SearchBookValue } from '@/api';
 import { useAddClubBook, useGetBooks, useSearchBook } from '@/hooks';
-import { MANAGE_CLUB_BOOK } from '@/constant';
+import { MANAGE_CLUB_BOOK, loadingLottieOptions } from '@/constant';
 
 import * as S from './styled';
 
@@ -146,15 +147,18 @@ export const AddClubBookModal: React.FC<AddBookModalStateProps> = ({ cid, clubNa
             </S.AddBookModalContainer>
           }
           modalSize="large"
-          leftButtonClick={onAddBookModalClose}
-          {...(selectNumber !== 0
-            ? {
-                leftButtonText: '닫기',
-                rightButtonText: `${selectNumber}권 추가하기`,
-              }
-            : {
-                leftButtonText: `닫기`,
-              })}
+          {...(!addBookModal.isLoading && {
+            leftButtonClick: () => onAddBookModalClose(),
+          })}
+          rightButtonText={
+            addBookModal.isLoading === true ? (
+              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+            ) : (
+              selectNumber !== 0 && `${selectNumber}권 추가하기`
+            )
+          }
+          statusDisable={addBookModal.isLoading === true}
+          leftButtonText={`닫기`}
           handleSubmit={handleSubmit}
           onValid={onAddBokSubmit}
         />
