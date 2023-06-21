@@ -1,8 +1,5 @@
-import { useSetRecoilState } from 'recoil';
-
-import { updateClubMemberModal } from '@/atoms';
-
 import { APIResponse, API_SUFFIX, instance } from './api';
+import { BookResponse } from './book';
 
 export interface UpdateClubMemberValues extends ClubMemberValues {
   freeze: number;
@@ -26,8 +23,10 @@ export interface ClubMemberInfo {
 export interface GetClubMemberResponse extends ClubMemberInfo {
   books: [
     {
-      title?: string;
-      data?: string;
+      data?: {
+        items: BookResponse[];
+      };
+      end: number;
     },
   ];
 }
