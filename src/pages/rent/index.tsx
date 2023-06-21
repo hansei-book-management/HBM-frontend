@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
-import { CLUB, USER_CLUB_LIST } from '@/constant';
+import { CLUB } from '@/constant';
 import {
   RentMessage,
   Section,
@@ -73,17 +73,13 @@ export const RentPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!activeUserClub && userClubs && !isFetching) {
-      navigate(`${CLUB}/${userClubs[0].name} `);
+      navigate(`${CLUB}/${userClubs[0].name}`);
     }
   }, [activeUserClub]);
 
   return (
     <>
-      {isFetching ? (
-        <>
-          <h1>Loading</h1>
-        </>
-      ) : (
+      {isFetching ? null : activeUserClub ? (
         <>
           <S.RentPageContainer>
             <HeaderSection
@@ -127,6 +123,18 @@ export const RentPage: React.FC = () => {
               `대여 정지는 도서 반납을 하면 자동으로 해제돼요.`
             }
           />
+        </>
+      ) : (
+        <>
+          <S.RentPageContainer>
+            <HeaderSection
+              activeId={clubId}
+              href="/club"
+              list={userClubs || []}
+              onClick={onAddClubModalOpen}
+            />
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+          </S.RentPageContainer>
         </>
       )}
     </>

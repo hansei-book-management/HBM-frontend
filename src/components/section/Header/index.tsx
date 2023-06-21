@@ -9,7 +9,7 @@ export interface HeaderSectionProps {
   manageUserBookPage?: boolean;
   notShowPlusIcon?: boolean;
   userBookInfo?: string;
-  name: React.ReactNode;
+  name?: React.ReactNode;
   href: string;
   list: getAllClubsResponse[] | ManageClubBookOptionItem[];
   onClick?: () => void;
