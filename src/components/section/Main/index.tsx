@@ -14,7 +14,7 @@ import { Skeleton } from '../../common/Skeleton';
 import * as S from './styled';
 
 export interface SectionProps {
-  activeClub?: RentClubItem | UserClubItem;
+  activeClub?: any;
   mangeClubName?: string;
 }
 

@@ -23,6 +23,16 @@ export interface AddClubBookValues {
   isbn: string;
 }
 
+export interface getAllClubsResponse {
+  name: string;
+  book: [
+    {
+      data: { items: [BookResponse] };
+      end: number;
+    },
+  ];
+}
+
 export const getAllBooks = async (): Promise<GetAllBooksResponse> => {
   const { data } = await instance.get(API_SUFFIX.BOOK);
   return data;
@@ -49,4 +59,9 @@ export const addClubBook = async ({ cid, isbn }: AddClubBookValues) => {
     console.log(cid, isbn, 'data');
     return;
   }
+};
+
+export const getAllClubs = async (): Promise<getAllClubsResponse[]> => {
+  const { data } = await instance.get(API_SUFFIX.ALL_CLUBS);
+  return data;
 };

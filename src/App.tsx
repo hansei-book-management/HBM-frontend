@@ -14,14 +14,12 @@ import {
   BookPage,
 } from './pages';
 import { DefaultLayout, PrivateRoute } from './components';
-import { MANAGE_CLUB_BOOK_OPTIONS, CLUB_LIST, USER_CLUB_LIST } from './constant';
-import { instance, setAccessToken } from './api';
+import { MANAGE_CLUB_BOOK_OPTIONS, USER_CLUB_LIST } from './constant';
+import { useGetClubs } from './hooks';
 
 export const App: React.FC = () => {
-  useEffect(() => {
-    if (instance.defaults.headers.common.Authorization)
-      setAccessToken(instance.defaults.headers.common.Authorization.toString().split(' ')[1]);
-  }, [instance.defaults.headers.common.Authorization]);
+  const { data } = useGetClubs();
+  const clubsList = data?.result;
 
   return (
     <Routes>
@@ -34,7 +32,7 @@ export const App: React.FC = () => {
       >
         <Route path="/" element={<MainPage />} />
         <Route path="/book">
-          <Route index element={<Navigate to={`/book/${CLUB_LIST[0].id}`} />} />
+          <Route index element={<Navigate to={`/book/${clubsList && clubsList[0].name} `} />} />
           <Route path=":clubId" element={<BookPage />} />
         </Route>
         <Route element={<PrivateRoute isUserPage={true} />}>

@@ -1,12 +1,8 @@
 import { FaPlus } from 'react-icons/fa';
 
-import * as S from './styled';
+import { getAllClubsResponse } from '@/api';
 
-export interface HeaderSectionListProps {
-  name: string;
-  id: string;
-  text?: string;
-}
+import * as S from './styled';
 
 export interface HeaderSectionProps {
   manageUserBookPage?: boolean;
@@ -14,7 +10,7 @@ export interface HeaderSectionProps {
   userBookInfo?: string;
   name: React.ReactNode;
   href: string;
-  list: HeaderSectionListProps[];
+  list: getAllClubsResponse[];
   onClick?: () => void;
   activeId?: string;
   userMessage?: string;
@@ -40,8 +36,12 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
         {name}
       </S.HeaderSectionTitle>
       <S.HeaderSectionList manageUserBookPage={manageUserBookPage || false}>
-        {list.map(({ name, id }) => (
-          <S.HeaderSectionItem key={id} isActive={isActive(activeId, id)} to={`${href}/${id}`}>
+        {list.map(({ name }) => (
+          <S.HeaderSectionItem
+            key={name}
+            isActive={isActive(activeId, name)}
+            to={`${href}/${name}`}
+          >
             {name}
           </S.HeaderSectionItem>
         ))}

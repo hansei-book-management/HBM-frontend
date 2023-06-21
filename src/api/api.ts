@@ -7,6 +7,7 @@ export const API_SUFFIX = {
   PROFILE: '/user/profile',
   REFRESH: '/auth/refresh',
   CLUB: '/api/club',
+  ALL_CLUBS: '/api/clubs',
   BOOK: '/api/books',
   SEARCH_BOOK: '/api/books/search',
 };

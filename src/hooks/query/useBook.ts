@@ -11,6 +11,8 @@ import {
   SearchBookValue,
   addClubBook,
   getAllBooks,
+  getAllClubs,
+  getAllClubsResponse,
   searchBook,
 } from '@/api';
 import { addClubBookModal } from '@/atoms';
@@ -50,6 +52,15 @@ export const useAddClubBook = (): UseMutationResult<
     onError: (data) => {
       setAddClubBookModal({ state: true, isOk: false, data: data.response?.data.message });
     },
+    retry: 0,
+  });
+};
+
+export const useGetClubs = (): UseQueryResult<
+  APIResponse<getAllClubsResponse[]>,
+  AxiosError<APIErrorResponse>
+> => {
+  return useQuery('useGetClubs', getAllClubs, {
     retry: 0,
   });
 };
