@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   FaEllipsisV,
@@ -9,7 +9,7 @@ import {
   FaTrash,
 } from 'react-icons/fa';
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { MANAGE_CLUB } from '@/constant';
 import {
@@ -36,15 +36,17 @@ import * as S from './styled';
 export const ManageClubPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const cid = userData?.result?.director?.cid;
-  const { data: clubInfo } = useGetClubInfo(cid);
-  const members = clubInfo?.result.members;
+
+  const club = useGetClubInfo(cid);
+  const members = club.data?.result.members;
+  const clubName = club.data?.result.name;
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubMemberPopupList, setClubMemberPopupList] = useState(
     members ? members.map(() => false) : [],
   );
   const [clubSettingPopupOpen, setClubSettingPopupOpen] = useState<boolean>(false);
-  const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
+  const setClubCodeModal = useSetRecoilState(generateClubCodeModal);
   const [clubCode, setClubCode] = useState<string | null>('');
   const setUpdateUserModal = useSetRecoilState(updateClubMemberModal);
   const setExpelMemberModal = useSetRecoilState(expelClubMemberModal);
@@ -70,7 +72,14 @@ export const ManageClubPage: React.FC = () => {
       return setClubCodeModal({ state: true, page: null });
     }
     setClubCodeModal({ state: true, page: 1 });
+    onClubCodeOpenFNClick();
   };
+
+  const onClubCodeOpenFNClick = useCallback(() => {
+    const clubCode = localStorage.getItem('clubCode');
+    setClubCode(clubCode);
+    setClubMemberInfoModal(false);
+  }, [clubCode]);
 
   // club member status modal FN
   const onClubMemberChangeStatusModalOpen = (userId: string, i: number) => {
@@ -99,10 +108,7 @@ export const ManageClubPage: React.FC = () => {
 
   useEffect(() => {
     navigate(`${MANAGE_CLUB}/`);
-    const clubCode = localStorage.getItem('clubCode');
-    setClubCode(clubCode);
-    setClubMemberInfoModal(false);
-  }, [clubCodeModal]);
+  }, []);
 
   return (
     <>
@@ -130,7 +136,7 @@ export const ManageClubPage: React.FC = () => {
                 >
                   {freeze === 0 ? '정상' : '대출정지'}
                   <br />
-                  {freeze === 1 && '대여가 정지된 부원입니다.'}
+                  {freeze !== 0 && '대여가 정지된 부원입니다.'}
                 </S.ManageClubUserStatus>
                 <S.ManageClubPopupIconWrapper
                   onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
@@ -200,19 +206,15 @@ export const ManageClubPage: React.FC = () => {
       {cid && <ClubCodeModal />}
       <UpdateClubMemberModal cid={cid} />
       <ExpelClubMemberModal cid={cid} />
-      {clubInfo?.result.name && (
+      {club.data?.result && (
         <ClubChangeDirectorModal
-          clubName={clubInfo?.result.name}
+          clubName={club.data?.result.name}
           cid={cid}
-          clubMembers={clubInfo?.result?.members}
+          clubMembers={club.data?.result.members}
           directorName={userData?.result.name}
         />
       )}
-      <DeleteClubModal
-        clubName={clubInfo?.result.name}
-        directorName={userData?.result.name}
-        cid={cid}
-      />
+      <DeleteClubModal clubName={clubName} directorName={userData?.result.name} cid={cid} />
     </>
   );
 };
