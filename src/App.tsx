@@ -46,26 +46,20 @@ export const App: React.FC = () => {
               <Route path="club-add" element={<RentPage />} />
             </Route>
           </Route>
-        </Route>
-        <Route element={<PrivateRoute isUserPage={true} />}>
-          <Route path="/manage">
-            <Route path="user-book">
-              <Route
-                index
-                element={<Navigate to={`/manage/user-book/${USER_CLUB_LIST[0].id}`} />}
-              />
-              <Route path=":userClubId" element={<ManageUserBookPage />} />
-            </Route>
-            <Route path="club-book" element={<ManageClubBookPage />}>
-              <Route
-                index
-                element={<Navigate to={`/manage/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
-              />
-              <Route path=":option" element={<ManageUserBookPage />} />
-            </Route>
+          <Route path="/user-book">
+            <Route index element={<Navigate to={`/user-book/${USER_CLUB_LIST[0].id}`} />} />
+            <Route path=":userClubId" element={<ManageUserBookPage />} />
           </Route>
+          <Route path="club-apply" element={<ClubApplyPage />} />
         </Route>
         <Route element={<PrivateRoute isDirectorPage={true} />}>
+          <Route path="/club-book" element={<ManageClubBookPage />}>
+            <Route
+              index
+              element={<Navigate to={`/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
+            />
+            <Route path=":option" element={<ManageUserBookPage />} />
+          </Route>
           <Route path="/manage-club" element={<ManageClubPage />}>
             <Route path="member/:userId" element={<ManageClubPage />}>
               <Route path="detail" element={<ManageClubPage />} />
@@ -82,7 +76,6 @@ export const App: React.FC = () => {
             <Route path="login" element={<LoginPage />} />
           </Route>
         </Route>
-        <Route path="club-apply" element={<ClubApplyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

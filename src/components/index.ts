@@ -6,3 +6,4 @@ export * from './section';
 export * from './mangeUserBook';
 export * from './manageClub';
 export * from './rent';
+export * from './clubBook';

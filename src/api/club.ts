@@ -27,7 +27,7 @@ export interface GetClubMembers {
   name: string;
   director: string;
   cid: number;
-  members: [ClubMemberInfo];
+  members: ClubMemberInfo[];
 }
 
 export interface AddClubFormValues {
@@ -83,7 +83,6 @@ export const addUserClub = async ({ clubCode }: AddClubFormValues) => {
 export const deleteClub = async (cid?: number) => {
   if (cid) {
     const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}`);
-    console.log('delete');
     return data;
   } else {
     throw new Error('delete club error: cid is undefined');

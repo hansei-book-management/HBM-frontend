@@ -14,11 +14,11 @@ export const ADMIN_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '내 도서',
-    href: '/manage/user-book',
+    href: '/user-book',
   },
   {
     text: '도서 관리',
-    href: '/manage/club-book',
+    href: '/club-book',
   },
   {
     text: '동아리 관리',
@@ -41,11 +41,11 @@ export const DIRECTOR_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '내 도서',
-    href: '/manage/user-book',
+    href: '/user-book',
   },
   {
     text: '도서 관리',
-    href: '/manage/club-book',
+    href: '/club-book',
   },
   {
     text: '동아리 관리',
@@ -64,6 +64,6 @@ export const USER_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '내 도서',
-    href: '/manage/user-book',
+    href: '/user-book',
   },
 ];

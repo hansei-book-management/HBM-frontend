@@ -11,7 +11,7 @@ import {
 
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { MANAGE_CLUB, USER_LIST } from '@/constant';
+import { MANAGE_CLUB } from '@/constant';
 import {
   Button,
   ClubChangeDirectorModal,
@@ -37,9 +37,12 @@ export const ManageClubPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const cid = userData?.result?.director?.cid;
   const { data: clubInfo } = useGetClubInfo(cid);
+  const members = clubInfo?.result.members;
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
-  const [clubMemberPopupList, setClubMemberPopupList] = useState(USER_LIST.map(() => false));
+  const [clubMemberPopupList, setClubMemberPopupList] = useState(
+    members ? members.map(() => false) : [],
+  );
   const [clubSettingPopupOpen, setClubSettingPopupOpen] = useState<boolean>(false);
   const [clubCodeModal, setClubCodeModal] = useRecoilState(generateClubCodeModal);
   const [clubCode, setClubCode] = useState<string | null>('');
@@ -98,6 +101,7 @@ export const ManageClubPage: React.FC = () => {
     navigate(`${MANAGE_CLUB}/`);
     const clubCode = localStorage.getItem('clubCode');
     setClubCode(clubCode);
+    setClubMemberInfoModal(false);
   }, [clubCodeModal]);
 
   return (
@@ -110,7 +114,7 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
-          {clubInfo?.result?.members.map(({ name, freeze, borrowBook, uid }: ClubMemberInfo, i) => (
+          {members?.map(({ name, freeze, borrowBook, uid }: ClubMemberInfo, i) => (
             <S.DummyContainer>
               <S.ManageClubUserContainer>
                 <S.ManageClubUserIconContainer onClick={() => onClubMemberInfoModalOpen(`${uid}`)}>
@@ -136,7 +140,7 @@ export const ManageClubPage: React.FC = () => {
               </S.ManageClubUserContainer>
               <S.ManageClubPopupContainer
                 initial="closed"
-                animate={clubMemberPopupList[i] ? 'open' : 'closed'}
+                animate={clubMemberPopupList && clubMemberPopupList[i] ? 'open' : 'closed'}
                 variants={{
                   open: { opacity: 1, zIndex: 12 },
                   closed: { opacity: 0, zIndex: -1 },

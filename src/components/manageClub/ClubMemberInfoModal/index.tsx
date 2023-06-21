@@ -17,6 +17,7 @@ export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
 }) => {
   const { userId } = useParams<{ userId: string }>();
   const { data: getMember } = useGetClubMember({ cid, user_id: userId });
+  console.log(userId, cid);
   const member = getMember?.result;
   return (
     <Modal.OverLay>
