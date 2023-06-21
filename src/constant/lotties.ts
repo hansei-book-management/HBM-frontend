@@ -1,11 +1,4 @@
-import {
-  CheckLottie,
-  FailLottie,
-  FetchingLottie,
-  LoadingLottie,
-  NoDataLottie,
-  NonePageLottie,
-} from '@/lotties';
+import { CheckLottie, FailLottie, LoadingLottie, NoDataLottie, NonePageLottie } from '@/lotties';
 
 const statusOptions = {
   loop: false,
@@ -47,10 +40,5 @@ export const notFoundPageLottieOptions = {
 
 export const noDataLottieOptions = {
   animationData: NoDataLottie,
-  ...defaultOptions,
-};
-
-export const fetchingLottieOptions = {
-  animationData: FetchingLottie,
   ...defaultOptions,
 };

@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 
 import { useSetRecoilState } from 'recoil';
 
-import { CLUB, fetchingLottieOptions } from '@/constant';
+import { CLUB } from '@/constant';
 import {
   RentMessage,
   Section,
@@ -135,7 +135,6 @@ export const RentPage: React.FC = () => {
               onClick={onAddClubModalOpen}
             />
             <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
-            <Lottie options={fetchingLottieOptions} height={'30rem'} width={'40rem'} />
           </S.RentPageContainer>
         </>
       )}

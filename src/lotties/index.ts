@@ -3,4 +3,3 @@ export { default as LoadingLottie } from './loadingLottie.json';
 export { default as NonePageLottie } from './404Lottie.json';
 export { default as NoDataLottie } from './noDataLottie.json';
 export { default as FailLottie } from './failLottie.json';
-export { default as FetchingLottie } from './fetchingLottie.json';

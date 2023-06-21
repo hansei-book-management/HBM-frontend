@@ -24,7 +24,7 @@ export interface AllowLocationStateProps {
   loading: boolean;
 }
 
-const BASE_URL = '/manage/user-book';
+const BASE_URL = '/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
   const { data: userData } = useFetchUser();
@@ -114,7 +114,7 @@ export const ManageUserBookPage: React.FC = () => {
           name={activeUserClub?.cid}
           activeId={clubId}
           href={`${BASE_URL}`}
-          list={userCid || []}
+          // list={userCid || []}
           manageUserBookPage={true}
           notShowPlusIcon={true}
           userBookInfo={`앙기모링님은 현재 2권 대출중이에요.`}
