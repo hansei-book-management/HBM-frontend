@@ -23,14 +23,17 @@ export interface AddClubBookValues {
   isbn: string;
 }
 
+export interface BookListProps {
+  data: {
+    items: [BookResponse];
+  };
+  end: number;
+  bid: number;
+}
+
 export interface getAllClubsResponse {
   name: string;
-  book: [
-    {
-      data: { items: [BookResponse] };
-      end: number;
-    },
-  ];
+  book: [BookListProps];
 }
 
 export const getAllBooks = async (): Promise<GetAllBooksResponse> => {

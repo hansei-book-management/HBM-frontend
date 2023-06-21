@@ -34,6 +34,7 @@ export const App: React.FC = () => {
         <Route path="/book">
           <Route index element={<Navigate to={`/book/${clubsList && clubsList[0].name} `} />} />
           <Route path=":clubId" element={<BookPage />} />
+          <Route path=":clubId/:bookId" element={<BookPage />} />
         </Route>
         <Route element={<PrivateRoute isUserPage={true} />}>
           <Route path="/club">

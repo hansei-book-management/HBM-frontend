@@ -56,6 +56,10 @@ export const SectionImageTitle = styled.span`
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   &:hover {
     text-decoration: underline;
   }

@@ -8,22 +8,15 @@ import { Book1PNG } from '@/assets';
 import { noDataLottieOptions, UserClubItem } from '@/constant';
 import { useGetLocation, useModal } from '@/hooks';
 import { StatusMessage } from '@/components';
-import { BookResponse, getAllClubsResponse } from '@/api';
+import { BookListProps, BookResponse, getAllClubsResponse } from '@/api';
 
 import { Skeleton } from '../../common/Skeleton';
 
 import * as S from './styled';
 
 export interface SectionProps {
-  data?: [
-    {
-      data: {
-        items: [BookResponse];
-      };
-      end: number;
-    },
-  ];
-  mangeClubName?: string;
+  data?: [BookListProps];
+  clubName?: string;
 }
 
 export interface Book {
@@ -39,13 +32,13 @@ export interface BookItem {
   totalResults: number;
 }
 
-export const Section: React.FC<SectionProps> = ({ data, mangeClubName }) => {
+export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 
   const navigate = useNavigate();
 
-  const { rentPage } = useGetLocation({});
+  const { bookPage } = useGetLocation({});
 
   // const getRentApi = async (clubName: string, page: number) => {
   //   const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
@@ -85,8 +78,11 @@ export const Section: React.FC<SectionProps> = ({ data, mangeClubName }) => {
   //   window.scrollTo(0, 0);
   // };
 
-  const openModal = (bookId: number) => {
+  const openModal = (bookId?: number) => {
     open();
+    if (bookPage) {
+      navigate(`/book/${clubName}/${bookId}`);
+    }
     // if (rentPage) {
     //   navigate(`/club/${clubName}/book/${bookId}`);
     // }
@@ -102,17 +98,17 @@ export const Section: React.FC<SectionProps> = ({ data, mangeClubName }) => {
   return (
     <>
       <S.SectionContainer>
-        {data?.map(({ data }, i) => {
+        {data?.map(({ data, bid }, i) => {
           const bookInfo = data.items[0];
           return (
-            <S.SectionImageContainer>
-              <S.SectionImage src={bookInfo.image} onClick={() => openModal(1)} />
+            <S.SectionImageContainer key={i}>
+              <S.SectionImage src={bookInfo.image} onClick={() => openModal(bid)} />
               <S.SectionImageTitleContainer>
-                <S.SectionImageTitle onClick={() => openModal(1)}>
+                <S.SectionImageTitle onClick={() => openModal(bid)}>
                   {bookInfo.title}
                 </S.SectionImageTitle>
                 <S.SectionImageSubTitle>
-                  {bookInfo.author} · {bookInfo.publisher}
+                  {bookInfo.author.split('^')[0]} · {bookInfo.publisher}
                 </S.SectionImageSubTitle>
                 <StatusMessage />
               </S.SectionImageTitleContainer>

@@ -15,6 +15,7 @@ export const DetailModalContainer = styled.div`
 export const DetailModalTitle = styled.h1`
   font-size: 2.2rem;
   font-weight: 700;
+  line-height: 2.8rem;
   @media screen and (min-width: 300px) and (max-width: 580px) {
     display: none;
   }
