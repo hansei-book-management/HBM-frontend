@@ -31,6 +31,7 @@ export const ManageClubBookPage: React.FC = () => {
   const searchBookData = searchBook?.result.items;
   const onValid = ({ bookName }: SearchBookValue) => {
     bookName ? mutate({ bookName }) : mutate({ bookName: '프로그래밍' });
+    setBookList(data.map(({ isbn }) => isbn));
   };
 
   let data: BookResponse[] = [];
@@ -74,14 +75,14 @@ export const ManageClubBookPage: React.FC = () => {
 
   const toggleBookSelect = (isbn: string) => {
     if (bookList?.includes(isbn)) {
-      if (booksData) {
+      if (data) {
         setBookList(bookList.filter((bookIsbn) => bookIsbn !== isbn));
-        setSelectNumber(booksData.length - bookList.length + 1);
+        setSelectNumber(data.length - bookList.length + 1);
       }
     } else {
-      if (booksData) {
+      if (data) {
         setBookList([...bookList, isbn]);
-        setSelectNumber(booksData.length - bookList?.length - 1);
+        setSelectNumber(data.length - bookList?.length - 1);
       }
     }
   };
@@ -125,7 +126,7 @@ export const ManageClubBookPage: React.FC = () => {
                     </S.AddBookModalFormErrorMessage>
                   )}
                 </S.AddBookModalInputContainer>
-                <span>{books?.result.display}권</span>
+                <span>{searchBook ? searchBook.result.display : books?.result.display}권</span>
                 <S.AddBookModalBookList>
                   {data.map(({ title, author, isbn, image, description }) => (
                     <S.AddBookModalBookContainer
