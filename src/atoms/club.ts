@@ -60,3 +60,12 @@ export const changeClubDirectorModal = atom<ModalStateProps>({
     page: null,
   },
 });
+
+export const addClubBookModal = atom<ModalStateProps>({
+  key: 'addClubBookModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+  },
+});
