@@ -1,3 +1,7 @@
+import { useSetRecoilState } from 'recoil';
+
+import { updateClubMemberModal } from '@/atoms';
+
 import { APIResponse, API_SUFFIX, instance } from './api';
 
 export interface UpdateClubMemberValues extends ClubMemberValues {
