@@ -50,6 +50,7 @@ export const App: React.FC = () => {
             <Route index element={<Navigate to={`/user-book/${USER_CLUB_LIST[0].id}`} />} />
             <Route path=":userClubId" element={<ManageUserBookPage />} />
           </Route>
+          <Route path="club-apply" element={<ClubApplyPage />} />
         </Route>
         <Route element={<PrivateRoute isDirectorPage={true} />}>
           <Route path="/club-book" element={<ManageClubBookPage />}>
@@ -75,7 +76,6 @@ export const App: React.FC = () => {
             <Route path="login" element={<LoginPage />} />
           </Route>
         </Route>
-        <Route path="club-apply" element={<ClubApplyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
