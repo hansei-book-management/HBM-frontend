@@ -19,8 +19,7 @@ export interface SearchBookValue {
 }
 
 export interface AddClubBookValues {
-  bookName: string;
-  cid: number;
+  cid?: number;
   isbn: string;
 }
 
@@ -40,8 +39,14 @@ export const searchBook = async ({ bookName }: SearchBookValue) => {
 };
 
 export const addClubBook = async ({ cid, isbn }: AddClubBookValues) => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book`, {
-    isbn,
-  });
-  return data;
+  if (cid) {
+    console.log(typeof cid, isbn, 'data');
+    const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book`, {
+      isbn,
+    });
+    return data;
+  } else {
+    console.log(cid, isbn, 'data');
+    return;
+  }
 };

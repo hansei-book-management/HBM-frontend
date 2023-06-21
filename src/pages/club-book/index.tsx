@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
 import { RentMessage, Section, DetailModal, HeaderSection, AddClubBookModal } from '@/components';
-import { useModal } from '@/hooks';
+import { useFetchUser, useModal } from '@/hooks';
 import { addClubBookModal } from '@/atoms';
 
 import * as S from './styled';
@@ -16,6 +16,9 @@ export interface AddBookModalStateProps {
 }
 
 export const ManageClubBookPage: React.FC = () => {
+  const { data: userData } = useFetchUser();
+  const cid = userData?.result?.director?.cid;
+
   const navigate = useNavigate();
 
   const { option } = useParams<{ option: string }>();
@@ -26,7 +29,7 @@ export const ManageClubBookPage: React.FC = () => {
   const { modalActive } = useModal();
 
   const onAddBookModalOpen = () => {
-    setAddBookModal({ state: true });
+    setAddBookModal({ state: true, isOk: null });
   };
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export const ManageClubBookPage: React.FC = () => {
       {modalActive && (
         <DetailModal message={<RentMessage canRent={true} />} leftButtonText="닫기" />
       )}
-      <AddClubBookModal />
+      <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
     </S.ManageClubBookContainer>
   );
 };

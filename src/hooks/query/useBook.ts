@@ -42,13 +42,10 @@ export const useAddClubBook = (): UseMutationResult<
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
   return useMutation('useAddClubBook', addClubBook, {
     onSuccess: () => {
-      setAddClubBookModal((prev) => ({ ...prev, isLoading: true }));
-      setTimeout(() => {
-        setAddClubBookModal({ state: true, isOk: true });
-      }, 1000);
+      setAddClubBookModal({ state: true, isOk: true });
     },
-    onError: () => {
-      setAddClubBookModal({ state: true, isOk: false });
+    onError: (data) => {
+      setAddClubBookModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });
