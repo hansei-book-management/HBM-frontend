@@ -35,7 +35,6 @@ export const ManageUserBookPage: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
   const userBookData = activeUserClub?.book;
-  console.log(userClubBook, 'user book data');
   const USER_CLUB_BASE_URL = `/user-book/${clubId}`;
 
   const navigate = useNavigate();
@@ -125,7 +124,7 @@ export const ManageUserBookPage: React.FC = () => {
             notShowPlusIcon={true}
             userBookInfo={`${user?.name}은 현재 ${bookCount}권 대출중이에요.`}
           />
-          <Section data={userBookData}/>
+          <Section data={userBookData} navigateUrl={`/user-book/${activeUserClub.name}/book`} />
           {modalActive && !returnBookModal.state && (
             <DetailModal
               leftButtonText="닫기"
@@ -136,6 +135,7 @@ export const ManageUserBookPage: React.FC = () => {
                   '반납하기'
                 )
               }
+              data={userBookData}
               rightButtonClick={onReturnBookModalOpen}
             />
           )}

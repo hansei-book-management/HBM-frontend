@@ -40,6 +40,7 @@ export const App: React.FC = () => {
           </Route>
           <Route path="/user-book" element={<ManageUserBookPage />}>
             <Route path=":clubId" element={<ManageUserBookPage />} />
+            <Route path=":clubId/book/:bookId" element={<ManageUserBookPage />} />
           </Route>
           <Route path="club-apply" element={<ClubApplyPage />} />
         </Route>
@@ -49,8 +50,8 @@ export const App: React.FC = () => {
               index
               element={<Navigate to={`/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
             />
-            <Route path=":option" element={<ManageUserBookPage />} />
-            <Route path=":option/book/:bookId" element={<ManageUserBookPage />} />
+            <Route path=":option" element={<ManageClubBookPage />} />
+            <Route path=":option/book/:bookId" element={<ManageClubBookPage />} />
           </Route>
           <Route path="/manage-club" element={<ManageClubPage />}>
             <Route path="member/:userId" element={<ManageClubPage />}>
