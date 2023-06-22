@@ -19,6 +19,8 @@ import {
   searchBook,
   GetUserBooksResponse,
   rentBook,
+  getClubBooks,
+  GetClubBooksResponse,
 } from '@/api';
 import { addClubBookModal, rentClubBookModal } from '@/atoms';
 
@@ -120,6 +122,14 @@ export const useGetUserBooks = (
   uid?: string,
 ): UseQueryResult<APIResponse<GetUserBooksResponse[]>, AxiosError<APIErrorResponse>> => {
   return useQuery('useGetUserBook', () => getUserBooks(uid), {
+    retry: 0,
+  });
+};
+
+export const useGetClubBooks = (
+  cid?: number,
+): UseQueryResult<APIResponse<GetClubBooksResponse[]>, AxiosError<APIErrorResponse>> => {
+  return useQuery('useGetClubBooks', () => getClubBooks(cid), {
     retry: 0,
   });
 };

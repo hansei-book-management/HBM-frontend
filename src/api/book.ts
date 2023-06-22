@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import { API_SUFFIX, instance } from './api';
 
 export interface BookResponse {
@@ -31,18 +33,18 @@ export interface BookListProps {
   bid: number;
 }
 
-export interface GetAllClubsResponse {
+export interface GetClubBooksResponse {
   cid: number;
   name: string;
   book: [BookListProps];
+}
+
+export interface GetAllClubsResponse extends GetClubBooksResponse {
   end: number;
   bid: number;
 }
 
-export interface GetUserBooksResponse {
-  cid: number;
-  name: string;
-  book: [BookListProps];
+export interface GetUserBooksResponse extends GetClubBooksResponse {
   borrowBook: number;
 }
 
@@ -83,11 +85,40 @@ export const getUserClubs = async (): Promise<GetAllClubsResponse[]> => {
 };
 
 export const rentBook = async (cid?: number, bid?: number) => {
-  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
-  return data;
+  if (cid && bid) {
+    const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
+    return data;
+  } else {
+    toast.error('동아리 아이디 또는 책 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    throw new Error('cid or bid is undefined');
+  }
 };
 
 export const getUserBooks = async (uid?: string): Promise<GetUserBooksResponse[]> => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/member/${uid}/book`);
-  return data;
+  if (uid) {
+    const { data } = await instance.get(`${API_SUFFIX.CLUB}/member/${uid}/book`);
+    return data;
+  } else {
+    toast.error('유저 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    throw new Error('uid is undefined');
+  }
+};
+
+export const getClubBooks = async (cid?: number): Promise<GetClubBooksResponse[]> => {
+  if (cid) {
+    const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/book`);
+    return data;
+  } else {
+    toast.error('동아리 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    throw new Error('cid is undefined');
+  }
 };

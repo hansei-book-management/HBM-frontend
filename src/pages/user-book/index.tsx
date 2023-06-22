@@ -35,6 +35,7 @@ export const ManageUserBookPage: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
   const userBookData = activeUserClub?.book;
+  console.log(userClubBook, 'user book data');
   const USER_CLUB_BASE_URL = `/user-book/${clubId}`;
 
   const navigate = useNavigate();

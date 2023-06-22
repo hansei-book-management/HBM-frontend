@@ -4,9 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
 import { MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
-import { RentMessage, Section, DetailModal, HeaderSection, AddClubBookModal } from '@/components';
-import { useFetchUser, useModal } from '@/hooks';
+import { Section, DetailModal, HeaderSection, AddClubBookModal } from '@/components';
+import { useFetchUser, useGetClubBooks, useModal } from '@/hooks';
 import { addClubBookModal } from '@/atoms';
+import { BookListProps } from '@/api';
 
 import * as S from './styled';
 
@@ -18,11 +19,27 @@ export interface AddBookModalStateProps {
 export const ManageClubBookPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const cid = userData?.result?.director?.cid;
+  const { data: clubBookData, isFetching } = useGetClubBooks(cid);
+  const clubBook = clubBookData?.result;
 
   const navigate = useNavigate();
 
   const { option } = useParams<{ option: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
+
+  let book: BookListProps[] = [];
+
+  if (clubBook) {
+    if (activeOption?.id === 'can-rent') {
+      book = clubBook?.map(({ book }) => book.filter(({ end }) => end === 0)).flat();
+    } else if (activeOption?.id === 'renting') {
+      book = clubBook.map(({ book }) => book.filter(({ end }) => end !== 0)).flat();
+    } else {
+      book = clubBook.map(({ book }) => book).flat();
+    }
+  } else {
+    book = [];
+  }
 
   const setAddBookModal = useSetRecoilState(addClubBookModal);
 
@@ -34,7 +51,7 @@ export const ManageClubBookPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!activeOption) {
+    if (!activeOption && clubBookData && !isFetching) {
       navigate(`${MANAGE_CLUB_BOOK}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
     }
   }, [activeOption]);
@@ -46,14 +63,12 @@ export const ManageClubBookPage: React.FC = () => {
           name={activeOption.text}
           activeId={option}
           href={`${MANAGE_CLUB_BOOK}`}
-          list={MANAGE_CLUB_BOOK_OPTIONS}
+          optionList={MANAGE_CLUB_BOOK_OPTIONS}
           onClick={onAddBookModalOpen}
         />
       )}
-      <Section mangeClubName="hsoc" />
-      {modalActive && (
-        <DetailModal message={<RentMessage canRent={true} />} leftButtonText="닫기" />
-      )}
+      <Section data={book} />
+      {modalActive && <DetailModal leftButtonText="닫기" />}
       <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
     </S.ManageClubBookContainer>
   );

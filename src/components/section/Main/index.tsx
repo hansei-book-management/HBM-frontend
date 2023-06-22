@@ -15,7 +15,7 @@ import { Skeleton } from '../../common/Skeleton';
 import * as S from './styled';
 
 export interface SectionProps {
-  data?: [BookListProps];
+  data?: [BookListProps] | BookListProps[];
   clubName?: string;
 }
 

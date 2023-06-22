@@ -43,7 +43,7 @@ export const StatusMessage: React.FC<StatusMessageProps> = ({ canRent }) => {
     );
   }
   if (manageClubAllBookPage) {
-    const isOk = id !== 2;
+    const isOk = true;
     if (canRent) {
       return <RentMessage canRent={true} />;
     } else {
