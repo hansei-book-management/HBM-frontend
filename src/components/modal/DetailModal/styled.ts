@@ -33,7 +33,7 @@ export const DetailModalMobileTitle = styled.h1`
 `;
 
 export const DetailModalImage = styled.img`
-  width: 16rem;
+  height: 26rem;
   border: 1px solid ${({ theme }) => theme.imageBorder};
   @media screen and (min-width: 500px) and (max-width: 580px) {
     width: 17.5rem;

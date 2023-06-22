@@ -33,7 +33,10 @@ export interface BookListProps {
 
 export interface GetAllClubsResponse {
   name: string;
+  cid: number;
   book: [BookListProps];
+  end: number;
+  bid: number;
 }
 
 export interface GetUserBooksResponse {
@@ -66,7 +69,6 @@ export const addClubBook = async ({ cid, isbn }: AddClubBookValues) => {
     });
     return data;
   } else {
-    console.log(cid, isbn, 'data');
     return;
   }
 };
@@ -78,6 +80,11 @@ export const getAllClubs = async (): Promise<GetAllClubsResponse[]> => {
 
 export const getUserClubs = async (): Promise<GetAllClubsResponse[]> => {
   const { data } = await instance.get(API_SUFFIX.CLUB);
+  return data;
+};
+
+export const rentBook = async (cid?: number, bid?: number) => {
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
   return data;
 };
 

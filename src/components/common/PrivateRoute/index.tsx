@@ -18,7 +18,6 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isLoginPage = false,
 }) => {
   const { data: user, isFetching } = useFetchUser();
-  console.log(isFetching);
 
   const userInfo = user?.result;
 
@@ -35,6 +34,6 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
   } else if (isLoginPage && !isFetching) {
     return isAuthenticatedUser ? <Navigate to="/" /> : <Outlet />;
   } else {
-    return <Outlet />;
+    return isFetching ? <h2>Loading...</h2> : <Outlet />;
   }
 };

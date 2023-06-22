@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useGetWindowSize } from '@/hooks';
 import { BookListProps } from '@/api';
+import { RentMessage } from '@/components/common';
 
 import { Modal } from '../Modal';
 
@@ -10,7 +11,7 @@ import * as S from './styled';
 
 export interface DetailModalProps {
   data?: [BookListProps];
-  message?: React.ReactNode;
+  end?: number;
   leftButtonText: string;
   rightButtonText?: React.ReactNode;
   rightButtonClick?: () => void;
@@ -19,11 +20,11 @@ export interface DetailModalProps {
 
 export const DetailModal: React.FC<DetailModalProps> = ({
   data,
-  message,
   leftButtonText,
   rightButtonText,
   rightButtonClick,
   leftButtonClick,
+  end,
 }) => {
   const { bookId } = useParams<{ bookId: string }>();
   const bookIdNum = Number(bookId);
@@ -51,14 +52,18 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                               alignSelf: 'center',
                             }}
                           >
-                            {message}
+                            <RentMessage canRent={end === 0} />
                             <S.DetailModalMobileTitle>{bookInfo.title}</S.DetailModalMobileTitle>
                             <S.DetailModalImage src={bookInfo.image} />
                           </div>
                         )}
                         {getWidth > 580 && <S.DetailModalImage src={bookInfo.image} />}
                         <S.DetailModalInfoContainer>
-                          {getWidth > 580 && <>{message}</>}
+                          {getWidth > 580 && (
+                            <>
+                              <RentMessage canRent={end === 0} />
+                            </>
+                          )}
                           <S.DetailModalTitle>{bookInfo.title}</S.DetailModalTitle>
                           <S.DetailModalInfoText>
                             저자: {bookInfo.author.split('^')[0]}

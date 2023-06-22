@@ -1,21 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { CLUB } from '@/constant';
-import {
-  RentMessage,
-  Section,
-  DetailModal,
-  HeaderSection,
-  AddClubModal,
-  ModalStateProps,
-  CommonModal,
-} from '@/components';
-import { useGetUserClubs, useModal } from '@/hooks';
-import { addUserClubModal } from '@/atoms';
+import { Section, DetailModal, HeaderSection, AddClubModal, CommonModal } from '@/components';
+import { useGetUserClubs, useModal, useRentBook } from '@/hooks';
+import { addUserClubModal, rentClubBookModal } from '@/atoms';
 
 import * as S from './styled';
 
@@ -24,50 +16,36 @@ export const RentPage: React.FC = () => {
   const userClubs = data?.result;
 
   const navigate = useNavigate();
-  const { clubId } = useParams<{ clubId: string }>();
+  const { clubId, bookId } = useParams<{ clubId: string; bookId: string }>();
 
   const activeUserClub = userClubs?.find(({ name }) => name === clubId);
   const activeUserClubBooks = activeUserClub?.book;
 
   const { modalActive } = useModal();
 
-  // const [addClubModal, setAddClubModal] = useState<ModalStateProps>({
-  //   state: false,
-  //   isLoading: false,
-  //   isOk: null,
-  // });
-
-  const [rentClubBookModal, setRentClubBookModal] = useState<ModalStateProps>({
-    state: false,
-    isLoading: false,
-    isOk: null,
-  });
-
   const setAddClubModal = useSetRecoilState(addUserClubModal);
+  const [rentBookModal, setRentBookModal] = useRecoilState(rentClubBookModal);
 
-  // rent modal FN
-  const onRentClubBookModalOpen = (bookId: number) => {
-    setRentClubBookModal({ state: true, isLoading: false, isOk: null });
-    navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=1`);
+  const { handleSubmit } = useForm();
+
+  const { mutate } = useRentBook(activeUserClub?.cid, Number(bookId));
+
+  const onSubmit = () => {
+    mutate({});
   };
 
-  const onRentClubBookStateModal = (bookId: number) => {
-    setRentClubBookModal({ state: true, isLoading: true, isOk: null });
-    setTimeout(() => {
-      setRentClubBookModal({ state: true, isLoading: false, isOk: true });
-      navigate(`${CLUB}/${clubId}/book/${bookId}/book-rent?step=2`);
-      // fail test
-      // setRentClubBookModal({ state: true, isLoading: false, isOk: false });
-    }, 1000);
+  // rent modal FN
+  const onRentClubBookModalOpen = () => {
+    setRentBookModal({ state: true, isOk: null });
   };
 
   const onRentClubBookModalClose = () => {
-    setRentClubBookModal({ state: false, isLoading: false, isOk: null });
+    setRentBookModal({ state: false });
     navigate(`${CLUB}/${clubId}`);
   };
 
   // add club modal FN
-  const onAddClubModalOpen = () => {
+  const onBookDetailModalOpen = () => {
     setAddClubModal({ state: true, isOk: null });
   };
 
@@ -88,41 +66,39 @@ export const RentPage: React.FC = () => {
               activeId={clubId}
               href="/club"
               list={userClubs || []}
-              onClick={onAddClubModalOpen}
+              onClick={onBookDetailModalOpen}
             />
             <Section data={activeUserClubBooks} clubName={activeUserClub?.name} />
           </S.RentPageContainer>
           {/** book detail modal */}
-          {modalActive && !rentClubBookModal.state && (
+          {modalActive && rentBookModal.state === false && (
             <DetailModal
-              rightButtonClick={() => onRentClubBookModalOpen(1)}
+              rightButtonClick={() => onRentClubBookModalOpen()}
               leftButtonText="닫기"
               rightButtonText="대여하기"
-              message={<RentMessage canRent={true} />}
               data={activeUserClubBooks}
+              end={activeUserClub.end}
+              leftButtonClick={() => navigate(`${CLUB}/${clubId}`)}
             />
           )}
-          <AddClubModal url={`${CLUB} /${clubId}`} />
+          <AddClubModal url={`${CLUB}/${clubId}`} />
           {/** rent modal */}
           <CommonModal
             leftButtonClick={onRentClubBookModalClose}
-            rightButtonClick={() => onRentClubBookStateModal(1)}
-            modal={rentClubBookModal}
+            modal={rentBookModal}
             title={`대여`}
             message={
-              `정말로 ‘당신이 모르는 민주주의’ 책을 대여할까요?\n` +
+              `정말로 이 책을 대여할까요?\n` +
               `대여가 완료된 책은 동아리 부장의 확인을 받아야 반납처리할 수 있어요.`
             }
             successMessage={
-              `‘당신이 모르는 민주주의’ 책을 대여했어요.\n` +
-              `대여 기한은 10일이며, 연장 신청을 할 수 있어요.\n` +
-              `1차 반납 기간은 2023년 X월 X일까지에요.`
+              `책 대여에 성공했어요.\n` +
+              `대여 기한은 14일이며, 연장 신청을 할 수 있어요.\n` +
+              `내 도서에서 확인해 보세요.`
             }
-            failMessage={
-              `'앙기모링'님의 대여 실패 했어요.\n` +
-              `대여한 도서를 기간 내에 반납하지 않아 대여가 정지되었어요.\n` +
-              `대여 정지는 도서 반납을 하면 자동으로 해제돼요.`
-            }
+            failMessage={`책 대여에 실패 했어요.\n` + `${rentBookModal.data}`}
+            handleSubmit={handleSubmit}
+            onValid={onSubmit}
           />
         </>
       ) : (
@@ -132,7 +108,7 @@ export const RentPage: React.FC = () => {
               activeId={clubId}
               href="/club"
               list={userClubs || []}
-              onClick={onAddClubModalOpen}
+              onClick={onBookDetailModalOpen}
             />
             <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
           </S.RentPageContainer>
