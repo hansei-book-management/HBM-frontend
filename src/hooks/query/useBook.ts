@@ -103,12 +103,14 @@ export const useRentBook = (
   cid?: number,
   bid?: number,
 ): UseMutationResult<APIResponse<{ end: number }>, AxiosError<APIErrorResponse>> => {
+  const userClub = useGetUserClubs();
   const setRentBookModal = useSetRecoilState(rentClubBookModal);
   return useMutation('useRentBook', () => rentBook(cid, bid), {
     onSuccess: () => {
       setRentBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setRentBookModal({ state: true, isOk: true });
+        userClub.refetch();
       }, 1000);
     },
     onError: (data) => {
