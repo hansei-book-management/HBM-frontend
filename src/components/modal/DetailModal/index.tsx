@@ -10,7 +10,7 @@ import { Modal } from '../Modal';
 import * as S from './styled';
 
 export interface DetailModalProps {
-  data?: [BookListProps];
+  data?: [BookListProps] | BookListProps[];
   end?: number;
   leftButtonText: string;
   rightButtonText?: React.ReactNode;

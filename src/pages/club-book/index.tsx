@@ -57,19 +57,34 @@ export const ManageClubBookPage: React.FC = () => {
   }, [activeOption]);
 
   return (
-    <S.ManageClubBookContainer>
-      {activeOption && (
-        <HeaderSection
-          name={activeOption.text}
-          activeId={option}
-          href={`${MANAGE_CLUB_BOOK}`}
-          optionList={MANAGE_CLUB_BOOK_OPTIONS}
-          onClick={onAddBookModalOpen}
-        />
+    <>
+      {isFetching ? null : activeOption ? (
+        <S.ManageClubBookContainer>
+          {activeOption && (
+            <HeaderSection
+              name={activeOption.text}
+              activeId={option}
+              href={`${MANAGE_CLUB_BOOK}`}
+              optionList={MANAGE_CLUB_BOOK_OPTIONS}
+              onClick={onAddBookModalOpen}
+            />
+          )}
+          <Section data={book} />
+          {modalActive && <DetailModal leftButtonText="닫기" data={book} />}
+          <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
+        </S.ManageClubBookContainer>
+      ) : (
+        <>
+          <S.ManageClubBookContainer>
+            <HeaderSection
+              activeId={option}
+              href={`${MANAGE_CLUB_BOOK}`}
+              optionList={MANAGE_CLUB_BOOK_OPTIONS}
+            />
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>옵션을 선택해주세요.</h1>
+          </S.ManageClubBookContainer>
+        </>
       )}
-      <Section data={book} />
-      {modalActive && <DetailModal leftButtonText="닫기" />}
-      <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
-    </S.ManageClubBookContainer>
+    </>
   );
 };
