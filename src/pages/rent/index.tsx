@@ -51,7 +51,7 @@ export const RentPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if ((!activeUserClub && userClubs) || (userClubs && !isFetching)) {
+    if (!activeUserClub && userClubs && !isFetching) {
       navigate(`${CLUB}/${userClubs[0].name}`);
     }
   }, [activeUserClub]);

@@ -27,11 +27,12 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
 
   if (isUserPage && !isFetching) {
     return isAuthenticatedUser ? <Outlet /> : <Navigate to="/auth/login" />;
+    return <Outlet />;
   } else if (isDirectorPage && !isFetching) {
     return isDirector ? <Outlet /> : <NotFoundPage />;
   } else if (isAdminPage && !isFetching) {
     return isAdmin ? <Outlet /> : <NotFoundPage />;
-  } else if (isLoginPage && !isFetching) {
+  } else if (isLoginPage) {
     return isAuthenticatedUser ? <Navigate to="/" /> : <Outlet />;
   } else {
     return isFetching ? <h2>Loading...</h2> : <Outlet />;

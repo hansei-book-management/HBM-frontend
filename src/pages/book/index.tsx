@@ -7,7 +7,7 @@ import { useGetClubs, useModal } from '@/hooks';
 import * as S from './styled';
 
 export const BookPage: React.FC = () => {
-  const { data } = useGetClubs();
+  const { data, isFetching } = useGetClubs();
   const clubs = data?.result;
 
   const { clubId } = useParams<{ clubId: string }>();
@@ -26,28 +26,37 @@ export const BookPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!activeClub) {
-      navigate(`/book/${clubId}`);
+    if ((!activeClub && clubs) || (clubs && !isFetching)) {
+      navigate(`/book/${clubs[0].name}`);
     }
   }, [activeClub]);
 
   return (
-    <S.BookPageContainer>
-      <HeaderSection
-        name={activeClub?.name}
-        activeId={clubId}
-        href="/book"
-        list={clubs || []}
-        notShowPlusIcon={true}
-      />
-      <Section data={activeClubBooks} clubName={activeClub?.name} />
-      {modalActive && (
-        <DetailModal
-          data={activeClubBooks}
-          leftButtonText="닫기"
-          leftButtonClick={onBookDetailModalClose}
-        />
+    <>
+      {isFetching ? null : activeClub ? (
+        <S.BookPageContainer>
+          <HeaderSection
+            name={activeClub?.name}
+            activeId={clubId}
+            href="/book"
+            list={clubs || []}
+            notShowPlusIcon={true}
+          />
+          <Section data={activeClubBooks} clubName={activeClub?.name} />
+          {modalActive && (
+            <DetailModal
+              data={activeClubBooks}
+              leftButtonText="닫기"
+              leftButtonClick={onBookDetailModalClose}
+            />
+          )}
+        </S.BookPageContainer>
+      ) : (
+        <S.BookPageContainer>
+          <HeaderSection activeId={clubId} href="/club" list={clubs || []} />
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+        </S.BookPageContainer>
       )}
-    </S.BookPageContainer>
+    </>
   );
 };

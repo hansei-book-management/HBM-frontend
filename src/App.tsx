@@ -15,12 +15,7 @@ import {
 } from './pages';
 import { DefaultLayout, PrivateRoute } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS } from './constant';
-import { useGetClubs } from './hooks';
-
 export const App: React.FC = () => {
-  const { data: clubsData } = useGetClubs();
-  const clubsList = clubsData?.result;
-
   return (
     <Routes>
       <Route
@@ -31,8 +26,7 @@ export const App: React.FC = () => {
         }
       >
         <Route path="/" element={<MainPage />} />
-        <Route path="/book">
-          <Route index element={<Navigate to={`/book/${clubsList && clubsList[0].name} `} />} />
+        <Route path="/book" element={<BookPage />}>
           <Route path=":clubId" element={<BookPage />} />
           <Route path=":clubId/:bookId" element={<BookPage />} />
         </Route>
