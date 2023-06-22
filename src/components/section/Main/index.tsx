@@ -16,7 +16,6 @@ import * as S from './styled';
 
 export interface SectionProps {
   data?: [BookListProps];
-  userBorrowBook?: GetAllBooksResponse;
   clubName?: string;
 }
 
@@ -33,7 +32,7 @@ export interface BookItem {
   totalResults: number;
 }
 
-export const Section: React.FC<SectionProps> = ({ data, clubName, userBorrowBook }) => {
+export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 

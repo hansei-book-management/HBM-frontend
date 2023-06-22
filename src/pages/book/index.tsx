@@ -26,7 +26,7 @@ export const BookPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if ((!activeClub && clubs) || (clubs && !isFetching)) {
+    if (!activeClub && clubs && !isFetching) {
       navigate(`/book/${clubs[0].name}`);
     }
   }, [activeClub]);
@@ -53,7 +53,7 @@ export const BookPage: React.FC = () => {
         </S.BookPageContainer>
       ) : (
         <S.BookPageContainer>
-          <HeaderSection activeId={clubId} href="/club" list={clubs || []} />
+          <HeaderSection activeId={clubId} href="/book" list={clubs || []} />
           <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
         </S.BookPageContainer>
       )}

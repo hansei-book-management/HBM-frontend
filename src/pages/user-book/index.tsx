@@ -28,14 +28,14 @@ const BASE_URL = '/user-book';
 
 export const ManageUserBookPage: React.FC = () => {
   const { data: userData } = useFetchUser();
-  const { data: userBook, isFetching } = useGetUserBooks(userData?.result?.uid);
-  const userCid = userBook?.result;
+  const user = userData?.result;
+  const { data: userBook, isFetching } = useGetUserBooks(user?.uid);
+  const userClubBook = userBook?.result;
 
   const { clubId } = useParams<{ clubId: string }>();
-  const userClubId = Number(clubId);
-  const activeUserClub = userBook?.result.find(({ cid }) => cid === userClubId);
-  const userBookData = activeUserClub?.data;
-  const USER_CLUB_BASE_URL = `/manage/user-book/${userClubId}`;
+  const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
+  const userBookData = activeUserClub?.book;
+  const USER_CLUB_BASE_URL = `/user-book/${clubId}`;
 
   const navigate = useNavigate();
 
@@ -97,52 +97,64 @@ export const ManageUserBookPage: React.FC = () => {
     }, 1000);
   };
 
+  const bookCount = userClubBook
+    ?.map(({ book }) => book.filter(({ end }) => end === 0).length)
+    .reduce((a, b) => a + b, 0);
+
   useEffect(() => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
-    if ((!activeUserClub && userCid) || (userCid && clubAddStep)) {
-      navigate(`${BASE_URL}/${userCid[0].cid}`);
+    if (!activeUserClub && userClubBook && clubAddStep && !isFetching) {
+      navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
   }, [activeUserClub]);
 
   // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
 
   return (
-    <S.ManageUserBookContainer>
-      {activeUserClub && (
-        <HeaderSection
-          name={activeUserClub?.cid}
-          activeId={clubId}
-          href={`${BASE_URL}`}
-          // list={userCid || []}
-          manageUserBookPage={true}
-          notShowPlusIcon={true}
-          userBookInfo={`앙기모링님은 현재 2권 대출중이에요.`}
-        />
+    <>
+      {isFetching ? null : activeUserClub ? (
+        <S.ManageUserBookContainer>
+          <HeaderSection
+            name={activeUserClub?.name}
+            activeId={clubId}
+            href={`${BASE_URL}`}
+            list={userClubBook || []}
+            manageUserBookPage={true}
+            notShowPlusIcon={true}
+            userBookInfo={`${user?.name}은 현재 ${bookCount}권 대출중이에요.`}
+          />
+          <Section data={userBookData} />
+          {modalActive && !returnBookModal.state && (
+            <DetailModal
+              leftButtonText="닫기"
+              rightButtonText={
+                returnBookModal.isLoading ? (
+                  <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
+                ) : (
+                  '반납하기'
+                )
+              }
+              rightButtonClick={onReturnBookModalOpen}
+            />
+          )}
+          <ReturnBookModal
+            returnBookModal={returnBookModal}
+            onReturnBookModalClose={onReturnBookModalClose}
+            onReturnBookStatusModal={onReturnBookStatusModal}
+            setSelectedImage={setSelectedImage}
+            selectedImage={selectedImage}
+            url={USER_CLUB_BASE_URL}
+          />
+        </S.ManageUserBookContainer>
+      ) : (
+        <>
+          <S.ManageUserBookContainer>
+            <HeaderSection activeId={clubId} href={`${BASE_URL}`} list={userClubBook || []} />
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+          </S.ManageUserBookContainer>
+        </>
       )}
-      <Section userBorrowBook={userBookData} />
-      {modalActive && !returnBookModal.state && (
-        <DetailModal
-          leftButtonText="닫기"
-          rightButtonText={
-            returnBookModal.isLoading ? (
-              <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
-            ) : (
-              '반납하기'
-            )
-          }
-          message={<S.DetailModalMessage isOk={true}>대여중 - 2일 1시간 남음</S.DetailModalMessage>}
-          rightButtonClick={onReturnBookModalOpen}
-        />
-      )}
-      <ReturnBookModal
-        returnBookModal={returnBookModal}
-        onReturnBookModalClose={onReturnBookModalClose}
-        onReturnBookStatusModal={onReturnBookStatusModal}
-        setSelectedImage={setSelectedImage}
-        selectedImage={selectedImage}
-        url={USER_CLUB_BASE_URL}
-      />
-    </S.ManageUserBookContainer>
+    </>
   );
 };

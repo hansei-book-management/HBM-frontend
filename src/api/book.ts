@@ -32,19 +32,18 @@ export interface BookListProps {
 }
 
 export interface GetAllClubsResponse {
-  name: string;
   cid: number;
+  name: string;
   book: [BookListProps];
   end: number;
   bid: number;
 }
 
 export interface GetUserBooksResponse {
-  bid: number;
   cid: number;
-  end: number;
+  name: string;
+  book: [BookListProps];
   borrowBook: number;
-  data: GetAllBooksResponse;
 }
 
 export const getAllBooks = async (): Promise<GetAllBooksResponse> => {
@@ -89,6 +88,6 @@ export const rentBook = async (cid?: number, bid?: number) => {
 };
 
 export const getUserBooks = async (uid?: string): Promise<GetUserBooksResponse[]> => {
-  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${uid}/book`);
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/member/${uid}/book`);
   return data;
 };

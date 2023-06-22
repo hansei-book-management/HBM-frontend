@@ -11,8 +11,7 @@ export interface HeaderSectionProps {
   userBookInfo?: string;
   name?: React.ReactNode;
   href: string;
-  list?: GetAllClubsResponse[] | ManageClubBookOptionItem[];
-  userClubList?: GetUserBooksResponse[];
+  list?: GetAllClubsResponse[] | GetUserBooksResponse[];
   onClick?: () => void;
   activeId?: string;
   userMessage?: string;
@@ -28,7 +27,6 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
   activeId,
   userBookInfo,
   userMessage,
-  userClubList,
 }) => {
   const isActive = (activeId?: string, id?: string) => activeId === id;
   return (
@@ -39,8 +37,9 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
         {name}
       </S.HeaderSectionTitle>
       <S.HeaderSectionList manageUserBookPage={manageUserBookPage || false}>
-        {list
-          ? list.map(({ name }) => (
+        {list?.map(({ name, book }) => {
+          if (book.length > 0) {
+            return (
               <S.HeaderSectionItem
                 key={name}
                 isActive={isActive(activeId, name)}
@@ -48,16 +47,11 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
               >
                 {name}
               </S.HeaderSectionItem>
-            ))
-          : userClubList?.map(({ cid }) => (
-              <S.HeaderSectionItem
-                key={cid}
-                isActive={isActive(activeId, cid.toString())}
-                to={`${href}/${name}`}
-              >
-                {name}
-              </S.HeaderSectionItem>
-            ))}
+            );
+          } else {
+            return;
+          }
+        })}
         {!notShowPlusIcon && (
           <S.HeaderSectionAddIconWrap onClick={onClick}>
             <FaPlus size={'0.9rem'} />
