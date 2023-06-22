@@ -125,7 +125,7 @@ export const ManageUserBookPage: React.FC = () => {
             notShowPlusIcon={true}
             userBookInfo={`${user?.name}은 현재 ${bookCount}권 대출중이에요.`}
           />
-          <Section data={userBookData} />
+          <Section data={userBookData}/>
           {modalActive && !returnBookModal.state && (
             <DetailModal
               leftButtonText="닫기"

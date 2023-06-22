@@ -4,9 +4,8 @@ import { useQuery } from 'react-query';
 
 import axios from 'axios';
 
-import { Book1PNG } from '@/assets';
 import { noDataLottieOptions } from '@/constant';
-import { useGetLocation, useModal } from '@/hooks';
+import { useModal } from '@/hooks';
 import { StatusMessage } from '@/components';
 import { BookListProps, BookResponse, GetAllBooksResponse, GetUserBooksResponse } from '@/api';
 
@@ -16,7 +15,7 @@ import * as S from './styled';
 
 export interface SectionProps {
   data?: [BookListProps] | BookListProps[];
-  clubName?: string;
+  navigateUrl?: string;
 }
 
 export interface Book {
@@ -32,13 +31,11 @@ export interface BookItem {
   totalResults: number;
 }
 
-export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
+export const Section: React.FC<SectionProps> = ({ data, navigateUrl }) => {
   const [page, setPage] = useState(1);
   const { open } = useModal();
 
   const navigate = useNavigate();
-
-  const { bookPage, rentPage } = useGetLocation({});
 
   // const getRentApi = async (clubName: string, page: number) => {
   //   const res = await axios.get(`http://localhost:3000/rent/${clubName}?page=${page}`);
@@ -80,14 +77,7 @@ export const Section: React.FC<SectionProps> = ({ data, clubName }) => {
 
   const openModal = (bookId?: number) => {
     open();
-    if (bookPage) {
-      navigate(`/book/${clubName}/${bookId}`);
-    } else if (rentPage) {
-      navigate(`/club/${clubName}/${bookId}`);
-    }
-    // if (rentPage) {
-    //   navigate(`/club/${clubName}/book/${bookId}`);
-    // }
+    navigate(`${navigateUrl}/${bookId}`);
   };
 
   useEffect(() => {

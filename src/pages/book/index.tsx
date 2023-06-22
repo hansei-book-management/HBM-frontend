@@ -42,7 +42,7 @@ export const BookPage: React.FC = () => {
             list={clubs || []}
             notShowPlusIcon={true}
           />
-          <Section data={activeClubBooks} clubName={activeClub?.name} />
+          <Section data={activeClubBooks} navigateUrl={`/book/${activeClub?.name}`} />
           {modalActive && (
             <DetailModal
               data={activeClubBooks}

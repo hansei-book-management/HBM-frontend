@@ -50,6 +50,7 @@ export const App: React.FC = () => {
               element={<Navigate to={`/club-book/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`} />}
             />
             <Route path=":option" element={<ManageUserBookPage />} />
+            <Route path=":option/book/:bookId" element={<ManageUserBookPage />} />
           </Route>
           <Route path="/manage-club" element={<ManageClubPage />}>
             <Route path="member/:userId" element={<ManageClubPage />}>

@@ -19,9 +19,6 @@ export const StatusMessage: React.FC<StatusMessageProps> = ({ canRent }) => {
     manageClubBorrowBookPage,
   } = useGetLocation({});
 
-  // const canRent = true;
-  const id = Math.floor(Math.random() * 10) + 1;
-
   if (rentPage) {
     return <RentMessage canRent={canRent} />;
   }

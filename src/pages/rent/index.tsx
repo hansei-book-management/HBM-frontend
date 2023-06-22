@@ -68,7 +68,7 @@ export const RentPage: React.FC = () => {
               list={userClubs || []}
               onClick={onBookDetailModalOpen}
             />
-            <Section data={activeUserClubBooks} clubName={activeUserClub?.name} />
+            <Section data={activeUserClubBooks} navigateUrl={`/club/${activeUserClub?.name}`} />
           </S.RentPageContainer>
           {/** book detail modal */}
           {modalActive && rentBookModal.state === false && (
