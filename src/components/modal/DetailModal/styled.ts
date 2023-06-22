@@ -15,6 +15,7 @@ export const DetailModalContainer = styled.div`
 export const DetailModalTitle = styled.h1`
   font-size: 2.2rem;
   font-weight: 700;
+  line-height: 2.8rem;
   @media screen and (min-width: 300px) and (max-width: 580px) {
     display: none;
   }
@@ -32,7 +33,7 @@ export const DetailModalMobileTitle = styled.h1`
 `;
 
 export const DetailModalImage = styled.img`
-  width: 16rem;
+  height: 26rem;
   border: 1px solid ${({ theme }) => theme.imageBorder};
   @media screen and (min-width: 500px) and (max-width: 580px) {
     width: 17.5rem;

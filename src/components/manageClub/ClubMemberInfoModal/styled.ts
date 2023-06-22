@@ -19,7 +19,9 @@ export const ModalUserBookInfoText = styled.span`
 `;
 
 export const ModalUserBookInfo = styled.div`
-  display: flex;
+  display: gird;
+  grid-template-columns: 1fr 1fr;
+  line-height: 1.5;
 `;
 
 export const ModalUserBookInfoTitle = styled.span`

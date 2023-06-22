@@ -1,27 +1,25 @@
 import { FaPlus } from 'react-icons/fa';
 
-import * as S from './styled';
+import { GetAllClubsResponse, GetUserBooksResponse } from '@/api';
+import { ManageClubBookOptionItem } from '@/constant';
 
-export interface HeaderSectionListProps {
-  name: string;
-  id: string;
-  text?: string;
-}
+import * as S from './styled';
 
 export interface HeaderSectionProps {
   manageUserBookPage?: boolean;
   notShowPlusIcon?: boolean;
   userBookInfo?: string;
-  name: React.ReactNode;
+  name?: React.ReactNode;
   href: string;
-  list: HeaderSectionListProps[];
+  list?: GetAllClubsResponse[] | GetUserBooksResponse[];
+  optionList?: ManageClubBookOptionItem[];
   onClick?: () => void;
   activeId?: string;
   userMessage?: string;
 }
 
 export const HeaderSection: React.FC<HeaderSectionProps> = ({
-  manageUserBookPage,
+  manageUserBookPage = false,
   name,
   href,
   list,
@@ -30,21 +28,46 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
   activeId,
   userBookInfo,
   userMessage,
+  optionList,
 }) => {
   const isActive = (activeId?: string, id?: string) => activeId === id;
   return (
-    <S.HeaderSectionContainer manageUserBookPage={manageUserBookPage || false}>
+    <S.HeaderSectionContainer manageUserBookPage={manageUserBookPage}>
       {userMessage && <S.HeaderSectionUserMessage>{userMessage}</S.HeaderSectionUserMessage>}
       {userBookInfo && <S.HeaderSectionSubTitle>{userBookInfo}</S.HeaderSectionSubTitle>}
-      <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage || false}>
-        {name}
-      </S.HeaderSectionTitle>
-      <S.HeaderSectionList manageUserBookPage={manageUserBookPage || false}>
-        {list.map(({ name, id }) => (
-          <S.HeaderSectionItem key={id} isActive={isActive(activeId, id)} to={`${href}/${id}`}>
-            {name}
-          </S.HeaderSectionItem>
-        ))}
+      <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>{name}</S.HeaderSectionTitle>
+      <S.HeaderSectionList manageUserBookPage={manageUserBookPage}>
+        {list ? (
+          <>
+            {list.map(({ name, book }) => {
+              if (book.length > 0) {
+                return (
+                  <S.HeaderSectionItem
+                    key={name}
+                    isActive={isActive(activeId, name)}
+                    to={`${href}/${name}`}
+                  >
+                    {name}
+                  </S.HeaderSectionItem>
+                );
+              } else {
+                return;
+              }
+            })}
+          </>
+        ) : (
+          <>
+            {optionList?.map(({ name, id }) => (
+              <S.HeaderSectionItem
+                key={name}
+                isActive={isActive(activeId, id)}
+                to={`${href}/${id}`}
+              >
+                {name}
+              </S.HeaderSectionItem>
+            ))}
+          </>
+        )}
         {!notShowPlusIcon && (
           <S.HeaderSectionAddIconWrap onClick={onClick}>
             <FaPlus size={'0.9rem'} />

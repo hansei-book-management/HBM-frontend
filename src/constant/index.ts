@@ -1,6 +1,4 @@
 export * from './navbarMenu';
-export * from './clubList';
-export * from './userClub';
 export * from './icons';
 export * from './lotties';
 export * from './manageClubBook';

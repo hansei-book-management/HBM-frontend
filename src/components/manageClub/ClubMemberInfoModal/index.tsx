@@ -27,11 +27,11 @@ export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
             <S.ModalUserBookInfoText>
               현재 대출중인 책: {member?.borrowBook}권
             </S.ModalUserBookInfoText>
-            {member?.books.map(({ data, title }, i) => (
+            {member?.books.map(({ data }, i) => (
               <S.ModalUserBookInfo key={i}>
-                <S.ModalUserBookInfoTitle>{title}:</S.ModalUserBookInfoTitle>
-                <S.ModalUserBookInfoStatus isOk={member.freeze === 1}>
-                  {data}
+                <S.ModalUserBookInfoTitle>{data?.items[0].title}:</S.ModalUserBookInfoTitle>
+                <S.ModalUserBookInfoStatus isOk={member.freeze === 0}>
+                  대여 중
                 </S.ModalUserBookInfoStatus>
               </S.ModalUserBookInfo>
             ))}

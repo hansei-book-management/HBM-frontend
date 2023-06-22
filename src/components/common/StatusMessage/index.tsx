@@ -6,7 +6,11 @@ import { RentMessage } from '../RentMessage';
 
 import * as S from './styled';
 
-export const StatusMessage: React.FC = () => {
+export interface StatusMessageProps {
+  canRent: boolean;
+}
+
+export const StatusMessage: React.FC<StatusMessageProps> = ({ canRent }) => {
   const {
     rentPage,
     manageUserBookPage,
@@ -14,9 +18,6 @@ export const StatusMessage: React.FC = () => {
     manageClubCanRentBookPage,
     manageClubBorrowBookPage,
   } = useGetLocation({});
-
-  const canRent = true;
-  const id = Math.floor(Math.random() * 10) + 1;
 
   if (rentPage) {
     return <RentMessage canRent={canRent} />;
@@ -39,7 +40,7 @@ export const StatusMessage: React.FC = () => {
     );
   }
   if (manageClubAllBookPage) {
-    const isOk = id !== 2;
+    const isOk = true;
     if (canRent) {
       return <RentMessage canRent={true} />;
     } else {

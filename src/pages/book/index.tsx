@@ -1,31 +1,62 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { CLUB_LIST } from '@/constant';
 import { DetailModal, HeaderSection, Section } from '@/components';
-import { useModal } from '@/hooks';
+import { useGetClubs, useModal } from '@/hooks';
 
 import * as S from './styled';
 
 export const BookPage: React.FC = () => {
-  const { clubId } = useParams<{ clubId: string }>();
-  const activeClub = CLUB_LIST.find(({ id }) => id === clubId);
+  const { data, isFetching } = useGetClubs();
+  const clubs = data?.result;
 
-  const { modalActive } = useModal();
+  const { clubId } = useParams<{ clubId: string }>();
+  const activeClub = clubs?.find(({ name }) => name === clubId);
+
+  const { modalActive, close } = useModal();
+
+  const navigate = useNavigate();
+
+  const onBookDetailModalClose = () => {
+    close();
+    navigate(`/book/${clubId}`);
+  };
+
+  const activeClubBooks = activeClub?.book;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!activeClub && clubs && !isFetching) {
+      navigate(`/book/${clubs[0].name}`);
+    }
+  }, [activeClub]);
 
   return (
-    <S.BookPageContainer>
-      {activeClub && (
-        <HeaderSection
-          name={activeClub.name}
-          activeId={clubId}
-          href="/book"
-          list={CLUB_LIST}
-          notShowPlusIcon={true}
-        />
+    <>
+      {isFetching ? null : activeClub ? (
+        <S.BookPageContainer>
+          <HeaderSection
+            name={activeClub?.name}
+            activeId={clubId}
+            href="/book"
+            list={clubs || []}
+            notShowPlusIcon={true}
+          />
+          <Section data={activeClubBooks} navigateUrl={`/book/${activeClub?.name}`} />
+          {modalActive && (
+            <DetailModal
+              data={activeClubBooks}
+              leftButtonText="닫기"
+              leftButtonClick={onBookDetailModalClose}
+            />
+          )}
+        </S.BookPageContainer>
+      ) : (
+        <S.BookPageContainer>
+          <HeaderSection activeId={clubId} href="/book" list={clubs || []} />
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+        </S.BookPageContainer>
       )}
-      <Section activeClub={activeClub} />
-      {modalActive && <DetailModal leftButtonText="닫기" />}
-    </S.BookPageContainer>
+    </>
   );
 };

@@ -73,3 +73,14 @@ export const addClubBookModal = atom<ModalStateProps>({
     data: null,
   },
 });
+
+export const rentClubBookModal = atom<ModalStateProps>({
+  key: 'rentClubBookModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    data: null,
+    page: 1,
+  },
+});
