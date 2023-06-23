@@ -139,3 +139,16 @@ export const returnBook = async ({ cid, bid, image }: ReturnBookValue) => {
     throw new Error('cid or bid is undefined');
   }
 };
+
+export const deleteClubBook = async (cid?: number, bid?: number) => {
+  if (cid && bid) {
+    const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
+    return data;
+  } else {
+    toast.error('동아리 아이디 또는 책 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    throw new Error('cid or bid is undefined');
+  }
+};

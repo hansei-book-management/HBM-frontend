@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import { APIResponse, API_SUFFIX, instance } from './api';
 import { ClubMemberInfo } from './clubMember';
 
@@ -85,6 +87,10 @@ export const deleteClub = async (cid?: number) => {
     const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}`);
     return data;
   } else {
+    toast.error('동아리 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
     throw new Error('delete club error: cid is undefined');
   }
 };
@@ -101,6 +107,10 @@ export const changeClubDirector = async ({
     });
     return data;
   } else {
+    toast.error('동아리 아이디 또는 부원과 부장의 이름이 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
     throw new Error('change club director error: cid is undefined');
   }
 };
