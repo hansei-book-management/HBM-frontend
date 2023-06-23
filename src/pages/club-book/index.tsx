@@ -83,6 +83,8 @@ export const ManageClubBookPage: React.FC = () => {
           {modalActive && (
             <DetailModal
               leftButtonText="닫기"
+              rightButtonText="삭제"
+              isRed={true}
               data={book}
               leftButtonClick={onBookDetailModalClose}
             />

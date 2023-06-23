@@ -12,6 +12,7 @@ import * as S from './styled';
 export interface DetailModalProps {
   data?: [BookListProps] | BookListProps[];
   end?: number;
+  isRed?: boolean;
   leftButtonText: string;
   rightButtonText?: React.ReactNode;
   rightButtonClick?: () => void;
@@ -20,6 +21,7 @@ export interface DetailModalProps {
 
 export const DetailModal: React.FC<DetailModalProps> = ({
   data,
+  isRed = false,
   leftButtonText,
   rightButtonText,
   rightButtonClick,
@@ -102,6 +104,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
         {...(leftButtonClick && {
           leftButtonClick: () => leftButtonClick(),
         })}
+        isRed={isRed}
         modalSize="large"
       />
     </Modal.OverLay>
