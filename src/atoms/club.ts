@@ -97,3 +97,13 @@ export const returnClubBookModal = atom<ReturnBookModalStateProps>({
     image: null,
   },
 });
+
+export const deleteClubBookModal = atom<ModalStateProps>({
+  key: 'deleteClubBookModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    data: null,
+  },
+});

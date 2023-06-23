@@ -23,20 +23,21 @@ import {
   GetClubBooksResponse,
   returnBook,
   ReturnBookValue,
+  ClubBookValue,
+  deleteClubBook,
 } from '@/api';
-import { addClubBookModal, rentClubBookModal, returnClubBookModal } from '@/atoms';
+import {
+  addClubBookModal,
+  rentClubBookModal,
+  returnClubBookModal,
+  deleteClubBookModal,
+} from '@/atoms';
 
 export const useGetBooks = (): UseQueryResult<
   APIResponse<GetAllBooksResponse>,
   AxiosError<APIErrorResponse>
 > => {
   return useQuery('useGetBooks', getAllBooks, {
-    onError: (data) => {
-      toast.error(data.response?.data.message, {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    },
     retry: 0,
     staleTime: 36000,
   });
@@ -61,11 +62,10 @@ export const useSearchBook = (): UseMutationResult<
 export const useAddClubBook = (): UseMutationResult<
   APIResponse<GetAllBooksResponse>,
   AxiosError<APIErrorResponse>,
-  AddClubBookValues
+  AddClubBookValues // 얘가 뭐하는 애냐하면 AddClubBookValues는 { cid: number; isbn: string } 이렇게 되어있는데 이걸 받아서 addClubBook에 넘겨주는거임
 > => {
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
   const getClubs = useGetClubs();
-  const getClubsBook = useGetClubBooks();
   return useMutation('useAddClubBook', addClubBook, {
     onSuccess: () => {
       setAddClubBookModal({ state: true, isOk: null, isLoading: true });
@@ -73,7 +73,6 @@ export const useAddClubBook = (): UseMutationResult<
         setAddClubBookModal({ state: true, isOk: true });
       }, 1000);
       getClubs.refetch();
-      getClubsBook.refetch();
     },
     onError: (data) => {
       setAddClubBookModal({ state: true, isOk: false, data: data.response?.data.message });
@@ -87,12 +86,6 @@ export const useGetClubs = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > => {
   return useQuery('useGetClubs', getAllClubs, {
-    onError: (data) => {
-      toast.error(data.response?.data.message, {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-    },
     retry: 0,
     staleTime: 36000,
   });
@@ -108,13 +101,14 @@ export const useGetUserClubs = (): UseQueryResult<
   });
 };
 
-export const useRentBook = (
-  cid?: number,
-  bid?: number,
-): UseMutationResult<APIResponse<{ end: number }>, AxiosError<APIErrorResponse>> => {
+export const useRentBook = (): UseMutationResult<
+  APIResponse<{ end: number }>,
+  AxiosError<APIErrorResponse>,
+  ClubBookValue
+> => {
   const userClub = useGetUserClubs();
   const setRentBookModal = useSetRecoilState(rentClubBookModal);
-  return useMutation('useRentBook', () => rentBook(cid, bid), {
+  return useMutation('useRentBook', rentBook, {
     onSuccess: () => {
       setRentBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
@@ -164,6 +158,32 @@ export const useReturnBook = (): UseMutationResult<
     },
     onError: (data) => {
       setReturnBookModal({
+        state: true,
+        isOk: false,
+        data: data?.response?.data.message,
+      });
+    },
+    retry: 0,
+  });
+};
+
+export const useDeleteBook = (): UseMutationResult<
+  APIResponse<null>,
+  AxiosError<APIErrorResponse>,
+  ClubBookValue
+> => {
+  const userClub = useGetUserClubs();
+  const setDeleteBookModal = useSetRecoilState(deleteClubBookModal);
+  return useMutation('useDeleteBook', deleteClubBook, {
+    onSuccess: () => {
+      setDeleteBookModal({ state: true, isLoading: true });
+      setTimeout(() => {
+        setDeleteBookModal({ state: true, isOk: true });
+      }, 1000);
+      userClub.refetch();
+    },
+    onError: (data) => {
+      setDeleteBookModal({
         state: true,
         isOk: false,
         data: data?.response?.data.message,

@@ -52,9 +52,12 @@ export interface GetUserBooksResponse extends GetClubBooksResponse {
   borrowBook: number;
 }
 
-export interface ReturnBookValue {
+export interface ClubBookValue {
   cid?: number;
   bid?: number;
+}
+
+export interface ReturnBookValue extends ClubBookValue {
   image?: string;
 }
 
@@ -94,7 +97,7 @@ export const getUserClubs = async (): Promise<GetAllClubsResponse[]> => {
   return data;
 };
 
-export const rentBook = async (cid?: number, bid?: number) => {
+export const rentBook = async ({ cid, bid }: ClubBookValue) => {
   if (cid && bid) {
     const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
     return data;
@@ -140,7 +143,7 @@ export const returnBook = async ({ cid, bid, image }: ReturnBookValue) => {
   }
 };
 
-export const deleteClubBook = async (cid?: number, bid?: number) => {
+export const deleteClubBook = async ({ cid, bid }: ClubBookValue) => {
   if (cid && bid) {
     const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
     return data;
