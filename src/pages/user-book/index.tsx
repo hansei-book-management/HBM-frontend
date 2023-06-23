@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
 
+import { useRecoilState } from 'recoil';
+
 import {
+  Button,
   DetailModal,
   HeaderSection,
   ModalStateProps,
@@ -11,12 +14,14 @@ import {
 } from '@/components';
 import { loadingLottieOptions } from '@/constant';
 import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
+import { returnClubBookModal } from '@/atoms';
 
 import * as S from './styled';
 
 export interface ReturnBookModalStateProps extends ModalStateProps {
   allowLocation?: null | boolean;
   correctLocation?: null | boolean;
+  image?: string | null;
 }
 
 export interface AllowLocationStateProps {
@@ -31,6 +36,7 @@ export const ManageUserBookPage: React.FC = () => {
   const user = userData?.result;
   const { data: userBook, isFetching } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
+  const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
@@ -39,14 +45,7 @@ export const ManageUserBookPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [returnBookModal, setReturnBookModal] = useState<ReturnBookModalStateProps>({
-    state: false,
-    isOk: null,
-    isLoading: false,
-    allowLocation: null,
-    correctLocation: null,
-  });
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [returnBookModal, setReturnBookModal] = useRecoilState(returnClubBookModal);
   const { modalActive } = useModal();
 
   // return book modal FN
@@ -56,9 +55,10 @@ export const ManageUserBookPage: React.FC = () => {
     const latitude = coords.latitude;
     const longitude = coords.longitude;
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
-      setReturnBookModal({ state: true, correctLocation: false });
+      setReturnBookModal({ state: true, correctLocation: true });
+    } else {
+      setReturnBookModal({ state: true, correctLocation: true });
     }
-    setReturnBookModal({ state: true, correctLocation: true });
   };
 
   const getLocationFail = () => {
@@ -83,22 +83,8 @@ export const ManageUserBookPage: React.FC = () => {
     );
   };
 
-  const onReturnBookModalClose = () => {
-    setSelectedImage(null);
-    setReturnBookModal({ state: false });
-  };
-
-  const onReturnBookStatusModal = () => {
-    setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
-    setTimeout(() => {
-      setReturnBookModal({ state: true, isOk: true, isLoading: false });
-      // fail test
-      // setReturnBookModal({ state: true,  isOk: false, isLoading: false, });
-    }, 1000);
-  };
-
   const bookCount = userClubBook
-    ?.map(({ book }) => book.filter(({ end }) => end === 0).length)
+    ?.map(({ book }) => book.filter(({ end }) => end !== 0).length)
     .reduce((a, b) => a + b, 0);
 
   useEffect(() => {
@@ -107,24 +93,30 @@ export const ManageUserBookPage: React.FC = () => {
     if (!activeUserClub && userClubBook && clubAddStep && !isFetching) {
       navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
-  }, [activeUserClub]);
+  }, []);
 
   // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
 
   return (
     <>
-      {isFetching ? null : activeUserClub ? (
+      {isFetching ? (
+        <>
+          <h2>Loading...</h2>
+        </>
+      ) : activeUserClub ? (
         <S.ManageUserBookContainer>
           <HeaderSection
             name={activeUserClub?.name}
             activeId={clubId}
             href={`${BASE_URL}`}
-            list={userClubBook || []}
+            rentClubList={userClubBook || []}
             manageUserBookPage={true}
-            notShowPlusIcon={true}
-            userBookInfo={`${user?.name}은 현재 ${bookCount}권 대출중이에요.`}
+            userBookInfo={`${user?.name}은 현재 ${bookCount}권 대여중이에요.`}
           />
-          <Section data={userBookData} navigateUrl={`/user-book/${activeUserClub.name}/book`} />
+          <Section
+            data={userBookData?.filter(({ end }) => end !== 0)}
+            navigateUrl={`/user-book/${activeUserClub.name}/book`}
+          />
           {modalActive && !returnBookModal.state && (
             <DetailModal
               leftButtonText="닫기"
@@ -137,23 +129,39 @@ export const ManageUserBookPage: React.FC = () => {
               }
               data={userBookData}
               rightButtonClick={onReturnBookModalOpen}
+              leftButtonClick={() => navigate(`${BASE_URL}/${clubId}`)}
             />
           )}
-          <ReturnBookModal
-            returnBookModal={returnBookModal}
-            onReturnBookModalClose={onReturnBookModalClose}
-            onReturnBookStatusModal={onReturnBookStatusModal}
-            setSelectedImage={setSelectedImage}
-            selectedImage={selectedImage}
-            url={USER_CLUB_BASE_URL}
-          />
+          <ReturnBookModal cid={activeUserClub?.cid} url={USER_CLUB_BASE_URL} />
         </S.ManageUserBookContainer>
       ) : (
         <>
-          <S.ManageUserBookContainer>
-            <HeaderSection activeId={clubId} href={`${BASE_URL}`} list={userClubBook || []} />
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
-          </S.ManageUserBookContainer>
+          {rentBookClub?.includes(true) ? (
+            <S.ManageUserBookContainer>
+              <HeaderSection
+                activeId={clubId}
+                href={`${BASE_URL}`}
+                rentClubList={userClubBook || []}
+              />
+              <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+            </S.ManageUserBookContainer>
+          ) : (
+            <S.ManageUserBookContainer noData={true}>
+              <S.NoDataMessageWrapper>
+                <h1
+                  style={{
+                    fontSize: '1.4rem',
+                    fontWeight: 700,
+                    textAlign: 'center',
+                    // color: colors.primary.darkBlue,
+                  }}
+                >
+                  대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
+                </h1>
+                <Button to="/club" description="도서 대여 바로가기" />
+              </S.NoDataMessageWrapper>
+            </S.ManageUserBookContainer>
+          )}
         </>
       )}
     </>

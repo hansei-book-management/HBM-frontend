@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 
 import { ModalStateProps } from '@/components';
+import { ReturnBookModalStateProps } from '@/pages';
 
 export const generateClubCodeModal = atom<ModalStateProps>({
   key: 'generateClubCode',
@@ -81,6 +82,18 @@ export const rentClubBookModal = atom<ModalStateProps>({
     isOk: null,
     isLoading: null,
     data: null,
-    page: 1,
+  },
+});
+
+export const returnClubBookModal = atom<ReturnBookModalStateProps>({
+  key: 'returnClubBookModal',
+  default: {
+    state: false,
+    isOk: null,
+    isLoading: null,
+    data: null,
+    allowLocation: null,
+    correctLocation: null,
+    image: null,
   },
 });

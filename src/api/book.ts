@@ -48,6 +48,12 @@ export interface GetUserBooksResponse extends GetClubBooksResponse {
   borrowBook: number;
 }
 
+export interface ReturnBookValue {
+  cid?: number;
+  bid?: number;
+  image?: string;
+}
+
 export const getAllBooks = async (): Promise<GetAllBooksResponse> => {
   const { data } = await instance.get(API_SUFFIX.BOOK);
   return data;
@@ -120,5 +126,20 @@ export const getClubBooks = async (cid?: number): Promise<GetClubBooksResponse[]
       position: toast.POSITION.BOTTOM_RIGHT,
     });
     throw new Error('cid is undefined');
+  }
+};
+
+export const returnBook = async ({ cid, bid, image }: ReturnBookValue) => {
+  if (cid && bid && image) {
+    const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`, {
+      image,
+    });
+    return data;
+  } else {
+    toast.error('동아리 아이디 또는 책 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    throw new Error('cid or bid is undefined');
   }
 };

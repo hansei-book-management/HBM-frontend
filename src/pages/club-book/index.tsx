@@ -19,7 +19,7 @@ export interface AddBookModalStateProps {
 export const ManageClubBookPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const cid = userData?.result?.director?.cid;
-  const { data: clubBookData, isFetching } = useGetClubBooks(cid);
+  const { data: clubBookData, isLoading } = useGetClubBooks(cid);
   const clubBook = clubBookData?.result;
 
   const navigate = useNavigate();
@@ -64,17 +64,19 @@ export const ManageClubBookPage: React.FC = () => {
 
   return (
     <>
-      {isFetching ? null : activeOption ? (
+      {isLoading ? (
+        <>
+          <h2>Loading...</h2>
+        </>
+      ) : activeOption ? (
         <S.ManageClubBookContainer>
-          {activeOption && (
-            <HeaderSection
-              name={activeOption.text}
-              activeId={option}
-              href={`${MANAGE_CLUB_BOOK}`}
-              optionList={MANAGE_CLUB_BOOK_OPTIONS}
-              onClick={onAddBookModalOpen}
-            />
-          )}
+          <HeaderSection
+            name={activeOption.text}
+            activeId={option}
+            href={`${MANAGE_CLUB_BOOK}`}
+            optionList={MANAGE_CLUB_BOOK_OPTIONS}
+            onClick={onAddBookModalOpen}
+          />
           <Section data={book} navigateUrl={`${MANAGE_CLUB_BOOK}/${optionValue}/book`} />
           {modalActive && (
             <DetailModal

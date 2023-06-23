@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const ManageUserBookContainer = styled.div`
+export const ManageUserBookContainer = styled.div<{ noData?: boolean }>`
   display: flex;
   flex-direction: column;
+  height: ${({ noData }) => (noData ? '75vh' : 'auto')};
   row-gap: 1rem;
 `;
 
@@ -81,4 +82,14 @@ export const ReturnBookModalMessage = styled.span`
   color: #828282;
   text-align: center;
   margin-bottom: 0.4rem;
+`;
+
+export const NoDataMessageWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 2rem;
+  row-gap: 2rem;
 `;

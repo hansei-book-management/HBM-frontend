@@ -12,7 +12,7 @@ import { addUserClubModal, rentClubBookModal } from '@/atoms';
 import * as S from './styled';
 
 export const RentPage: React.FC = () => {
-  const { data, isFetching } = useGetUserClubs();
+  const { data, isLoading } = useGetUserClubs();
   const userClubs = data?.result;
 
   const navigate = useNavigate();
@@ -51,14 +51,18 @@ export const RentPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!activeUserClub && userClubs && !isFetching) {
+    if (!activeUserClub && userClubs && !isLoading) {
       navigate(`${CLUB}/${userClubs[0].name}`);
     }
-  }, [activeUserClub]);
+  }, [activeUserClub, isLoading]);
 
   return (
     <>
-      {isFetching ? null : activeUserClub ? (
+      {isLoading ? (
+        <>
+          <h2>Loading...</h2>
+        </>
+      ) : activeUserClub ? (
         <>
           <S.RentPageContainer>
             <HeaderSection
@@ -66,6 +70,7 @@ export const RentPage: React.FC = () => {
               activeId={clubId}
               href="/club"
               list={userClubs || []}
+              showPlusIcon={true}
               onClick={onBookDetailModalOpen}
             />
             <Section data={activeUserClubBooks} navigateUrl={`/club/${activeUserClub?.name}`} />
@@ -108,6 +113,7 @@ export const RentPage: React.FC = () => {
               activeId={clubId}
               href="/club"
               list={userClubs || []}
+              showPlusIcon={true}
               onClick={onBookDetailModalOpen}
             />
             <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
