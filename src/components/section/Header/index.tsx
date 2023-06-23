@@ -40,9 +40,11 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
     <S.HeaderSectionContainer manageUserBookPage={manageUserBookPage}>
       {userMessage && <S.HeaderSectionUserMessage>{userMessage}</S.HeaderSectionUserMessage>}
       {userBookInfo && <S.HeaderSectionSubTitle>{userBookInfo}</S.HeaderSectionSubTitle>}
-      <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>
-        {rentClubList ? (rentBookClub?.includes(true) ? name : null) : name}
-      </S.HeaderSectionTitle>
+      {name && (
+        <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>
+          {rentClubList ? rentBookClub?.includes(true) && name : name}
+        </S.HeaderSectionTitle>
+      )}
       <S.HeaderSectionList manageUserBookPage={manageUserBookPage}>
         {list ? (
           <>

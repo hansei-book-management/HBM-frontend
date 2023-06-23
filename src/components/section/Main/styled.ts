@@ -60,6 +60,12 @@ export const SectionImageTitle = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media screen and (max-width: 500px) and (min-width: 300px) {
+    width: 12rem;
+  }
+  @media screen and (max-width: 380px) and (min-width: 300px) {
+    width: 9rem;
+  }
   &:hover {
     text-decoration: underline;
   }

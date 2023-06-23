@@ -11,7 +11,7 @@ import {
   ReturnBookModal,
   Section,
 } from '@/components';
-import { loadingLottieOptions } from '@/constant';
+import { loadingLottieOptions, noDataLottieOptions } from '@/constant';
 import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
 import { returnClubBookModal } from '@/atoms';
 
@@ -131,16 +131,30 @@ export const ManageUserBookPage: React.FC = () => {
         </S.ManageUserBookContainer>
       ) : (
         <>
-          <S.ManageUserBookContainer>
-            <HeaderSection
-              activeId={clubId}
-              href={`${BASE_URL}`}
-              rentClubList={userClubBook || []}
-            />
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>
-              {rentBookClub?.includes(true) ? '동아리를 선택해주세요.' : '대여한 책이 없습니다.'}
-            </h1>
-          </S.ManageUserBookContainer>
+          {rentBookClub?.includes(true) ? (
+            <S.ManageUserBookContainer>
+              <HeaderSection
+                activeId={clubId}
+                href={`${BASE_URL}`}
+                rentClubList={userClubBook || []}
+              />
+              <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+              <Lottie options={noDataLottieOptions} height={'28rem'} width={'40rem'} />
+            </S.ManageUserBookContainer>
+          ) : (
+            <S.ManageUserBookContainer noData={true}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>대여중인 도서가 없어요.</h1>
+              </div>
+            </S.ManageUserBookContainer>
+          )}
         </>
       )}
     </>
