@@ -59,19 +59,23 @@ export const useSearchBook = (): UseMutationResult<
   });
 };
 
-export const useAddClubBook = (): UseMutationResult<
+export const useAddClubBook = ({
+  cid,
+  isbn,
+}: AddClubBookValues): UseMutationResult<
   APIResponse<GetAllBooksResponse>,
-  AxiosError<APIErrorResponse>,
-  AddClubBookValues // 얘가 뭐하는 애냐하면 AddClubBookValues는 { cid: number; isbn: string } 이렇게 되어있는데 이걸 받아서 addClubBook에 넘겨주는거임
+  AxiosError<APIErrorResponse>
 > => {
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
   const getClubs = useGetClubs();
-  return useMutation('useAddClubBook', addClubBook, {
+  const getClubBooks = useGetClubBooks(cid);
+  return useMutation('useAddClubBook', () => addClubBook({ cid, isbn }), {
     onSuccess: () => {
       setAddClubBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setAddClubBookModal({ state: true, isOk: true });
       }, 1000);
+      getClubBooks.refetch();
       getClubs.refetch();
     },
     onError: (data) => {
@@ -167,19 +171,20 @@ export const useReturnBook = (): UseMutationResult<
   });
 };
 
-export const useDeleteBook = (): UseMutationResult<
-  APIResponse<null>,
-  AxiosError<APIErrorResponse>,
-  ClubBookValue
-> => {
+export const useDeleteBook = ({
+  cid,
+  bid,
+}: ClubBookValue): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
   const userClub = useGetUserClubs();
   const setDeleteBookModal = useSetRecoilState(deleteClubBookModal);
-  return useMutation('useDeleteBook', deleteClubBook, {
+  const getClubBooks = useGetClubBooks(cid);
+  return useMutation('useDeleteBook', () => deleteClubBook({ cid, bid }), {
     onSuccess: () => {
       setDeleteBookModal({ state: true, isLoading: true, isOk: null });
       setTimeout(() => {
         setDeleteBookModal({ state: true, isOk: true });
       }, 1000);
+      getClubBooks.refetch();
       userClub.refetch();
     },
     onError: (data) => {

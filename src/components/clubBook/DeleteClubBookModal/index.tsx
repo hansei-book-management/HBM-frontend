@@ -16,10 +16,10 @@ export const DeleteClubBookModal: React.FC<DeleteClubBookModalProps> = ({ cid, b
   const clubBookName = useRecoilValue(bookName);
 
   const { handleSubmit } = useForm();
-  const { mutate } = useDeleteBook();
+  const { mutate } = useDeleteBook({ cid, bid });
 
   const onSubmit = () => {
-    mutate({ cid, bid });
+    mutate({});
   };
 
   const onDeleteClubBookModalClose = () => {

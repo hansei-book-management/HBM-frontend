@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { API_SUFFIX, instance } from './api';
 
 export interface BookResponse {
-  name: any;
+  name: string;
   title: string;
   author: string;
   image: string;
