@@ -34,7 +34,7 @@ const BASE_URL = '/user-book';
 export const ManageUserBookPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const user = userData?.result;
-  const { data: userBook, isFetching } = useGetUserBooks(user?.uid);
+  const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
   const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
@@ -90,16 +90,16 @@ export const ManageUserBookPage: React.FC = () => {
   useEffect(() => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
-    if (!activeUserClub && userClubBook && clubAddStep && !isFetching) {
+    if ((!activeUserClub && userClubBook && !isLoading) || (userClubBook && clubAddStep)) {
       navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
-  }, []);
+  }, [isLoading]);
 
   // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
 
   return (
     <>
-      {isFetching ? (
+      {isLoading ? (
         <>
           <h2>Loading...</h2>
         </>

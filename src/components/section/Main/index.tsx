@@ -39,6 +39,7 @@ export const Section: React.FC<SectionProps> = ({ data, navigateUrl }) => {
       <S.SectionContainer>
         {data?.map(({ data, bid, end, user }, i) => {
           const bookInfo = data.items[0];
+          console.log(user, end);
           return (
             <S.SectionImageContainer key={i}>
               <S.SectionImage src={bookInfo.image} onClick={() => openModal(bid)} />

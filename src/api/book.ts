@@ -56,6 +56,7 @@ export interface GetUserBooksResponse extends GetClubBooksResponse {
 export interface ClubBookValue {
   cid?: number;
   bid?: number;
+  uid?: string;
 }
 
 export interface ReturnBookValue extends ClubBookValue {

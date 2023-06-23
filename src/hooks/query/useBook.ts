@@ -105,19 +105,24 @@ export const useGetUserClubs = (): UseQueryResult<
   });
 };
 
-export const useRentBook = (): UseMutationResult<
+export const useRentBook = ({
+  cid,
+  bid,
+  uid,
+}: ClubBookValue): UseMutationResult<
   APIResponse<{ end: number }>,
-  AxiosError<APIErrorResponse>,
-  ClubBookValue
+  AxiosError<APIErrorResponse>
 > => {
   const userClub = useGetUserClubs();
+  const userBooks = useGetUserBooks(uid);
   const setRentBookModal = useSetRecoilState(rentClubBookModal);
-  return useMutation('useRentBook', rentBook, {
+  return useMutation('useRentBook', () => rentBook({ cid, bid }), {
     onSuccess: () => {
       setRentBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setRentBookModal({ state: true, isOk: true });
         userClub.refetch();
+        userBooks.refetch();
       }, 1000);
     },
     onError: (data) => {
