@@ -65,6 +65,7 @@ export const useAddClubBook = (): UseMutationResult<
 > => {
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
   const getClubs = useGetClubs();
+  const getClubsBook = useGetClubBooks();
   return useMutation('useAddClubBook', addClubBook, {
     onSuccess: () => {
       setAddClubBookModal({ state: true, isOk: null, isLoading: true });
@@ -72,6 +73,7 @@ export const useAddClubBook = (): UseMutationResult<
         setAddClubBookModal({ state: true, isOk: true });
       }, 1000);
       getClubs.refetch();
+      getClubsBook.refetch();
     },
     onError: (data) => {
       setAddClubBookModal({ state: true, isOk: false, data: data.response?.data.message });
@@ -141,6 +143,7 @@ export const useGetClubBooks = (
 ): UseQueryResult<APIResponse<GetClubBooksResponse[]>, AxiosError<APIErrorResponse>> => {
   return useQuery('useGetClubBooks', () => getClubBooks(cid), {
     retry: 0,
+    staleTime: 36000,
   });
 };
 

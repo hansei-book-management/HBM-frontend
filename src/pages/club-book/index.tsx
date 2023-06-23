@@ -41,6 +41,7 @@ export const ManageClubBookPage: React.FC = () => {
   } else {
     book = [];
   }
+  console.log(book.map(({ user }) => user?.name));
 
   const setAddBookModal = useSetRecoilState(addClubBookModal);
 
@@ -60,7 +61,7 @@ export const ManageClubBookPage: React.FC = () => {
     if (!activeOption) {
       navigate(`${MANAGE_CLUB_BOOK}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
     }
-  }, [activeOption]);
+  }, [activeOption, isLoading]);
 
   return (
     <>
@@ -75,6 +76,7 @@ export const ManageClubBookPage: React.FC = () => {
             activeId={option}
             href={`${MANAGE_CLUB_BOOK}`}
             optionList={MANAGE_CLUB_BOOK_OPTIONS}
+            showPlusIcon={true}
             onClick={onAddBookModalOpen}
           />
           <Section data={book} navigateUrl={`${MANAGE_CLUB_BOOK}/${optionValue}/book`} />

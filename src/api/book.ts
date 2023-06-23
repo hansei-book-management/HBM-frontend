@@ -31,6 +31,10 @@ export interface BookListProps {
   };
   end: number;
   bid: number;
+  user?: {
+    name?: string;
+    freeze?: number;
+  };
 }
 
 export interface GetClubBooksResponse {
@@ -108,10 +112,6 @@ export const getUserBooks = async (uid?: string): Promise<GetUserBooksResponse[]
     const { data } = await instance.get(`${API_SUFFIX.CLUB}/member/${uid}/book`);
     return data;
   } else {
-    toast.error('유저 아이디가 없습니다.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
     throw new Error('uid is undefined');
   }
 };
@@ -121,10 +121,6 @@ export const getClubBooks = async (cid?: number): Promise<GetClubBooksResponse[]
     const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/book`);
     return data;
   } else {
-    toast.error('동아리 아이디가 없습니다.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
     throw new Error('cid is undefined');
   }
 };
