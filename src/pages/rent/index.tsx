@@ -84,7 +84,6 @@ export const RentPage: React.FC = () => {
               leftButtonText="닫기"
               rightButtonText="대여하기"
               data={activeUserClubBooks}
-              end={activeUserClub.end}
               leftButtonClick={() => navigate(`${CLUB}/${clubId}`)}
             />
           )}

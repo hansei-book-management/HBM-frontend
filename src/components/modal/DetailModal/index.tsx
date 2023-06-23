@@ -14,7 +14,6 @@ import * as S from './styled';
 
 export interface DetailModalProps {
   data?: [BookListProps] | BookListProps[];
-  end?: number;
   isRed?: boolean;
   leftButtonText: string;
   rightButtonText?: React.ReactNode;
@@ -29,12 +28,12 @@ export const DetailModal: React.FC<DetailModalProps> = ({
   rightButtonText,
   rightButtonClick,
   leftButtonClick,
-  end,
 }) => {
   const { bookId } = useParams<{ bookId: string }>();
   const bookIdNum = Number(bookId);
   const { getWidth } = useGetWindowSize();
   const setBookName = useSetRecoilState(bookName);
+  const canRent = data?.filter(({ bid }) => bid === bookIdNum)?.map(({ end }) => end === 0)[0];
 
   return (
     <Modal.OverLay>
@@ -59,7 +58,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                               alignSelf: 'center',
                             }}
                           >
-                            <RentMessage canRent={end === 0} />
+                            <RentMessage canRent={canRent} />
                             <S.DetailModalMobileTitle>{bookInfo.title}</S.DetailModalMobileTitle>
                             <S.DetailModalImage src={bookInfo.image} />
                           </div>
@@ -68,7 +67,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                         <S.DetailModalInfoContainer>
                           {getWidth > 580 && (
                             <>
-                              <RentMessage canRent={end === 0} />
+                              <RentMessage canRent={canRent} />
                             </>
                           )}
                           <S.DetailModalTitle>{bookInfo.title}</S.DetailModalTitle>

@@ -36,13 +36,12 @@ export const ManageUserBookPage: React.FC = () => {
   const user = userData?.result;
   const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
-  const userInfo = userClubBook?.map(({ user }) => user);
-  console.log(userInfo);
   const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
   const userBookData = activeUserClub?.book;
+  console.log(userBookData);
   const USER_CLUB_BASE_URL = `/user-book/${clubId}`;
 
   const navigate = useNavigate();
@@ -116,7 +115,6 @@ export const ManageUserBookPage: React.FC = () => {
           <Section
             data={userBookData?.filter(({ end }) => end !== 0)}
             navigateUrl={`/user-book/${activeUserClub.name}/book`}
-            // userName={}
           />
           {modalActive && !returnBookModal.state && (
             <DetailModal
@@ -131,6 +129,7 @@ export const ManageUserBookPage: React.FC = () => {
               data={userBookData}
               rightButtonClick={onReturnBookModalOpen}
               leftButtonClick={() => navigate(`${BASE_URL}/${clubId}`)}
+              // end={userBookData?.map(({ end }) => end) || 1}
             />
           )}
           <ReturnBookModal cid={activeUserClub?.cid} url={USER_CLUB_BASE_URL} />
