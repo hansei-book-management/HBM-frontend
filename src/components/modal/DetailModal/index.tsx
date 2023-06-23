@@ -1,9 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useSetRecoilState } from 'recoil';
+
 import { useGetWindowSize } from '@/hooks';
 import { BookListProps } from '@/api';
 import { RentMessage } from '@/components/common';
+import { bookName } from '@/atoms';
 
 import { Modal } from '../Modal';
 
@@ -11,7 +14,7 @@ import * as S from './styled';
 
 export interface DetailModalProps {
   data?: [BookListProps] | BookListProps[];
-  end?: number;
+  isRed?: boolean;
   leftButtonText: string;
   rightButtonText?: React.ReactNode;
   rightButtonClick?: () => void;
@@ -20,15 +23,17 @@ export interface DetailModalProps {
 
 export const DetailModal: React.FC<DetailModalProps> = ({
   data,
+  isRed = false,
   leftButtonText,
   rightButtonText,
   rightButtonClick,
   leftButtonClick,
-  end,
 }) => {
   const { bookId } = useParams<{ bookId: string }>();
   const bookIdNum = Number(bookId);
   const { getWidth } = useGetWindowSize();
+  const setBookName = useSetRecoilState(bookName);
+  const canRent = data?.filter(({ bid }) => bid === bookIdNum)?.map(({ end }) => end === 0)[0];
 
   return (
     <Modal.OverLay>
@@ -40,6 +45,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                 ?.filter(({ bid }) => bid === bookIdNum)
                 .map(({ data }) => {
                   const bookInfo = data.items[0];
+                  setBookName(bookInfo.title);
                   return (
                     <>
                       <S.DetailModalContainer>
@@ -52,7 +58,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                               alignSelf: 'center',
                             }}
                           >
-                            <RentMessage canRent={end === 0} />
+                            <RentMessage canRent={canRent} />
                             <S.DetailModalMobileTitle>{bookInfo.title}</S.DetailModalMobileTitle>
                             <S.DetailModalImage src={bookInfo.image} />
                           </div>
@@ -61,7 +67,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                         <S.DetailModalInfoContainer>
                           {getWidth > 580 && (
                             <>
-                              <RentMessage canRent={end === 0} />
+                              <RentMessage canRent={canRent} />
                             </>
                           )}
                           <S.DetailModalTitle>{bookInfo.title}</S.DetailModalTitle>
@@ -102,6 +108,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
         {...(leftButtonClick && {
           leftButtonClick: () => leftButtonClick(),
         })}
+        isRed={isRed}
         modalSize="large"
       />
     </Modal.OverLay>

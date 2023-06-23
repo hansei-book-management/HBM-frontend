@@ -15,6 +15,7 @@ import {
 } from './pages';
 import { DefaultLayout, PrivateRoute } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS } from './constant';
+
 export const App: React.FC = () => {
   return (
     <Routes>

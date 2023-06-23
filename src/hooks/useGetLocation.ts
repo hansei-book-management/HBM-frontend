@@ -19,7 +19,7 @@ export const useGetLocation = ({ clubId, bookId }: useLocationProps) => {
   } else {
     const bookPage = location.pathname.includes('/book/');
     const rentPage = location.pathname.includes(`${CLUB}/`);
-    const manageUserBookPage = location.pathname.includes(`/manage/user-book`);
+    const manageUserBookPage = location.pathname.includes(`/user-book`);
     const manageClubBookPage = location.pathname.includes(`${MANAGE_CLUB_BOOK}`);
     const manageClubCanRentBookPage = location.pathname === `${MANAGE_CLUB_BOOK}/can-rent`;
     const manageClubAllBookPage = location.pathname === `${MANAGE_CLUB_BOOK}/all`;

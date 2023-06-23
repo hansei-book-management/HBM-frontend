@@ -30,7 +30,6 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) =>
   const { handleSubmit } = useForm();
 
   const onSubmit = () => {
-    console.log(returnBookModal.image);
     mutate({ cid, bid: Number(bookId), image: returnBookModal.image || undefined });
   };
 

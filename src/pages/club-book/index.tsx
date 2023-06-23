@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 
 import { MANAGE_CLUB_BOOK, MANAGE_CLUB_BOOK_OPTIONS } from '@/constant';
-import { Section, DetailModal, HeaderSection, AddClubBookModal } from '@/components';
+import {
+  Section,
+  DetailModal,
+  HeaderSection,
+  AddClubBookModal,
+  DeleteClubBookModal,
+} from '@/components';
 import { useFetchUser, useGetClubBooks, useModal } from '@/hooks';
-import { addClubBookModal } from '@/atoms';
+import { addClubBookModal, deleteClubBookModal } from '@/atoms';
 import { BookListProps } from '@/api';
 
 import * as S from './styled';
@@ -24,7 +30,7 @@ export const ManageClubBookPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { option } = useParams<{ option: string }>();
+  const { option, bookId } = useParams<{ option: string; bookId: string }>();
   const activeOption = MANAGE_CLUB_BOOK_OPTIONS.find(({ id }) => id === option);
   const optionValue = activeOption?.id;
 
@@ -43,6 +49,7 @@ export const ManageClubBookPage: React.FC = () => {
   }
 
   const setAddBookModal = useSetRecoilState(addClubBookModal);
+  const [deleteBook, setDeleteBook] = useRecoilState(deleteClubBookModal);
 
   const { modalActive } = useModal();
 
@@ -55,12 +62,16 @@ export const ManageClubBookPage: React.FC = () => {
     setAddBookModal({ state: true, isOk: null });
   };
 
+  const onDeleteBookModalOpen = () => {
+    setDeleteBook({ state: true, isOk: null });
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!activeOption) {
       navigate(`${MANAGE_CLUB_BOOK}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`);
     }
-  }, [activeOption]);
+  }, [activeOption, isLoading]);
 
   return (
     <>
@@ -75,17 +86,22 @@ export const ManageClubBookPage: React.FC = () => {
             activeId={option}
             href={`${MANAGE_CLUB_BOOK}`}
             optionList={MANAGE_CLUB_BOOK_OPTIONS}
+            showPlusIcon={true}
             onClick={onAddBookModalOpen}
           />
           <Section data={book} navigateUrl={`${MANAGE_CLUB_BOOK}/${optionValue}/book`} />
-          {modalActive && (
+          {modalActive && !deleteBook.state && (
             <DetailModal
               leftButtonText="닫기"
+              rightButtonText="삭제"
+              isRed={true}
               data={book}
               leftButtonClick={onBookDetailModalClose}
+              rightButtonClick={onDeleteBookModalOpen}
             />
           )}
           <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
+          <DeleteClubBookModal cid={cid} bid={Number(bookId)} />
         </S.ManageClubBookContainer>
       ) : (
         <>

@@ -6,12 +6,14 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { CLUB } from '@/constant';
 import { Section, DetailModal, HeaderSection, AddClubModal, CommonModal } from '@/components';
-import { useGetUserClubs, useModal, useRentBook } from '@/hooks';
+import { useFetchUser, useGetUserClubs, useModal, useRentBook } from '@/hooks';
 import { addUserClubModal, rentClubBookModal } from '@/atoms';
 
 import * as S from './styled';
 
 export const RentPage: React.FC = () => {
+  const { data: userData } = useFetchUser();
+  const user = userData?.result;
   const { data, isLoading } = useGetUserClubs();
   const userClubs = data?.result;
 
@@ -28,7 +30,7 @@ export const RentPage: React.FC = () => {
 
   const { handleSubmit } = useForm();
 
-  const { mutate } = useRentBook(activeUserClub?.cid, Number(bookId));
+  const { mutate } = useRentBook({ uid: user?.uid, cid: activeUserClub?.cid, bid: Number(bookId) });
 
   const onSubmit = () => {
     mutate({});
@@ -82,7 +84,6 @@ export const RentPage: React.FC = () => {
               leftButtonText="닫기"
               rightButtonText="대여하기"
               data={activeUserClubBooks}
-              end={activeUserClub.end}
               leftButtonClick={() => navigate(`${CLUB}/${clubId}`)}
             />
           )}

@@ -27,9 +27,6 @@ export const useScrollFadeIn = <T extends HTMLElement>(
 
   const handleScroll: IntersectionObserverCallback = useCallback(
     ([entry]) => {
-      // IntersectionObserverCallback은 콜백함수의 타입
-      // useCallback은 렌더링이 될 때마다 새로운 함수를 만들지 않고, 기존에 만들어둔 함수를 재사용하게 해준다.
-      // 그리고 entry는 IntersectionObserverEntry 타입의 인자를 받는다.
       if (!ref.current) {
         return;
       }
@@ -51,9 +48,6 @@ export const useScrollFadeIn = <T extends HTMLElement>(
     const observer = new IntersectionObserver(handleScroll, { threshold: 0.7 });
     observer.observe(ref.current);
     return () => observer.disconnect();
-    // ref.current가 존재하면, IntersectionObserver를 생성하고, 관찰하고자 하는 대상을 인자로 받는다.
-    // IntersectionObserver는 관찰하고자 하는 대상이 뷰포트에 들어오면, 콜백함수를 실행한다.
-    // 그리고 관찰을 중지하는 메서드를 반환한다.
   }, [handleScroll]);
 
   return {

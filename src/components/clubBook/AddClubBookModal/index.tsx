@@ -28,8 +28,9 @@ export const AddClubBookModal: React.FC<AddBookModalStateProps> = ({ cid, clubNa
 
   const { data: searchBook, mutate: searchBookMutate } = useSearchBook();
   const searchBookData = searchBook?.result.items;
+  const [addBook, setAddBook] = useState('');
 
-  const { mutate: addBookMutate } = useAddClubBook();
+  const { mutate: addBookMutate } = useAddClubBook({ cid, isbn: addBook });
 
   const onSearchBookSubmit = ({ bookName }: SearchBookValue) => {
     bookName ? searchBookMutate({ bookName }) : searchBookMutate({ bookName: '프로그래밍' });
@@ -38,7 +39,7 @@ export const AddClubBookModal: React.FC<AddBookModalStateProps> = ({ cid, clubNa
 
   const onAddBokSubmit = () => {
     setAddBook('');
-    addBookMutate({ cid, isbn: addBook });
+    addBookMutate({});
   };
 
   let data: BookResponse[] = [];
@@ -50,7 +51,6 @@ export const AddClubBookModal: React.FC<AddBookModalStateProps> = ({ cid, clubNa
 
   const [bookList, setBookList] = useState(data.map(({ isbn }) => isbn));
   const [selectNumber, setSelectNumber] = useState(0);
-  const [addBook, setAddBook] = useState('');
 
   const toggleBookSelect = (isbn: string) => {
     if (bookList?.includes(isbn)) {

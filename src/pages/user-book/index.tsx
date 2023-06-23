@@ -34,13 +34,14 @@ const BASE_URL = '/user-book';
 export const ManageUserBookPage: React.FC = () => {
   const { data: userData } = useFetchUser();
   const user = userData?.result;
-  const { data: userBook, isFetching } = useGetUserBooks(user?.uid);
+  const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
   const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
   const userBookData = activeUserClub?.book;
+  console.log(userBookData);
   const USER_CLUB_BASE_URL = `/user-book/${clubId}`;
 
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ export const ManageUserBookPage: React.FC = () => {
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
       setReturnBookModal({ state: true, correctLocation: true });
     } else {
-      setReturnBookModal({ state: true, correctLocation: true });
+      setReturnBookModal({ state: true, correctLocation: false });
     }
   };
 
@@ -90,16 +91,14 @@ export const ManageUserBookPage: React.FC = () => {
   useEffect(() => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
-    if (!activeUserClub && userClubBook && clubAddStep && !isFetching) {
+    if ((!activeUserClub && userClubBook && !isLoading) || (userClubBook && clubAddStep)) {
       navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
-  }, []);
-
-  // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
+  }, [isLoading]);
 
   return (
     <>
-      {isFetching ? (
+      {isLoading ? (
         <>
           <h2>Loading...</h2>
         </>
@@ -130,6 +129,7 @@ export const ManageUserBookPage: React.FC = () => {
               data={userBookData}
               rightButtonClick={onReturnBookModalOpen}
               leftButtonClick={() => navigate(`${BASE_URL}/${clubId}`)}
+              // end={userBookData?.map(({ end }) => end) || 1}
             />
           )}
           <ReturnBookModal cid={activeUserClub?.cid} url={USER_CLUB_BASE_URL} />
@@ -153,7 +153,6 @@ export const ManageUserBookPage: React.FC = () => {
                     fontSize: '1.4rem',
                     fontWeight: 700,
                     textAlign: 'center',
-                    // color: colors.primary.darkBlue,
                   }}
                 >
                   대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
