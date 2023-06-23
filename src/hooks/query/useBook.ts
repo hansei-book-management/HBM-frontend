@@ -176,7 +176,7 @@ export const useDeleteBook = (): UseMutationResult<
   const setDeleteBookModal = useSetRecoilState(deleteClubBookModal);
   return useMutation('useDeleteBook', deleteClubBook, {
     onSuccess: () => {
-      setDeleteBookModal({ state: true, isLoading: true });
+      setDeleteBookModal({ state: true, isLoading: true, isOk: null });
       setTimeout(() => {
         setDeleteBookModal({ state: true, isOk: true });
       }, 1000);

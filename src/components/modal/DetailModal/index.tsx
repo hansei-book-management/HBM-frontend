@@ -1,9 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useSetRecoilState } from 'recoil';
+
 import { useGetWindowSize } from '@/hooks';
 import { BookListProps } from '@/api';
 import { RentMessage } from '@/components/common';
+import { bookName } from '@/atoms';
 
 import { Modal } from '../Modal';
 
@@ -31,6 +34,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
   const { bookId } = useParams<{ bookId: string }>();
   const bookIdNum = Number(bookId);
   const { getWidth } = useGetWindowSize();
+  const setBookName = useSetRecoilState(bookName);
 
   return (
     <Modal.OverLay>
@@ -42,6 +46,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
                 ?.filter(({ bid }) => bid === bookIdNum)
                 .map(({ data }) => {
                   const bookInfo = data.items[0];
+                  setBookName(bookInfo.title);
                   return (
                     <>
                       <S.DetailModalContainer>
