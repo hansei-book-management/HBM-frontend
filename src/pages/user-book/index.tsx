@@ -36,6 +36,8 @@ export const ManageUserBookPage: React.FC = () => {
   const user = userData?.result;
   const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
+  const userInfo = userClubBook?.map(({ user }) => user);
+  console.log(userInfo);
   const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
@@ -114,6 +116,7 @@ export const ManageUserBookPage: React.FC = () => {
           <Section
             data={userBookData?.filter(({ end }) => end !== 0)}
             navigateUrl={`/user-book/${activeUserClub.name}/book`}
+            // userName={}
           />
           {modalActive && !returnBookModal.state && (
             <DetailModal

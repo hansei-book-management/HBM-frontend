@@ -9,6 +9,8 @@ import * as S from './styled';
 export interface SectionProps {
   data?: [BookListProps] | BookListProps[];
   navigateUrl?: string;
+  userName?: string;
+  userStatus?: boolean;
 }
 
 export interface Book {
@@ -49,11 +51,7 @@ export const Section: React.FC<SectionProps> = ({ data, navigateUrl }) => {
                 <S.SectionImageSubTitle>
                   {bookInfo.author.split('^')[0]} · {bookInfo.publisher}
                 </S.SectionImageSubTitle>
-                <StatusMessage
-                  canRent={end === 0}
-                  userName={user?.name}
-                  userBlock={user?.freeze === 0}
-                />
+                <StatusMessage canRent={end === 0} userName={user?.name} />
               </S.SectionImageTitleContainer>
             </S.SectionImageContainer>
           );

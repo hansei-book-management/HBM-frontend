@@ -42,6 +42,10 @@ export interface GetClubBooksResponse {
   cid: number;
   name: string;
   book: [BookListProps];
+  user?: {
+    name?: string;
+    freeze?: number;
+  };
 }
 
 export interface GetAllClubsResponse extends GetClubBooksResponse {
