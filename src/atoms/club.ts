@@ -94,5 +94,6 @@ export const returnClubBookModal = atom<ReturnBookModalStateProps>({
     data: null,
     allowLocation: null,
     correctLocation: null,
+    image: null,
   },
 });

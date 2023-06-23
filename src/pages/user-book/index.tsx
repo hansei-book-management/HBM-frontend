@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
-import { useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
 
@@ -13,15 +12,15 @@ import {
   Section,
 } from '@/components';
 import { loadingLottieOptions } from '@/constant';
-import { useFetchUser, useGetUserBooks, useModal, useReturnBook } from '@/hooks';
+import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
 import { returnClubBookModal } from '@/atoms';
-import { UserProfileResponse } from '@/api';
 
 import * as S from './styled';
 
 export interface ReturnBookModalStateProps extends ModalStateProps {
   allowLocation?: null | boolean;
   correctLocation?: null | boolean;
+  image?: string | null;
 }
 
 export interface AllowLocationStateProps {

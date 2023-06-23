@@ -30,23 +30,21 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) =>
   const { handleSubmit } = useForm();
 
   const onSubmit = () => {
-    mutate({ cid, bid: Number(bookId), image: selectedImage || undefined });
+    console.log(returnBookModal.image);
+    mutate({ cid, bid: Number(bookId), image: returnBookModal.image || undefined });
   };
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const imageUrl = event.target.files[0];
+      setReturnBookModal((prev) => ({ ...prev, image: imageUrl.name.toString() }));
       setSelectedImage(URL.createObjectURL(imageUrl));
     }
   };
 
-  const onImageSubmit = () => {
-    console.log('image submit');
-  };
-
   const onReturnBookModalClose = () => {
     setSelectedImage(null);
-    setReturnBookModal({ state: false });
+    setReturnBookModal({ state: false, image: null });
   };
 
   if (returnBookModal.state && returnBookModal.allowLocation === false) {
@@ -182,7 +180,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) =>
             <S.StatusModalText>
               반납 사진이 잘못되었어요 아래 사항을 확인해주세요.
               <br />
-              기존 사진은 업로드할 수 없어요.
+              {returnBookModal.data}
               <br />
               새로 촬영해주세요. 기본 카메라 앱으로 촬영해주세요.
               <br />
