@@ -5,14 +5,15 @@ import { ManageClubBookOptionItem } from '@/constant';
 
 import * as S from './styled';
 
-export interface HeaderSectionProps {
+interface HeaderSectionProps {
   manageUserBookPage?: boolean;
-  notShowPlusIcon?: boolean;
+  showPlusIcon?: boolean;
   userBookInfo?: string;
   name?: React.ReactNode;
   href: string;
   list?: GetAllClubsResponse[] | GetUserBooksResponse[];
   optionList?: ManageClubBookOptionItem[];
+  rentClubList?: GetUserBooksResponse[];
   onClick?: () => void;
   activeId?: string;
   userMessage?: string;
@@ -23,19 +24,25 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
   name,
   href,
   list,
-  notShowPlusIcon,
+  showPlusIcon = false,
   onClick,
   activeId,
   userBookInfo,
   userMessage,
   optionList,
+  rentClubList,
 }) => {
   const isActive = (activeId?: string, id?: string) => activeId === id;
+
+  const rentBookClub = rentClubList?.map(({ book }) => book.some(({ end }) => end !== 0));
+
   return (
     <S.HeaderSectionContainer manageUserBookPage={manageUserBookPage}>
       {userMessage && <S.HeaderSectionUserMessage>{userMessage}</S.HeaderSectionUserMessage>}
       {userBookInfo && <S.HeaderSectionSubTitle>{userBookInfo}</S.HeaderSectionSubTitle>}
-      <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>{name}</S.HeaderSectionTitle>
+      <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>
+        {rentClubList ? (rentBookClub?.includes(true) ? name : null) : name}
+      </S.HeaderSectionTitle>
       <S.HeaderSectionList manageUserBookPage={manageUserBookPage}>
         {list ? (
           <>
@@ -50,14 +57,13 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
                     {name}
                   </S.HeaderSectionItem>
                 );
-              } else {
-                return;
               }
+              return null;
             })}
           </>
-        ) : (
+        ) : optionList ? (
           <>
-            {optionList?.map(({ name, id }) => (
+            {optionList.map(({ name, id }) => (
               <S.HeaderSectionItem
                 key={name}
                 isActive={isActive(activeId, id)}
@@ -67,8 +73,25 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
               </S.HeaderSectionItem>
             ))}
           </>
+        ) : (
+          <>
+            {rentClubList?.map(({ name, book }, i) => {
+              if (book.length > 0 && rentBookClub && rentBookClub[i]) {
+                return (
+                  <S.HeaderSectionItem
+                    key={name}
+                    isActive={isActive(activeId, name)}
+                    to={`${href}/${name}`}
+                  >
+                    {name}
+                  </S.HeaderSectionItem>
+                );
+              }
+              return null;
+            })}
+          </>
         )}
-        {!notShowPlusIcon && (
+        {showPlusIcon && (
           <S.HeaderSectionAddIconWrap onClick={onClick}>
             <FaPlus size={'0.9rem'} />
           </S.HeaderSectionAddIconWrap>

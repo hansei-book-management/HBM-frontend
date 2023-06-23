@@ -66,6 +66,7 @@ export const RentPage: React.FC = () => {
               activeId={clubId}
               href="/club"
               list={userClubs || []}
+              showPlusIcon={true}
               onClick={onBookDetailModalOpen}
             />
             <Section data={activeUserClubBooks} navigateUrl={`/club/${activeUserClub?.name}`} />
@@ -108,6 +109,7 @@ export const RentPage: React.FC = () => {
               activeId={clubId}
               href="/club"
               list={userClubs || []}
+              showPlusIcon={true}
               onClick={onBookDetailModalOpen}
             />
             <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>

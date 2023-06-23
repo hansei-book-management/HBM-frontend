@@ -35,6 +35,7 @@ export const ManageUserBookPage: React.FC = () => {
   const user = userData?.result;
   const { data: userBook, isFetching } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
+  const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
@@ -103,9 +104,8 @@ export const ManageUserBookPage: React.FC = () => {
             name={activeUserClub?.name}
             activeId={clubId}
             href={`${BASE_URL}`}
-            list={userClubBook || []}
+            rentClubList={userClubBook || []}
             manageUserBookPage={true}
-            notShowPlusIcon={true}
             userBookInfo={`${user?.name}은 현재 ${bookCount}권 대여중이에요.`}
           />
           <Section
@@ -132,8 +132,14 @@ export const ManageUserBookPage: React.FC = () => {
       ) : (
         <>
           <S.ManageUserBookContainer>
-            <HeaderSection activeId={clubId} href={`${BASE_URL}`} list={userClubBook || []} />
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+            <HeaderSection
+              activeId={clubId}
+              href={`${BASE_URL}`}
+              rentClubList={userClubBook || []}
+            />
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>
+              {rentBookClub?.includes(true) ? '동아리를 선택해주세요.' : '대여한 책이 없습니다.'}
+            </h1>
           </S.ManageUserBookContainer>
         </>
       )}

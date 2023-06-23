@@ -38,6 +38,7 @@ export const useGetBooks = (): UseQueryResult<
       });
     },
     retry: 0,
+    staleTime: 36000,
   });
 };
 
@@ -63,12 +64,14 @@ export const useAddClubBook = (): UseMutationResult<
   AddClubBookValues
 > => {
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
+  const getClubs = useGetClubs();
   return useMutation('useAddClubBook', addClubBook, {
     onSuccess: () => {
       setAddClubBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setAddClubBookModal({ state: true, isOk: true });
       }, 1000);
+      getClubs.refetch();
     },
     onError: (data) => {
       setAddClubBookModal({ state: true, isOk: false, data: data.response?.data.message });
@@ -89,6 +92,7 @@ export const useGetClubs = (): UseQueryResult<
       });
     },
     retry: 0,
+    staleTime: 36000,
   });
 };
 
@@ -98,6 +102,7 @@ export const useGetUserClubs = (): UseQueryResult<
 > => {
   return useQuery('useGetUserClubs', getUserClubs, {
     retry: 0,
+    staleTime: 36000,
   });
 };
 
@@ -148,11 +153,11 @@ export const useReturnBook = (): UseMutationResult<
   const setReturnBookModal = useSetRecoilState(returnClubBookModal);
   return useMutation('useReturnBook', returnBook, {
     onSuccess: () => {
-      userClub.refetch();
       setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
       setTimeout(() => {
         setReturnBookModal({ state: true, isOk: true });
       }, 1000);
+      userClub.refetch();
     },
     onError: (data) => {
       setReturnBookModal({
