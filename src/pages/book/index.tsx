@@ -7,7 +7,7 @@ import { useGetClubs, useModal } from '@/hooks';
 import * as S from './styled';
 
 export const BookPage: React.FC = () => {
-  const { data, isFetching } = useGetClubs();
+  const { data, isLoading } = useGetClubs();
   const clubs = data?.result;
 
   const { clubId } = useParams<{ clubId: string }>();
@@ -26,14 +26,18 @@ export const BookPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!activeClub && clubs && !isFetching) {
+    if (!activeClub && clubs && !isLoading) {
       navigate(`/book/${clubs[0].name}`);
     }
-  }, [activeClub]);
+  }, [activeClub, isLoading]);
 
   return (
     <>
-      {isFetching ? null : activeClub ? (
+      {isLoading ? (
+        <>
+          <h2>Loading...</h2>
+        </>
+      ) : activeClub ? (
         <S.BookPageContainer>
           <HeaderSection
             name={activeClub?.name}

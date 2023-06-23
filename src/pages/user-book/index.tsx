@@ -5,13 +5,14 @@ import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import {
+  Button,
   DetailModal,
   HeaderSection,
   ModalStateProps,
   ReturnBookModal,
   Section,
 } from '@/components';
-import { loadingLottieOptions, noDataLottieOptions } from '@/constant';
+import { loadingLottieOptions } from '@/constant';
 import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
 import { returnClubBookModal } from '@/atoms';
 
@@ -98,7 +99,11 @@ export const ManageUserBookPage: React.FC = () => {
 
   return (
     <>
-      {isFetching ? null : activeUserClub ? (
+      {isFetching ? (
+        <>
+          <h2>Loading...</h2>
+        </>
+      ) : activeUserClub ? (
         <S.ManageUserBookContainer>
           <HeaderSection
             name={activeUserClub?.name}
@@ -139,20 +144,22 @@ export const ManageUserBookPage: React.FC = () => {
                 rentClubList={userClubBook || []}
               />
               <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
-              <Lottie options={noDataLottieOptions} height={'28rem'} width={'40rem'} />
             </S.ManageUserBookContainer>
           ) : (
             <S.ManageUserBookContainer noData={true}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>대여중인 도서가 없어요.</h1>
-              </div>
+              <S.NoDataMessageWrapper>
+                <h1
+                  style={{
+                    fontSize: '1.4rem',
+                    fontWeight: 700,
+                    textAlign: 'center',
+                    // color: colors.primary.darkBlue,
+                  }}
+                >
+                  대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
+                </h1>
+                <Button to="/club" description="도서 대여 바로가기" />
+              </S.NoDataMessageWrapper>
             </S.ManageUserBookContainer>
           )}
         </>

@@ -17,7 +17,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isDirectorPage = false,
   isLoginPage = false,
 }) => {
-  const { data: user, isFetching } = useFetchUser();
+  const { data: user, isLoading } = useFetchUser();
 
   const userInfo = user?.result;
 
@@ -25,16 +25,16 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const isAdmin = userInfo?.role === 'admin';
   const isDirector = userInfo?.director !== undefined && userInfo?.director !== null;
 
-  if (isUserPage && !isFetching) {
+  if (isUserPage && !isLoading) {
     return isAuthenticatedUser ? <Outlet /> : <Navigate to="/auth/login" />;
     return <Outlet />;
-  } else if (isDirectorPage && !isFetching) {
+  } else if (isDirectorPage && !isLoading) {
     return isDirector ? <Outlet /> : <NotFoundPage />;
-  } else if (isAdminPage && !isFetching) {
+  } else if (isAdminPage && !isLoading) {
     return isAdmin ? <Outlet /> : <NotFoundPage />;
   } else if (isLoginPage) {
     return isAuthenticatedUser ? <Navigate to="/" /> : <Outlet />;
   } else {
-    return isFetching ? <h2>Loading...</h2> : <Outlet />;
+    return isLoading ? <h2>Loading...</h2> : <Outlet />;
   }
 };

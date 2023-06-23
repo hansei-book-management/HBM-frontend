@@ -83,3 +83,13 @@ export const ReturnBookModalMessage = styled.span`
   text-align: center;
   margin-bottom: 0.4rem;
 `;
+
+export const NoDataMessageWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 2rem;
+  row-gap: 2rem;
+`;
