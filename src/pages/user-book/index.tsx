@@ -57,7 +57,7 @@ export const ManageUserBookPage: React.FC = () => {
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
       setReturnBookModal({ state: true, correctLocation: true });
     } else {
-      setReturnBookModal({ state: true, correctLocation: true });
+      setReturnBookModal({ state: true, correctLocation: false });
     }
   };
 
@@ -94,8 +94,6 @@ export const ManageUserBookPage: React.FC = () => {
       navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
   }, [isLoading]);
-
-  // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
 
   return (
     <>
@@ -153,7 +151,6 @@ export const ManageUserBookPage: React.FC = () => {
                     fontSize: '1.4rem',
                     fontWeight: 700,
                     textAlign: 'center',
-                    // color: colors.primary.darkBlue,
                   }}
                 >
                   대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
