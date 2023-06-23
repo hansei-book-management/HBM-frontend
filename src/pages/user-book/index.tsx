@@ -15,6 +15,7 @@ import {
 import { loadingLottieOptions } from '@/constant';
 import { useFetchUser, useGetUserBooks, useModal, useReturnBook } from '@/hooks';
 import { returnClubBookModal } from '@/atoms';
+import { UserProfileResponse } from '@/api';
 
 import * as S from './styled';
 
@@ -91,7 +92,7 @@ export const ManageUserBookPage: React.FC = () => {
     if (!activeUserClub && userClubBook && clubAddStep && !isFetching) {
       navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
-  }, [activeUserClub]);
+  }, []);
 
   // userMessage={`🚨 현재 3일 1시간 연체중이에요. 도서 대여가 정지될 수도 있으니 빨리 반납해 주세요.`}
 

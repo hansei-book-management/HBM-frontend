@@ -31,13 +31,13 @@ export const useGetBooks = (): UseQueryResult<
   AxiosError<APIErrorResponse>
 > => {
   return useQuery('useGetBooks', getAllBooks, {
-    retry: 0,
     onError: (data) => {
       toast.error(data.response?.data.message, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     },
+    retry: 0,
   });
 };
 
@@ -47,13 +47,13 @@ export const useSearchBook = (): UseMutationResult<
   SearchBookValue
 > => {
   return useMutation('useSearchBook', searchBook, {
-    retry: 0,
     onError: (data) => {
       toast.error(data.response?.data.message, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     },
+    retry: 0,
   });
 };
 
@@ -127,6 +127,7 @@ export const useGetUserBooks = (
 ): UseQueryResult<APIResponse<GetUserBooksResponse[]>, AxiosError<APIErrorResponse>> => {
   return useQuery('useGetUserBook', () => getUserBooks(uid), {
     retry: 0,
+    staleTime: 36000,
   });
 };
 
