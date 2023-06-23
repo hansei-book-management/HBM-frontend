@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'react-lottie';
+import { useForm } from 'react-hook-form';
+
+import { useRecoilState } from 'recoil';
 
 import {
   DetailModal,
@@ -10,7 +13,8 @@ import {
   Section,
 } from '@/components';
 import { loadingLottieOptions } from '@/constant';
-import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
+import { useFetchUser, useGetUserBooks, useModal, useReturnBook } from '@/hooks';
+import { returnClubBookModal } from '@/atoms';
 
 import * as S from './styled';
 
@@ -39,14 +43,7 @@ export const ManageUserBookPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [returnBookModal, setReturnBookModal] = useState<ReturnBookModalStateProps>({
-    state: false,
-    isOk: null,
-    isLoading: false,
-    allowLocation: null,
-    correctLocation: null,
-  });
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [returnBookModal, setReturnBookModal] = useRecoilState(returnClubBookModal);
   const { modalActive } = useModal();
 
   // return book modal FN
@@ -56,9 +53,10 @@ export const ManageUserBookPage: React.FC = () => {
     const latitude = coords.latitude;
     const longitude = coords.longitude;
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
-      setReturnBookModal({ state: true, correctLocation: false });
+      setReturnBookModal({ state: true, correctLocation: true });
+    } else {
+      setReturnBookModal({ state: true, correctLocation: true });
     }
-    setReturnBookModal({ state: true, correctLocation: true });
   };
 
   const getLocationFail = () => {
@@ -83,22 +81,8 @@ export const ManageUserBookPage: React.FC = () => {
     );
   };
 
-  const onReturnBookModalClose = () => {
-    setSelectedImage(null);
-    setReturnBookModal({ state: false });
-  };
-
-  const onReturnBookStatusModal = () => {
-    setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
-    setTimeout(() => {
-      setReturnBookModal({ state: true, isOk: true, isLoading: false });
-      // fail test
-      // setReturnBookModal({ state: true,  isOk: false, isLoading: false, });
-    }, 1000);
-  };
-
   const bookCount = userClubBook
-    ?.map(({ book }) => book.filter(({ end }) => end === 0).length)
+    ?.map(({ book }) => book.filter(({ end }) => end !== 0).length)
     .reduce((a, b) => a + b, 0);
 
   useEffect(() => {
@@ -122,9 +106,12 @@ export const ManageUserBookPage: React.FC = () => {
             list={userClubBook || []}
             manageUserBookPage={true}
             notShowPlusIcon={true}
-            userBookInfo={`${user?.name}은 현재 ${bookCount}권 대출중이에요.`}
+            userBookInfo={`${user?.name}은 현재 ${bookCount}권 대여중이에요.`}
           />
-          <Section data={userBookData} navigateUrl={`/user-book/${activeUserClub.name}/book`} />
+          <Section
+            data={userBookData?.filter(({ end }) => end !== 0)}
+            navigateUrl={`/user-book/${activeUserClub.name}/book`}
+          />
           {modalActive && !returnBookModal.state && (
             <DetailModal
               leftButtonText="닫기"
@@ -137,16 +124,10 @@ export const ManageUserBookPage: React.FC = () => {
               }
               data={userBookData}
               rightButtonClick={onReturnBookModalOpen}
+              leftButtonClick={() => navigate(`${BASE_URL}/${clubId}`)}
             />
           )}
-          <ReturnBookModal
-            returnBookModal={returnBookModal}
-            onReturnBookModalClose={onReturnBookModalClose}
-            onReturnBookStatusModal={onReturnBookStatusModal}
-            setSelectedImage={setSelectedImage}
-            selectedImage={selectedImage}
-            url={USER_CLUB_BASE_URL}
-          />
+          <ReturnBookModal cid={activeUserClub?.cid} url={USER_CLUB_BASE_URL} />
         </S.ManageUserBookContainer>
       ) : (
         <>

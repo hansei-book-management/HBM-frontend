@@ -21,8 +21,10 @@ import {
   rentBook,
   getClubBooks,
   GetClubBooksResponse,
+  returnBook,
+  ReturnBookValue,
 } from '@/api';
-import { addClubBookModal, rentClubBookModal } from '@/atoms';
+import { addClubBookModal, rentClubBookModal, returnClubBookModal } from '@/atoms';
 
 export const useGetBooks = (): UseQueryResult<
   APIResponse<GetAllBooksResponse>,
@@ -132,6 +134,32 @@ export const useGetClubBooks = (
   cid?: number,
 ): UseQueryResult<APIResponse<GetClubBooksResponse[]>, AxiosError<APIErrorResponse>> => {
   return useQuery('useGetClubBooks', () => getClubBooks(cid), {
+    retry: 0,
+  });
+};
+
+export const useReturnBook = (): UseMutationResult<
+  APIResponse<null>,
+  AxiosError<APIErrorResponse>,
+  ReturnBookValue
+> => {
+  const userClub = useGetUserClubs();
+  const setReturnBookModal = useSetRecoilState(returnClubBookModal);
+  return useMutation('useReturnBook', returnBook, {
+    onSuccess: () => {
+      userClub.refetch();
+      setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
+      setTimeout(() => {
+        setReturnBookModal({ state: true, isOk: true });
+      }, 1000);
+    },
+    onError: (data) => {
+      setReturnBookModal({
+        state: true,
+        isOk: false,
+        data: data?.response?.data.message,
+      });
+    },
     retry: 0,
   });
 };

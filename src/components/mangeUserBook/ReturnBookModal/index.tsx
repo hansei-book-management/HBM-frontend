@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
 import Lottie from 'react-lottie';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
-import { ReturnBookModalStateProps } from '@/pages';
+import { useRecoilState } from 'recoil';
+
 import { loadingLottieOptions } from '@/constant';
+import { useReturnBook } from '@/hooks';
+import { returnClubBookModal } from '@/atoms';
 
 import { Modal } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
@@ -11,27 +16,37 @@ import { StatusModal } from '../../modal/StatusModal';
 import * as S from './styled';
 
 export interface ReturnBookModalProps {
-  returnBookModal: ReturnBookModalStateProps;
-  onReturnBookModalClose: () => void;
-  onReturnBookStatusModal: () => void;
-  setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
-  selectedImage: string | null;
+  cid: number;
   url: string;
 }
 
-export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
-  returnBookModal,
-  onReturnBookModalClose,
-  onReturnBookStatusModal,
-  setSelectedImage,
-  selectedImage,
-  url,
-}) => {
+export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) => {
+  const { bookId } = useParams<{ bookId: string }>();
+  const [returnBookModal, setReturnBookModal] = useRecoilState(returnClubBookModal);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const { mutate } = useReturnBook();
+
+  const { handleSubmit } = useForm();
+
+  const onSubmit = () => {
+    mutate({ cid, bid: Number(bookId), image: selectedImage || undefined });
+  };
+
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const image = event.target.files[0];
-      setSelectedImage(URL.createObjectURL(image));
+      const imageUrl = event.target.files[0];
+      setSelectedImage(URL.createObjectURL(imageUrl));
     }
+  };
+
+  const onImageSubmit = () => {
+    console.log('image submit');
+  };
+
+  const onReturnBookModalClose = () => {
+    setSelectedImage(null);
+    setReturnBookModal({ state: false });
   };
 
   if (returnBookModal.state && returnBookModal.allowLocation === false) {
@@ -109,8 +124,8 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
                     accept="image/*"
                     title="&nbsp;"
                     value=""
-                    onChange={onImageChange}
                     id="input-file"
+                    onChange={onImageChange}
                   />
                 </div>
                 <S.ReturnBookModalTitleBlack>
@@ -137,9 +152,9 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
             </S.ModalContainer>
           }
           leftButtonText="닫기"
-          statusDisable={returnBookModal.isLoading}
+          statusDisable={returnBookModal.isLoading === true}
           rightButtonText={
-            returnBookModal.isLoading ? (
+            returnBookModal.isLoading === true ? (
               <Lottie options={loadingLottieOptions} height={'1.2rem'} width={'2.6rem'} />
             ) : (
               '반납하기'
@@ -148,8 +163,9 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({
           modalSize="medium"
           {...(!returnBookModal.isLoading && {
             leftButtonClick: () => onReturnBookModalClose(),
-            rightButtonClick: () => onReturnBookStatusModal(),
           })}
+          handleSubmit={handleSubmit}
+          onValid={onSubmit}
           {...(!selectedImage && { returnBookDisable: true })}
         />
       </Modal.OverLay>

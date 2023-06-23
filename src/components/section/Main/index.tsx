@@ -102,13 +102,6 @@ export const Section: React.FC<SectionProps> = ({ data, navigateUrl }) => {
                 </S.SectionImageSubTitle>
                 <StatusMessage canRent={end === 0} />
               </S.SectionImageTitleContainer>
-              {/* 
-          
-          const Rent = () => {
-              if (rendPage) return <div/
-              if (manageClubCanRend) return <div/
-          }
-          */}
             </S.SectionImageContainer>
           );
         })}
