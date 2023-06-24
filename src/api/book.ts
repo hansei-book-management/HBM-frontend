@@ -117,21 +117,13 @@ export const rentBook = async ({ cid, bid }: ClubBookValue) => {
 };
 
 export const getUserBooks = async (uid?: string): Promise<GetUserBooksResponse[]> => {
-  if (uid) {
-    const { data } = await instance.get(`${API_SUFFIX.CLUB}/member/${uid}/book`);
-    return data;
-  } else {
-    throw new Error('uid is undefined');
-  }
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/member/${uid}/book`);
+  return data;
 };
 
 export const getClubBooks = async (cid?: number): Promise<GetClubBooksResponse[]> => {
-  if (cid) {
-    const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/book`);
-    return data;
-  } else {
-    throw new Error('cid is undefined');
-  }
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/book`);
+  return data;
 };
 
 export const returnBook = async ({ cid, bid, image }: ReturnBookValue) => {

@@ -37,12 +37,8 @@ export const getClubMember = async ({
   cid,
   user_id,
 }: ClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
-  if (cid && user_id) {
-    const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
-    return data;
-  } else {
-    throw new Error('get club member error: cid or user_id is undefined');
-  }
+  const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
+  return data;
 };
 
 export const updateClubMember = async ({
