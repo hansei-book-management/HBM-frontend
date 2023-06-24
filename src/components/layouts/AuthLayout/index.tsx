@@ -13,7 +13,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     <S.AuthLayoutContainer>
       <Navbar />
       <S.AuthLayoutWrapper>{children}</S.AuthLayoutWrapper>
-      <Footer isAuthLayout={true} />
+      <Footer />
     </S.AuthLayoutContainer>
   );
 };
