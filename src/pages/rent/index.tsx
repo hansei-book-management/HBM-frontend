@@ -5,7 +5,14 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { CLUB } from '@/constant';
-import { Section, DetailModal, HeaderSection, AddClubModal, CommonModal } from '@/components';
+import {
+  Section,
+  DetailModal,
+  HeaderSection,
+  AddClubModal,
+  CommonModal,
+  Button,
+} from '@/components';
 import { useFetchUser, useGetUserClubs, useModal, useRentBook } from '@/hooks';
 import { addUserClubModal, rentClubBookModal } from '@/atoms';
 
@@ -16,6 +23,7 @@ export const RentPage: React.FC = () => {
   const user = userData?.result;
   const { data, isLoading } = useGetUserClubs();
   const userClubs = data?.result;
+  const isUserClubExits = userClubs && userClubs.length > 0;
 
   const navigate = useNavigate();
   const { clubId, bookId } = useParams<{ clubId: string; bookId: string }>();
@@ -48,12 +56,13 @@ export const RentPage: React.FC = () => {
 
   // add club modal FN
   const onBookDetailModalOpen = () => {
+    console.log('asdf');
     setAddClubModal({ state: true, isOk: null });
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!activeUserClub && userClubs && !isLoading) {
+    if (!activeUserClub && isUserClubExits && userClubs && !isLoading) {
       navigate(`${CLUB}/${userClubs[0].name}`);
     }
   }, [activeUserClub, isLoading]);
@@ -64,7 +73,7 @@ export const RentPage: React.FC = () => {
         <>
           <h2>Loading...</h2>
         </>
-      ) : activeUserClub ? (
+      ) : isUserClubExits && activeUserClub ? (
         <>
           <S.RentPageContainer>
             <HeaderSection
@@ -87,7 +96,6 @@ export const RentPage: React.FC = () => {
               leftButtonClick={() => navigate(`${CLUB}/${clubId}`)}
             />
           )}
-          <AddClubModal url={`${CLUB}/${clubId}`} />
           {/** rent modal */}
           <CommonModal
             leftButtonClick={onRentClubBookModalClose}
@@ -109,18 +117,24 @@ export const RentPage: React.FC = () => {
         </>
       ) : (
         <>
-          <S.RentPageContainer>
-            <HeaderSection
-              activeId={clubId}
-              href="/club"
-              list={userClubs || []}
-              showPlusIcon={true}
-              onClick={onBookDetailModalOpen}
-            />
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
+          <S.RentPageContainer noData={true}>
+            <S.NoDataMessageWrapper>
+              <h1
+                style={{
+                  fontSize: '1.4rem',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                }}
+              >
+                가입된 동아리가 없어요. <br />
+                아래 버튼을 눌러 동아리를 추가해보세요.
+              </h1>
+              <Button to="/club" description="동아리 추가하기" onClick={onBookDetailModalOpen} />
+            </S.NoDataMessageWrapper>
           </S.RentPageContainer>
         </>
       )}
+      <AddClubModal url={`${CLUB}/${clubId}`} />
     </>
   );
 };
