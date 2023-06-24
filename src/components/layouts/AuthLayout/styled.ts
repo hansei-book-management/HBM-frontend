@@ -10,6 +10,7 @@ export const AuthLayoutWrapper = styled.div`
   min-height: 100%;
   margin: 0rem auto;
   max-width: 1250px;
+  padding: 7.5rem 1.5rem 4rem 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
