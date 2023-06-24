@@ -21,14 +21,17 @@ export interface ClubMemberInfo {
 }
 
 export interface GetClubMemberResponse extends ClubMemberInfo {
-  books: [
-    {
-      data?: {
-        items: BookResponse[];
-      };
-      end: number;
-    },
-  ];
+  books: {
+    name: string;
+    book: [
+      {
+        data?: {
+          items: BookResponse[];
+        };
+        end: number;
+      },
+    ];
+  };
 }
 
 export type ExpelClubMemberValues = ClubMemberValues;

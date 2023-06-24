@@ -22,7 +22,6 @@ import {
   UpdateClubMemberModal,
 } from '@/components';
 import { useFetchUser, useGetClubInfo } from '@/hooks';
-import { ClubMemberInfo } from '@/api';
 import {
   changeClubDirectorModal,
   deleteClubModal,
@@ -122,7 +121,7 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
-          {members?.map(({ name, freeze, borrowBook, uid }: ClubMemberInfo, i) => (
+          {members?.map(({ name, freeze, uid, borrowBook }, i) => (
             <S.DummyContainer>
               <S.ManageClubUserContainer>
                 <S.ManageClubUserIconContainer onClick={() => onClubMemberInfoModalOpen(`${uid}`)}>
