@@ -13,7 +13,7 @@ import {
   ClubApplyPage,
   BookPage,
 } from './pages';
-import { DefaultLayout, PrivateRoute } from './components';
+import { AuthLayout, DefaultLayout, PrivateRoute } from './components';
 import { MANAGE_CLUB_BOOK_OPTIONS } from './constant';
 
 export const App: React.FC = () => {
@@ -27,10 +27,12 @@ export const App: React.FC = () => {
         }
       >
         <Route path="/" element={<MainPage />} />
+
         <Route path="/book" element={<BookPage />}>
           <Route path=":clubId" element={<BookPage />} />
           <Route path=":clubId/:bookId" element={<BookPage />} />
         </Route>
+
         <Route element={<PrivateRoute isUserPage={true} />}>
           <Route path="/club" element={<RentPage />}>
             <Route path=":clubId" element={<RentPage />}>
@@ -39,12 +41,15 @@ export const App: React.FC = () => {
               <Route path="club-add" element={<RentPage />} />
             </Route>
           </Route>
+
           <Route path="/user-book" element={<ManageUserBookPage />}>
             <Route path=":clubId" element={<ManageUserBookPage />} />
             <Route path=":clubId/book/:bookId" element={<ManageUserBookPage />} />
           </Route>
+
           <Route path="club-apply" element={<ClubApplyPage />} />
         </Route>
+
         <Route element={<PrivateRoute isDirectorPage={true} />}>
           <Route path="/club-book" element={<ManageClubBookPage />}>
             <Route
@@ -54,6 +59,7 @@ export const App: React.FC = () => {
             <Route path=":option" element={<ManageClubBookPage />} />
             <Route path=":option/book/:bookId" element={<ManageClubBookPage />} />
           </Route>
+
           <Route path="/manage-club" element={<ManageClubPage />}>
             <Route path="member/:userId" element={<ManageClubPage />}>
               <Route path="detail" element={<ManageClubPage />} />
@@ -64,13 +70,20 @@ export const App: React.FC = () => {
             <Route path="change-director" element={<ManageClubPage />} />
           </Route>
         </Route>
-        <Route element={<PrivateRoute isLoginPage={true} />}>
-          <Route path="auth">
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="login" element={<LoginPage />} />
-          </Route>
-        </Route>
         <Route path="*" element={<NotFoundPage />} />
+      </Route>
+      <Route element={<PrivateRoute isLoginPage={true} />}>
+        <Route
+          path="auth"
+          element={
+            <AuthLayout>
+              <Outlet />
+            </AuthLayout>
+          }
+        >
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+        </Route>
       </Route>
     </Routes>
   );

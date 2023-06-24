@@ -1,4 +1,4 @@
-export * from './DefaultLayout';
+export * from './layouts';
 export * from './common';
 export * from './main';
 export * from './modal';
