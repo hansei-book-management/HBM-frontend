@@ -84,14 +84,14 @@ export const NavbarMenuWrapper = styled.div<{ isUser: boolean }>`
 `;
 
 export const NavbarTitleLink = styled(Link)`
-  font-size: 26px;
+  font-size: 2.2rem;
   font-weight: 500;
   text-decoration: none;
   color: ${({ theme }) => theme.black};
 `;
 
 export const NavbarMenuItem = styled(Link)<{ isActive: boolean }>`
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
   color: ${({ theme }) => theme.navbar.unselected};
@@ -115,7 +115,7 @@ export const NavbarUserContainer = styled.div<{ isUser: boolean }>`
 `;
 
 export const NavbarUserName = styled.span`
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-right: 16px;
   color: ${({ theme }) => theme.black};
@@ -127,7 +127,7 @@ export const NavbarAuthButton = styled.button`
   border-radius: 1.4rem;
   border: none;
   padding: 0.8rem 1.1rem;
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight: 600;
   align-self: center;
   text-decoration: none;
@@ -136,8 +136,8 @@ export const NavbarAuthButton = styled.button`
 export const NavbarTogIcon = styled(MdDehaze)<{ isUser: boolean }>`
   margin: 0;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 2.4rem;
+  height: 2.4rem;
   color: ${({ theme }) => theme.gray};
   @media screen and (min-width: ${({ isUser }) => (isUser ? '631px' : '831px')}) {
     display: none;
