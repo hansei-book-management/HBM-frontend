@@ -46,8 +46,6 @@ export const App: React.FC = () => {
             <Route path=":clubId" element={<ManageUserBookPage />} />
             <Route path=":clubId/book/:bookId" element={<ManageUserBookPage />} />
           </Route>
-
-          <Route path="club-apply" element={<ClubApplyPage />} />
         </Route>
 
         <Route element={<PrivateRoute isDirectorPage={true} />}>
@@ -72,6 +70,18 @@ export const App: React.FC = () => {
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>
+      <Route element={<PrivateRoute isUserPage={true} />}>
+        <Route
+          element={
+            <AuthLayout>
+              <Outlet />
+            </AuthLayout>
+          }
+        >
+          <Route path="club-apply" element={<ClubApplyPage />} />
+        </Route>
+      </Route>
+
       <Route element={<PrivateRoute isLoginPage={true} />}>
         <Route
           path="auth"
