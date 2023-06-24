@@ -37,7 +37,6 @@ export const ManageUserBookPage: React.FC = () => {
   const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
   const isUserBookExits = userClubBook && userClubBook.length > 0;
-  console.log(userClubBook, 'ㅁㄴㅇㄹ');
   const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
