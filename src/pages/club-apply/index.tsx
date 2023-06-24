@@ -45,6 +45,10 @@ export const ClubApplyPage: React.FC = () => {
         type: 'text',
         ...register('name', {
           required: '동아리 이름은 필수입니다.',
+          pattern: {
+            value: /^[a-zA-Z0-9가-힣]{3,20}$/,
+            message: '5~20자 한글 또는 영문, 숫자를 입력해주세요',
+          },
         }),
       },
       placeHolder: '동아리 이름을 입력해주세요...',
