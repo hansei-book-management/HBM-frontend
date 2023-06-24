@@ -150,14 +150,14 @@ export const useGetClubBooks = (
   });
 };
 
-export const useReturnBook = (): UseMutationResult<
-  APIResponse<null>,
-  AxiosError<APIErrorResponse>,
-  ReturnBookValue
-> => {
+export const useReturnBook = ({
+  cid,
+  image,
+  bid,
+}: ReturnBookValue): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
   const userClub = useGetUserClubs();
   const setReturnBookModal = useSetRecoilState(returnClubBookModal);
-  return useMutation('useReturnBook', returnBook, {
+  return useMutation('useReturnBook', () => returnBook({ cid, bid, image }), {
     onSuccess: () => {
       setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
       setTimeout(() => {

@@ -41,7 +41,6 @@ export const ManageUserBookPage: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
   const userBookData = activeUserClub?.book;
-  console.log(userBookData);
   const USER_CLUB_BASE_URL = `/user-book/${clubId}`;
 
   const navigate = useNavigate();
@@ -58,7 +57,7 @@ export const ManageUserBookPage: React.FC = () => {
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
       setReturnBookModal({ state: true, correctLocation: true });
     } else {
-      setReturnBookModal({ state: true, correctLocation: false });
+      setReturnBookModal({ state: true, correctLocation: true });
     }
   };
 
@@ -87,6 +86,7 @@ export const ManageUserBookPage: React.FC = () => {
   const bookCount = userClubBook
     ?.map(({ book }) => book.filter(({ end }) => end !== 0).length)
     .reduce((a, b) => a + b, 0);
+  console.log(bookCount);
 
   useEffect(() => {
     const clubAddStep = location.search;
@@ -102,7 +102,7 @@ export const ManageUserBookPage: React.FC = () => {
         <>
           <h2>Loading...</h2>
         </>
-      ) : activeUserClub ? (
+      ) : bookCount !== undefined && bookCount > 0 ? (
         <S.ManageUserBookContainer>
           <HeaderSection
             name={activeUserClub?.name}
@@ -114,7 +114,7 @@ export const ManageUserBookPage: React.FC = () => {
           />
           <Section
             data={userBookData?.filter(({ end }) => end !== 0)}
-            navigateUrl={`/user-book/${activeUserClub.name}/book`}
+            navigateUrl={`/user-book/${activeUserClub?.name}/book`}
           />
           {modalActive && !returnBookModal.state && (
             <DetailModal
@@ -129,10 +129,9 @@ export const ManageUserBookPage: React.FC = () => {
               data={userBookData}
               rightButtonClick={onReturnBookModalOpen}
               leftButtonClick={() => navigate(`${BASE_URL}/${clubId}`)}
-              // end={userBookData?.map(({ end }) => end) || 1}
             />
           )}
-          <ReturnBookModal cid={activeUserClub?.cid} url={USER_CLUB_BASE_URL} />
+          <ReturnBookModal cid={activeUserClub?.cid} url={USER_CLUB_BASE_URL} uid={user?.uid} />
         </S.ManageUserBookContainer>
       ) : (
         <>
