@@ -2,9 +2,13 @@ import { ICON_LIST } from '@/constant';
 
 import * as S from './styled';
 
-export const Footer: React.FC = () => {
+export interface FooterProps {
+  isAuthLayout?: boolean;
+}
+
+export const Footer: React.FC<FooterProps> = ({ isAuthLayout = false }) => {
   return (
-    <S.FooterContainer>
+    <S.FooterContainer isAuthLayout={isAuthLayout}>
       <S.FooterTitle to="/">HANBOOK</S.FooterTitle>
       <S.FooterIcon>
         {ICON_LIST.map(({ icon, href }, i) => (

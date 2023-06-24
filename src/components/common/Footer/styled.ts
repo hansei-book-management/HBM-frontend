@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const FooterContainer = styled.footer`
+export const FooterContainer = styled.footer<{ isAuthLayout?: boolean }>`
   border-top: 1px solid #d5d5d5;
   padding: 3rem 0;
   display: flex;
@@ -10,6 +10,14 @@ export const FooterContainer = styled.footer`
   justify-content: center;
   align-items: center;
   row-gap: 2rem;
+  ${({ isAuthLayout }) =>
+    isAuthLayout &&
+    css`
+      position: absolute;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    `}
 `;
 
 export const FooterTitle = styled(Link)`
