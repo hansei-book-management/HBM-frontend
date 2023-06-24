@@ -13,6 +13,7 @@ import { Modal } from '../Modal';
 import * as S from './styled';
 
 export interface DetailModalProps {
+  rentPage?: boolean;
   data?: [BookListProps] | BookListProps[];
   isRed?: boolean;
   leftButtonText: string;
@@ -22,6 +23,7 @@ export interface DetailModalProps {
 }
 
 export const DetailModal: React.FC<DetailModalProps> = ({
+  rentPage = false,
   data,
   isRed = false,
   leftButtonText,
@@ -105,10 +107,17 @@ export const DetailModal: React.FC<DetailModalProps> = ({
         leftButtonText={leftButtonText}
         rightButtonText={rightButtonText}
         rightButtonClick={rightButtonClick}
+        isRed={isRed}
         {...(leftButtonClick && {
           leftButtonClick: () => leftButtonClick(),
         })}
-        isRed={isRed}
+        {...(rentPage &&
+          leftButtonClick &&
+          !canRent && {
+            rightButtonText: '대여 불가',
+            isRed: true,
+            rightButtonClick: () => leftButtonClick(),
+          })}
         modalSize="large"
       />
     </Modal.OverLay>

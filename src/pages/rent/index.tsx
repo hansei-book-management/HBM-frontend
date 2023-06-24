@@ -31,7 +31,7 @@ export const RentPage: React.FC = () => {
   const activeUserClub = userClubs?.find(({ name }) => name === clubId);
   const activeUserClubBooks = activeUserClub?.book;
 
-  const { modalActive } = useModal();
+  const { modalActive, close } = useModal();
 
   const setAddClubModal = useSetRecoilState(addUserClubModal);
   const [rentBookModal, setRentBookModal] = useRecoilState(rentClubBookModal);
@@ -55,9 +55,13 @@ export const RentPage: React.FC = () => {
   };
 
   // add club modal FN
-  const onBookDetailModalOpen = () => {
-    console.log('asdf');
+  const onAddClubModalOpen = () => {
     setAddClubModal({ state: true, isOk: null });
+  };
+
+  const onBookDetailModalClose = () => {
+    close();
+    navigate(`${CLUB}/${clubId}`);
   };
 
   useEffect(() => {
@@ -82,18 +86,19 @@ export const RentPage: React.FC = () => {
               href="/club"
               list={userClubs || []}
               showPlusIcon={true}
-              onClick={onBookDetailModalOpen}
+              onClick={onAddClubModalOpen}
             />
             <Section data={activeUserClubBooks} navigateUrl={`/club/${activeUserClub?.name}`} />
           </S.RentPageContainer>
           {/** book detail modal */}
           {modalActive && rentBookModal.state === false && (
             <DetailModal
+              rentPage={true}
               rightButtonClick={() => onRentClubBookModalOpen()}
               leftButtonText="닫기"
               rightButtonText="대여하기"
               data={activeUserClubBooks}
-              leftButtonClick={() => navigate(`${CLUB}/${clubId}`)}
+              leftButtonClick={() => onBookDetailModalClose()}
             />
           )}
           {/** rent modal */}
@@ -110,7 +115,11 @@ export const RentPage: React.FC = () => {
               `대여 기한은 14일이며, 연장 신청을 할 수 있어요.\n` +
               `내 도서에서 확인해 보세요.`
             }
-            failMessage={`책 대여에 실패 했어요.\n` + `${rentBookModal.data}`}
+            failMessage={
+              `책 대여에 실패 했어요.\n` +
+              `${rentBookModal.data}` +
+              `위의 문제로 인해 책 대여에 실패하였어요.`
+            }
             handleSubmit={handleSubmit}
             onValid={onSubmit}
           />
@@ -129,7 +138,7 @@ export const RentPage: React.FC = () => {
                 가입된 동아리가 없어요. <br />
                 아래 버튼을 눌러 동아리를 추가해보세요.
               </h1>
-              <Button to="/club" description="동아리 추가하기" onClick={onBookDetailModalOpen} />
+              <Button to="/club" description="동아리 추가하기" onClick={onAddClubModalOpen} />
             </S.NoDataMessageWrapper>
           </S.RentPageContainer>
         </>
