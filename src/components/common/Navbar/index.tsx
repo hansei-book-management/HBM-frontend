@@ -114,7 +114,7 @@ export const Navbar: React.FC = () => {
           <S.NavbarMenuWrapper isUser={isUser}>
             {navbarMenuList.map(({ text, href }, i) => (
               <S.NavbarMenuItem
-                {...(getWidth <= 630 && { onClick })}
+                {...(isUser ? getWidth <= 630 && { onClick } : getWidth <= 830 && { onClick })}
                 to={href}
                 key={i}
                 isActive={location.pathname.includes(href)}
