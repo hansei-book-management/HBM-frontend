@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 
@@ -11,10 +11,10 @@ import { useGetClubMember, useGetClubInfo, useUpdateClubMember } from '@/hooks';
 
 export interface UpdateClubMemberModalProps {
   cid?: number;
+  userId?: string;
 }
 
-export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ cid }) => {
-  const { userId } = useParams<{ userId: string }>();
+export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ cid, userId }) => {
   const club = useGetClubInfo(cid);
   const clubMember = useGetClubMember({ cid, user_id: userId });
   const freeze = clubMember.data?.result.freeze;

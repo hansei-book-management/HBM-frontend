@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
@@ -11,10 +11,10 @@ import { MANAGE_CLUB } from '@/constant';
 
 export interface ExpelClubMemberModalProps {
   cid?: number;
+  userId?: string;
 }
 
-export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid }) => {
-  const { userId } = useParams<{ userId: string }>();
+export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid, userId }) => {
   const { data } = useGetClubMember({ cid, user_id: userId });
   const memberName = data?.result.name;
   const [expelMemberModal, setExpelMemberModal] = useRecoilState(expelClubMemberModal);

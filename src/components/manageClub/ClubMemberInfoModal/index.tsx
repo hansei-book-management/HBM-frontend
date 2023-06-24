@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
 import { Modal } from '@/components';
 import { useGetClubMember } from '@/hooks';
@@ -7,15 +6,16 @@ import { useGetClubMember } from '@/hooks';
 import * as S from './styled';
 
 export interface ClubMemberInfoModalProps {
+  userId?: string;
   cid?: number;
   leftButtonClick: () => void;
 }
 
 export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
   cid,
+  userId,
   leftButtonClick,
 }) => {
-  const { userId } = useParams<{ userId: string }>();
   const { data: getMember } = useGetClubMember({ cid, user_id: userId });
   const member = getMember?.result;
   return (

@@ -27,6 +27,7 @@ export const useGetClubMember = ({
 > =>
   useQuery('useGetMember', () => getClubMember({ cid, user_id }), {
     retry: 0,
+    staleTime: 36000,
   });
 
 export const useUpdateClubMember = ({

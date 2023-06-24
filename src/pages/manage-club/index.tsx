@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   FaEllipsisV,
   FaLock,
@@ -40,6 +40,8 @@ export const ManageClubPage: React.FC = () => {
   const club = useGetClubInfo(cid);
   const members = club.data?.result.members;
   const clubName = club.data?.result.name;
+
+  const { userId } = useParams<{ userId: string }>();
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubMemberPopupList, setClubMemberPopupList] = useState(
@@ -201,11 +203,15 @@ export const ManageClubPage: React.FC = () => {
         </div>
       </S.ManageClubWrapper>
       {clubMemberInfoModal && (
-        <ClubMemberInfoModal cid={cid} leftButtonClick={onClubMemberInfoModalClose} />
+        <ClubMemberInfoModal
+          cid={cid}
+          leftButtonClick={onClubMemberInfoModalClose}
+          userId={userId}
+        />
       )}
       {cid && <ClubCodeModal />}
-      <UpdateClubMemberModal cid={cid} />
-      <ExpelClubMemberModal cid={cid} />
+      <UpdateClubMemberModal cid={cid} userId={userId} />
+      <ExpelClubMemberModal cid={cid} userId={userId} />
       {club.data?.result && (
         <ClubChangeDirectorModal
           clubName={club.data?.result.name}
