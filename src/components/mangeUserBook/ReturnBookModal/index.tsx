@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { MdLocationOff, MdNotListedLocation, MdCameraAlt } from 'react-icons/md';
 import Lottie from 'react-lottie';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { loadingLottieOptions } from '@/constant';
-import { useReturnBook } from '@/hooks';
-import { returnClubBookModal } from '@/atoms';
+import { useGetUserBooks, useReturnBook } from '@/hooks';
+import { bookName, returnClubBookModal } from '@/atoms';
 
 import { Modal } from '../../modal/Modal';
 import { StatusModal } from '../../modal/StatusModal';
@@ -16,21 +16,32 @@ import { StatusModal } from '../../modal/StatusModal';
 import * as S from './styled';
 
 export interface ReturnBookModalProps {
-  cid: number;
+  cid?: number;
   url: string;
+  clubName?: string;
+  uid?: string;
 }
 
-export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) => {
+export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid, clubName, uid }) => {
   const { bookId } = useParams<{ bookId: string }>();
   const [returnBookModal, setReturnBookModal] = useRecoilState(returnClubBookModal);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const returnBookName = useRecoilValue(bookName);
+  const userBooks = useGetUserBooks(uid);
 
-  const { mutate } = useReturnBook();
+  const navigate = useNavigate();
+
+  const { mutate } = useReturnBook({
+    cid,
+    bid: Number(bookId),
+    image: returnBookModal.image || undefined,
+    uid: uid,
+  });
 
   const { handleSubmit } = useForm();
 
   const onSubmit = () => {
-    mutate({ cid, bid: Number(bookId), image: returnBookModal.image || undefined });
+    mutate({});
   };
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +55,8 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) =>
   const onReturnBookModalClose = () => {
     setSelectedImage(null);
     setReturnBookModal({ state: false, image: null });
+    userBooks.refetch();
+    navigate(`/user-book`);
   };
 
   if (returnBookModal.state && returnBookModal.allowLocation === false) {
@@ -200,11 +213,11 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid }) =>
         message={
           <>
             <S.StatusModalText>
-              '책 이름' 도서가 반납되었어요.
+              '{returnBookName}' 도서가 반납되었어요.
               <br />
-              반납 알람은 '보안관제' 동아리 부장에게 전해졌어요.
+              반납 알람은 {clubName} 동아리 부장에게 전해졌어요.
               <br />
-              앞으로도 자유롭게 한북을 이용해주세요.
+              자유롭게 HANBOOK을 이용해 보세요.
             </S.StatusModalText>
           </>
         }
