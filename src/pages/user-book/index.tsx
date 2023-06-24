@@ -36,6 +36,8 @@ export const ManageUserBookPage: React.FC = () => {
   const user = userData?.result;
   const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
+  const isUserBookExits = userClubBook && userClubBook.length > 0;
+  console.log(userClubBook, 'ㅁㄴㅇㄹ');
   const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
@@ -86,15 +88,17 @@ export const ManageUserBookPage: React.FC = () => {
   const bookCount = userClubBook
     ?.map(({ book }) => book.filter(({ end }) => end !== 0).length)
     .reduce((a, b) => a + b, 0);
-  console.log(bookCount);
 
   useEffect(() => {
     const clubAddStep = location.search;
     window.scrollTo(0, 0);
-    if ((!activeUserClub && userClubBook && !isLoading) || (userClubBook && clubAddStep)) {
+    if (
+      (!activeUserClub && userClubBook && !isLoading && isUserBookExits) ||
+      (userClubBook && !isLoading && isUserBookExits && clubAddStep)
+    ) {
       navigate(`${BASE_URL}/${userClubBook[0].name}`);
     }
-  }, [isLoading]);
+  }, [activeUserClub, isLoading]);
 
   return (
     <>
@@ -102,7 +106,7 @@ export const ManageUserBookPage: React.FC = () => {
         <>
           <h2>Loading...</h2>
         </>
-      ) : bookCount !== undefined && bookCount > 0 ? (
+      ) : bookCount && bookCount > 0 && isUserBookExits && activeUserClub ? (
         <S.ManageUserBookContainer>
           <HeaderSection
             name={activeUserClub?.name}
