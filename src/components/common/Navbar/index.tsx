@@ -72,6 +72,8 @@ export const Navbar: React.FC = () => {
     navbarMenuList = USER_NAVBAR_MENU_LIST;
   }
 
+  const isUser = navbarMenuList === USER_NAVBAR_MENU_LIST;
+
   useEffect(() => {
     if (getWidth > 630) {
       if (navbar.current) {
@@ -90,24 +92,26 @@ export const Navbar: React.FC = () => {
 
   return (
     <S.NavBarContainer
+      isUser={isUser}
       // variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: -25 } }} // -> 부드럽게 사라지기
       variants={{ visible: { top: '0vh' }, hidden: { top: '-40vh' } }} // -> 말아올리기
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.5 }}
     >
-      <S.NavBarWrapper>
-        <S.NavbarToggleBar>
+      <S.NavBarWrapper isUser={isUser}>
+        <S.NavbarToggleBar isUser={isUser}>
           <S.NavbarTitleLink to="/">HANBOOK</S.NavbarTitleLink>
-          <S.NavbarTogIcon onClick={onClick} />
+          <S.NavbarTogIcon isUser={isUser} onClick={onClick} />
         </S.NavbarToggleBar>
         <S.NavbarMenuContainer
+          isUser={isUser}
           variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: -25 } }} // -> 말아올리기
           animate={navbarClose ? 'hidden' : 'visible'}
           transition={{ ease: [0.5, 0.25, 0.3, 1], duration: 0.3 }}
           ref={navbar}
           className="hidden"
         >
-          <S.NavbarMenuWrapper>
+          <S.NavbarMenuWrapper isUser={isUser}>
             {navbarMenuList.map(({ text, href }, i) => (
               <S.NavbarMenuItem
                 {...(getWidth <= 630 && { onClick })}
@@ -119,7 +123,7 @@ export const Navbar: React.FC = () => {
               </S.NavbarMenuItem>
             ))}
           </S.NavbarMenuWrapper>
-          <S.NavbarUserContainer>
+          <S.NavbarUserContainer isUser={isUser}>
             {userInfo ? (
               <>
                 <S.NavbarUserName>{userInfo?.name}님</S.NavbarUserName>
