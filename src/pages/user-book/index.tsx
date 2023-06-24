@@ -59,7 +59,7 @@ export const ManageUserBookPage: React.FC = () => {
     if (latitude < 37.56 && latitude > 37.55 && longitude < 126.96 && longitude > 126.95) {
       setReturnBookModal({ state: true, correctLocation: true });
     } else {
-      setReturnBookModal({ state: true, correctLocation: true });
+      setReturnBookModal({ state: true, correctLocation: false });
     }
   };
 
