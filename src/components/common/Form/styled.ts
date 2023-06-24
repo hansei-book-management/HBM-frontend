@@ -17,6 +17,11 @@ export const FormContainer = styled.form`
   flex-direction: column;
   row-gap: 2rem;
   width: 34rem;
+  @media screen and (min-width: 300px) and (max-width: 500px) {
+    width: 26rem;
+    border: none;
+    padding: 1rem;
+  }
 `;
 
 export const FormTitle = styled.h1`
