@@ -13,7 +13,6 @@ interface HeaderSectionProps {
   href: string;
   list?: GetAllClubsResponse[] | GetUserBooksResponse[];
   optionList?: ManageClubBookOptionItem[];
-  rentClubList?: GetUserBooksResponse[];
   onClick?: () => void;
   activeId?: string;
   userMessage?: string;
@@ -30,42 +29,32 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
   userBookInfo,
   userMessage,
   optionList,
-  rentClubList,
 }) => {
   const isActive = (activeId?: string, id?: string) => activeId === id;
-
-  const rentBookClub = rentClubList?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   return (
     <S.HeaderSectionContainer manageUserBookPage={manageUserBookPage}>
       {userMessage && <S.HeaderSectionUserMessage>{userMessage}</S.HeaderSectionUserMessage>}
       {userBookInfo && <S.HeaderSectionSubTitle>{userBookInfo}</S.HeaderSectionSubTitle>}
       {name && (
-        <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>
-          {rentClubList ? rentBookClub?.includes(true) && name : name}
-        </S.HeaderSectionTitle>
+        <S.HeaderSectionTitle manageUserBookPage={manageUserBookPage}>{name}</S.HeaderSectionTitle>
       )}
       <S.HeaderSectionList manageUserBookPage={manageUserBookPage}>
         {list ? (
           <>
-            {list.map(({ name, book }) => {
-              if (book.length > 0) {
-                return (
-                  <S.HeaderSectionItem
-                    key={name}
-                    isActive={isActive(activeId, name)}
-                    to={`${href}/${name}`}
-                  >
-                    {name}
-                  </S.HeaderSectionItem>
-                );
-              }
-              return null;
-            })}
+            {list.map(({ name }) => (
+              <S.HeaderSectionItem
+                key={name}
+                isActive={isActive(activeId, name)}
+                to={`${href}/${name}`}
+              >
+                {name}
+              </S.HeaderSectionItem>
+            ))}
           </>
-        ) : optionList ? (
+        ) : (
           <>
-            {optionList.map(({ name, id }) => (
+            {optionList?.map(({ name, id }) => (
               <S.HeaderSectionItem
                 key={name}
                 isActive={isActive(activeId, id)}
@@ -74,23 +63,6 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
                 {name}
               </S.HeaderSectionItem>
             ))}
-          </>
-        ) : (
-          <>
-            {rentClubList?.map(({ name, book }, i) => {
-              if (book.length > 0 && rentBookClub && rentBookClub[i]) {
-                return (
-                  <S.HeaderSectionItem
-                    key={name}
-                    isActive={isActive(activeId, name)}
-                    to={`${href}/${name}`}
-                  >
-                    {name}
-                  </S.HeaderSectionItem>
-                );
-              }
-              return null;
-            })}
           </>
         )}
         {showPlusIcon && (

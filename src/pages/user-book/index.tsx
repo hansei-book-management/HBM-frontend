@@ -37,7 +37,6 @@ export const ManageUserBookPage: React.FC = () => {
   const { data: userBook, isLoading } = useGetUserBooks(user?.uid);
   const userClubBook = userBook?.result;
   const isUserBookExits = userClubBook && userClubBook.length > 0;
-  const rentBookClub = userClubBook?.map(({ book }) => book.some(({ end }) => end !== 0));
 
   const { clubId } = useParams<{ clubId: string }>();
   const activeUserClub = userClubBook?.find(({ name }) => name === clubId);
@@ -111,7 +110,7 @@ export const ManageUserBookPage: React.FC = () => {
             name={activeUserClub?.name}
             activeId={clubId}
             href={`${BASE_URL}`}
-            rentClubList={userClubBook || []}
+            list={userClubBook || []}
             manageUserBookPage={true}
             userBookInfo={`${user?.name}은 현재 ${bookCount}권 대여중이에요.`}
           />
@@ -138,31 +137,20 @@ export const ManageUserBookPage: React.FC = () => {
         </S.ManageUserBookContainer>
       ) : (
         <>
-          {rentBookClub?.includes(true) ? (
-            <S.ManageUserBookContainer>
-              <HeaderSection
-                activeId={clubId}
-                href={`${BASE_URL}`}
-                rentClubList={userClubBook || []}
-              />
-              <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>동아리를 선택해주세요.</h1>
-            </S.ManageUserBookContainer>
-          ) : (
-            <S.ManageUserBookContainer noData={true}>
-              <S.NoDataMessageWrapper>
-                <h1
-                  style={{
-                    fontSize: '1.4rem',
-                    fontWeight: 700,
-                    textAlign: 'center',
-                  }}
-                >
-                  대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
-                </h1>
-                <Button to="/club" description="도서 대여 바로가기" />
-              </S.NoDataMessageWrapper>
-            </S.ManageUserBookContainer>
-          )}
+          <S.ManageUserBookContainer noData={true}>
+            <S.NoDataMessageWrapper>
+              <h1
+                style={{
+                  fontSize: '1.4rem',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                }}
+              >
+                대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
+              </h1>
+              <Button to="/club" description="도서 대여 바로가기" />
+            </S.NoDataMessageWrapper>
+          </S.ManageUserBookContainer>
         </>
       )}
     </>

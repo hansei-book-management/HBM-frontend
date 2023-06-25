@@ -68,6 +68,7 @@ export const useAddClubBook = ({
 > => {
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
   const getClubs = useGetClubs();
+  const userClub = useGetUserClubs();
   const getClubBooks = useGetClubBooks(cid);
   return useMutation('useAddClubBook', addClubBook, {
     onSuccess: () => {
@@ -76,6 +77,7 @@ export const useAddClubBook = ({
         setAddClubBookModal({ state: true, isOk: true });
       }, 1000);
       getClubBooks.refetch();
+      userClub.refetch();
       getClubs.refetch();
     },
     onError: (data) => {
@@ -120,9 +122,9 @@ export const useRentBook = ({
       setRentBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setRentBookModal({ state: true, isOk: true });
-        userClub.refetch();
-        userBooks.refetch();
       }, 1000);
+      userClub.refetch();
+      userBooks.refetch();
     },
     onError: (data) => {
       setRentBookModal({ state: true, isOk: false, data: data.response?.data.message });
