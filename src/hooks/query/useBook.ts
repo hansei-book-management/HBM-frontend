@@ -33,6 +33,8 @@ import {
   deleteClubBookModal,
 } from '@/atoms';
 
+import { useGetClubInfo } from './useClub';
+
 export const useGetBooks = (): UseQueryResult<
   APIResponse<GetAllBooksResponse>,
   AxiosError<APIErrorResponse>
@@ -109,6 +111,7 @@ export const useGetUserClubs = (): UseQueryResult<
 
 export const useRentBook = ({
   uid,
+  cid,
 }: ClubBookValue): UseMutationResult<
   APIResponse<{ end: number }>,
   AxiosError<APIErrorResponse>,
@@ -116,6 +119,7 @@ export const useRentBook = ({
 > => {
   const userClub = useGetUserClubs();
   const userBooks = useGetUserBooks(uid);
+  const clubInfo = useGetClubInfo(cid);
   const setRentBookModal = useSetRecoilState(rentClubBookModal);
   return useMutation('useRentBook', rentBook, {
     onSuccess: () => {
@@ -125,6 +129,7 @@ export const useRentBook = ({
       }, 1000);
       userClub.refetch();
       userBooks.refetch();
+      clubInfo.refetch();
     },
     onError: (data) => {
       setRentBookModal({ state: true, isOk: false, data: data.response?.data.message });

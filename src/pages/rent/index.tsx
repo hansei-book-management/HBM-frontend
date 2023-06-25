@@ -39,7 +39,7 @@ export const RentPage: React.FC = () => {
 
   const { handleSubmit } = useForm();
 
-  const { mutate } = useRentBook({ uid: user?.uid });
+  const { mutate } = useRentBook({ uid: user?.uid, cid: activeUserClub?.cid });
 
   const onSubmit = () => {
     mutate({ cid: activeUserClub?.cid, bid: Number(bookId) });
