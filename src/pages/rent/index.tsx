@@ -118,7 +118,7 @@ export const RentPage: React.FC = () => {
             }
             failMessage={
               `책 대여에 실패 했어요.\n` +
-              `${rentBookModal.data}` +
+              `${rentBookModal.data}\n` +
               `위의 문제로 인해 책 대여에 실패하였어요.`
             }
             handleSubmit={handleSubmit}

@@ -1,13 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil';
 
 import { CommonModal } from '@/components/modal';
 import { updateClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
-import { useGetClubMember, useGetClubInfo, useUpdateClubMember } from '@/hooks';
+import { useGetClubInfo, useUpdateClubMember } from '@/hooks';
 import { APIResponse, GetClubMemberResponse } from '@/api';
 
 export interface UpdateClubMemberModalProps {
@@ -21,14 +20,14 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({
   userId,
   memberInfo,
 }) => {
-  // const club = useGetClubInfo(cid);
+  const club = useGetClubInfo(cid);
   const freeze = memberInfo?.result.freeze;
   const memberName = memberInfo?.result.name;
   const { handleSubmit } = useForm();
   const { mutate } = useUpdateClubMember({
     cid: cid,
     user_id: userId,
-    freeze: freeze === 0 ? 10 : 0,
+    freeze: freeze !== 0 ? 0 : 10,
   });
   const onSubmit = () => {
     mutate({});
@@ -36,14 +35,12 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({
   const [updateUserModal, setUpdateUserModal] = useRecoilState(updateClubMemberModal);
   const navigate = useNavigate();
   const onClubMemberChangeStatusModalClose = () => {
+    if (updateUserModal.isOk === true) {
+      club.refetch();
+    }
     setUpdateUserModal({ state: false });
     navigate(`${MANAGE_CLUB}`);
   };
-
-  // useEffect(() => {
-  //   clubMember.refetch();
-  //   club.refetch();
-  // }, [userId]);
   return (
     <>
       {freeze === 0 ? (

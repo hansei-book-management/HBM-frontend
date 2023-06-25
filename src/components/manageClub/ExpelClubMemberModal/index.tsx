@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { CommonModal } from '@/components/modal';
-import { useExpelClubMember, useGetClubMember, useGetClubInfo } from '@/hooks';
+import { useExpelClubMember, useGetClubInfo } from '@/hooks';
 import { expelClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
 

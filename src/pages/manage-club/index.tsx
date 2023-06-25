@@ -126,56 +126,61 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
-          {members?.map(({ name, freeze, uid, borrowBook }, i) => (
-            <S.DummyContainer>
-              <S.ManageClubUserContainer>
-                <S.ManageClubUserIconContainer onClick={() => onClubMemberInfoModalOpen(`${uid}`)}>
-                  <S.ManageClubUserIcon />
-                  <S.ManageClubUserName>{name}</S.ManageClubUserName>
-                </S.ManageClubUserIconContainer>
-                <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen(`${uid}`)}>
-                  {borrowBook}
-                </S.ManageClubUserBookInfo>
-                <S.ManageClubUserStatus
-                  isOk={freeze === 0}
-                  onClick={() => onClubMemberInfoModalOpen(`${uid}`)}
+          {members?.map(({ name, freeze, uid, borrowBook }, i) => {
+            console.log(uid);
+            return (
+              <S.DummyContainer>
+                <S.ManageClubUserContainer>
+                  <S.ManageClubUserIconContainer
+                    onClick={() => onClubMemberInfoModalOpen(`${uid}`)}
+                  >
+                    <S.ManageClubUserIcon />
+                    <S.ManageClubUserName>{name}</S.ManageClubUserName>
+                  </S.ManageClubUserIconContainer>
+                  <S.ManageClubUserBookInfo onClick={() => onClubMemberInfoModalOpen(`${uid}`)}>
+                    {borrowBook}
+                  </S.ManageClubUserBookInfo>
+                  <S.ManageClubUserStatus
+                    isOk={freeze === 0}
+                    onClick={() => onClubMemberInfoModalOpen(`${uid}`)}
+                  >
+                    {freeze === 0 ? '정상' : '대출정지'}
+                    <br />
+                    {freeze !== 0 && '대여가 정지된 부원입니다.'}
+                  </S.ManageClubUserStatus>
+                  <S.ManageClubPopupIconWrapper
+                    onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
+                  >
+                    <FaEllipsisV size={'0.9rem'} />
+                  </S.ManageClubPopupIconWrapper>
+                </S.ManageClubUserContainer>
+                <S.ManageClubPopupContainer
+                  initial="closed"
+                  animate={clubMemberPopupList && clubMemberPopupList[i] ? 'open' : 'closed'}
+                  variants={{
+                    open: { opacity: 1, zIndex: 12 },
+                    closed: { opacity: 0, zIndex: -1 },
+                  }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {freeze === 0 ? '정상' : '대출정지'}
-                  <br />
-                  {freeze !== 0 && '대여가 정지된 부원입니다.'}
-                </S.ManageClubUserStatus>
-                <S.ManageClubPopupIconWrapper
-                  onClick={() => setClubMemberPopupList((prev) => ({ ...prev, [i]: !prev[i] }))}
-                >
-                  <FaEllipsisV size={'0.9rem'} />
-                </S.ManageClubPopupIconWrapper>
-              </S.ManageClubUserContainer>
-              <S.ManageClubPopupContainer
-                initial="closed"
-                animate={clubMemberPopupList && clubMemberPopupList[i] ? 'open' : 'closed'}
-                variants={{
-                  open: { opacity: 1, zIndex: 12 },
-                  closed: { opacity: 0, zIndex: -1 },
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                <S.ManageClubPopupDiv
-                  isOut={false}
-                  onClick={() => onClubMemberChangeStatusModalOpen(uid, i)}
-                >
-                  <FaLock size={'0.9rem'} />
-                  <span>{freeze === 0 ? '대여정지' : '대여정지 해제'}</span>
-                </S.ManageClubPopupDiv>
-                <S.ManageClubPopupDiv
-                  isOut={true}
-                  onClick={() => onClubMemberExpelModalOpen(uid, i)}
-                >
-                  <FaUserSlash size={'0.9rem'} />
-                  <span>추방</span>
-                </S.ManageClubPopupDiv>
-              </S.ManageClubPopupContainer>
-            </S.DummyContainer>
-          ))}
+                  <S.ManageClubPopupDiv
+                    isOut={false}
+                    onClick={() => onClubMemberChangeStatusModalOpen(uid, i)}
+                  >
+                    <FaLock size={'0.9rem'} />
+                    <span>{freeze === 0 ? '대여정지' : '대여정지 해제'}</span>
+                  </S.ManageClubPopupDiv>
+                  <S.ManageClubPopupDiv
+                    isOut={true}
+                    onClick={() => onClubMemberExpelModalOpen(uid, i)}
+                  >
+                    <FaUserSlash size={'0.9rem'} />
+                    <span>추방</span>
+                  </S.ManageClubPopupDiv>
+                </S.ManageClubPopupContainer>
+              </S.DummyContainer>
+            );
+          })}
         </S.ManageClubUserMenuContainer>
         <div style={{ position: 'relative', width: '100%' }}>
           <S.ManageClubPopupIconWrapper
