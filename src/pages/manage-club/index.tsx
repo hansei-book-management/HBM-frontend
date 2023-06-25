@@ -127,7 +127,6 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
           {members?.map(({ name, freeze, uid, borrowBook }, i) => {
-            console.log(uid);
             return (
               <S.DummyContainer>
                 <S.ManageClubUserContainer>

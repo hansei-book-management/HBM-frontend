@@ -45,12 +45,12 @@ export const DetailModal: React.FC<DetailModalProps> = ({
             {bookId &&
               data
                 ?.filter(({ bid }) => bid === bookIdNum)
-                .map(({ data }) => {
+                .map(({ data }, i) => {
                   const bookInfo = data.items[0];
                   setBookName(bookInfo.title);
                   return (
                     <>
-                      <S.DetailModalContainer>
+                      <S.DetailModalContainer key={i}>
                         {getWidth <= 580 && (
                           <div
                             style={{

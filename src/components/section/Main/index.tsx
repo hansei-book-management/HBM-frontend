@@ -37,8 +37,6 @@ export const Section: React.FC<SectionProps> = ({ data, navigateUrl }) => {
   };
 
   const isDataExist = data && data?.length > 0;
-  console.log(data);
-
   return (
     <>
       {isDataExist ? (

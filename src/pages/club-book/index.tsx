@@ -29,7 +29,6 @@ export const ManageClubBookPage: React.FC = () => {
   const { data: clubBookData, isLoading } = useGetClubBooks(cid);
   const clubBook = clubBookData?.result;
   const isBookExits = clubBook?.map(({ book }) => book).flat().length === 0;
-  console.log(isBookExits);
 
   const navigate = useNavigate();
 

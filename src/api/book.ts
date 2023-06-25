@@ -87,9 +87,14 @@ export const addClubBook = async ({ cid, isbn }: AddClubBookValues) => {
     const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book`, {
       isbn,
     });
+    console.log(cid, isbn, 'asdf');
     return data;
   } else {
-    return;
+    toast.error('동아리 아이디가 없습니다.', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    throw new Error('cid is undefined');
   }
 };
 
@@ -105,6 +110,7 @@ export const getUserClubs = async (): Promise<GetAllClubsResponse[]> => {
 
 export const rentBook = async ({ cid, bid }: ClubBookValue) => {
   if (cid && bid) {
+    console.log(cid, bid, 'rent');
     const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
     return data;
   } else {

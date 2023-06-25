@@ -30,7 +30,7 @@ export const HeaderSectionList = styled.div<{ manageUserBookPage: boolean }>`
   margin-bottom: ${({ manageUserBookPage }) => (manageUserBookPage ? '2rem' : '0')};
 `;
 
-export const HeaderSectionItem = styled(Link)<{ isActive: boolean }>`
+export const HeaderSectionItem = styled(Link)<{ active: boolean }>`
   padding: 0.75rem 1rem;
   border-radius: 1.2rem;
   text-decoration: none;
@@ -38,7 +38,7 @@ export const HeaderSectionItem = styled(Link)<{ isActive: boolean }>`
   font-weight: 500;
   transition: background 150ms;
   ${(props) =>
-    props.isActive
+    props.active
       ? css`
           color: ${props.theme.primary.white};
           background-color: ${props.theme.black};

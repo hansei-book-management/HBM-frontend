@@ -90,7 +90,7 @@ export const NavbarTitleLink = styled(Link)`
   color: ${({ theme }) => theme.black};
 `;
 
-export const NavbarMenuItem = styled(Link)<{ isActive: boolean }>`
+export const NavbarMenuItem = styled(Link)<{ active: boolean }>`
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
@@ -98,7 +98,7 @@ export const NavbarMenuItem = styled(Link)<{ isActive: boolean }>`
   transition: color 150ms ease-in;
   margin-right: 1rem;
   ${(props) =>
-    props.isActive &&
+    props.active &&
     css`
       color: ${({ theme }) => theme.black};
     `}

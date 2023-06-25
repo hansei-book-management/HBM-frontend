@@ -45,7 +45,7 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
             {list.map(({ name }) => (
               <S.HeaderSectionItem
                 key={name}
-                isActive={isActive(activeId, name)}
+                active={isActive(activeId, name)}
                 to={`${href}/${name}`}
               >
                 {name}
@@ -55,11 +55,7 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
         ) : (
           <>
             {optionList?.map(({ name, id }) => (
-              <S.HeaderSectionItem
-                key={name}
-                isActive={isActive(activeId, id)}
-                to={`${href}/${id}`}
-              >
+              <S.HeaderSectionItem key={name} active={isActive(activeId, id)} to={`${href}/${id}`}>
                 {name}
               </S.HeaderSectionItem>
             ))}

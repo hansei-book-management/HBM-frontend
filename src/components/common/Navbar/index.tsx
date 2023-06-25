@@ -117,7 +117,7 @@ export const Navbar: React.FC = () => {
                 {...(isUser ? getWidth <= 630 && { onClick } : getWidth <= 830 && { onClick })}
                 to={href}
                 key={i}
-                isActive={location.pathname.includes(href)}
+                active={location.pathname.includes(href)}
               >
                 {text}
               </S.NavbarMenuItem>
