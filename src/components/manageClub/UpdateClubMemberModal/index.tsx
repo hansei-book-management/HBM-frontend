@@ -13,21 +13,22 @@ export interface UpdateClubMemberModalProps {
   memberInfo?: APIResponse<GetClubMemberResponse>;
   cid?: number;
   userId?: string;
+  freeze?: number;
+  memberName?: string;
 }
 
 export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({
   cid,
   userId,
-  memberInfo,
+  memberName,
+  freeze,
 }) => {
   const club = useGetClubInfo(cid);
-  const freeze = memberInfo?.result.freeze;
-  const memberName = memberInfo?.result.name;
   const { handleSubmit } = useForm();
   const { mutate } = useUpdateClubMember({
     cid: cid,
     user_id: userId,
-    freeze: freeze !== 0 ? 0 : 10,
+    freeze: freeze === 0 ? 10 : 0,
   });
   const onSubmit = () => {
     mutate({});

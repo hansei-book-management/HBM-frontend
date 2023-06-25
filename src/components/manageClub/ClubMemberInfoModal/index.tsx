@@ -7,12 +7,14 @@ import * as S from './styled';
 
 export interface ClubMemberInfoModalProps {
   memberInfo?: APIResponse<GetClubMemberResponse>;
+  borrowBooks?: number;
   leftButtonClick: () => void;
 }
 
 export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
   memberInfo,
   leftButtonClick,
+  borrowBooks,
 }) => {
   const member = memberInfo?.result;
   const memberBorrowBooks = member?.books.book;
@@ -22,10 +24,7 @@ export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
         textProps={
           <S.ModalUserContainer>
             <S.ModalTitle>부원 {member?.name}</S.ModalTitle>
-            <S.ModalUserBookInfoText>
-              현재 대출중인 책:{' '}
-              {memberBorrowBooks ? memberBorrowBooks.filter(({ end }) => end !== 0).length : 0}권
-            </S.ModalUserBookInfoText>
+            <S.ModalUserBookInfoText>현재 대출중인 책: {borrowBooks}권</S.ModalUserBookInfoText>
             {memberBorrowBooks
               ? memberBorrowBooks
                   .filter(({ end }) => end !== 0)
