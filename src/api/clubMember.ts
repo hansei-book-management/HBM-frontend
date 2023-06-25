@@ -1,5 +1,5 @@
 import { APIResponse, API_SUFFIX, instance } from './api';
-import { BookResponse } from './book';
+import { BookListProps, BookResponse } from './book';
 
 export interface UpdateClubMemberValues extends ClubMemberValues {
   freeze: number;
@@ -18,6 +18,7 @@ export interface ClubMemberInfo {
   uid: string;
   freeze?: number;
   borrowBook: number;
+  book?: [BookListProps];
 }
 
 export interface GetClubMemberResponse extends ClubMemberInfo {

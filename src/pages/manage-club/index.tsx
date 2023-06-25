@@ -126,7 +126,7 @@ export const ManageClubPage: React.FC = () => {
             <S.ManageClubUserMenuBarItem>대여 책</S.ManageClubUserMenuBarItem>
             <S.ManageClubUserMenuBarItem>상태</S.ManageClubUserMenuBarItem>
           </S.ManageClubUserMenuBar>
-          {members?.map(({ name, freeze, uid, borrowBook }, i) => {
+          {members?.map(({ name, freeze, uid, borrowBook, book }, i) => {
             const isMemberSelected = userId === uid;
             return (
               <>
@@ -184,8 +184,10 @@ export const ManageClubPage: React.FC = () => {
                   <>
                     {clubMemberInfoModal && (
                       <ClubMemberInfoModal
+                        name={name}
+                        freeze={freeze}
+                        book={book}
                         borrowBooks={borrowBook}
-                        memberInfo={memberInfo}
                         leftButtonClick={onClubMemberInfoModalClose}
                       />
                     )}

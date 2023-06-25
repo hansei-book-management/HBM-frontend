@@ -1,29 +1,32 @@
 import React from 'react';
 
 import { Modal } from '@/components';
-import { APIResponse, GetClubMemberResponse } from '@/api';
+import { BookListProps } from '@/api';
 
 import * as S from './styled';
 
 export interface ClubMemberInfoModalProps {
-  memberInfo?: APIResponse<GetClubMemberResponse>;
+  name?: string;
+  freeze?: number;
   borrowBooks?: number;
   leftButtonClick: () => void;
+  book?: [BookListProps];
 }
 
 export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
-  memberInfo,
+  name,
+  freeze,
   leftButtonClick,
   borrowBooks,
+  book,
 }) => {
-  const member = memberInfo?.result;
-  const memberBorrowBooks = member?.books.book;
+  const memberBorrowBooks = book;
   return (
     <Modal.OverLay>
       <Modal
         textProps={
           <S.ModalUserContainer>
-            <S.ModalTitle>부원 {member?.name}</S.ModalTitle>
+            <S.ModalTitle>부원 {name}</S.ModalTitle>
             <S.ModalUserBookInfoText>현재 대출중인 책: {borrowBooks}권</S.ModalUserBookInfoText>
             {memberBorrowBooks
               ? memberBorrowBooks
@@ -31,7 +34,7 @@ export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
                   .map(({ data }, i) => (
                     <S.ModalUserBookInfo key={i}>
                       <S.ModalUserBookInfoTitle>{data?.items[0].title}:</S.ModalUserBookInfoTitle>
-                      <S.ModalUserBookInfoStatus isOk={member.freeze === 0}>
+                      <S.ModalUserBookInfoStatus isOk={freeze === 0}>
                         대여 중
                       </S.ModalUserBookInfoStatus>
                     </S.ModalUserBookInfo>
