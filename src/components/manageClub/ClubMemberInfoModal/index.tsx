@@ -18,6 +18,7 @@ export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
 }) => {
   const { data: getMember } = useGetClubMember({ cid, user_id: userId });
   const member = getMember?.result;
+  const memberBorrowBooks = member?.books.book;
   return (
     <Modal.OverLay>
       <Modal
@@ -25,18 +26,21 @@ export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
           <S.ModalUserContainer>
             <S.ModalTitle>부원 {member?.name}</S.ModalTitle>
             <S.ModalUserBookInfoText>
-              현재 대출중인 책: {member?.books.book.filter(({ end }) => end !== 0).length}권
+              현재 대출중인 책:{' '}
+              {memberBorrowBooks ? memberBorrowBooks.filter(({ end }) => end !== 0).length : 0}권
             </S.ModalUserBookInfoText>
-            {member?.books.book
-              .filter(({ end }) => end !== 0)
-              .map(({ data }, i) => (
-                <S.ModalUserBookInfo key={i}>
-                  <S.ModalUserBookInfoTitle>{data?.items[0].title}:</S.ModalUserBookInfoTitle>
-                  <S.ModalUserBookInfoStatus isOk={member.freeze === 0}>
-                    대여 중
-                  </S.ModalUserBookInfoStatus>
-                </S.ModalUserBookInfo>
-              ))}
+            {memberBorrowBooks
+              ? memberBorrowBooks
+                  .filter(({ end }) => end !== 0)
+                  .map(({ data }, i) => (
+                    <S.ModalUserBookInfo key={i}>
+                      <S.ModalUserBookInfoTitle>{data?.items[0].title}:</S.ModalUserBookInfoTitle>
+                      <S.ModalUserBookInfoStatus isOk={member.freeze === 0}>
+                        대여 중
+                      </S.ModalUserBookInfoStatus>
+                    </S.ModalUserBookInfo>
+                  ))
+              : null}
           </S.ModalUserContainer>
         }
         leftButtonText="확인"
