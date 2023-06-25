@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API_SUFFIX = {
-  BASEURL: import.meta.env.BASEURL,
+  BASEURL: import.meta.env.VITE_BASEURL,
   REGISTER: '/api/user',
   LOGIN: '/api/auth',
   PROFILE: '/user/profile',
