@@ -73,8 +73,8 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({ url }) => {
           statusDisable={addClubModal.isLoading === true}
           {...(!addClubModal.isLoading &&
             !errors.clubCode?.message && {
-              leftButtonClick: () => onAddClubModalClose(),
-            })}
+            leftButtonClick: () => onAddClubModalClose(),
+          })}
           handleSubmit={handleSubmit}
           onValid={onSubmit}
         />
@@ -90,10 +90,11 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({ url }) => {
         message={
           <>
             <S.StatusModalText>
-              {addClubModal.data} 동아리 도서가 추가되었어요.
+              {addClubModal.data} 동아리가 추가되었어요.
               <br />
               앞으로 {addClubModal.data} 동아리 도서를 대여할 수 있어요.
-              <br />내 도서에서 확인해보세요.
+              <br />
+              도서 대여에서 확인해보세요.
             </S.StatusModalText>
           </>
         }
@@ -110,11 +111,11 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({ url }) => {
         message={
           <>
             <S.StatusModalText>
-              동아리 도서 추가에 실패했어요.
+              동아리 추가에 실패했어요.
               <br />
               {addClubModal.data}
               <br />
-              위의 문제로 인해 동아리 도서 추가에 실패하였어요.
+              위의 문제로 인해 동아리 추가에 실패하였어요.
             </S.StatusModalText>
           </>
         }
