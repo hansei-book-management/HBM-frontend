@@ -69,6 +69,9 @@ export const ModalContainer = styled.div<{
         `;
     }
   }}
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ModalContentContainer = styled.div<{ statusModal: boolean }>`
