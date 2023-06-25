@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 export const FooterContainer = styled.footer`
   border-top: 1px solid #d5d5d5;
-  padding: 3rem 0;
+  padding-top: 3rem;
+  padding-bottom: 0.4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: 2rem;
+  row-gap: 1.6rem;
 `;
 
 export const FooterTitle = styled(Link)`
@@ -48,4 +49,5 @@ export const FooterText = styled.p`
   @media screen and (max-width: 500px) and (min-width: 300px) {
     font-size: 0.8rem;
   }
+  line-height: 1.2rem;
 `;
