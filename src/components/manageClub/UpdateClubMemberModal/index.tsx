@@ -8,17 +8,22 @@ import { CommonModal } from '@/components/modal';
 import { updateClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
 import { useGetClubMember, useGetClubInfo, useUpdateClubMember } from '@/hooks';
+import { APIResponse, GetClubMemberResponse } from '@/api';
 
 export interface UpdateClubMemberModalProps {
+  memberInfo?: APIResponse<GetClubMemberResponse>;
   cid?: number;
   userId?: string;
 }
 
-export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ cid, userId }) => {
-  const club = useGetClubInfo(cid);
-  const clubMember = useGetClubMember({ cid, user_id: userId });
-  const freeze = clubMember.data?.result.freeze;
-  const memberName = clubMember.data?.result.name;
+export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({
+  cid,
+  userId,
+  memberInfo,
+}) => {
+  // const club = useGetClubInfo(cid);
+  const freeze = memberInfo?.result.freeze;
+  const memberName = memberInfo?.result.name;
   const { handleSubmit } = useForm();
   const { mutate } = useUpdateClubMember({
     cid: cid,
@@ -35,10 +40,10 @@ export const UpdateClubMemberModal: React.FC<UpdateClubMemberModalProps> = ({ ci
     navigate(`${MANAGE_CLUB}`);
   };
 
-  useEffect(() => {
-    clubMember.refetch();
-    club.refetch();
-  }, [userId]);
+  // useEffect(() => {
+  //   clubMember.refetch();
+  //   club.refetch();
+  // }, [userId]);
   return (
     <>
       {freeze === 0 ? (

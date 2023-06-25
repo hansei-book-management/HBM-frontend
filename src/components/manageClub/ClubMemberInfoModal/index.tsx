@@ -1,23 +1,20 @@
 import React from 'react';
 
 import { Modal } from '@/components';
-import { useGetClubMember } from '@/hooks';
+import { APIResponse, GetClubMemberResponse } from '@/api';
 
 import * as S from './styled';
 
 export interface ClubMemberInfoModalProps {
-  userId?: string;
-  cid?: number;
+  memberInfo?: APIResponse<GetClubMemberResponse>;
   leftButtonClick: () => void;
 }
 
 export const ClubMemberInfoModal: React.FC<ClubMemberInfoModalProps> = ({
-  cid,
-  userId,
+  memberInfo,
   leftButtonClick,
 }) => {
-  const { data: getMember } = useGetClubMember({ cid, user_id: userId });
-  const member = getMember?.result;
+  const member = memberInfo?.result;
   const memberBorrowBooks = member?.books.book;
   return (
     <Modal.OverLay>

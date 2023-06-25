@@ -21,7 +21,7 @@ import {
   ExpelClubMemberModal,
   UpdateClubMemberModal,
 } from '@/components';
-import { useFetchUser, useGetClubInfo } from '@/hooks';
+import { useFetchUser, useGetClubInfo, useGetClubMember } from '@/hooks';
 import {
   changeClubDirectorModal,
   deleteClubModal,
@@ -41,6 +41,8 @@ export const ManageClubPage: React.FC = () => {
   const clubName = club.data?.result.name;
 
   const { userId } = useParams<{ userId: string }>();
+  const member = useGetClubMember({ cid, user_id: userId });
+  const memberInfo = member.data;
 
   const [clubMemberInfoModal, setClubMemberInfoModal] = useState<boolean>(false);
   const [clubMemberPopupList, setClubMemberPopupList] = useState(
@@ -109,7 +111,10 @@ export const ManageClubPage: React.FC = () => {
 
   useEffect(() => {
     navigate(`${MANAGE_CLUB}/`);
-  }, []);
+    if (!memberInfo) {
+      member.refetch();
+    }
+  }, [memberInfo]);
 
   return (
     <>
@@ -201,16 +206,12 @@ export const ManageClubPage: React.FC = () => {
           </S.ManageClubPopupContainer>
         </div>
       </S.ManageClubWrapper>
-      {clubMemberInfoModal && (
-        <ClubMemberInfoModal
-          cid={cid}
-          leftButtonClick={onClubMemberInfoModalClose}
-          userId={userId}
-        />
-      )}
       {cid && <ClubCodeModal />}
-      <UpdateClubMemberModal cid={cid} userId={userId} />
-      <ExpelClubMemberModal cid={cid} userId={userId} />
+      {clubMemberInfoModal && (
+        <ClubMemberInfoModal memberInfo={memberInfo} leftButtonClick={onClubMemberInfoModalClose} />
+      )}
+      <UpdateClubMemberModal cid={cid} userId={userId} memberInfo={memberInfo} />
+      <ExpelClubMemberModal cid={cid} userId={userId} memberName={memberInfo?.result.name} />
       {club.data?.result && (
         <ClubChangeDirectorModal
           clubName={club.data?.result.name}

@@ -10,13 +10,16 @@ import { expelClubMemberModal } from '@/atoms';
 import { MANAGE_CLUB } from '@/constant';
 
 export interface ExpelClubMemberModalProps {
+  memberName?: string;
   cid?: number;
   userId?: string;
 }
 
-export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({ cid, userId }) => {
-  const { data } = useGetClubMember({ cid, user_id: userId });
-  const memberName = data?.result.name;
+export const ExpelClubMemberModal: React.FC<ExpelClubMemberModalProps> = ({
+  cid,
+  userId,
+  memberName,
+}) => {
   const [expelMemberModal, setExpelMemberModal] = useRecoilState(expelClubMemberModal);
   const navigate = useNavigate();
 
