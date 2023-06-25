@@ -34,18 +34,20 @@ export const useCreateClub = (): UseMutationResult<
 > => {
   const navigate = useNavigate();
   const fetchUser = useFetchUser();
+  const getUserClub = useGetUserClubs();
   return useMutation('useCreateClub', createClub, {
     onSuccess: (data: {
       status: APIResponseStatusType;
       message: string;
       result: CreateClubResponse;
     }) => {
-      fetchUser.refetch();
       toast.success(`${data.result.name} 동아리가 생성되었어요.`, {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      navigate('/');
+      fetchUser.refetch();
+      getUserClub.refetch();
+      navigate('/club');
     },
     onError: (data) => {
       toast.error(data.response?.data.message, {

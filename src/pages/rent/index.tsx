@@ -11,7 +11,7 @@ import {
   HeaderSection,
   AddClubModal,
   CommonModal,
-  Button,
+  NoDataMessage,
 } from '@/components';
 import { useFetchUser, useGetUserClubs, useModal, useRentBook } from '@/hooks';
 import { addUserClubModal, rentClubBookModal } from '@/atoms';
@@ -23,6 +23,7 @@ export const RentPage: React.FC = () => {
   const user = userData?.result;
   const { data, isLoading } = useGetUserClubs();
   const userClubs = data?.result;
+  const isClubNoData = userClubs?.map(({ book }) => book).flat().length === 0;
   const isUserClubExits = userClubs && userClubs.length > 0;
 
   const navigate = useNavigate();
@@ -77,7 +78,7 @@ export const RentPage: React.FC = () => {
         <>
           <h2>Loading...</h2>
         </>
-      ) : isUserClubExits && activeUserClub ? (
+      ) : isUserClubExits && activeUserClub && !isClubNoData ? (
         <>
           <S.RentPageContainer>
             <HeaderSection
@@ -124,23 +125,34 @@ export const RentPage: React.FC = () => {
             onValid={onSubmit}
           />
         </>
+      ) : isUserClubExits && activeUserClub && isClubNoData ? (
+        <>
+          <NoDataMessage
+            message={
+              `아직 동아리에 추가된 책이 없어요.\n` +
+              `부장에게 동아리에 책을 추가해달라고 요청해보세요.`
+            }
+            children={
+              <HeaderSection
+                name={activeUserClub?.name}
+                activeId={clubId}
+                href="/club"
+                list={userClubs || []}
+                showPlusIcon={true}
+                onClick={onAddClubModalOpen}
+              />
+            }
+            showBtn={false}
+          />
+        </>
       ) : (
         <>
-          <S.RentPageContainer noData={true}>
-            <S.NoDataMessageWrapper>
-              <h1
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: 700,
-                  textAlign: 'center',
-                }}
-              >
-                가입된 동아리가 없어요. <br />
-                아래 버튼을 눌러 동아리를 추가해보세요.
-              </h1>
-              <Button to="/club" description="동아리 추가하기" onClick={onAddClubModalOpen} />
-            </S.NoDataMessageWrapper>
-          </S.RentPageContainer>
+          <NoDataMessage
+            message={`가입된 동아리가 없어요.\n` + `아래 버튼을 눌러 동아리를 추가해보세요.`}
+            btnLink="/club"
+            btnMessage="동아리 추가하기"
+            onClick={onAddClubModalOpen}
+          />
         </>
       )}
       <AddClubModal url={`${CLUB}${clubId ? '/' + clubId : ''}`} />

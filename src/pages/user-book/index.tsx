@@ -5,10 +5,10 @@ import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import {
-  Button,
   DetailModal,
   HeaderSection,
   ModalStateProps,
+  NoDataMessage,
   ReturnBookModal,
   Section,
 } from '@/components';
@@ -137,20 +137,11 @@ export const ManageUserBookPage: React.FC = () => {
         </S.ManageUserBookContainer>
       ) : (
         <>
-          <S.ManageUserBookContainer noData={true}>
-            <S.NoDataMessageWrapper>
-              <h1
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: 700,
-                  textAlign: 'center',
-                }}
-              >
-                대여중인 도서가 없어요. <br /> 지금 바로 도서를 대여하러 가볼까요?
-              </h1>
-              <Button to="/club" description="도서 대여 바로가기" />
-            </S.NoDataMessageWrapper>
-          </S.ManageUserBookContainer>
+          <NoDataMessage
+            message={`대여중인 도서가 없어요.\n` + `지금 바로 도서를 대여하러 가볼까요?`}
+            btnLink="/club"
+            btnMessage="도서 대여 바로가기"
+          />
         </>
       )}
     </>

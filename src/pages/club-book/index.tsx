@@ -10,6 +10,7 @@ import {
   HeaderSection,
   AddClubBookModal,
   DeleteClubBookModal,
+  NoDataMessage,
 } from '@/components';
 import { useFetchUser, useGetClubBooks, useModal } from '@/hooks';
 import { addClubBookModal, deleteClubBookModal } from '@/atoms';
@@ -27,6 +28,8 @@ export const ManageClubBookPage: React.FC = () => {
   const cid = userData?.result?.director?.cid;
   const { data: clubBookData, isLoading } = useGetClubBooks(cid);
   const clubBook = clubBookData?.result;
+  const isBookExits = clubBook?.map(({ book }) => book).flat().length === 0;
+  console.log(isBookExits);
 
   const navigate = useNavigate();
 
@@ -79,7 +82,7 @@ export const ManageClubBookPage: React.FC = () => {
         <>
           <h2>Loading...</h2>
         </>
-      ) : activeOption ? (
+      ) : activeOption && !isBookExits ? (
         <S.ManageClubBookContainer>
           <HeaderSection
             name={activeOption.text}
@@ -100,21 +103,26 @@ export const ManageClubBookPage: React.FC = () => {
               rightButtonClick={onDeleteBookModalOpen}
             />
           )}
-          <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
           <DeleteClubBookModal cid={cid} bid={Number(bookId)} />
         </S.ManageClubBookContainer>
       ) : (
         <>
-          <S.ManageClubBookContainer>
-            <HeaderSection
-              activeId={option}
-              href={`${MANAGE_CLUB_BOOK}`}
-              optionList={MANAGE_CLUB_BOOK_OPTIONS}
-            />
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 600 }}>옵션을 선택해주세요.</h1>
-          </S.ManageClubBookContainer>
+          <NoDataMessage
+            children={
+              <HeaderSection
+                activeId={option}
+                href={`${MANAGE_CLUB_BOOK}`}
+                optionList={MANAGE_CLUB_BOOK_OPTIONS}
+              />
+            }
+            message={`동아리에 도서가 없어요.\n` + `아래 버튼을 눌러 도서를 추가해보세요.`}
+            btnLink={`${MANAGE_CLUB_BOOK}/${MANAGE_CLUB_BOOK_OPTIONS[0].id}`}
+            btnMessage="도서 추가하기"
+            onClick={onAddBookModalOpen}
+          />
         </>
       )}
+      <AddClubBookModal cid={cid} clubName={userData?.result.director?.name} />
     </>
   );
 };

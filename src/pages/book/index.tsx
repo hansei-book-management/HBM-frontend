@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, DetailModal, HeaderSection, Section } from '@/components';
+import { DetailModal, HeaderSection, NoDataMessage, Section } from '@/components';
 import { useGetClubs, useModal } from '@/hooks';
 
 import * as S from './styled';
@@ -50,20 +50,11 @@ export const BookPage: React.FC = () => {
           )}
         </S.BookPageContainer>
       ) : (
-        <S.BookPageContainer noData={true}>
-          <S.NoDataMessageWrapper>
-            <h1
-              style={{
-                fontSize: '1.4rem',
-                fontWeight: 700,
-                textAlign: 'center',
-              }}
-            >
-              아무런 동아리 도서가 없어요. <br /> 지금 바로 동아리 도서를 추가하러 가볼까요?
-            </h1>
-            <Button to="/club-apply" description="도서 추가 바로가기" />
-          </S.NoDataMessageWrapper>
-        </S.BookPageContainer>
+        <NoDataMessage
+          message={`아무런 동아리 도서가 없어요.\n` + `지금 바로 동아리 도서를 추가하러 가볼까요?`}
+          btnLink="/club-apply"
+          btnMessage="도서 추가 바로가기"
+        />
       )}
     </>
   );
