@@ -21,8 +21,14 @@ import {
   AddClubFormValues,
   ChangeClubDirectorValues,
   changeClubDirector,
+  deleteClub,
 } from '@/api';
-import { addUserClubModal, changeClubDirectorModal, generateClubCodeModal } from '@/atoms';
+import {
+  addUserClubModal,
+  changeClubDirectorModal,
+  deleteClubModal,
+  generateClubCodeModal,
+} from '@/atoms';
 
 import { useFetchUser } from './useAuth';
 import { useGetUserClubs } from './useBook';
@@ -47,7 +53,7 @@ export const useCreateClub = (): UseMutationResult<
       });
       fetchUser.refetch();
       getUserClub.refetch();
-      navigate('/club');
+      navigate('/');
     },
     onError: (data) => {
       toast.error(data.response?.data.message, {
@@ -143,5 +149,23 @@ export const useChangeClubDirector = (): UseMutationResult<
     onError: (data) => {
       setChangeClubDirectorModal({ state: true, isOk: false, data: data.response?.data.message });
     },
+  });
+};
+
+export const useDeleteClub = (
+  cid?: number,
+): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
+  const setDeleteClubModal = useSetRecoilState(deleteClubModal);
+  return useMutation('useDeleteClub', () => deleteClub(cid), {
+    onSuccess: () => {
+      setDeleteClubModal((prev) => ({ ...prev, isLoading: true, data: 'deleted' }));
+      setTimeout(() => {
+        setDeleteClubModal({ state: true, isOk: true });
+      }, 1000);
+    },
+    onError: (data) => {
+      setDeleteClubModal({ state: true, isOk: false, data: data.response?.data.message });
+    },
+    retry: 0,
   });
 };

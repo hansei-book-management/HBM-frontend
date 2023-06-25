@@ -11,6 +11,7 @@ export interface NoDataMessageProps {
   children?: React.ReactNode;
   showBtn?: boolean;
   onClick?: () => void;
+  isSection?: boolean;
 }
 
 export const NoDataMessage: React.FC<NoDataMessageProps> = ({
@@ -20,9 +21,10 @@ export const NoDataMessage: React.FC<NoDataMessageProps> = ({
   children,
   showBtn = true,
   onClick,
+  isSection = false,
 }) => {
   return (
-    <S.NoDataMessageWrapper>
+    <S.NoDataMessageWrapper isSection={isSection}>
       {children}
       <S.NoDataMessageContainer>
         <S.NoDataMessage>

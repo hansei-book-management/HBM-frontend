@@ -11,12 +11,11 @@ import {
   ExpelClubMemberValues,
   GetClubMemberResponse,
   UpdateClubMemberValues,
-  deleteClub,
   expelClubMember,
   getClubMember,
   updateClubMember,
 } from '@/api';
-import { deleteClubModal, expelClubMemberModal, updateClubMemberModal } from '@/atoms';
+import { expelClubMemberModal, updateClubMemberModal } from '@/atoms';
 
 export const useGetClubMember = ({
   cid,
@@ -71,24 +70,6 @@ export const useExpelClubMember = ({
     },
     onError: (data) => {
       setExpelMemberModal({ state: true, isOk: false, data: data.response?.data.message });
-    },
-    retry: 0,
-  });
-};
-
-export const useDeleteClubMember = (
-  cid?: number,
-): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
-  const setDeleteClubModal = useSetRecoilState(deleteClubModal);
-  return useMutation('useDeleteClubMember', () => deleteClub(cid), {
-    onSuccess: () => {
-      setDeleteClubModal((prev) => ({ ...prev, isLoading: true, data: 'deleted' }));
-      setTimeout(() => {
-        setDeleteClubModal({ state: true, isOk: true });
-      }, 1000);
-    },
-    onError: (data) => {
-      setDeleteClubModal({ state: true, isOk: false, data: data.response?.data.message });
     },
     retry: 0,
   });

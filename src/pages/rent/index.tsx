@@ -148,14 +148,14 @@ export const RentPage: React.FC = () => {
       ) : (
         <>
           <NoDataMessage
-            message={`가입된 동아리가 없어요.\n` + `아래 버튼을 눌러 동아리를 추가해보세요.`}
-            btnLink="/club"
-            btnMessage="동아리 추가하기"
+            message={`가입된 동아리가 없어요.\n` + `아래 버튼을 눌러 동아리에 가입해보세요.`}
+            btnLink="/club/"
+            btnMessage="동아리 가입하기"
             onClick={onAddClubModalOpen}
           />
         </>
       )}
-      <AddClubModal url={`${CLUB}${clubId ? '/' + clubId : ''}`} />
+      <AddClubModal url={`${CLUB}/${clubId ? clubId : ''}`} />
     </>
   );
 };

@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 
 import { CommonModal } from '@/components/modal';
 import { deleteClubModal } from '@/atoms';
-import { useDeleteClubMember, useFetchUser, useGetClubInfo } from '@/hooks';
+import { useDeleteClub, useFetchUser, useGetClubInfo } from '@/hooks';
 
 export interface DeleteClubModalProps {
   cid?: number;
@@ -20,7 +20,7 @@ export const DeleteClubModal: React.FC<DeleteClubModalProps> = ({
   directorName,
 }) => {
   const { handleSubmit } = useForm();
-  const { mutate } = useDeleteClubMember(cid);
+  const { mutate } = useDeleteClub(cid);
   const user = useFetchUser();
   const clubInfo = useGetClubInfo(cid);
 
@@ -33,13 +33,12 @@ export const DeleteClubModal: React.FC<DeleteClubModalProps> = ({
   const navigate = useNavigate();
 
   const onDeleteClubModalClose = () => {
-    setDeleteClubModalState({ state: false });
-    clubInfo.refetch();
-    navigate('/');
-    if (deleteClubModalState.data) {
+    if (deleteClubModalState.isOk === true) {
       user.refetch();
+      clubInfo.refetch();
       navigate('/');
     }
+    setDeleteClubModalState({ state: false });
   };
 
   return (

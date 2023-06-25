@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const NoDataMessageWrapper = styled.section`
+export const NoDataMessageWrapper = styled.section<{ isSection: boolean }>`
   display: flex;
   flex-direction: column;
-  height: 75vh;
+  height: ${({ isSection }) => (isSection ? '60vh' : '75vh')};
   row-gap: 1rem;
 `;
 
