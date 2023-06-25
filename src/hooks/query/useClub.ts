@@ -25,6 +25,7 @@ import {
 import { addUserClubModal, changeClubDirectorModal, generateClubCodeModal } from '@/atoms';
 
 import { useFetchUser } from './useAuth';
+import { useGetUserClubs } from './useBook';
 
 export const useCreateClub = (): UseMutationResult<
   APIResponse<CreateClubResponse>,
@@ -95,6 +96,7 @@ export const useAddUserClub = (): UseMutationResult<
   AddClubFormValues
 > => {
   const setAddUserClubModal = useSetRecoilState(addUserClubModal);
+  const userClubs = useGetUserClubs();
   return useMutation('useAddUserClub', addUserClub, {
     onSuccess: (data: {
       status: APIResponseStatusType;
@@ -105,6 +107,7 @@ export const useAddUserClub = (): UseMutationResult<
       setTimeout(() => {
         setAddUserClubModal({ state: true, isOk: true, data: data.result.name });
       }, 1000);
+      userClubs.refetch();
     },
     onError: (data) => {
       setAddUserClubModal({ state: true, isOk: false, data: data.response?.data.message });

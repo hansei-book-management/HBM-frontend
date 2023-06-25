@@ -143,7 +143,7 @@ export const RentPage: React.FC = () => {
           </S.RentPageContainer>
         </>
       )}
-      <AddClubModal url={`${CLUB}/${clubId}`} />
+      <AddClubModal url={`${CLUB}${clubId ? '/' + clubId : ''}`} />
     </>
   );
 };

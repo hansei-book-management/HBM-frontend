@@ -109,7 +109,7 @@ export const ClubChangeDirectorModal: React.FC<ClubChangeDirectorModalProps> = (
       failMessage={
         `${clubName} 부장 변경에 실패 하였어요.\n` +
         `${changeDirectorModal.data} \n` +
-        `위의 문제로 인해 보안관제 부장 변경에 실패하였어요.`
+        `위의 문제로 인해 ${clubName} 부장 변경에 실패하였어요.`
       }
       rightButtonText={`변경할게요`}
       isDanger={true}
