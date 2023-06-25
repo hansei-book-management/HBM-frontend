@@ -73,8 +73,8 @@ export const AddClubModal: React.FC<AddClubModalProps> = ({ url }) => {
           statusDisable={addClubModal.isLoading === true}
           {...(!addClubModal.isLoading &&
             !errors.clubCode?.message && {
-            leftButtonClick: () => onAddClubModalClose(),
-          })}
+              leftButtonClick: () => onAddClubModalClose(),
+            })}
           handleSubmit={handleSubmit}
           onValid={onSubmit}
         />

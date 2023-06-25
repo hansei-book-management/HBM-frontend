@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const API_SUFFIX = {
-  // BASEURL: 'https://hanbook-backend.hsoc.kr',
-  BASEURL: 'http://localhost:8000',
+  BASEURL: 'https://hanbook-backend.hsoc.kr',
+  // BASEURL: 'http://localhost:8000',
   REGISTER: '/api/user',
   LOGIN: '/api/auth',
   PROFILE: '/user/profile',
