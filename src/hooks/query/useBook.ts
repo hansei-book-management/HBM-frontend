@@ -61,15 +61,15 @@ export const useSearchBook = (): UseMutationResult<
 
 export const useAddClubBook = ({
   cid,
-  isbn,
 }: AddClubBookValues): UseMutationResult<
   APIResponse<GetAllBooksResponse>,
-  AxiosError<APIErrorResponse>
+  AxiosError<APIErrorResponse>,
+  AddClubBookValues
 > => {
   const setAddClubBookModal = useSetRecoilState(addClubBookModal);
   const getClubs = useGetClubs();
   const getClubBooks = useGetClubBooks(cid);
-  return useMutation('useAddClubBook', () => addClubBook({ cid, isbn }), {
+  return useMutation('useAddClubBook', addClubBook, {
     onSuccess: () => {
       setAddClubBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
@@ -106,17 +106,16 @@ export const useGetUserClubs = (): UseQueryResult<
 };
 
 export const useRentBook = ({
-  cid,
-  bid,
   uid,
 }: ClubBookValue): UseMutationResult<
   APIResponse<{ end: number }>,
-  AxiosError<APIErrorResponse>
+  AxiosError<APIErrorResponse>,
+  ClubBookValue
 > => {
   const userClub = useGetUserClubs();
   const userBooks = useGetUserBooks(uid);
   const setRentBookModal = useSetRecoilState(rentClubBookModal);
-  return useMutation('useRentBook', () => rentBook({ cid, bid }), {
+  return useMutation('useRentBook', rentBook, {
     onSuccess: () => {
       setRentBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {

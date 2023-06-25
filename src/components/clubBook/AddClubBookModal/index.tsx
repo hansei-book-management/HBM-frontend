@@ -30,7 +30,7 @@ export const AddClubBookModal: React.FC<AddBookModalStateProps> = ({ cid, clubNa
   const searchBookData = searchBook?.result.items;
   const [addBook, setAddBook] = useState('');
 
-  const { mutate: addBookMutate } = useAddClubBook({ cid, isbn: addBook });
+  const { mutate: addBookMutate } = useAddClubBook({ cid });
 
   const onSearchBookSubmit = ({ bookName }: SearchBookValue) => {
     bookName ? searchBookMutate({ bookName }) : searchBookMutate({ bookName: '프로그래밍' });
@@ -39,7 +39,7 @@ export const AddClubBookModal: React.FC<AddBookModalStateProps> = ({ cid, clubNa
 
   const onAddBokSubmit = () => {
     setAddBook('');
-    addBookMutate({});
+    addBookMutate({ cid, isbn: addBook });
   };
 
   let data: BookResponse[] = [];

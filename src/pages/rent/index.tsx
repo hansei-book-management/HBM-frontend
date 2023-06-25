@@ -38,10 +38,10 @@ export const RentPage: React.FC = () => {
 
   const { handleSubmit } = useForm();
 
-  const { mutate } = useRentBook({ uid: user?.uid, cid: activeUserClub?.cid, bid: Number(bookId) });
+  const { mutate } = useRentBook({ uid: user?.uid });
 
   const onSubmit = () => {
-    mutate({});
+    mutate({ cid: activeUserClub?.cid, bid: Number(bookId) });
   };
 
   // rent modal FN

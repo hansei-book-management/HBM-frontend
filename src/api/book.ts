@@ -23,7 +23,7 @@ export interface SearchBookValue {
 
 export interface AddClubBookValues {
   cid?: number;
-  isbn: string;
+  isbn?: string;
 }
 
 export interface BookListProps {
