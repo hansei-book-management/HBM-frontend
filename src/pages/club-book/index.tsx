@@ -11,6 +11,7 @@ import {
   AddClubBookModal,
   DeleteClubBookModal,
   NoDataMessage,
+  Skeleton,
 } from '@/components';
 import { useFetchUser, useGetClubBooks, useModal } from '@/hooks';
 import { addClubBookModal, deleteClubBookModal } from '@/atoms';
@@ -79,7 +80,7 @@ export const ManageClubBookPage: React.FC = () => {
     <>
       {isLoading ? (
         <>
-          <h2>Loading...</h2>
+          <Skeleton />
         </>
       ) : activeOption && !isBookExits ? (
         <S.ManageClubBookContainer>

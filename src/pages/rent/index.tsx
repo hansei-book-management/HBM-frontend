@@ -12,6 +12,7 @@ import {
   AddClubModal,
   CommonModal,
   NoDataMessage,
+  Skeleton,
 } from '@/components';
 import { useFetchUser, useGetUserClubs, useModal, useRentBook } from '@/hooks';
 import { addUserClubModal, rentClubBookModal } from '@/atoms';
@@ -76,7 +77,7 @@ export const RentPage: React.FC = () => {
     <>
       {isLoading ? (
         <>
-          <h2>Loading...</h2>
+          <Skeleton />
         </>
       ) : isUserClubExits && activeUserClub && !isClubNoData ? (
         <>
@@ -84,7 +85,7 @@ export const RentPage: React.FC = () => {
             <HeaderSection
               name={activeUserClub?.name}
               activeId={clubId}
-              href="/club"
+              href={`${CLUB}`}
               list={userClubs || []}
               showPlusIcon={true}
               onClick={onAddClubModalOpen}
@@ -136,7 +137,7 @@ export const RentPage: React.FC = () => {
               <HeaderSection
                 name={activeUserClub?.name}
                 activeId={clubId}
-                href="/club"
+                href={`${CLUB}`}
                 list={userClubs || []}
                 showPlusIcon={true}
                 onClick={onAddClubModalOpen}
@@ -149,7 +150,7 @@ export const RentPage: React.FC = () => {
         <>
           <NoDataMessage
             message={`가입된 동아리가 없어요.\n` + `아래 버튼을 눌러 동아리에 가입해보세요.`}
-            btnLink="/club/"
+            btnLink={`${CLUB}/`}
             btnMessage="동아리 가입하기"
             onClick={onAddClubModalOpen}
           />

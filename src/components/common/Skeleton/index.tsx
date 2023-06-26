@@ -3,21 +3,32 @@ import React from 'react';
 import * as S from './styled';
 
 interface SkeletonProps {
-  isManyBook?: boolean;
+  isUserBookPage?: boolean;
 }
 
-export const Skeleton: React.FC<SkeletonProps> = ({ isManyBook = true }) => {
+export const Skeleton: React.FC<SkeletonProps> = ({ isUserBookPage = false }) => {
   return (
     <S.SkeletonContainer>
       <S.SkeletonHeaderSection>
+        {isUserBookPage && (
+          <>
+            <S.SkeletonHeaderSectionSubTitle />
+            <S.SkeletonHeaderSectionTitle />
+          </>
+        )}
         <S.SkeletonHeaderSectionList>
           {[...Array(4)].map((_, index) => (
             <S.SkeletonHeaderSectionItem key={index} />
           ))}
         </S.SkeletonHeaderSectionList>
+        {!isUserBookPage && (
+          <>
+            <S.SkeletonHeaderSectionTitle />
+          </>
+        )}
       </S.SkeletonHeaderSection>
       <S.SkeletonMainSection>
-        {[...Array(isManyBook ? 20 : 8)].map((_, index) => (
+        {[...Array(20)].map((_, index) => (
           <S.SkeletonImageContainer key={index}>
             <S.SkeletonImage />
             <S.SkeletonImageInfoContainer>

@@ -34,7 +34,7 @@ export const App: React.FC = () => {
         </Route>
 
         <Route element={<PrivateRoute isUserPage={true} />}>
-          <Route path="/club" element={<RentPage />}>
+          <Route path="/rent/club" element={<RentPage />}>
             <Route path=":clubId" element={<RentPage />}>
               <Route path="book/:bookId/book-rent" element={<RentPage />} />
               <Route path=":bookId" element={<RentPage />} />

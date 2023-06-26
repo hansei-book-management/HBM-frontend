@@ -10,7 +10,7 @@ export const ADMIN_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '도서 대여',
-    href: '/club/',
+    href: '/rent/club/',
   },
   {
     text: '내 도서',
@@ -18,7 +18,7 @@ export const ADMIN_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '도서 관리',
-    href: '/club-book',
+    href: '/rent/club-book',
   },
   {
     text: '동아리 관리',
@@ -37,7 +37,7 @@ export const DIRECTOR_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '도서 대여',
-    href: '/club/',
+    href: '/rent/club/',
   },
   {
     text: '내 도서',
@@ -60,7 +60,7 @@ export const USER_NAVBAR_MENU_LIST: NavbarMenuItem[] = [
   },
   {
     text: '도서 대여',
-    href: '/club/',
+    href: '/rent/club/',
   },
   {
     text: '내 도서',

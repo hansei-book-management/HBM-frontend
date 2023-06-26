@@ -13,13 +13,25 @@ export const SkeletonHeaderSection = styled.section`
   row-gap: 1rem;
 `;
 
+export const SkeletonHeaderSectionSubTitle = styled.span`
+  width: 14rem;
+  height: 1.4rem;
+  background-color: ${({ theme }) => theme.skeleton};
+`;
+
+export const SkeletonHeaderSectionTitle = styled.span`
+  width: 8rem;
+  height: 2.2rem;
+  background-color: ${({ theme }) => theme.skeleton};
+  margin-bottom: 1rem;
+`;
+
 export const SkeletonHeaderSectionList = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 1.4rem;
-  margin-bottom: 2rem;
 `;
 
 export const SkeletonHeaderSectionItem = styled.span`

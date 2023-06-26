@@ -11,6 +11,7 @@ import {
   NoDataMessage,
   ReturnBookModal,
   Section,
+  Skeleton,
 } from '@/components';
 import { loadingLottieOptions } from '@/constant';
 import { useFetchUser, useGetUserBooks, useModal } from '@/hooks';
@@ -102,7 +103,7 @@ export const ManageUserBookPage: React.FC = () => {
     <>
       {isLoading ? (
         <>
-          <h2>Loading...</h2>
+          <Skeleton isUserBookPage={true} />
         </>
       ) : bookCount && bookCount > 0 && isUserBookExits && activeUserClub ? (
         <S.ManageUserBookContainer>
