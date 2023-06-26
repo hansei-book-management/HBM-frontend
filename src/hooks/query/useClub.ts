@@ -31,7 +31,7 @@ import {
 } from '@/atoms';
 
 import { useFetchUser } from './useAuth';
-import { useGetUserClubs } from './useBook';
+import { useGetClubs, useGetUserClubs } from './useBook';
 
 export const useCreateClub = (): UseMutationResult<
   APIResponse<CreateClubResponse>,
@@ -155,6 +155,7 @@ export const useChangeClubDirector = (): UseMutationResult<
 export const useDeleteClub = (
   cid?: number,
 ): UseMutationResult<APIResponse<null>, AxiosError<APIErrorResponse>> => {
+  const getClubs = useGetClubs();
   const setDeleteClubModal = useSetRecoilState(deleteClubModal);
   return useMutation('useDeleteClub', () => deleteClub(cid), {
     onSuccess: () => {
@@ -162,6 +163,7 @@ export const useDeleteClub = (
       setTimeout(() => {
         setDeleteClubModal({ state: true, isOk: true });
       }, 1000);
+      getClubs.refetch();
     },
     onError: (data) => {
       setDeleteClubModal({ state: true, isOk: false, data: data.response?.data.message });

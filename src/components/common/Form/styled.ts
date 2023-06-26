@@ -33,7 +33,6 @@ export const FormTitle = styled.h1`
 export const FormButton = styled.button`
   background-color: ${({ theme }) => theme.primary.darkBlue};
   border: none;
-  padding: 14px 0;
   border-radius: 2rem;
   align-self: center;
   height: 3rem;

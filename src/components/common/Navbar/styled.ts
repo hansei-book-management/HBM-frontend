@@ -13,9 +13,8 @@ export const NavBarContainer = styled(motion.nav)<{ isUser: boolean }>`
   height: 5rem;
   z-index: 9000;
   position: fixed;
-  backdrop-filter: blur(20px);
+  background-color: ${({ theme }) => theme.background};
   @media screen and (min-width: 300px) and (max-width: ${({ isUser }) => MaxWidth(isUser)}) {
-    backdrop-filter: blur(30px);
     height: fit-content;
     padding: 1rem 1.5rem;
     display: flex;

@@ -1,5 +1,3 @@
-import { toast } from 'react-toastify';
-
 import { API_SUFFIX, instance } from './api';
 
 export interface BookResponse {
@@ -83,19 +81,10 @@ export const searchBook = async ({ bookName }: SearchBookValue) => {
 };
 
 export const addClubBook = async ({ cid, isbn }: AddClubBookValues) => {
-  if (cid) {
-    const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book`, {
-      isbn,
-    });
-    console.log(cid, isbn, 'asdf');
-    return data;
-  } else {
-    toast.error('동아리 아이디가 없습니다.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-    throw new Error('cid is undefined');
-  }
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book`, {
+    isbn,
+  });
+  return data;
 };
 
 export const getAllClubs = async (): Promise<GetAllClubsResponse[]> => {
@@ -109,17 +98,8 @@ export const getUserClubs = async (): Promise<GetAllClubsResponse[]> => {
 };
 
 export const rentBook = async ({ cid, bid }: ClubBookValue) => {
-  if (cid && bid) {
-    console.log(cid, bid, 'rent');
-    const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
-    return data;
-  } else {
-    toast.error('동아리 아이디 또는 책 아이디가 없습니다.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-    throw new Error('cid or bid is undefined');
-  }
+  const { data } = await instance.post(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
+  return data;
 };
 
 export const getUserBooks = async (uid?: string): Promise<GetUserBooksResponse[]> => {
@@ -133,29 +113,13 @@ export const getClubBooks = async (cid?: number): Promise<GetClubBooksResponse[]
 };
 
 export const returnBook = async ({ cid, bid, image }: ReturnBookValue) => {
-  if (cid && bid && image) {
-    const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`, {
-      image,
-    });
-    return data;
-  } else {
-    toast.error('동아리 아이디 또는 책 아이디가 없습니다.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-    throw new Error('cid or bid is undefined');
-  }
+  const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`, {
+    image,
+  });
+  return data;
 };
 
 export const deleteClubBook = async ({ cid, bid }: ClubBookValue) => {
-  if (cid && bid) {
-    const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
-    return data;
-  } else {
-    toast.error('동아리 아이디 또는 책 아이디가 없습니다.', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-    throw new Error('cid or bid is undefined');
-  }
+  const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/book/${bid}`);
+  return data;
 };
