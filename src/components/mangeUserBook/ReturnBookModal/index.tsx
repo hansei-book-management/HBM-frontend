@@ -57,11 +57,9 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid, club
       const compressedFile = await imageCompression(imageUrl, compressOptions);
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
-        const base64data = reader.result?.toString();
-        console.log(base64data);
+        const base64data = reader.result?.toString().split(',')[1];
         setReturnBookModal((prev) => ({ ...prev, image: base64data }));
       };
-      // setReturnBookModal((prev) => ({ ...prev, image: btoa(imageUrl.name) }));
       setSelectedImage(URL.createObjectURL(imageUrl));
     }
   };
