@@ -1,15 +1,47 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-export const skeletonKeyframe = keyframes`
-   0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translate(100%);
-    }
+export const SkeletonContainer = styled.section<{ noData?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  row-gap: 1rem;
 `;
 
-export const SkeletonContainer = styled.section`
+export const SkeletonHeaderSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+`;
+
+export const SkeletonHeaderSectionSubTitle = styled.span`
+  width: 14rem;
+  height: 1.4rem;
+  background-color: ${({ theme }) => theme.skeleton};
+`;
+
+export const SkeletonHeaderSectionTitle = styled.span`
+  width: 8rem;
+  height: 2.2rem;
+  background-color: ${({ theme }) => theme.skeleton};
+  margin-bottom: 1rem;
+`;
+
+export const SkeletonHeaderSectionList = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.4rem;
+`;
+
+export const SkeletonHeaderSectionItem = styled.span`
+  height: 2.2rem;
+  width: 4.4rem;
+  border-radius: 1.2rem;
+  background-color: ${({ theme }) => theme.skeleton};
+`;
+
+export const SkeletonMainSection = styled.section`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: flex-start;
@@ -73,16 +105,6 @@ export const SkeletonImageSubTitle = styled.span`
   background-color: ${({ theme }) => theme.skeleton};
   width: 50%;
   height: 1rem;
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-    animation: 0.8s infinite ${skeletonKeyframe};
-  }
 `;
 
 export const SkeletonImageMessage = styled.span`

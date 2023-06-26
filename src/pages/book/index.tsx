@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { DetailModal, HeaderSection, NoDataMessage, Section } from '@/components';
+import { DetailModal, HeaderSection, NoDataMessage, Section, Skeleton } from '@/components';
 import { useGetClubs, useModal } from '@/hooks';
 
 import * as S from './styled';
@@ -35,7 +35,7 @@ export const BookPage: React.FC = () => {
     <>
       {isLoading ? (
         <>
-          <h2>Loading...</h2>
+          <Skeleton />
         </>
       ) : clubs && clubs.length > 0 && activeClub ? (
         <S.BookPageContainer>
