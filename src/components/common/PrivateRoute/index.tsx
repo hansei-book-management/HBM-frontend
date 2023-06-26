@@ -41,5 +41,5 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
     return isAuthenticatedUser ? <Navigate to="/" /> : <Outlet />;
   }
 
-  return isLoading ? <h2>Loading...</h2> : <Outlet />;
+  return !isLoading && <Outlet />;
 };
