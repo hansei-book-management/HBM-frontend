@@ -34,7 +34,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid, club
   const { mutate } = useReturnBook({
     cid,
     bid: Number(bookId),
-    image: returnBookModal.image || undefined,
+    // image: returnBookModal.image || undefined,
     uid: uid,
   });
 
@@ -45,9 +45,15 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid, club
   };
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
     if (event.target.files && event.target.files[0]) {
       const imageUrl = event.target.files[0];
-      setReturnBookModal((prev) => ({ ...prev, image: btoa(imageUrl.name) }));
+      reader.readAsDataURL(imageUrl);
+      reader.onloadend = () => {
+        const base64data = reader.result?.toString();
+        setReturnBookModal((prev) => ({ ...prev, image: base64data }));
+      };
+      // setReturnBookModal((prev) => ({ ...prev, image: btoa(imageUrl.name) }));
       setSelectedImage(URL.createObjectURL(imageUrl));
     }
   };
