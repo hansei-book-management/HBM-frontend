@@ -5,12 +5,13 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
+import imageCompression from 'browser-image-compression';
 
 import { loadingLottieOptions } from '@/constant';
 import { useGetUserBooks, useReturnBook } from '@/hooks';
 import { bookName, returnClubBookModal } from '@/atoms';
 
-import { Modal } from '../../modal/Modal';
+import { Modal } from '../../modal';
 import { StatusModal } from '../../modal/StatusModal';
 
 import * as S from './styled';
@@ -34,7 +35,7 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid, club
   const { mutate } = useReturnBook({
     cid,
     bid: Number(bookId),
-    // image: returnBookModal.image || undefined,
+    image: returnBookModal.image || undefined,
     uid: uid,
   });
 
@@ -44,13 +45,20 @@ export const ReturnBookModal: React.FC<ReturnBookModalProps> = ({ url, cid, club
     mutate({});
   };
 
-  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
+    const compressOptions = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
     if (event.target.files && event.target.files[0]) {
       const imageUrl = event.target.files[0];
-      reader.readAsDataURL(imageUrl);
+      const compressedFile = await imageCompression(imageUrl, compressOptions);
+      reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result?.toString();
+        console.log(base64data);
         setReturnBookModal((prev) => ({ ...prev, image: base64data }));
       };
       // setReturnBookModal((prev) => ({ ...prev, image: btoa(imageUrl.name) }));
