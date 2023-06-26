@@ -21,7 +21,7 @@ import * as S from './styled';
 export interface ReturnBookModalStateProps extends ModalStateProps {
   allowLocation?: null | boolean;
   correctLocation?: null | boolean;
-  image?: string | null;
+  image?: null | string;
 }
 
 export interface AllowLocationStateProps {
