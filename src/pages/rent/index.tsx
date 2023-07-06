@@ -90,7 +90,10 @@ export const RentPage: React.FC = () => {
               showPlusIcon={true}
               onClick={onAddClubModalOpen}
             />
-            <Section data={activeUserClubBooks} navigateUrl={`/club/${activeUserClub?.name}`} />
+            <Section
+              data={activeUserClubBooks}
+              navigateUrl={`/rent/club/${activeUserClub?.name}`}
+            />
           </S.RentPageContainer>
           {/** book detail modal */}
           {modalActive && rentBookModal.state === false && (
