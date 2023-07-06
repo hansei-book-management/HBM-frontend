@@ -77,7 +77,7 @@ export const useAddClubBook = ({
       setAddClubBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setAddClubBookModal({ state: true, isOk: true });
-      }, 1000);
+      }, 500);
       getClubBooks.refetch();
       userClub.refetch();
       getClubs.refetch();
@@ -126,7 +126,7 @@ export const useRentBook = ({
       setRentBookModal({ state: true, isOk: null, isLoading: true });
       setTimeout(() => {
         setRentBookModal({ state: true, isOk: true });
-      }, 1000);
+      }, 500);
       userClub.refetch();
       userBooks.refetch();
       clubInfo.refetch();
@@ -168,7 +168,7 @@ export const useReturnBook = ({
       setReturnBookModal({ state: true, isLoading: true, correctLocation: true });
       setTimeout(() => {
         setReturnBookModal({ state: true, isOk: true });
-      }, 1000);
+      }, 500);
       userClub.refetch();
     },
     onError: (data) => {
@@ -194,7 +194,7 @@ export const useDeleteBook = ({
       setDeleteBookModal({ state: true, isLoading: true, isOk: null });
       setTimeout(() => {
         setDeleteBookModal({ state: true, isOk: true });
-      }, 1000);
+      }, 500);
       getClubBooks.refetch();
       userClub.refetch();
     },

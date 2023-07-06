@@ -88,7 +88,7 @@ export const useGenerateClubCode = (): UseMutationResult<
       setClubCodeModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
         setClubCodeModal({ state: true, isOk: true, code: data.result.token });
-      }, 1000);
+      }, 500);
       localStorage.setItem('clubCode', data.result.token);
     },
     onError: (data) => {
@@ -114,7 +114,7 @@ export const useAddUserClub = (): UseMutationResult<
       setAddUserClubModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
         setAddUserClubModal({ state: true, isOk: true, data: data.result.name });
-      }, 1000);
+      }, 500);
       userClubs.refetch();
     },
     onError: (data) => {
@@ -144,7 +144,7 @@ export const useChangeClubDirector = (): UseMutationResult<
           data: data.result.director,
           page: 3,
         });
-      }, 1000);
+      }, 500);
     },
     onError: (data) => {
       setChangeClubDirectorModal({ state: true, isOk: false, data: data.response?.data.message });
@@ -162,7 +162,7 @@ export const useDeleteClub = (
       setDeleteClubModal((prev) => ({ ...prev, isLoading: true, data: 'deleted' }));
       setTimeout(() => {
         setDeleteClubModal({ state: true, isOk: true });
-      }, 1000);
+      }, 500);
       getClubs.refetch();
     },
     onError: (data) => {

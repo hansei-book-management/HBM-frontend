@@ -47,7 +47,7 @@ export const useUpdateClubMember = ({
       setUpdateUserModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
         setUpdateUserModal({ state: true, isOk: true, data: data.result.freeze });
-      }, 1000);
+      }, 500);
     },
     onError: (data) => {
       setUpdateUserModal({ state: true, isOk: false, data: data.response?.data.message });
@@ -66,7 +66,7 @@ export const useExpelClubMember = ({
       setExpelMemberModal((prev) => ({ ...prev, isLoading: true }));
       setTimeout(() => {
         setExpelMemberModal({ state: true, isOk: true });
-      }, 1000);
+      }, 500);
     },
     onError: (data) => {
       setExpelMemberModal({ state: true, isOk: false, data: data.response?.data.message });
