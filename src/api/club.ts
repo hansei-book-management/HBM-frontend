@@ -54,12 +54,10 @@ export const createClub = async ({ name }: ClubApplyFormValue) => {
   return data;
 };
 
-export const getClubInfo = async (cid?: number): Promise<APIResponse<GetClubMembers>> => {
+export const getClubInfo = async (cid?: number) => {
   if (cid) {
     const { data } = await instance.get(`${API_SUFFIX.CLUB}/${cid}`);
     return data;
-  } else {
-    throw new Error('cid is undefined');
   }
 };
 
@@ -91,15 +89,10 @@ export const deleteClub = async (cid?: number) => {
       autoClose: 3000,
       position: toast.POSITION.BOTTOM_RIGHT,
     });
-    throw new Error('delete club error: cid is undefined');
   }
 };
 
-export const changeClubDirector = async ({
-  cid,
-  name,
-  director,
-}: ChangeClubDirectorValues): Promise<APIResponse<ChangeClubDirectorValues>> => {
+export const changeClubDirector = async ({ cid, name, director }: ChangeClubDirectorValues) => {
   if (cid) {
     const { data } = await instance.put(`${API_SUFFIX.CLUB}/${cid}`, {
       name,
@@ -111,6 +104,5 @@ export const changeClubDirector = async ({
       autoClose: 3000,
       position: toast.POSITION.BOTTOM_RIGHT,
     });
-    throw new Error('change club director error: cid is undefined');
   }
 };

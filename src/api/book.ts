@@ -37,7 +37,7 @@ export interface BookListProps {
 }
 
 export interface GetClubBooksResponse {
-  cid: number;
+  cid?: number;
   name: string;
   book: [BookListProps];
   user?: {

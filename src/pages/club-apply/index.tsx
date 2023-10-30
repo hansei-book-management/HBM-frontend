@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import { Form } from '@/components';
-import { ClubApplyFormValue } from '@/api/';
-import { useCreateClub } from '@/hooks';
+import { ClubApplyFormValue } from '@/api';
+import { useCreateClub, useFetchUser } from '@/hooks';
 
 import * as S from './styled';
 
@@ -25,6 +27,7 @@ export interface ClubApplyFormValues extends ClubApplyFormValue {
 }
 
 export const ClubApplyPage: React.FC = () => {
+  const { data, isLoading } = useFetchUser();
   const {
     register,
     handleSubmit,
@@ -87,6 +90,18 @@ export const ClubApplyPage: React.FC = () => {
       placeHolder: '동아리에 몇명의 부원이 있는지 입력해주세요...',
     },
   ];
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && data?.result.role === 'director') {
+      navigate('/');
+      toast.error('동아리 부장은 동아리를 신청할 수 없습니다.', {
+        autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  }, []);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

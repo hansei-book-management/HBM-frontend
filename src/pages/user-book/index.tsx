@@ -140,7 +140,7 @@ export const ManageUserBookPage: React.FC = () => {
         <>
           <NoDataMessage
             message={`대여중인 도서가 없어요.\n` + `지금 바로 도서를 대여하러 가볼까요?`}
-            btnLink="/club"
+            btnLink="/rent/club/"
             btnMessage="도서 대여 바로가기"
           />
         </>

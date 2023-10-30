@@ -45,18 +45,12 @@ export const getClubMember = async ({
   return data;
 };
 
-export const updateClubMember = async ({
-  cid,
-  user_id,
-  freeze,
-}: UpdateClubMemberValues): Promise<APIResponse<GetClubMemberResponse>> => {
+export const updateClubMember = async ({ cid, user_id, freeze }: UpdateClubMemberValues) => {
   if (cid && user_id) {
     const { data } = await instance.patch(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`, {
       freeze,
     });
     return data;
-  } else {
-    throw new Error('update club member error: cid or user_id is undefined');
   }
 };
 
@@ -64,7 +58,5 @@ export const expelClubMember = async ({ cid, user_id }: ExpelClubMemberValues) =
   if (cid && user_id) {
     const { data } = await instance.delete(`${API_SUFFIX.CLUB}/${cid}/member/${user_id}`);
     return data;
-  } else {
-    throw new Error('expel club member error: cid or user_id is undefined');
   }
 };
