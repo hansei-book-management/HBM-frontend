@@ -114,7 +114,7 @@ export const RegisterPage: React.FC = () => {
         ...register('num', {
           required: '학번은 필수입니다.',
           pattern: {
-            value: /^([NCMGH])([123])([123])([012][1-9])$/,
+            value: /^([NCMGH])([123])([123])([012][0-9])$/,
             message: '학번 형식이 올바르지 않습니다.',
           },
         }),

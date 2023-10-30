@@ -38,7 +38,6 @@ body,
   letter-spacing: -0.03em;
 }
 html,body{
-
 @media screen and (max-width: 2600px) and (min-width: 2000px) {
     font-size: 18px;
 };
